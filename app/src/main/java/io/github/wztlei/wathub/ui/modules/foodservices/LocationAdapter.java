@@ -34,10 +34,8 @@ public class LocationAdapter extends ModuleIndexedAdapter<String> {
     private final List<Location> mLocations;
     private final String[] mIndices;
 
-    public LocationAdapter(
-            final Context context,
-            final List<Location> locations,
-            final ModuleListItemListener listener) {
+    LocationAdapter(final Context context, final List<Location> locations,
+                    final ModuleListItemListener listener) {
         super(context, listener);
         mLocations = locations;
 

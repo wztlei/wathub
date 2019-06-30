@@ -32,7 +32,7 @@ public class AppTitleView extends AppCompatTextView {
     }
 
     private void init() {
-        setText(getResources().getString(R.string.app_name).toLowerCase());
+        setText(getResources().getString(R.string.app_name));
         FontUtils.apply(this, FontUtils.ULTRA);
 
         if (!sDidAnimate && !isInEditMode()) {

@@ -239,7 +239,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
     }
 
     protected void onRefreshRequested() {
-        // Overriden by subclasses
+        // Overridden by subclasses
     }
 
     private void changeLoadingVisibilityInternal(final boolean show) {
@@ -312,7 +312,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
     }
 
     protected void onContentShown() {
-        // Can be overriden by subclasses
+        // Can be Overridden by subclasses
     }
 
     protected void onLoadFinished() {
@@ -426,26 +426,26 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
     }
 
     public float getToolbarElevationPx() {
-        // Overriden by subclasses
+        // Overridden by subclasses
         return Px.fromDpF(8);
     }
 
     public Call<T> onLoadData(final UWaterlooApi api) {
-        // Overriden by subclasses
+        // Overridden by subclasses
         return null;
     }
 
     public V onLoadData() {
-        // Overriden by subclasses
+        // Overridden by subclasses
         return null;
     }
 
     public void onBindData(final Metadata metadata, final V data) {
-        // Overriden by subclasses
+        // Overridden by subclasses
     }
 
     public void onBindData(final Metadata metadata, final List<V> data) {
-        // Overriden by subclasses
+        // Overridden by subclasses
     }
 
     public abstract String getContentType();

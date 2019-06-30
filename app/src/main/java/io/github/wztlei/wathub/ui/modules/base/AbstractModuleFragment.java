@@ -22,10 +22,10 @@ public abstract class AbstractModuleFragment<T extends AbstractModel>
     }
 
     public void onBindData(final T data) {
-        // Overriden by subclasses
+        // Overridden by subclasses
     }
 
     public void onBindData(final List<T> data) {
-        // Overriden by subclasses
+        // Overridden by subclasses
     }
 }
