@@ -1,38 +1,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-            style="@style/TextAppearance.UWaterloo.Headline"
-            android:id="@+id/building_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimary"
-            android:elevation="8dp"
-            android:gravity="end"
-            android:paddingBottom="32dp"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            fontPath="@string/font_light" />
+        android:id="@+id/building_name"
+        style="@style/TextAppearance.UWaterloo.Headline"
+        fontPath="@string/font_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        android:elevation="8dp"
+        android:gravity="end"
+        android:paddingBottom="32dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp" />
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
-                style="@style/TextAppearance.UWaterloo.Subhead"
-                android:id="@+id/building_empty_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_margin="16dp"
-                android:text="@string/building_no_location_data" />
+            android:id="@+id/building_empty_view"
+            style="@style/TextAppearance.UWaterloo.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="16dp"
+            android:text="@string/building_no_location_data" />
 
         <com.google.android.gms.maps.MapView
-                android:id="@+id/building_map"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            android:id="@+id/building_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 

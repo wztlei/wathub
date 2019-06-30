@@ -24,9 +24,7 @@ public final class HeaderTitlePresenter {
         throw new AssertionError();
     }
 
-    public static void show(
-            final TextView titleView,
-            final TextView subtitleView) {
+    public static void show(final TextView titleView, final TextView subtitleView) {
         final Context context = titleView.getContext();
 
         final int hour = LocalTime.now().getHourOfDay();
