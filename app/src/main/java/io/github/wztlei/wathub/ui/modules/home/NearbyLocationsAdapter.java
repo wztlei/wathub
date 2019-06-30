@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.deange.uwaterlooapi.model.foodservices.Location;
+
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
@@ -17,95 +18,92 @@ import io.github.wztlei.wathub.utils.MathUtils;
 import java.util.List;
 import java.util.Locale;
 
-public class NearbyLocationsAdapter
-    extends ArrayAdapter<Location>
-    implements
-    View.OnClickListener {
+public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements View.OnClickListener {
 
-  private final float[] mDistanceHolder = new float[1];
-  private float[] mCurrentLocation;
+    private final float[] mDistanceHolder = new float[1];
+    private float[] mCurrentLocation;
 
-  public NearbyLocationsAdapter(
-      final Context context,
-      final List<Location> locations,
-      final android.location.Location currentLocation) {
-    super(context, 0, locations);
+    public NearbyLocationsAdapter(
+            final Context context,
+            final List<Location> locations,
+            final android.location.Location currentLocation) {
+        super(context, 0, locations);
 
-    if (currentLocation != null) {
-      mCurrentLocation = new float[]{
-          (float) currentLocation.getLatitude(),
-          (float) currentLocation.getLongitude(),
-      };
-    }
-  }
-
-  public void updateCurrentLocation(final android.location.Location currentLocation) {
-    if (currentLocation != null) {
-      mCurrentLocation = new float[]{
-          (float) currentLocation.getLatitude(),
-          (float) currentLocation.getLongitude(),
-      };
-
-    } else {
-      mCurrentLocation = null;
+        if (currentLocation != null) {
+            mCurrentLocation = new float[]{
+                    (float) currentLocation.getLatitude(),
+                    (float) currentLocation.getLongitude(),
+            };
+        }
     }
 
-    notifyDataSetChanged();
-  }
+    public void updateCurrentLocation(final android.location.Location currentLocation) {
+        if (currentLocation != null) {
+            mCurrentLocation = new float[]{
+                    (float) currentLocation.getLatitude(),
+                    (float) currentLocation.getLongitude(),
+            };
 
-  public void updateLocations(final List<Location> locations) {
-    clear();
-    addAll(locations);
+        } else {
+            mCurrentLocation = null;
+        }
 
-    notifyDataSetChanged();
-  }
-
-  @Override
-  public View getView(final int position, final View convertView, final ViewGroup parent) {
-    final View view;
-    if (convertView != null) {
-      view = convertView;
-    } else {
-      view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_nearby_location, parent,
-                                                       false);
+        notifyDataSetChanged();
     }
 
-    final Location location = getItem(position);
+    public void updateLocations(final List<Location> locations) {
+        clear();
+        addAll(locations);
 
-    ((TextView) view.findViewById(R.id.nearby_location_title)).setText(location.getName());
-    ((TextView) view.findViewById(R.id.nearby_location_distance)).setText(formatDistance(location));
-
-    view.setOnClickListener(this);
-    view.setTag(position);
-
-    return view;
-  }
-
-  private String formatDistance(final Location location) {
-    if (mCurrentLocation == null) {
-      return getContext().getString(R.string.nearby_locations_waiting);
+        notifyDataSetChanged();
     }
 
-    final float[] coordinates = location.getLocation();
-    android.location.Location.distanceBetween(
-        mCurrentLocation[0], mCurrentLocation[1], coordinates[0], coordinates[1], mDistanceHolder);
-    float distance = mDistanceHolder[0];
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+        final View view;
+        if (convertView != null) {
+            view = convertView;
+        } else {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_nearby_location, parent,
+                    false);
+        }
 
-    String suffix = "m";
-    if (distance > 1000) {
-      suffix = "km";
-      distance /= 1000f;
+        final Location location = getItem(position);
+
+        ((TextView) view.findViewById(R.id.nearby_location_title)).setText(location.getName());
+        ((TextView) view.findViewById(R.id.nearby_location_distance)).setText(formatDistance(location));
+
+        view.setOnClickListener(this);
+        view.setTag(position);
+
+        return view;
     }
 
-    return MathUtils.formatFloat(String.format((Locale) null, "%.1f", distance)) + " " + suffix;
-  }
+    private String formatDistance(final Location location) {
+        if (mCurrentLocation == null) {
+            return getContext().getString(R.string.nearby_locations_waiting);
+        }
 
-  @Override
-  public void onClick(final View v) {
-    final int position = (int) v.getTag();
-    final Location location = getItem(position);
+        final float[] coordinates = location.getLocation();
+        android.location.Location.distanceBetween(
+                mCurrentLocation[0], mCurrentLocation[1], coordinates[0], coordinates[1], mDistanceHolder);
+        float distance = mDistanceHolder[0];
 
-    getContext().startActivity(ModuleHostActivity.getStartIntent(
-        getContext(), LocationFragment.class, BaseModuleFragment.newBundle(location)));
-  }
+        String suffix = "m";
+        if (distance > 1000) {
+            suffix = "km";
+            distance /= 1000f;
+        }
+
+        return MathUtils.formatFloat(String.format((Locale) null, "%.1f", distance)) + " " + suffix;
+    }
+
+    @Override
+    public void onClick(final View v) {
+        final int position = (int) v.getTag();
+        final Location location = getItem(position);
+
+        getContext().startActivity(ModuleHostActivity.getStartIntent(
+                getContext(), LocationFragment.class, BaseModuleFragment.newBundle(location)));
+    }
 }

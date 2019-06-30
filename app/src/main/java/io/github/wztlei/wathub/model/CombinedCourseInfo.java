@@ -13,10 +13,7 @@ import com.deange.uwaterlooapi.model.courses.PrerequisiteInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CombinedCourseInfo
-        extends BaseModel
-        implements
-        Parcelable {
+public class CombinedCourseInfo extends BaseModel implements Parcelable {
 
     private Metadata mMetadata;
     private CourseInfo mCourseInfo;

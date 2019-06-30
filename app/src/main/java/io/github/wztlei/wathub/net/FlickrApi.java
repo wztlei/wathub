@@ -70,5 +70,4 @@ public final class FlickrApi {
             return chain.proceed(request);
         }
     }
-
 }

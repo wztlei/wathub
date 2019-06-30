@@ -38,8 +38,7 @@ import retrofit2.Call;
     path = "/parking/watpark",
     layout = R.layout.module_parking
 )
-public class ParkingFragment
-    extends BaseMapFragment<Responses.Parking, ParkingLot> {
+public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot> {
 
   private static final String TAG = "ParkingFragment";
 
