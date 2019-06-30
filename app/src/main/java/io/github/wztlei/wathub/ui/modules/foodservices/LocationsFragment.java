@@ -11,6 +11,7 @@ import com.deange.uwaterlooapi.annotations.ModuleFragment;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.foodservices.Location;
+
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
@@ -28,128 +29,125 @@ import retrofit2.Call;
     path = "/foodservices/locations",
     layout = R.layout.module_foodservices_locations
 )
-public class LocationsFragment
-    extends BaseListModuleFragment<Responses.Locations, Location>
-    implements
-    AdapterView.OnItemSelectedListener,
-    ModuleListItemListener {
+public class LocationsFragment extends BaseListModuleFragment<Responses.Locations, Location>
+        implements AdapterView.OnItemSelectedListener, ModuleListItemListener {
 
-  private static final Comparator<Location> COMPARATOR =
-      (l1, l2) -> String.CASE_INSENSITIVE_ORDER.compare(l1.getName(), l2.getName());
+    private static final Comparator<Location> COMPARATOR =
+            (l1, l2) -> String.CASE_INSENSITIVE_ORDER.compare(l1.getName(), l2.getName());
 
-  private LocationAdapter mAdapter;
-  private List<Location> mAllLocations = Collections.unmodifiableList(new ArrayList<Location>());
-  private final List<Location> mDataLocations = new ArrayList<>();
+    private LocationAdapter mAdapter;
+    private List<Location> mAllLocations = Collections.unmodifiableList(new ArrayList<Location>());
+    private final List<Location> mDataLocations = new ArrayList<>();
 
-  private LocationFilter mFilter = LocationFilter.NONE;
+    private LocationFilter mFilter = LocationFilter.NONE;
 
-  @Override
-  protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
-    final View root = super.getContentView(inflater, parent);
+    @Override
+    protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
+        final View root = super.getContentView(inflater, parent);
 
-    final Spinner spinner = (Spinner) root.findViewById(R.id.locations_filter_spinner);
-    spinner.setOnItemSelectedListener(this);
+        final Spinner spinner = (Spinner) root.findViewById(R.id.locations_filter_spinner);
+        spinner.setOnItemSelectedListener(this);
 
-    return root;
-  }
-
-  @Override
-  public String getToolbarTitle() {
-    return getString(R.string.title_foodservices_locations);
-  }
-
-  @Override
-  public float getToolbarElevationPx() {
-    return 0;
-  }
-
-  @Override
-  public ModuleAdapter getAdapter() {
-    return mAdapter;
-  }
-
-  @Override
-  protected int getLayoutId() {
-    return R.layout.fragment_foodservices_locations;
-  }
-
-  @Override
-  public Call<Responses.Locations> onLoadData(final UWaterlooApi api) {
-    return api.FoodServices.getLocations();
-  }
-
-  @Override
-  public void onBindData(final Metadata metadata, final List<Location> data) {
-    mAllLocations = Collections.unmodifiableList(data);
-    bindAndFilterData();
-  }
-
-  @Override
-  public String getContentType() {
-    return ModuleType.LOCATIONS;
-  }
-
-  private void bindAndFilterData() {
-    mDataLocations.clear();
-    for (final Location location : mAllLocations) {
-      if (mFilter.keep(location)) {
-        mDataLocations.add(location);
-      }
+        return root;
     }
 
-    Collections.sort(mDataLocations, COMPARATOR);
+    @Override
+    public String getToolbarTitle() {
+        return getString(R.string.title_foodservices_locations);
+    }
 
-    mAdapter = new LocationAdapter(getActivity(), mDataLocations, this);
+    @Override
+    public float getToolbarElevationPx() {
+        return 0;
+    }
 
-    getListView().setFastScrollEnabled(true);
-    getListView().setAdapter(mAdapter);
-  }
+    @Override
+    public ModuleAdapter getAdapter() {
+        return mAdapter;
+    }
 
-  @Override
-  public void onItemSelected(
-      final AdapterView<?> parent,
-      final View view,
-      final int position,
-      final long id) {
-    mFilter = LocationFilter.FILTERS[position];
-    bindAndFilterData();
-  }
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_foodservices_locations;
+    }
 
-  @Override
-  public void onNothingSelected(final AdapterView<?> parent) {
-  }
+    @Override
+    public Call<Responses.Locations> onLoadData(final UWaterlooApi api) {
+        return api.FoodServices.getLocations();
+    }
 
-  @Override
-  public void onItemClicked(final int position) {
-    showModule(LocationFragment.class,
-               LocationFragment.newBundle(mAdapter.getItem(position)));
-  }
+    @Override
+    public void onBindData(final Metadata metadata, final List<Location> data) {
+        mAllLocations = Collections.unmodifiableList(data);
+        bindAndFilterData();
+    }
 
-  @SuppressWarnings({"Convert2Lambda", "Anonymous2MethodRef"})
-  private interface LocationFilter {
-    boolean keep(final Location location);
+    @Override
+    public String getContentType() {
+        return ModuleType.LOCATIONS;
+    }
 
-    LocationFilter NONE = new LocationFilter() {
-      @Override
-      public boolean keep(final Location location) {
-        return true;
-      }
-    };
+    private void bindAndFilterData() {
+        mDataLocations.clear();
+        for (final Location location : mAllLocations) {
+            if (mFilter.keep(location)) {
+                mDataLocations.add(location);
+            }
+        }
 
-    LocationFilter OPEN = new LocationFilter() {
-      @Override
-      public boolean keep(final Location location) {
-        return location.isOpenNow();
-      }
-    };
+        Collections.sort(mDataLocations, COMPARATOR);
 
-    LocationFilter TIM_HORTONS = new LocationFilter() {
-      @Override
-      public boolean keep(final Location location) {
-        return location.getName().contains("Tim Hortons");
-      }
-    };
+        mAdapter = new LocationAdapter(getActivity(), mDataLocations, this);
 
-    LocationFilter[] FILTERS = new LocationFilter[]{NONE, OPEN, TIM_HORTONS};
-  }
+        getListView().setFastScrollEnabled(true);
+        getListView().setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onItemSelected(
+            final AdapterView<?> parent,
+            final View view,
+            final int position,
+            final long id) {
+        mFilter = LocationFilter.FILTERS[position];
+        bindAndFilterData();
+    }
+
+    @Override
+    public void onNothingSelected(final AdapterView<?> parent) {
+    }
+
+    @Override
+    public void onItemClicked(final int position) {
+        showModule(LocationFragment.class,
+                LocationFragment.newBundle(mAdapter.getItem(position)));
+    }
+
+    @SuppressWarnings({"Convert2Lambda", "Anonymous2MethodRef"})
+    private interface LocationFilter {
+        boolean keep(final Location location);
+
+        LocationFilter NONE = new LocationFilter() {
+            @Override
+            public boolean keep(final Location location) {
+                return true;
+            }
+        };
+
+        LocationFilter OPEN = new LocationFilter() {
+            @Override
+            public boolean keep(final Location location) {
+                return location.isOpenNow();
+            }
+        };
+
+        LocationFilter TIM_HORTONS = new LocationFilter() {
+            @Override
+            public boolean keep(final Location location) {
+                return location.getName().contains("Tim Hortons");
+            }
+        };
+
+        LocationFilter[] FILTERS = new LocationFilter[]{NONE, OPEN, TIM_HORTONS};
+    }
 }

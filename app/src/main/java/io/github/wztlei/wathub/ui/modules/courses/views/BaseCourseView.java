@@ -9,26 +9,26 @@ import io.github.wztlei.wathub.model.CombinedCourseInfo;
 import butterknife.ButterKnife;
 
 public abstract class BaseCourseView extends FrameLayout {
-  public BaseCourseView(final Context context) {
-    super(context);
+    public BaseCourseView(final Context context) {
+        super(context);
 
-    init();
-  }
-
-  private void init() {
-    setLayoutParams(generateDefaultLayoutParams());
-
-    final int layoutId = getLayoutId();
-    if (layoutId != 0) {
-      inflate(getContext(), layoutId, this);
+        init();
     }
 
-    ButterKnife.bind(this);
-  }
+    private void init() {
+        setLayoutParams(generateDefaultLayoutParams());
 
-  protected abstract @LayoutRes
-  int getLayoutId();
+        final int layoutId = getLayoutId();
+        if (layoutId != 0) {
+            inflate(getContext(), layoutId, this);
+        }
 
-  public abstract void bind(final CombinedCourseInfo info);
+        ButterKnife.bind(this);
+    }
+
+    protected abstract @LayoutRes
+    int getLayoutId();
+
+    public abstract void bind(final CombinedCourseInfo info);
 
 }

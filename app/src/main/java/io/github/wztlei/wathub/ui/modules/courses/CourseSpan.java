@@ -7,26 +7,25 @@ import android.view.View;
 
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 
-public class CourseSpan
-    extends ClickableSpan {
+public class CourseSpan extends ClickableSpan {
 
-  private final String mSubject;
-  private final String mCode;
+    private final String mSubject;
+    private final String mCode;
 
-  public CourseSpan(final String subject, final String code) {
-    mSubject = subject;
-    mCode = code;
-  }
+    public CourseSpan(final String subject, final String code) {
+        mSubject = subject;
+        mCode = code;
+    }
 
-  @Override
-  public void onClick(final View view) {
-    final Context context = view.getContext();
+    @Override
+    public void onClick(final View view) {
+        final Context context = view.getContext();
 
-    final Intent intent = ModuleHostActivity.getStartIntent(
-        context,
-        CourseFragment.class,
-        CourseFragment.newBundle(mSubject, mCode));
+        final Intent intent = ModuleHostActivity.getStartIntent(
+                context,
+                CourseFragment.class,
+                CourseFragment.newBundle(mSubject, mCode));
 
-    context.startActivity(intent);
-  }
+        context.startActivity(intent);
+    }
 }

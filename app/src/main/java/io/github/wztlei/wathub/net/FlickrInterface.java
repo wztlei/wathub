@@ -11,5 +11,4 @@ public interface FlickrInterface {
 
     @GET("?method=flickr.photos.getSizes")
     Call<Contract.Size> getPhotoSizes(@Query("photo_id") final String photoId);
-
 }

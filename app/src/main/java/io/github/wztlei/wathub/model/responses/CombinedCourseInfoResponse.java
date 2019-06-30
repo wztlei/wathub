@@ -7,10 +7,7 @@ import com.deange.uwaterlooapi.model.BaseResponse;
 
 import io.github.wztlei.wathub.model.CombinedCourseInfo;
 
-public class CombinedCourseInfoResponse
-        extends BaseResponse
-        implements
-        Parcelable {
+public class CombinedCourseInfoResponse extends BaseResponse implements Parcelable {
 
     private final CombinedCourseInfo mInfo;
 

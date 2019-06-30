@@ -28,9 +28,7 @@ public class Calls {
         }
     }
 
-    private static final class InternalCall<T>
-            implements
-            Call<T> {
+    private static final class InternalCall<T> implements Call<T> {
 
         private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
