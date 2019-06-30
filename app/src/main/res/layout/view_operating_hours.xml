@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/view_location_hours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_monday" />
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_tuesday" />
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_wednesday" />
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_thursday" />
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_friday" />
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_saturday" />
+
+    <io.github.wztlei.wathub.ui.view.OperatingHoursRow
+            style="@style/OperatingHoursRow"
+            app:rowText="@string/week_sunday" />
+
+</merge>

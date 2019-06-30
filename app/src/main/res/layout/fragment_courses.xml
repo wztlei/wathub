@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:descendantFocusability="beforeDescendants"
+            android:elevation="8dp"
+            android:focusableInTouchMode="true"
+            android:gravity="center">
+
+        <TextView
+                android:id="@+id/courses_course_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@string/course_picker_label"
+                android:textSize="14sp" />
+
+        <io.github.wztlei.wathub.ui.view.ShowAllAutoCompleteTextView
+                android:id="@+id/course_picker_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/courses_course_label"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@id/courses_course_label"
+                android:gravity="center"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:minWidth="100dp"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                tools:text="CS" />
+
+    </RelativeLayout>
+
+    <ListView
+            style="@style/CardListView"
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+</LinearLayout>

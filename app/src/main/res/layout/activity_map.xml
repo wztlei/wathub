@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
+
+    <com.google.android.gms.maps.MapView
+            android:id="@+id/building_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false" />
+
+    <io.github.wztlei.wathub.ui.view.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_alignStart="@id/building_map"
+            android:layout_alignEnd="@id/building_map"
+            android:layout_alignBottom="@id/building_map">
+
+        <Spinner
+                android:id="@+id/building_marker_view"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />
+
+    </io.github.wztlei.wathub.ui.view.CardView>
+
+</RelativeLayout>
