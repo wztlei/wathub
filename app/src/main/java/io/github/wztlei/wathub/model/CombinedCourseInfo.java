@@ -14,87 +14,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CombinedCourseInfo
-    extends BaseModel
-    implements
-    Parcelable {
+        extends BaseModel
+        implements
+        Parcelable {
 
-  private Metadata mMetadata;
-  private CourseInfo mCourseInfo;
-  private PrerequisiteInfo mPrerequisites;
-  private List<CourseSchedule> mSchedules;
-  private ExamInfo mExams;
+    private Metadata mMetadata;
+    private CourseInfo mCourseInfo;
+    private PrerequisiteInfo mPrerequisites;
+    private List<CourseSchedule> mSchedules;
+    private ExamInfo mExams;
 
-  public CombinedCourseInfo() {
-  }
+    public CombinedCourseInfo() {
+    }
 
-  protected CombinedCourseInfo(final Parcel in) {
-    super(in);
-    mMetadata = in.readParcelable(Metadata.class.getClassLoader());
-    mCourseInfo = in.readParcelable(CourseInfo.class.getClassLoader());
-    mPrerequisites = in.readParcelable(PrerequisiteInfo.class.getClassLoader());
-    mSchedules = in.createTypedArrayList(CourseSchedule.CREATOR);
-    mExams = in.readParcelable(ExamInfo.class.getClassLoader());
-  }
-
-  @Override
-  public void writeToParcel(final Parcel dest, final int flags) {
-    super.writeToParcel(dest, flags);
-    dest.writeParcelable(mMetadata, flags);
-    dest.writeParcelable(mCourseInfo, flags);
-    dest.writeParcelable(mPrerequisites, flags);
-    dest.writeTypedList(mSchedules);
-    dest.writeParcelable(mExams, flags);
-  }
-
-  public static final Creator<CombinedCourseInfo> CREATOR = new Creator<CombinedCourseInfo>() {
-    @Override
-    public CombinedCourseInfo createFromParcel(final Parcel in) {
-      return new CombinedCourseInfo(in);
+    protected CombinedCourseInfo(final Parcel in) {
+        super(in);
+        mMetadata = in.readParcelable(Metadata.class.getClassLoader());
+        mCourseInfo = in.readParcelable(CourseInfo.class.getClassLoader());
+        mPrerequisites = in.readParcelable(PrerequisiteInfo.class.getClassLoader());
+        mSchedules = in.createTypedArrayList(CourseSchedule.CREATOR);
+        mExams = in.readParcelable(ExamInfo.class.getClassLoader());
     }
 
     @Override
-    public CombinedCourseInfo[] newArray(final int size) {
-      return new CombinedCourseInfo[size];
+    public void writeToParcel(final Parcel dest, final int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(mMetadata, flags);
+        dest.writeParcelable(mCourseInfo, flags);
+        dest.writeParcelable(mPrerequisites, flags);
+        dest.writeTypedList(mSchedules);
+        dest.writeParcelable(mExams, flags);
     }
-  };
 
-  public Metadata getMetadata() {
-    return mMetadata;
-  }
+    public static final Creator<CombinedCourseInfo> CREATOR = new Creator<CombinedCourseInfo>() {
+        @Override
+        public CombinedCourseInfo createFromParcel(final Parcel in) {
+            return new CombinedCourseInfo(in);
+        }
 
-  public void setMetadata(Metadata metadata) {
-    mMetadata = metadata;
-  }
+        @Override
+        public CombinedCourseInfo[] newArray(final int size) {
+            return new CombinedCourseInfo[size];
+        }
+    };
 
-  public CourseInfo getCourseInfo() {
-    return mCourseInfo;
-  }
+    public Metadata getMetadata() {
+        return mMetadata;
+    }
 
-  public void setCourseInfo(final CourseInfo courseInfo) {
-    mCourseInfo = courseInfo;
-  }
+    public void setMetadata(Metadata metadata) {
+        mMetadata = metadata;
+    }
 
-  public PrerequisiteInfo getPrerequisites() {
-    return mPrerequisites;
-  }
+    public CourseInfo getCourseInfo() {
+        return mCourseInfo;
+    }
 
-  public void setPrerequisites(final PrerequisiteInfo prerequisites) {
-    mPrerequisites = prerequisites;
-  }
+    public void setCourseInfo(final CourseInfo courseInfo) {
+        mCourseInfo = courseInfo;
+    }
 
-  public List<CourseSchedule> getSchedules() {
-    return mSchedules;
-  }
+    public PrerequisiteInfo getPrerequisites() {
+        return mPrerequisites;
+    }
 
-  public void setSchedules(final List<CourseSchedule> schedules) {
-    mSchedules = new ArrayList<>(schedules);
-  }
+    public void setPrerequisites(final PrerequisiteInfo prerequisites) {
+        mPrerequisites = prerequisites;
+    }
 
-  public ExamInfo getExams() {
-    return mExams;
-  }
+    public List<CourseSchedule> getSchedules() {
+        return mSchedules;
+    }
 
-  public void setExams(final ExamInfo exams) {
-    mExams = exams;
-  }
+    public void setSchedules(final List<CourseSchedule> schedules) {
+        mSchedules = new ArrayList<>(schedules);
+    }
+
+    public ExamInfo getExams() {
+        return mExams;
+    }
+
+    public void setExams(final ExamInfo exams) {
+        mExams = exams;
+    }
 }
