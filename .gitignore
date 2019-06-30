@@ -63,3 +63,25 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+# API Keys
+**/CustomBuildConfig.java
+
+# Configuration files
+/*.properties
+
+# Android Studio files
+*.iml
+*.ipr
+*.iws
+
+.gradle/
+.idea/
+build/
+captures/
+
+# Proprietary fonts
+Gotham*.[ot]tf
+
+# Design files
+graphics/ 

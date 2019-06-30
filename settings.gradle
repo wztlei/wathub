@@ -1,0 +1,1 @@
+include ':app', ':uwaterlooapi-library', ':uwaterlooapi-annotations', ':uwaterlooapi-processor'

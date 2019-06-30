@@ -1,0 +1,4 @@
+apply plugin: 'java'
+
+sourceCompatibility = rootProject.javaVersion
+targetCompatibility = rootProject.javaVersion

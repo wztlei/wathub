@@ -1,0 +1,30 @@
+{
+  "foodservices": [
+    "/foodservices/menu",
+    "/foodservices/notes",
+    "/foodservices/locations"
+  ],
+  "watcard": [
+    "/watcard/balance"
+  ],
+  "courses": [
+    "/courses/*"
+  ],
+  "news": [
+    "/news",
+    "/events"
+  ],
+  "weather": [
+    "/weather/current"
+  ],
+  "maps": [
+    "/poi",
+    "/buildings/list",
+    "/parking/watpark",
+    "/resources/goosewatch"
+  ],
+  "resources": [
+    "/resources/sites",
+    "/resources/sunshinelist"
+  ]
+}

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WatHub</string>
+
+    <string name="api_home">Home</string>
+    <string name="api_foodservices">Food Services</string>
+    <string name="api_watcard">WatCard</string>
+    <string name="api_courses">Courses</string>
+    <string name="api_maps">Maps</string>
+    <string name="api_news">News</string>
+    <string name="api_weather">Weather</string>
+    <string name="api_resources">Resources</string>
+
+    <string name="weather_last_updated">Last updated at %1$s %2$s</string>
+    <string name="weather_north_symbol">N</string>
+    <string name="weather_wind">%1$s kph %2$s</string>
+    <string name="weather_precipitation">%1$.1f mm</string>
+    <string name="weather_precipitation_none">No precipitation</string>
+    <string name="weather_precipitation_period">in last 24h</string>
+    <string name="weather_pressure">%1$.1f kPa</string>
+    <string name="weather_author_attribution">%1$s\nPhoto taken by %2$s</string>
+
+    <string name="title_foodservices_announcements">Announcements</string>
+    <string name="title_foodservices_locations">Locations</string>
+    <string name="title_foodservices_menus">Menus</string>
+    <string name="title_foodservices_notes">Notes</string>
+    <string name="title_foodservices_watcard">WatCard Vendors</string>
+    <string name="title_watcard_balance">WatCard Balance</string>
+    <string name="title_weather">Weather</string>
+    <string name="title_buildings">Buildings</string>
+    <string name="title_courses">Courses</string>
+    <string name="title_resources_sites">Sites</string>
+    <string name="title_resources_goosewatch">Goose Watch</string>
+    <string name="title_resources_sunshine">Sunshine List</string>
+    <string name="title_events">Events</string>
+    <string name="title_news">News</string>
+    <string name="title_parking">Parking</string>
+    <string name="title_poi">Points Of Interest</string>
+
+    <string name="description_foodservices_announcements">Additional announcements regarding food being served at various places on campus.</string>
+    <string name="description_foodservices_locations">Places serving food and beverages on campus, including operating hours and detailed outlet information.</string>
+    <string name="description_foodservices_menus">Lunch and dinner menus of places serving food on campus for each day of the week.</string>
+    <string name="description_foodservices_notes">Additional notes regarding food being served at various places on campus.</string>
+    <string name="description_foodservices_watcard">Places on and off campus that accept WatCard as a form of payment.</string>
+    <string name="description_watcard_balance">Check your WatCard balances for meal plans, Flex dollars, and more.</string>
+    <string name="description_weather">Current weather details from the University of Waterloo Weather Station.</string>
+    <string name="description_buildings">A list of official buildings affiliated with the University of Waterloo.</string>
+    <string name="description_courses">Information about courses offered, including general info, prerequisites, course schedules, enrollment info, and exam schedules</string>
+    <string name="description_resources_sites">A list of official websites affiliated with the University of Waterloo.</string>
+    <string name="description_resources_goosewatch">A crowdsourced list of reported geese nests during their spring mating season.</string>
+    <string name="description_resources_sunshine">High-earning University of Waterloo public employees.</string>
+    <string name="description_events">Information regarding events taking place around campus.</string>
+    <string name="description_news">News curated by various sources affiliated with the University of Waterloo.</string>
+    <string name="description_parking">Real-time parking counts in select parking lots across campus.</string>
+    <string name="description_poi">ATMs, libraries, and other interesting places and things to see across campus.</string>
+
+    <string name="home_quick_course_lookup">Course Lookup</string>
+    <string name="home_quick_course_hint_subject">eg: MATH</string>
+    <string name="home_quick_course_hint_number">135</string>
+    <string name="home_quick_course_search_subject">Search all %s courses…</string>
+    <string name="home_quick_course_search_course">Look up %s…</string>
+    <string name="home_quick_weather">Check the weather</string>
+
+    <string name="nearby_locations_title">Nearby Open Locations</string>
+    <string name="nearby_locations_see_all">See All</string>
+    <string name="nearby_locations_none">Nothing open near you</string>
+    <string name="nearby_locations_waiting">Waiting…</string>
+    <string name="nearby_locations_permission">Click here to grant permission to locate nearby food spots!</string>
+    <string name="nearby_locations_error_availability">Location is not available.</string>
+
+    <string name="foodservices_announcements_none">No Announcements :(</string>
+    <string name="foodservices_location_hours">Hours</string>
+    <string name="foodservices_location_hours_closed">Closed</string>
+    <string name="foodservices_location_all">All</string>
+    <string name="foodservices_location_open_now">Open Now</string>
+    <string name="foodservices_location_closed_now">Closed Now</string>
+    <string name="foodservices_location_closes_at">Closes at %s</string>
+    <string name="foodservices_location_tim_hortons">"☕️ Tim Hortons"</string>
+    <string name="foodservices_location_special_hours">Special Hours</string>
+    <string name="foodservices_location_directions">Directions</string>
+    <string name="foodservices_notes_none">No Notes :(</string>
+
+    <string name="foodservices_menu_for_day">Menu for %s</string>
+    <string name="foodservices_menu_lunch">" Lunch "</string>
+    <string name="foodservices_menu_dinner">" Dinner "</string>
+
+    <string-array name="foodservices_locations_array">
+        <item>@string/foodservices_location_all</item>
+        <item>@string/foodservices_location_open_now</item>
+        <item>@string/foodservices_location_tim_hortons</item>
+    </string-array>
+
+    <string name="week_monday">Monday</string>
+    <string name="week_tuesday">Tuesday</string>
+    <string name="week_wednesday">Wednesday</string>
+    <string name="week_thursday">Thursday</string>
+    <string name="week_friday">Friday</string>
+    <string name="week_saturday">Saturday</string>
+    <string name="week_sunday">Sunday</string>
+
+    <string name="date_picker_week_label">Week of</string>
+    <string name="date_picker_year_label">for year</string>
+
+    <string name="menu_watcard_edit_credentials">Add WatCard</string>
+    <string name="watcard_editor_title">Edit WatCard Info</string>
+    <string name="watcard_editor_student_number">Student Number</string>
+    <string name="watcard_editor_pin">PIN</string>
+
+    <string name="course_no_info_available">No course information available for %1$s</string>
+    <string name="course_picker_label">Course Subject:</string>
+    <string name="course_prerequisites_none">No prerequisites</string>
+    <string name="course_capacity">%1$d/%2$d seats filled</string>
+    <string name="course_reserve">%1$d/%2$d seats filled for %3$s</string>
+    <string name="course_held_with">Held with %1$s</string>
+    <string name="exam_section">Section %1$s</string>
+
+    <string-array name="course_info_titles">
+        <item>Info</item>
+        <item>Prerequisites</item>
+        <item>Schedule</item>
+        <item>Exams</item>
+    </string-array>
+
+    <string name="event_news_audience">Open to %s</string>
+    <string name="news_published">Published on %s</string>
+
+    <string name="goosewatch_no_nests">No goose nests reported</string>
+    <string name="goosewatch_no_title">(No title)</string>
+    <string name="goosewatch_last_updated">Last updated %1$s</string>
+
+    <string name="parking_lot_name">Parking Lot %1$s</string>
+    <string name="parking_lot_spots_filled">%1$d/%2$d spots filled</string>
+    <string name="parking_last_updated">Last updated %1$s</string>
+
+    <string-array name="sunshine_list_sort">
+        <item>Salary: High to Low</item>
+        <item>Salary: Low to High</item>
+        <item>First Name</item>
+        <item>Last Name</item>
+    </string-array>
+
+    <string name="building_no_location_data">No location data for this building</string>
+
+    <string name="menu_poi_layers">Layers</string>
+    <string name="poi_layers_select_all">Select All</string>
+    <string name="poi_layers_deselect_all">Deselect All</string>
+    <string name="poi_layers_atms">ATMs</string>
+    <string name="poi_layers_greyhound">Greyhound</string>
+    <string name="poi_layers_photospheres">Photospheres</string>
+    <string name="poi_layers_helplines">Helplines</string>
+    <string name="poi_layers_libraries">Libraries</string>
+    <string name="poi_layers_defibrillators">Defibrillators</string>
+
+    <!-- Durations -->
+    <string name="duration_instant">Right now</string>
+    <string name="duration_until">In</string>
+    <string name="duration_ago">ago</string>
+    <plurals name="duration_days">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="duration_hours">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="duration_minutes">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+
+    <!-- Greetings -->
+    <string name="greeting_morning">Good morning!</string>
+    <array name="subgreetings_morning">
+        <item>Have a great day!</item>
+        <item>You\'re looking fabulous!</item>
+        <item>Hope your day is great!</item>
+    </array>
+
+    <string name="greeting_afternoon">Good afternoon!</string>
+    <array name="subgreetings_afternoon">
+        <item>Hope you\'re having a great day!</item>
+        <item>You\'re still looking fabulous!</item>
+        <item>Beware of geese.</item>
+    </array>
+
+    <string name="greeting_evening">Good evening!</string>
+    <array name="subgreetings_evening">
+        <item>Hope you had a great day!</item>
+        <item>You looked fabulous!</item>
+        <item>Don\'t stay up too late!</item>
+    </array>
+
+    <string name="greeting_night">Good night!</string>
+    <array name="subgreetings_night">
+        <item>Hope you had a wonderful day!</item>
+        <item>Stay gold, pony boy.</item>
+        <item>Burning the midnight oil?</item>
+    </array>
+
+    <!-- About Page -->
+    <string-array name="question1">
+        <item>"What is this?"</item>
+        <item>"This is an app I created to demonstrate how to use some of the public information made available to everyone by the University of Waterloo's Open Data API."</item>
+    </string-array>
+
+    <string-array name="question2">
+        <item>"What does it do?"</item>
+        <item>"Look around! There's location hours, course information, events around campus, and even a map of all the terrifying goose nests you'll inevitably encounter on your way to class."</item>
+    </string-array>
+
+    <string-array name="question3">
+        <item>"That's pretty cool!"</item>
+        <item>"Damn right it is."</item>
+    </string-array>
+
+    <string-array name="question4">
+        <item>"Can I blame you for missing my exam if this app tells me the wrong time?"</item>
+        <item>"No, I'm not liable if you miss an exam, run into a flock of angry geese, get food poisoning from the V1 café, or anything else that happens from using this. This is information provided by the University of Waterloo under license on an 'as is' basis."</item>
+    </string-array>
+
+    <string-array name="question5">
+        <item>"I have ideas!"</item>
+        <item>"Great! For now, &lt;a href='https://play.google.com/store/apps/details?id=io.github.wztlei.wathub'>leave a review&lt;/a> to submit your fantastic idea. In the future I'll have something better set up to leave feedback."</item>
+    </string-array>
+
+    <string-array name="question6">
+        <item>"You're the best!"</item>
+        <item>"I know."</item>
+    </string-array>
+
+    <string-array name="question7">
+        <item>"Talk legal to me."</item>
+        <item>"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."</item>
+    </string-array>
+
+    <string-array name="question8">
+        <item>"App Version"</item>
+        <item>@string/app_version_name</item>
+    </string-array>
+
+    <!-- General -->
+    <string name="and">and</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="clipboard_copied">Copied to clipboard!</string>
+    <string name="error_no_network">No network connection.</string>
+    <string name="error_no_network_detailed">No network connection! Please reconnect to the internet and try again.</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_about">About</string>
+
+</resources>
