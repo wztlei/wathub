@@ -70,9 +70,7 @@ public class EventFragment extends BaseModuleFragment<Responses.EventDetails, Ev
     View mBrowserRoot;
 
     @Override
-    protected View getContentView(
-            final LayoutInflater inflater,
-            final ViewGroup parent) {
+    protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
         mRoot = inflater.inflate(R.layout.fragment_event, parent, false);
 
         ButterKnife.bind(this, mRoot);

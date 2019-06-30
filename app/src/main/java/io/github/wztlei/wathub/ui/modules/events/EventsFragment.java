@@ -100,12 +100,11 @@ public class EventsFragment extends BaseListModuleFragment<Responses.Events, Eve
         showModule(EventFragment.class, EventFragment.newBundle(event));
     }
 
-    private class EventAdapter
-            extends ModuleAdapter {
+    private class EventAdapter extends ModuleAdapter {
 
         private final Date mNow = new Date();
 
-        public EventAdapter(final Context context, final ModuleListItemListener listener) {
+        EventAdapter(final Context context, final ModuleListItemListener listener) {
             super(context, listener);
         }
 

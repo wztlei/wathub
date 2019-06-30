@@ -7,6 +7,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import java.util.Objects;
+
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.view.ElevationOffsetListener;
 import io.github.wztlei.wathub.utils.FontUtils;
@@ -41,7 +43,7 @@ public class AboutActivity extends BaseActivity {
         mCollapsingLayout.setTitle(mAboutString);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

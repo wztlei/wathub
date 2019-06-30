@@ -17,10 +17,8 @@ class OutletsAdapter extends ModuleAdapter {
 
     private MenuInfo mMenuItem;
 
-    public OutletsAdapter(
-            final Context context,
-            final ModuleListItemListener listener,
-            final MenuInfo menuItem) {
+    OutletsAdapter(final Context context, final ModuleListItemListener listener,
+                   final MenuInfo menuItem) {
         super(context, listener);
         mMenuItem = menuItem;
     }
