@@ -16,10 +16,10 @@
   ~ limitations under the License.
   -->
 <io.github.wztlei.wathub.datepicker.TextViewWithCircularIndicator xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/month_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/year_label_height"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/datetimepicker_year_selector"
-        android:textSize="@dimen/year_label_text_size" />
+    android:id="@+id/month_text_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/year_label_height"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:textColor="@color/datetimepicker_year_selector"
+    android:textSize="@dimen/year_label_text_size" />

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@android:id/text1"
+        style="@style/TextAppearance.UWaterloo.Title"
+        fontPath="@string/font_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:clickable="true"
+        tools:text="First Element" />
 
     <TextView
-            style="@style/TextAppearance.UWaterloo.Title"
-            android:id="@android:id/text1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            fontPath="@string/font_medium"
-            tools:text="First Element" />
-
-    <TextView
-            style="@style/TextAppearance.UWaterloo.Subhead"
-            android:id="@android:id/text2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            fontPath="@string/font_book"
-            tools:text="Second Element" />
+        android:id="@android:id/text2"
+        style="@style/TextAppearance.UWaterloo.Subhead"
+        fontPath="@string/font_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        tools:text="Second Element" />
 
 </LinearLayout>

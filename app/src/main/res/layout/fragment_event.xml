@@ -1,120 +1,120 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
-            android:id="@+id/event_banner_root"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimary">
+        android:id="@+id/event_banner_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary">
 
         <ImageView
-                android:id="@+id/event_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
-                android:minHeight="96dp" />
+            android:id="@+id/event_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:minHeight="96dp" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/event_title"
+                style="@style/TextAppearance.UWaterloo.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:orientation="vertical">
+                android:fontFamily="sans-serif-light" />
 
             <TextView
-                    style="@style/TextAppearance.UWaterloo.Title"
-                    android:id="@+id/event_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="sans-serif-light" />
+                android:id="@+id/event_audience"
+                style="@style/EventProperty"
+                android:drawableStart="@drawable/ic_people" />
 
             <TextView
-                    style="@style/EventProperty"
-                    android:id="@+id/event_audience"
-                    android:drawableStart="@drawable/ic_people" />
+                android:id="@+id/event_cost"
+                style="@style/EventProperty"
+                android:drawableStart="@drawable/ic_money" />
 
             <TextView
-                    style="@style/EventProperty"
-                    android:id="@+id/event_cost"
-                    android:drawableStart="@drawable/ic_money" />
-
-            <TextView
-                    style="@style/EventProperty"
-                    android:id="@+id/event_location"
-                    android:drawableStart="@drawable/ic_globe" />
+                android:id="@+id/event_location"
+                style="@style/EventProperty"
+                android:drawableStart="@drawable/ic_globe" />
 
         </LinearLayout>
 
     </FrameLayout>
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <Space
-                    android:id="@+id/event_spacer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                android:id="@+id/event_spacer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
-                    android:id="@+id/event_scrollable_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background"
-                    android:elevation="16dp"
-                    android:paddingTop="16dp"
-                    android:orientation="vertical">
+                android:id="@+id/event_scrollable_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:elevation="16dp"
+                android:orientation="vertical"
+                android:paddingTop="16dp">
 
                 <io.github.wztlei.wathub.ui.view.WrapContentListView
-                        android:id="@+id/event_times"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp" />
+                    android:id="@+id/event_times"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp" />
 
                 <TextView
-                        style="@style/TextAppearance.UWaterloo.Body1"
-                        android:id="@+id/event_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:fontFamily="sans-serif-light"
-                        android:textIsSelectable="true" />
+                    android:id="@+id/event_description"
+                    style="@style/TextAppearance.UWaterloo.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textIsSelectable="true" />
 
                 <LinearLayout
-                        android:id="@+id/event_open_in_browser_root"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom"
-                        android:gravity="bottom"
-                        android:orientation="vertical">
+                    android:id="@+id/event_open_in_browser_root"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
 
                     <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@color/divider" />
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@color/divider" />
 
                     <Button
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:id="@+id/event_open_in_browser"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackground"
-                            android:text="@string/open_in_browser"
-                            android:textAllCaps="true" />
+                        android:id="@+id/event_open_in_browser"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/open_in_browser"
+                        android:textAllCaps="true" />
 
                 </LinearLayout>
 

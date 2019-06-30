@@ -1,276 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorPrimary">
 
     <io.github.wztlei.wathub.ui.view.UwProgressBar
-            style="?android:progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="48dp" />
+        style="?android:progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="48dp" />
 
     <ImageView
-            android:id="@+id/weather_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:importantForAccessibility="no" />
+        android:id="@+id/weather_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no" />
 
     <ScrollView
-            android:id="@+id/weather_scrollview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="none">
+        android:id="@+id/weather_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <io.github.wztlei.wathub.ui.view.SliceView
-                    android:id="@+id/weather_slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:sliceHeight="128dp">
+                android:id="@+id/weather_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliceHeight="128dp">
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/white"
-                        android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
 
                     <io.github.wztlei.wathub.ui.view.AutoScaleTextView
-                            android:id="@+id/weather_temperature"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="32dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="64dp"
-                            android:fontFamily="sans-serif-light"
-                            android:includeFontPadding="true"
-                            app:maxTextSize="200sp"
-                            app:scaleFactor="50%"
-                            fontPath="@string/font_light" />
+                        android:id="@+id/weather_temperature"
+                        fontPath="@string/font_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="64dp"
+                        android:fontFamily="sans-serif-light"
+                        android:includeFontPadding="true"
+                        app:maxTextSize="200sp"
+                        app:scaleFactor="50%" />
 
                     <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="32dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp">
 
                         <View
-                                android:id="@+id/weather_temperature_bar"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_centerVertical="true"
-                                android:background="@android:color/black" />
+                            android:id="@+id/weather_temperature_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_centerVertical="true"
+                            android:background="@android:color/black" />
 
                         <TextView
-                                android:id="@+id/weather_min_temp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="8dp"
-                                android:paddingTop="20sp"
-                                android:textSize="14sp"
-                                tools:ignore="RtlHardcoded" />
+                            android:id="@+id/weather_min_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:paddingTop="20sp"
+                            android:textSize="14sp"
+                            tools:ignore="RtlHardcoded" />
 
                         <TextView
-                                android:id="@+id/weather_max_temp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="8dp"
-                                android:paddingBottom="20sp"
-                                android:textSize="14sp"
-                                tools:ignore="RtlHardcoded" />
+                            android:id="@+id/weather_max_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:paddingBottom="20sp"
+                            android:textSize="14sp"
+                            tools:ignore="RtlHardcoded" />
 
                         <io.github.wztlei.wathub.ui.view.RangeView
-                                android:id="@+id/weather_temperature_range"
-                                android:layout_width="match_parent"
-                                android:layout_height="32dp"
-                                android:layout_marginBottom="4dp"
-                                android:layout_marginTop="4dp"
-                                android:layout_toLeftOf="@id/weather_max_temp"
-                                android:layout_toRightOf="@id/weather_min_temp"
-                                tools:ignore="RtlHardcoded" />
+                            android:id="@+id/weather_temperature_range"
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_toLeftOf="@id/weather_max_temp"
+                            android:layout_toRightOf="@id/weather_min_temp"
+                            tools:ignore="RtlHardcoded" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:clipChildren="false">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:clipChildren="false">
 
                         <RelativeLayout
-                                android:id="@+id/weather_wind_direction_root"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/circle_stroke_black">
+                            android:id="@+id/weather_wind_direction_root"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/circle_stroke_black">
 
                             <ImageView
-                                    android:id="@+id/weather_wind_direction"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:layout_margin="8dp"
-                                    android:src="@drawable/ic_arrow_up" />
+                                android:id="@+id/weather_wind_direction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_margin="8dp"
+                                android:src="@drawable/ic_arrow_up" />
 
                             <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="-5sp"
-                                    android:background="@android:color/white"
-                                    android:paddingEnd="2dp"
-                                    android:paddingStart="2dp"
-                                    android:text="@string/weather_north_symbol"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="10sp"
-                                    tools:ignore="SmallSp" />
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="-5sp"
+                                android:background="@android:color/white"
+                                android:paddingEnd="2dp"
+                                android:paddingStart="2dp"
+                                android:text="@string/weather_north_symbol"
+                                android:textColor="@android:color/black"
+                                android:textSize="10sp"
+                                tools:ignore="SmallSp" />
 
                         </RelativeLayout>
 
                         <TextView
-                                style="@style/TextAppearance.UWaterloo.Large"
-                                android:id="@+id/weather_wind_speed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="16dp"
-                                android:layout_toEndOf="@id/weather_wind_direction_root"
-                                android:paddingTop="6sp"
-                                tools:text="8.4 kph NW" />
+                            android:id="@+id/weather_wind_speed"
+                            style="@style/TextAppearance.UWaterloo.Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_toEndOf="@id/weather_wind_direction_root"
+                            android:paddingTop="6sp"
+                            tools:text="8.4 kph NW" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp">
 
                         <io.github.wztlei.wathub.ui.view.WaveView
-                                android:id="@+id/weather_waveview"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp" />
+                            android:id="@+id/weather_waveview"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
 
                         <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/weather_waveview"
+                            android:gravity="bottom|start"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/weather_precipitation"
+                                style="@style/TextAppearance.UWaterloo.Large"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toEndOf="@id/weather_waveview"
-                                android:gravity="bottom|start"
-                                android:orientation="horizontal">
+                                android:layout_marginStart="16dp"
+                                tools:text="1.6mm" />
 
                             <TextView
-                                    style="@style/TextAppearance.UWaterloo.Large"
-                                    android:id="@+id/weather_precipitation"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    tools:text="1.6mm" />
-
-                            <TextView
-                                    style="@style/TextAppearance.UWaterloo.Small"
-                                    android:id="@+id/weather_precipitation_period"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="@string/weather_precipitation_period" />
+                                android:id="@+id/weather_precipitation_period"
+                                style="@style/TextAppearance.UWaterloo.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="@string/weather_precipitation_period" />
 
                         </LinearLayout>
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="32dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp">
 
                         <RelativeLayout
-                                android:id="@+id/weather_pressure_trend_container"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:minWidth="40dp">
+                            android:id="@+id/weather_pressure_trend_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp">
 
                             <LinearLayout
-                                    android:id="@+id/weather_pressure_trend_layout"
+                                android:id="@+id/weather_pressure_trend_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:orientation="vertical">
+
+                                <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:orientation="vertical">
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/ic_arrow_up"
+                                    android:importantForAccessibility="no" />
 
                                 <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_horizontal"
-                                        android:background="@drawable/ic_arrow_up"
-                                        android:importantForAccessibility="no" />
-
-                                <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_horizontal"
-                                        android:background="@drawable/ic_arrow_up"
-                                        android:importantForAccessibility="no"
-                                        tools:visibility="gone" />
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/ic_arrow_up"
+                                    android:importantForAccessibility="no"
+                                    tools:visibility="gone" />
 
                             </LinearLayout>
 
                         </RelativeLayout>
 
                         <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/weather_pressure_trend_container"
+                            android:gravity="bottom|start"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/weather_pressure"
+                                style="@style/TextAppearance.UWaterloo.Large"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toEndOf="@id/weather_pressure_trend_container"
-                                android:gravity="bottom|start"
-                                android:orientation="horizontal">
+                                android:layout_marginStart="16dp"
+                                tools:text="101.3 kPa" />
 
                             <TextView
-                                    style="@style/TextAppearance.UWaterloo.Large"
-                                    android:id="@+id/weather_pressure"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    tools:text="101.3 kPa" />
-
-                            <TextView
-                                    style="@style/TextAppearance.UWaterloo.Small"
-                                    android:id="@+id/weather_pressure_trend"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    tools:text="rising" />
+                                android:id="@+id/weather_pressure_trend"
+                                style="@style/TextAppearance.UWaterloo.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                tools:text="rising" />
 
                         </LinearLayout>
 
                     </RelativeLayout>
 
                     <io.github.wztlei.wathub.ui.view.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp">
 
                         <TextView
-                                style="@style/TextAppearance.UWaterloo.Caption"
-                                android:id="@+id/weather_last_updated"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/white"
-                                android:gravity="center_vertical|center_horizontal"
-                                android:padding="8dp" />
+                            android:id="@+id/weather_last_updated"
+                            style="@style/TextAppearance.UWaterloo.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:padding="8dp" />
 
                     </io.github.wztlei.wathub.ui.view.CardView>
 
@@ -279,36 +279,36 @@
             </io.github.wztlei.wathub.ui.view.SliceView>
 
             <RelativeLayout
-                    android:id="@+id/weather_spacer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:id="@+id/weather_spacer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                        android:id="@+id/weather_author_attribution_root"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/weather_author_gradient"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingBottom="48dp">
+                    android:id="@+id/weather_author_attribution_root"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/weather_author_gradient"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="48dp">
 
                     <TextView
-                            android:id="@+id/weather_author_attribution"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:padding="8dp"
-                            tools:text="Title\nPhoto taken by Author" />
+                        android:id="@+id/weather_author_attribution"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="8dp"
+                        tools:text="Title\nPhoto taken by Author" />
 
                     <ImageView
-                            android:id="@+id/weather_author_source_link"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/open_in_browser"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_action_open_in_browser" />
+                        android:id="@+id/weather_author_source_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/open_in_browser"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_action_open_in_browser" />
 
                 </LinearLayout>
 

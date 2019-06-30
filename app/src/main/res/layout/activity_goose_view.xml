@@ -11,37 +11,37 @@
      limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <io.github.wztlei.wathub.ui.view.GooseView
-            android:id="@+id/world"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:id="@+id/world"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|start"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/scorecard"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:textColor="#FFAAAAAA"
-            android:textSize="32sp" />
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/scorecard"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:textColor="#FFAAAAAA"
+        android:textSize="32sp" />
 
     <TextView
-            android:id="@+id/welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="70dp"
-            android:textColor="#FFFFFFFF"
-            android:textSize="30sp"
-            android:visibility="gone" />
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:textColor="#FFFFFFFF"
+        android:textSize="30sp"
+        android:visibility="gone" />
 </FrameLayout>
