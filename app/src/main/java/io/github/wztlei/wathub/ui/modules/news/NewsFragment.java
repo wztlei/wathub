@@ -55,9 +55,7 @@ public class NewsFragment extends BaseModuleFragment<Responses.NewsEntity, NewsA
     View mBrowserRoot;
 
     @Override
-    protected View getContentView(
-            final LayoutInflater inflater,
-            final ViewGroup parent) {
+    protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
         final View root = inflater.inflate(R.layout.fragment_news, parent, false);
 
         ButterKnife.bind(this, root);

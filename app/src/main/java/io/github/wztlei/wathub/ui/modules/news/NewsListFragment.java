@@ -27,8 +27,8 @@ import java.util.List;
 import retrofit2.Call;
 
 @ModuleFragment(
-        path = "/news",
-        layout = R.layout.module_news
+    path = "/news",
+    layout = R.layout.module_news
 )
 public class NewsListFragment extends BaseListModuleFragment<Responses.News, NewsDetails>
         implements ModuleListItemListener {
@@ -77,10 +77,9 @@ public class NewsListFragment extends BaseListModuleFragment<Responses.News, New
         showModule(NewsFragment.class, NewsFragment.newBundle(news));
     }
 
-    private class NewsAdapter
-            extends ModuleAdapter {
+    private class NewsAdapter extends ModuleAdapter {
 
-        public NewsAdapter(final Context context, final ModuleListItemListener listener) {
+        NewsAdapter(final Context context, final ModuleListItemListener listener) {
             super(context, listener);
         }
 
