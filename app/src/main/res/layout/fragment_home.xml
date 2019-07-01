@@ -5,33 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="?colorPrimary"
-        android:elevation="8dp">
-
-        <ImageView
-            android:id="@+id/home_header_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:background="@drawable/ic_launcher"
-            tools:ignore="ContentDescription" />
-
-        <io.github.wztlei.wathub.ui.view.AppTitleView
-            android:id="@+id/home_title_view"
-            style="@style/TextAppearance.UWaterloo.Display2"
-            fontPath="@string/font_ultra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|bottom"
-            android:ellipsize="none"
-            android:singleLine="true"
-            android:textColor="?android:textColorPrimary" />
-
-    </FrameLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

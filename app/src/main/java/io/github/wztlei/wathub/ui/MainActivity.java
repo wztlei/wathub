@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -90,6 +91,13 @@ public class MainActivity extends BaseActivity
             FontUtils.apply(mNavigationView, FontUtils.DEFAULT);
             return true;
         });
+
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setTitle("WatHub");
+            actionBar.setElevation(0);
+        }
     }
 
     @Override
@@ -173,9 +181,7 @@ public class MainActivity extends BaseActivity
 
     static final class ModuleCategories extends HashMap<String, List<String>> {
 
-        public String[] getApiMethods(
-                final @IdRes int menuItemId,
-                final Resources res) {
+        String[] getApiMethods(final @IdRes int menuItemId, final Resources res) {
             final String idName = res.getResourceEntryName(menuItemId);
             final String category = idName.substring("menu_item_".length());
             final List<String> endpoints = containsKey(category) ? get(category) : new ArrayList<>();
