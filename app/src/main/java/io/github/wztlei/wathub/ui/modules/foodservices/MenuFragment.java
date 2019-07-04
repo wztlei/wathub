@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.deange.uwaterlooapi.model.AbstractModel;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.Responses;
+import com.deange.uwaterlooapi.model.foodservices.Menu;
 import com.deange.uwaterlooapi.model.foodservices.Outlet;
 
 import io.github.wztlei.wathub.R;
@@ -17,6 +18,9 @@ import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 
 import org.joda.time.LocalDate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +68,12 @@ public class MenuFragment extends BaseModuleFragment<Responses.Outlets, Outlet> 
 
     @Override
     public void onBindData(final Metadata metadata, final Outlet outlet) {
-        mAdapter = new MenuDayAdapter(outlet.getMenu());
+        if (outlet.getMenu() != null) {
+            mAdapter = new MenuDayAdapter(outlet.getMenu());
+        } else {
+            mAdapter = new MenuDayAdapter(new ArrayList<>());
+        }
+
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 

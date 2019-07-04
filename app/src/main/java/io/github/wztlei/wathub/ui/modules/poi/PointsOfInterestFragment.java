@@ -176,13 +176,14 @@ public class PointsOfInterestFragment
 
     private void showPointsOfInterestInfo(final GoogleMap map) {
         map.clear();
-
-        addMarkersIfEnabled(map, mResponse.getATMs(), LayersDialog.FLAG_ATM);
-        addMarkersIfEnabled(map, mResponse.getGreyhounds(), LayersDialog.FLAG_GREYHOUND);
-        addMarkersIfEnabled(map, mResponse.getPhotospheres(), LayersDialog.FLAG_PHOTOSPHERE);
-        addMarkersIfEnabled(map, mResponse.getHelplines(), LayersDialog.FLAG_HELPLINE);
-        addMarkersIfEnabled(map, mResponse.getLibraries(), LayersDialog.FLAG_LIBRARY);
-        addMarkersIfEnabled(map, mResponse.getDefibrillators(), LayersDialog.FLAG_DEFIBRILLATOR);
+        if (mResponse != null) {
+            addMarkersIfEnabled(map, mResponse.getATMs(), LayersDialog.FLAG_ATM);
+            addMarkersIfEnabled(map, mResponse.getGreyhounds(), LayersDialog.FLAG_GREYHOUND);
+            addMarkersIfEnabled(map, mResponse.getPhotospheres(), LayersDialog.FLAG_PHOTOSPHERE);
+            addMarkersIfEnabled(map, mResponse.getHelplines(), LayersDialog.FLAG_HELPLINE);
+            addMarkersIfEnabled(map, mResponse.getLibraries(), LayersDialog.FLAG_LIBRARY);
+            addMarkersIfEnabled(map, mResponse.getDefibrillators(), LayersDialog.FLAG_DEFIBRILLATOR);
+        }
     }
 
     private void addMarkersIfEnabled(
@@ -234,6 +235,11 @@ public class PointsOfInterestFragment
         }
 
         return (poi != null);
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return getString(R.string.title_poi);
     }
 
     private <T extends BasicPointOfInterest> T matchPointByLocation(
