@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -91,13 +92,6 @@ public class MainActivity extends BaseActivity
             FontUtils.apply(mNavigationView, FontUtils.DEFAULT);
             return true;
         });
-
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setTitle("WatHub");
-            actionBar.setElevation(0);
-        }
     }
 
     @Override
@@ -172,6 +166,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onClick(final View v) {
+        Log.d(FRAGMENT_TAG, "onClick");
         // Header view
         if (++mClicks >= 30) {
             mClicks = 0;
