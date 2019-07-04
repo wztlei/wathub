@@ -300,9 +300,7 @@ public class WeatherFragment extends BaseModuleFragment<Responses.Weather, Weath
         if (mPhoto != null) {
             final List<PhotoUrl> urls = mPhoto.getDetails().getUrls();
             IntentUtils.openBrowser(getContext(),
-                    (!urls.isEmpty())
-                            ? urls.get(0).getUrl()
-                            : mPhotoSize.getUrl());
+                    (!urls.isEmpty()) ? urls.get(0).getUrl() : mPhotoSize.getUrl());
         }
     }
 
@@ -319,20 +317,22 @@ public class WeatherFragment extends BaseModuleFragment<Responses.Weather, Weath
         mPhoto = photo;
         mPhotoSize = newPhotoSize;
 
-        Picasso.with(getActivity())
-                .load(newPhotoSize.getSource())
-                .centerCrop()
-                .resize(mBackground.getMeasuredWidth(), mBackground.getMeasuredHeight())
-                .into(mBackground);
+        if (getActivity() != null) {
+            Picasso.with(getActivity())
+                    .load(newPhotoSize.getSource())
+                    .centerCrop()
+                    .resize(mBackground.getMeasuredWidth(), mBackground.getMeasuredHeight())
+                    .into(mBackground);
 
-        final PhotoDetails details = mPhoto.getDetails();
-        final String text = getString(
-                R.string.weather_author_attribution, details.getTitle(),
-                details.getAuthor().getPreferredName());
+            final PhotoDetails details = mPhoto.getDetails();
+            final String text = getString(
+                    R.string.weather_author_attribution, details.getTitle(),
+                    details.getAuthor().getPreferredName());
 
-        final SpannableString spannable = new SpannableString(text);
-        spannable.setSpan(new StyleSpan(Typeface.BOLD), 0, details.getTitle().length(), 0);
-        mAuthor.setText(spannable);
+            final SpannableString spannable = new SpannableString(text);
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), 0, details.getTitle().length(), 0);
+            mAuthor.setText(spannable);
+        }
     }
 
     @Nullable

@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(null);
+        getActivity().setTitle(getString(R.string.app_name));
     }
 
     @Nullable
