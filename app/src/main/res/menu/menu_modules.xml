@@ -15,10 +15,10 @@
             android:icon="@drawable/ic_foodservices"
             android:title="@string/api_foodservices" />
 
-        <item
-            android:id="@+id/menu_item_watcard"
-            android:icon="@drawable/ic_watcard"
-            android:title="@string/api_watcard" />
+        <!--<item-->
+            <!--android:id="@+id/menu_item_watcard"-->
+            <!--android:icon="@drawable/ic_watcard"-->
+            <!--android:title="@string/api_watcard" />-->
 
         <item
             android:id="@+id/menu_item_courses"

@@ -6,8 +6,7 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
-public class ShowAllAutoCompleteTextView
-        extends AppCompatAutoCompleteTextView {
+public class ShowAllAutoCompleteTextView extends AppCompatAutoCompleteTextView {
 
     public ShowAllAutoCompleteTextView(final Context context) {
         super(context);
