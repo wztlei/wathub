@@ -5,14 +5,14 @@
 
     <TextView
         android:id="@+id/building_name"
-        style="@style/TextAppearance.UWaterloo.Headline"
+        style="@style/TextAppearance.UWaterloo.Subhead"
         fontPath="@string/font_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorPrimary"
         android:elevation="8dp"
-        android:gravity="end"
-        android:paddingBottom="32dp"
+        android:gravity="center"
+        android:paddingBottom="16dp"
         android:paddingLeft="32dp"
         android:paddingRight="32dp" />
 

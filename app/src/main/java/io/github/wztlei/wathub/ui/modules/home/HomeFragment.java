@@ -28,6 +28,7 @@ import io.github.wztlei.wathub.ui.modules.courses.CourseFragment;
 import io.github.wztlei.wathub.ui.modules.courses.CoursesFragment;
 import io.github.wztlei.wathub.ui.modules.courses.SubjectAdapter;
 import io.github.wztlei.wathub.ui.modules.weather.WeatherFragment;
+import io.github.wztlei.wathub.utils.Px;
 import io.github.wztlei.wathub.utils.SimpleTextWatcher;
 
 import butterknife.BindView;
@@ -101,7 +102,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         mCardsParent.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         mElevation = mToolbar.getElevation();
-        mToolbar.setElevation(0f);
+        mToolbar.setElevation(Px.fromDpF(8));
 
         mAdapter = new SubjectAdapter(getActivity());
         mSubjectPicker.setAdapter(mAdapter);
@@ -111,7 +112,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
         mNumberPicker.addTextChangedListener(mCourseTextWatcher);
         mNumberPicker.addTextChangedListener(new UpperCaseTextWatcher(mNumberPicker));
-
         return view;
     }
 

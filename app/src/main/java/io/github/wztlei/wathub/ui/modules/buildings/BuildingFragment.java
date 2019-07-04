@@ -68,6 +68,15 @@ public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, 
         return ModuleType.BUILDING;
     }
 
+    @Override
+    public String getToolbarTitle() {
+        if (mBuilding != null) {
+            return mBuilding.getBuildingCode();
+        } else {
+            return "";
+        }
+    }
+
     private void showLocation(final GoogleMap map) {
         if (mBuilding == null) {
             return;

@@ -122,6 +122,7 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(mChildFragment.getToolbarTitle());
+        actionBar.setSubtitle(mChildFragment.getToolbarSubtitle());
         actionBar.setElevation(mChildFragment.getToolbarElevationPx());
 
         FontUtils.apply(getToolbar(), FontUtils.DEFAULT);
