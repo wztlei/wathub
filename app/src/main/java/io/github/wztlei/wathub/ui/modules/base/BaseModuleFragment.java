@@ -187,9 +187,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
         }
     }
 
-    public void showModule(
-            final Class<? extends BaseModuleFragment> fragment,
-            final Bundle arguments) {
+    public void showModule(final Class<? extends BaseModuleFragment> fragment, final Bundle arguments) {
         getActivity().startActivity(
                 ModuleHostActivity.getStartIntent(getActivity(), fragment, arguments));
     }

@@ -10,8 +10,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -164,6 +166,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onClick(final View v) {
+        Log.d(FRAGMENT_TAG, "onClick");
         // Header view
         if (++mClicks >= 30) {
             mClicks = 0;
@@ -173,9 +176,7 @@ public class MainActivity extends BaseActivity
 
     static final class ModuleCategories extends HashMap<String, List<String>> {
 
-        public String[] getApiMethods(
-                final @IdRes int menuItemId,
-                final Resources res) {
+        String[] getApiMethods(final @IdRes int menuItemId, final Resources res) {
             final String idName = res.getResourceEntryName(menuItemId);
             final String category = idName.substring("menu_item_".length());
             final List<String> endpoints = containsKey(category) ? get(category) : new ArrayList<>();
