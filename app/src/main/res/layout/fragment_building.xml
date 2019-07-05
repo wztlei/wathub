@@ -12,7 +12,8 @@
         android:background="?colorPrimary"
         android:elevation="8dp"
         android:gravity="center"
-        android:paddingBottom="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:paddingLeft="32dp"
         android:paddingRight="32dp" />
 

@@ -41,6 +41,7 @@
             android:textAllCaps="true"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            android:hint="@string/course_picker_hint"
             tools:text="CS" />
 
     </RelativeLayout>

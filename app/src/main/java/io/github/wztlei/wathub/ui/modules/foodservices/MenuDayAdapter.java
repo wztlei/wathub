@@ -1,6 +1,7 @@
 package io.github.wztlei.wathub.ui.modules.foodservices;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import io.github.wztlei.wathub.utils.ViewUtils;
 
 import org.joda.time.LocalDate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,7 +30,7 @@ public class MenuDayAdapter extends PagerAdapter {
 
     private final List<Menu> mMenus;
 
-    public MenuDayAdapter(final List<Menu> menus) {
+    MenuDayAdapter(final List<Menu> menus) {
         mMenus = menus;
     }
 
@@ -101,10 +103,11 @@ public class MenuDayAdapter extends PagerAdapter {
                 final WrapContentListView listView,
                 final List<Meal> meals) {
 
-            listView.setAdapter(new MealAdapter(getContext(), meals));
             if (meals == null || meals.isEmpty()) {
+                listView.setAdapter(new MealAdapter(getContext(), new ArrayList<>()));
                 parent.setVisibility(View.GONE);
             } else {
+                listView.setAdapter(new MealAdapter(getContext(), meals));
                 parent.setVisibility(View.VISIBLE);
             }
         }
@@ -113,12 +116,13 @@ public class MenuDayAdapter extends PagerAdapter {
     private static final class MealAdapter extends ArrayAdapter<Meal>
             implements View.OnLongClickListener {
 
-        public MealAdapter(final Context context, final List<Meal> meals) {
+        MealAdapter(final Context context, final List<Meal> meals) {
             super(context, 0, meals);
         }
 
+        @NonNull
         @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
+        public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
             final View view;
             if (convertView != null) {
                 view = convertView;
@@ -131,9 +135,10 @@ public class MenuDayAdapter extends PagerAdapter {
             view.setOnLongClickListener(this);
 
             final Meal meal = getItem(position);
-            ((TextView) view.findViewById(android.R.id.text1)).setText(meal.getName());
-            ViewUtils.setText((TextView) view.findViewById(android.R.id.text2), meal.getDietType());
-
+            if (meal != null) {
+                ((TextView) view.findViewById(android.R.id.text1)).setText(meal.getName());
+                ViewUtils.setText((TextView) view.findViewById(android.R.id.text2), meal.getDietType());
+            }
             return view;
         }
 

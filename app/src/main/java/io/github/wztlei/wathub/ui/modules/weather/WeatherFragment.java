@@ -285,9 +285,15 @@ public class WeatherFragment extends BaseModuleFragment<Responses.Weather, Weath
     }
 
     @Override
+    public String getToolbarTitle() {
+        return "Weather";
+    }
+
+    @Override
     protected void onRefreshRequested() {
         PhotoFetcher.fetchRandom(this);
     }
+
 
     @Override
     protected void onContentShown() {
