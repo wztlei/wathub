@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
 import com.deange.uwaterlooapi.annotations.ModuleInfo;
-import com.deange.uwaterlooapi.annotations.ModuleMap;
 
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
+import io.github.wztlei.wathub.utils.ModuleMap;
 import io.github.wztlei.wathub.utils.Px;
 
 public class ApiMethodsFragment extends ListFragment
