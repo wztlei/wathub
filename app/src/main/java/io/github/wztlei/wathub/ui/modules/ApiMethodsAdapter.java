@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.deange.uwaterlooapi.annotations.ModuleInfo;
-import com.deange.uwaterlooapi.annotations.ModuleMap;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
+import io.github.wztlei.wathub.utils.ModuleMap;
 
 public class ApiMethodsAdapter extends ArrayAdapter<String> implements View.OnClickListener {
 

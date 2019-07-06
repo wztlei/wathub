@@ -92,6 +92,8 @@ public class MainActivity extends BaseActivity
             FontUtils.apply(mNavigationView, FontUtils.DEFAULT);
             return true;
         });
+
+
     }
 
     @Override
