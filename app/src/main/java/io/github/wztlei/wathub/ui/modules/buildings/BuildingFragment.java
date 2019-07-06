@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.wztlei.wathub.utils.MapUtils;
 
 @ModuleFragment(path = "/buildings/*")
 public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, Building> {
@@ -96,8 +97,9 @@ public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, 
 
             map.clear();
             map.setIndoorEnabled(false);
+            map.setBuildingsEnabled(true);
             map.setOnMapClickListener(this);
-            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            map.setMapType(MapUtils.googleMapType(getContext()));
             map.getUiSettings().setAllGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(false);
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(buildingLocation, 18));

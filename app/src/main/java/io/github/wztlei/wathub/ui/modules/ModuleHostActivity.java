@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
 
-import io.github.wztlei.wathub.CustomBuildConfig;
+import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.controller.WatcardManager;
 import io.github.wztlei.wathub.ui.BaseActivity;
@@ -69,7 +69,7 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
 
         setContentView(R.layout.activity_module_host_simple);
 
-        mApi = new UWaterlooApi(CustomBuildConfig.UWATERLOO_API_KEY);
+        mApi = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
         mApi.setWatcardCredentials(WatcardManager.getInstance().getCredentials());
 
         mToolbar = getToolbar();

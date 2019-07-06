@@ -1,16 +1,24 @@
 package io.github.wztlei.wathub.ui.modules.poi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 
+import java.util.Arrays;
 import java.util.Objects;
 
+import butterknife.OnItemSelected;
+import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.Px;
 
 import butterknife.BindView;
@@ -18,29 +26,28 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class LayersDialog {
+class LayersDialog {
 
-    public static final int FLAG_ATM = 0x01;
-    public static final int FLAG_GREYHOUND = 0x02;
-    public static final int FLAG_PHOTOSPHERE = 0x04;
-    public static final int FLAG_HELPLINE = 0x08;
-    public static final int FLAG_LIBRARY = 0x10;
-    public static final int FLAG_DEFIBRILLATOR = 0x20;
-    static final int FLAG_ALL =
+    static final int FLAG_ATM = 0x01;
+    static final int FLAG_GREYHOUND = 0x02;
+    static final int FLAG_PHOTOSPHERE = 0x04;
+    static final int FLAG_HELPLINE = 0x08;
+    static final int FLAG_LIBRARY = 0x10;
+    static final int FLAG_DEFIBRILLATOR = 0x20;
+    private static final int FLAG_ALL =
             FLAG_ATM | FLAG_GREYHOUND | FLAG_PHOTOSPHERE | FLAG_HELPLINE | FLAG_LIBRARY | FLAG_DEFIBRILLATOR;
 
-    public static final int LAYERS_COUNT = Integer.bitCount(FLAG_ALL);
+    static final int LAYERS_COUNT = Integer.bitCount(FLAG_ALL);
 
     private LayersDialog() {
         throw new AssertionError();
     }
 
-    public static void showDialog(
-            final Context context,
-            final int flags,
-            final OnLayersSelectedListener listener) {
+    static void showDialog(final Context context, final int flags,
+                           final OnLayersSelectedListener listener) {
+        @SuppressLint("InflateParams")
         final View view = LayoutInflater.from(context).inflate(R.layout.dialog_poi_layers, null);
-        final LayersViews holder = new LayersViews();
+        final LayersViews holder = new LayersViews(context);
 
         ButterKnife.bind(holder, view);
 
@@ -64,6 +71,8 @@ public class LayersDialog {
     }
 
     static final class LayersViews {
+        @BindView(R.id.map_type_spinner)
+        Spinner mMapTypeSpinner;
         @BindView(R.id.poi_layers_select_all)
         Button mSelectAllButton;
         @BindView(R.id.poi_layers_parent)
@@ -81,12 +90,23 @@ public class LayersDialog {
         @BindView(R.id.poi_layers_defibrillators_check)
         CheckBox mCheckDefibrillators;
 
+        Context mContext;
+        SharedPreferences mSharedPreferences;
+
+        LayersViews(Context context) {
+            // Initialize instance variables
+            mContext = context;
+            mSharedPreferences = mContext.getSharedPreferences(
+                    Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        }
+
         @OnClick(R.id.poi_layers_select_all)
-        public void onSelectAllClicked() {
+        void onSelectAllClicked() {
             // Select all if all not already selected, otherwise deselect all
             final boolean newValue = (save() != FLAG_ALL);
             for (int i = 0; i < mLayersParent.getChildCount(); i++) {
-                ((CheckBox) ((ViewGroup) mLayersParent.getChildAt(i)).getChildAt(1)).setChecked(newValue);
+                ((CheckBox) ((ViewGroup) mLayersParent.getChildAt(i)).getChildAt(1))
+                        .setChecked(newValue);
             }
         }
 
@@ -98,7 +118,7 @@ public class LayersDialog {
                 R.id.poi_layers_libraries_label,
                 R.id.poi_layers_defibrillators_label,
         })
-        public void onAtmLabelClicked(final View view) {
+        void onAtmLabelClicked(final View view) {
             ((CheckBox) ((ViewGroup) view.getParent()).getChildAt(1)).toggle();
         }
 
@@ -110,10 +130,17 @@ public class LayersDialog {
                 R.id.poi_layers_libraries_check,
                 R.id.poi_layers_defibrillators_check,
         })
-        public void onLayerToggled() {
+        void onLayerToggled() {
             mSelectAllButton.setText((save() == FLAG_ALL)
                     ? R.string.poi_layers_deselect_all
                     : R.string.poi_layers_select_all);
+        }
+
+        @OnItemSelected(R.id.map_type_spinner)
+        void onMapTypeSelected() {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putString(MapUtils.MAP_TYPE_KEY, mMapTypeSpinner.getSelectedItem().toString());
+            editor.apply();
         }
 
         void restore(final int flags) {
@@ -123,6 +150,15 @@ public class LayersDialog {
             mCheckHelplines.setChecked((flags & FLAG_HELPLINE) != 0);
             mCheckLibraries.setChecked((flags & FLAG_LIBRARY) != 0);
             mCheckDefibrillators.setChecked((flags & FLAG_DEFIBRILLATOR) != 0);
+
+            // Select the previously selected map type for the spinner dropdown
+            String mapType = mSharedPreferences.getString(
+                    MapUtils.MAP_TYPE_KEY, MapUtils.DEFAULT_MAP_TYPE);
+            String[] mapTypeOptions = mContext.getResources().getStringArray(R.array.map_types);
+
+            if (mMapTypeSpinner != null) {
+                mMapTypeSpinner.setSelection(Arrays.asList(mapTypeOptions).indexOf(mapType));
+            }
         }
 
         int save() {

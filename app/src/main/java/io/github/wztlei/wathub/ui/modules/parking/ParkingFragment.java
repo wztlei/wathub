@@ -98,7 +98,8 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
         final int padding = Px.fromDp(16);
 
         map.setIndoorEnabled(false);
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.setBuildingsEnabled(true);
+        map.setMapType(MapUtils.googleMapType(getContext()));
         map.setOnMapClickListener(this);
         map.setOnMapLongClickListener(this);
         map.getUiSettings().setAllGesturesEnabled(true);
