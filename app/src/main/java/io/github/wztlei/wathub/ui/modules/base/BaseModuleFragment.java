@@ -423,6 +423,10 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
         return null;
     }
 
+    public String getToolbarSubtitle() {
+        return null;
+    }
+
     public float getToolbarElevationPx() {
         // Overridden by subclasses
         return Px.fromDpF(8);

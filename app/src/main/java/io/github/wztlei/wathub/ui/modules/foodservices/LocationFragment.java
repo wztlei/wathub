@@ -112,6 +112,7 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
     public void onBindData(final Metadata metadata, final Location location) {
         mToolbarLayout.setTitle(getLocationTitle());
 
+
         final String description = location.getDescription();
         if (!TextUtils.isEmpty(description)) {
             mDescriptionView.setText(Html.fromHtml(description));
@@ -231,7 +232,7 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
 
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-        map.getUiSettings().setAllGesturesEnabled(false);
+        map.getUiSettings().setAllGesturesEnabled(true);
         map.getUiSettings().setMapToolbarEnabled(false);
 
         map.addMarker(

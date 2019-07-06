@@ -4,7 +4,7 @@
     android:id="@+id/navigation_header_clickable"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?colorPrimary"
+    android:background="@color/black"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:textColor="@color/uw_yellow"
         tools:text="Good morning!" />
 
     <TextView
@@ -26,6 +27,7 @@
         style="@style/TextAppearance.UWaterloo.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/uw_yellow"
         tools:text="You're looking nice today." />
 
 </LinearLayout>
