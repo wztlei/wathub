@@ -197,8 +197,9 @@ public class NearbyLocationsFragment extends Fragment implements
     }
 
     @NonNull
-    private List<Location> getClosest(final int takeCount) {
-        if (mAllLocations == null || mAllLocations.isEmpty() || takeCount <= 0 || mCurrentLocation == null) {
+    private List<Location> getClosest() {
+        if (mAllLocations == null || mAllLocations.isEmpty()
+                || NearbyLocationsFragment.LOCATION_AMOUNT <= 0 || mCurrentLocation == null) {
             return new ArrayList<>();
         }
 
@@ -207,7 +208,8 @@ public class NearbyLocationsFragment extends Fragment implements
 
         final List<Location> locations = new ArrayList<>();
         for (final Location location : mAllLocations) {
-            if (location.isOpenNow()) {
+            if ((location.getLocation()[0] != 0 || location.getLocation()[1] != 0)
+                    && location.isOpenNow()) {
                 locations.add(location);
             }
         }
@@ -248,7 +250,7 @@ public class NearbyLocationsFragment extends Fragment implements
             return Float.compare(distance1, distance2);
         });
 
-        return locations.subList(0, Math.min(takeCount, locations.size()));
+        return locations.subList(0, Math.min(NearbyLocationsFragment.LOCATION_AMOUNT, locations.size()));
     }
 
     @SuppressWarnings("MissingPermission")
@@ -284,7 +286,7 @@ public class NearbyLocationsFragment extends Fragment implements
     }
 
     private void updateAdapter() {
-        final List<Location> closestLocations = getClosest(LOCATION_AMOUNT);
+        final List<Location> closestLocations = getClosest();
         mAdapter.updateLocations(closestLocations);
         mAdapter.updateCurrentLocation(mCurrentLocation);
 
