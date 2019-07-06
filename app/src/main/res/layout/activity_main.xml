@@ -22,6 +22,8 @@
             <android.support.v7.widget.Toolbar
                 style="@style/ToolbarStyle"
                 android:layout_height="wrap_content"
+                app:titleTextColor="@color/uw_yellow"
+                app:subtitleTextColor="@color/uw_yellow"
                 android:elevation="8dp" />
 
             <FrameLayout
@@ -40,9 +42,9 @@
             android:background="@color/background"
             app:headerLayout="@layout/view_navigation_header"
             app:itemBackground="?selectableItemBackground"
-            app:itemIconTint="@android:color/black"
+            app:itemIconTint="@color/black"
             app:itemTextAppearance="@style/TextAppearance.AppCompat.Subhead"
-            app:itemTextColor="@android:color/black"
+            app:itemTextColor="@color/black"
             app:menu="@menu/menu_modules" />
 
     </android.support.v4.widget.DrawerLayout>

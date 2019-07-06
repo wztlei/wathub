@@ -11,10 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:backgroundTint="?colorPrimary"
+        android:backgroundTint="@color/black"
         android:foregroundTint="?colorPrimaryDark"
         android:text="@string/nearby_locations_see_all"
-        android:textColor="?android:textColorPrimary" />
+        android:textColor="@color/uw_yellow" />
 
     <TextView
         android:id="@+id/nearby_locations_title"

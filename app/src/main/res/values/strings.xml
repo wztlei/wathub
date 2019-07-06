@@ -62,7 +62,7 @@
     <string name="home_quick_course_search_course">Look up %s…</string>
     <string name="home_quick_weather">Check the weather</string>
 
-    <string name="nearby_locations_title">Nearby Open Locations</string>
+    <string name="nearby_locations_title">Nearby Food Locations</string>
     <string name="nearby_locations_see_all">See All</string>
     <string name="nearby_locations_none">Nothing open near you</string>
     <string name="nearby_locations_waiting">Waiting…</string>
@@ -113,6 +113,7 @@
     <string name="course_capacity">%1$d/%2$d seats filled</string>
     <string name="course_reserve">%1$d/%2$d seats filled for %3$s</string>
     <string name="course_held_with">Held with %1$s</string>
+    <string name="course_picker_hint">MATH</string>
     <string name="exam_section">Section %1$s</string>
 
     <string-array name="course_info_titles">

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import java.util.Objects;
+
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.utils.Px;
 
@@ -24,7 +26,7 @@ public class LayersDialog {
     public static final int FLAG_HELPLINE = 0x08;
     public static final int FLAG_LIBRARY = 0x10;
     public static final int FLAG_DEFIBRILLATOR = 0x20;
-    public static final int FLAG_ALL =
+    static final int FLAG_ALL =
             FLAG_ATM | FLAG_GREYHOUND | FLAG_PHOTOSPHERE | FLAG_HELPLINE | FLAG_LIBRARY | FLAG_DEFIBRILLATOR;
 
     public static final int LAYERS_COUNT = Integer.bitCount(FLAG_ALL);
@@ -55,7 +57,7 @@ public class LayersDialog {
                 })
                 .create();
 
-        dialog.getWindow().getDecorView(); // Force decor view to be installed
+        Objects.requireNonNull(dialog.getWindow()).getDecorView(); // Force decor view to be installed
         dialog.getWindow().setLayout((int) (Px.width() * 0.75f), ViewGroup.LayoutParams.WRAP_CONTENT);
 
         dialog.show();
@@ -114,7 +116,7 @@ public class LayersDialog {
                     : R.string.poi_layers_select_all);
         }
 
-        public void restore(final int flags) {
+        void restore(final int flags) {
             mCheckAtm.setChecked((flags & FLAG_ATM) != 0);
             mCheckGreyhound.setChecked((flags & FLAG_GREYHOUND) != 0);
             mCheckPhotosphere.setChecked((flags & FLAG_PHOTOSPHERE) != 0);
@@ -123,7 +125,7 @@ public class LayersDialog {
             mCheckDefibrillators.setChecked((flags & FLAG_DEFIBRILLATOR) != 0);
         }
 
-        public int save() {
+        int save() {
             int flags = 0;
 
             flags |= mCheckAtm.isChecked() ? FLAG_ATM : 0;

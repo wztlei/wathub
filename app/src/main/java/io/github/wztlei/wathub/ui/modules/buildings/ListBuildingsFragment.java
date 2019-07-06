@@ -37,7 +37,7 @@ public class ListBuildingsFragment extends BaseListModuleFragment<Responses.Buil
 
     @Override
     public String getToolbarTitle() {
-        return getString(R.string.api_maps);
+        return getString(R.string.title_buildings);
     }
 
     @Override

@@ -75,7 +75,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @ColorInt
     protected int getTaskBarColor() {
-        return ResourcesCompat.getColor(getResources(), R.color.uw_yellow, getTheme());
+        return ResourcesCompat.getColor(getResources(), R.color.black, getTheme());
     }
-
 }
