@@ -1,5 +1,7 @@
 package io.github.wztlei.wathub.ui.modules.poi;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import com.deange.uwaterlooapi.model.poi.Helpline;
 import com.deange.uwaterlooapi.model.poi.Library;
 import com.deange.uwaterlooapi.model.poi.Photosphere;
 
+import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.model.CombinedPointsOfInterestInfo;
 import io.github.wztlei.wathub.model.responses.CombinedPointsOfInterestInfoResponse;
@@ -56,8 +59,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 @ModuleFragment(
-        path = "/poi",
-        layout = R.layout.module_poi
+    path = "/poi",
+    layout = R.layout.module_poi
 )
 public class PointsOfInterestFragment
         extends BaseMapFragment<CombinedPointsOfInterestInfoResponse, CombinedPointsOfInterestInfo>
@@ -81,7 +84,8 @@ public class PointsOfInterestFragment
     TextView mDescription;
 
     private CombinedPointsOfInterestInfo mResponse;
-    private int mFlags = 0;
+    private SharedPreferences mSharedPreferences;
+    private int mFlags;
 
     @Override
     protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
@@ -95,6 +99,9 @@ public class PointsOfInterestFragment
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mSharedPreferences = getContext().getSharedPreferences(
+                Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        mFlags = mSharedPreferences.getInt(MapUtils.POI_FLAGS_KEY, MapUtils.DEFAULT_POI_FLAGS);
 
         LayersDialog.showDialog(getContext(), mFlags, this);
         mMapView.getMapAsync(this);
@@ -118,8 +125,12 @@ public class PointsOfInterestFragment
 
     @Override
     public void onLayersSelected(final int flags) {
-        mFlags = flags;
+        // Store the flags in shared preferences
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(MapUtils.POI_FLAGS_KEY, flags);
+        editor.apply();
 
+        mFlags = flags;
         mMapView.getMapAsync(this::showPointsOfInterestInfo);
     }
 
@@ -176,6 +187,7 @@ public class PointsOfInterestFragment
 
     private void showPointsOfInterestInfo(final GoogleMap map) {
         map.clear();
+        map.setMapType(MapUtils.googleMapType(getContext()));
         if (mResponse != null) {
             addMarkersIfEnabled(map, mResponse.getATMs(), LayersDialog.FLAG_ATM);
             addMarkersIfEnabled(map, mResponse.getGreyhounds(), LayersDialog.FLAG_GREYHOUND);
@@ -374,7 +386,8 @@ public class PointsOfInterestFragment
         final int padding = Px.fromDp(16);
 
         map.setIndoorEnabled(false);
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.setBuildingsEnabled(true);
+        map.setMapType(MapUtils.googleMapType(getContext()));
         map.setOnMapClickListener(this);
         map.setOnMarkerClickListener(this);
         map.setOnMapLongClickListener(this);

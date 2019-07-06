@@ -48,6 +48,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.wztlei.wathub.utils.MapUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
 
 public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
@@ -230,7 +231,7 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
         final float[] coordinates = location.getLocation();
         final LatLng latLng = new LatLng(coordinates[0], coordinates[1]);
 
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.setMapType(MapUtils.googleMapType(getContext()));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
         map.getUiSettings().setAllGesturesEnabled(true);
         map.getUiSettings().setMapToolbarEnabled(false);

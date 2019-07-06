@@ -153,6 +153,12 @@
     <string name="poi_layers_libraries">Libraries</string>
     <string name="poi_layers_defibrillators">Defibrillators</string>
 
+    <string-array name="map_types">
+        <item>Satellite</item>
+        <item>Hybrid</item>
+        <item>Road Map</item>
+    </string-array>
+
     <!-- Durations -->
     <string name="duration_instant">Right now</string>
     <string name="duration_until">In</string>

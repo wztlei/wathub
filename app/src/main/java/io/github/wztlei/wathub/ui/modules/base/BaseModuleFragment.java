@@ -468,7 +468,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
                     Thread.sleep(MINIMUM_UPDATE_DURATION);
                 }
             } catch (final Exception e) {
-                Log.e("LoadModuleDataTask", e.getMessage(), e);
+                Log.w("LoadModuleDataTask", e.getMessage(), e);
             }
 
             return null;

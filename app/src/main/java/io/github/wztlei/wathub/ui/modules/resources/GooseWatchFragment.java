@@ -118,8 +118,9 @@ public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, Go
         final int padding = Px.fromDp(16);
 
         map.setIndoorEnabled(false);
+        map.setBuildingsEnabled(true);
         map.setOnMapClickListener(this);
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.setMapType(MapUtils.googleMapType(getContext()));
         map.getUiSettings().setAllGesturesEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
