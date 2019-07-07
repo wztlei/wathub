@@ -19,7 +19,10 @@
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar style="@style/ToolbarStyle" />
+            <android.support.v7.widget.Toolbar
+                style="@style/ToolbarStyle"
+                app:titleTextColor="@color/uw_yellow"
+                app:subtitleTextColor="@color/uw_yellow" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -66,11 +69,6 @@
                 android:layout_height="wrap_content"
                 android:entries="@array/question6" />
 
-            <io.github.wztlei.wathub.ui.view.FaqSection
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/question7" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -79,7 +77,7 @@
             <io.github.wztlei.wathub.ui.view.FaqSection
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/question8" />
+                android:entries="@array/question7" />
 
         </LinearLayout>
 

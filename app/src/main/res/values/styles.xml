@@ -8,6 +8,7 @@
         <item name="drawerArrowStyle">@style/DrawerArrowToggle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!--<item name="alertDialogTheme">@style/AlertDialogTheme</item>-->
 
         <item name="colorPrimary">@color/uw_yellow</item>
         <item name="colorPrimaryDark">@color/uw_yellow_dark</item>
@@ -17,7 +18,7 @@
         <item name="colorControlActivated">@color/uw_accent</item>
     </style>
 
-    <style name="AppTheme" parent="AppCommon"></style>
+    <style name="AppTheme" parent="AppCommon" />
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -53,7 +54,7 @@
 
     <!-- Widget Styles -->
 
-    <style name="AppTheme.Widget" parent="@android:style/Widget"></style>
+    <style name="AppTheme.Widget" parent="@android:style/Widget" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.DeviceDefault.Light.TextView">
         <item name="fontPath">@string/font_book</item>
@@ -61,6 +62,11 @@
 
     <style name="DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/uw_yellow</item>
+        <item name="spinBars">false</item>
+    </style>
+
+    <style name="DrawerArrowToggleBlack" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/black</item>
         <item name="spinBars">false</item>
     </style>
 
@@ -80,6 +86,19 @@
 
     <style name="CardViewStyle" parent="@style/CardView.Light" />
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/uw_yellow</item>
+        <item name="android:textColorPrimary">@color/uw_yellow</item>
+        <item name="android:textColorSecondary">@color/uw_yellow</item>
+    </style>
+
+    <style name="ToolbarThemeYellow" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+
     <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:id">@id/toolbar</item>
         <item name="android:theme">@style/ToolbarTheme</item>
@@ -89,11 +108,13 @@
         <item name="layout_collapseMode">pin</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:backgroundTint">@color/black</item>
-        <item name="android:textColor">@color/uw_yellow</item>
-        <item name="android:textColorPrimary">@color/uw_yellow</item>
-        <item name="android:textColorSecondary">@color/uw_yellow</item>
+    <style name="ToolbarStyleYellow" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:id">@id/toolbar</item>
+        <item name="android:theme">@style/ToolbarThemeYellow</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/uw_yellow</item>
+        <item name="layout_collapseMode">pin</item>
     </style>
 
     <style name="OperatingHoursRow">
@@ -165,6 +186,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_centerVertical">true</item>
+        <!--<item name="android:buttonTint">@color/black</item>-->
     </style>
 
+    <!--<style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">-->
+        <!--<item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>-->
+        <!--<item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>-->
+    <!--</style>-->
+
+    <!--<style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">-->
+        <!--<item name="android:textColor">@color/black</item>-->
+    <!--</style>-->
+
+    <!--<style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">-->
+        <!--<item name="android:textColor">@color/black</item>-->
+    <!--</style>-->
 </resources>

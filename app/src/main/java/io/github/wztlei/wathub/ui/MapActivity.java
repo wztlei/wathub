@@ -122,7 +122,7 @@ public class MapActivity extends BaseActivity implements AdapterView.OnItemSelec
         final LatLng buildingLocation = new LatLng(location[0], location[1]);
         mMapView.getMapAsync(map -> {
             map.clear();
-            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            map.setMapType(MapUtils.googleMapType(getApplicationContext()));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(buildingLocation, 17));
             map.addMarker(new MarkerOptions()
                     .title(buildingName)

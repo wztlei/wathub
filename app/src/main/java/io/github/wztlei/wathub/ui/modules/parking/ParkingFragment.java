@@ -3,6 +3,9 @@ package io.github.wztlei.wathub.ui.modules.parking;
 import android.animation.LayoutTransition;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,6 +20,7 @@ import com.deange.uwaterlooapi.model.parking.ParkingLot;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.Colors;
+import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
@@ -37,12 +41,14 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 @ModuleFragment(
-        path = "/parking/watpark",
-        layout = R.layout.module_parking
+    path = "/parking/watpark",
+    layout = R.layout.module_parking
 )
-public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot> {
+public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot>
+        implements MapTypeDialog.OnMapTypeSelectedListener {
 
-    private static final String TAG = "ParkingFragment";
+    @SuppressWarnings("unused")
+    private static final String TAG = "WL/ParkingFragment";
 
     @BindView(R.id.parking_lot_info)
     ViewGroup mInfoRoot;
@@ -64,6 +70,23 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
     }
 
     @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_poi_layers, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.menu_layers) {
+            MapTypeDialog mapTypeDialog = new MapTypeDialog(getContext(), this);
+            mapTypeDialog.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Call<Responses.Parking> onLoadData(final UWaterlooApi api) {
         return api.Parking.getParkingInfo();
     }
@@ -71,65 +94,12 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
     @Override
     public void onBindData(final Metadata metadata, final List<ParkingLot> data) {
         mResponse = data;
-
-        for (final ParkingLot parkingLot : mResponse) {
-            final String lotName = parkingLot.getLotName();
-        }
-
         mMapView.getMapAsync(this::showLotInfo);
     }
 
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_parking);
-    }
-
-    private void showLotInfo(final GoogleMap map) {
-        redrawPolygons(map);
-
-        final LatLngBounds.Builder builder = LatLngBounds.builder();
-        for (final ParkingLot parkingLot : mResponse) {
-            final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
-            for (final LatLng point : points) {
-                builder.include(point);
-            }
-        }
-        final LatLngBounds bounds = builder.build();
-        final int padding = Px.fromDp(16);
-
-        map.setIndoorEnabled(false);
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        map.setOnMapClickListener(this);
-        map.setOnMapLongClickListener(this);
-        map.getUiSettings().setAllGesturesEnabled(true);
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
-
-        MapUtils.setLocationEnabled(getActivity(), map);
-    }
-
-    private void redrawPolygons(final GoogleMap map) {
-        map.clear();
-
-        for (final ParkingLot parkingLot : mResponse) {
-            final PolygonOptions polygon = ParkingLots.getShape(parkingLot.getLotName());
-
-            final float taken = parkingLot.getPercentFilled();
-            if (taken < 0.75f) {
-                polygon.fillColor(Colors.mask(0x80, Colors.GREEN_500));
-            } else if (taken < 0.90f) {
-                polygon.fillColor(Colors.mask(0x80, Colors.YELLOW_500));
-            } else {
-                polygon.fillColor(Colors.mask(0x80, Colors.RED_500));
-            }
-
-            polygon.strokeColor(parkingLot == mSelected
-                    ? Colors.mask(0xFF, mPrimaryColor)
-                    : Colors.mask(0xFF, Color.BLACK)
-            );
-
-            map.addPolygon(polygon);
-        }
     }
 
     @Override
@@ -163,6 +133,63 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
         // No parking lot clicked on
         if (!found) {
             hideInfoView();
+        }
+    }
+
+    @Override
+    public void onMapTypeSelected() {
+        mMapView.getMapAsync(this::showLotInfo);
+    }
+
+    private void showLotInfo(final GoogleMap map) {
+        redrawPolygons(map);
+
+        final LatLngBounds.Builder builder = LatLngBounds.builder();
+
+        for (final ParkingLot parkingLot : mResponse) {
+            final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
+            for (final LatLng point : points) {
+                builder.include(point);
+            }
+        }
+
+        final LatLngBounds bounds = builder.build();
+        final int padding = Px.fromDp(16);
+
+        // Set the appearance of the map
+        map.setIndoorEnabled(false);
+        map.setBuildingsEnabled(true);
+        map.setMapType(MapUtils.googleMapType(getContext()));
+        map.setOnMapClickListener(this);
+        map.setOnMapLongClickListener(this);
+        map.getUiSettings().setAllGesturesEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+
+        MapUtils.setLocationEnabled(getActivity(), map);
+    }
+
+    private void redrawPolygons(final GoogleMap map) {
+        map.clear();
+
+        for (final ParkingLot parkingLot : mResponse) {
+            final PolygonOptions polygon = ParkingLots.getShape(parkingLot.getLotName());
+
+            final float taken = parkingLot.getPercentFilled();
+            if (taken < 0.75f) {
+                polygon.fillColor(Colors.mask(0x80, Colors.GREEN_500));
+            } else if (taken < 0.90f) {
+                polygon.fillColor(Colors.mask(0x80, Colors.YELLOW_500));
+            } else {
+                polygon.fillColor(Colors.mask(0x80, Colors.RED_500));
+            }
+
+            polygon.strokeColor(parkingLot == mSelected
+                    ? Colors.mask(0xFF, mPrimaryColor)
+                    : Colors.mask(0xFF, Color.BLACK)
+            );
+
+            map.addPolygon(polygon);
         }
     }
 

@@ -2,6 +2,7 @@ package io.github.wztlei.wathub.ui.modules.base;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -51,6 +52,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
     private static final String KEY_MODEL = "model";
     private static final String KEY_RESPONSE = "response";
     private static final String KEY_LAST_UPDATED = "last_updated";
+    private static final String TAG = "WL/BaseModuleFragment";
 
     private long mLastUpdate = 0;
     private ViewGroup mLoadingLayout;
@@ -278,10 +280,13 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
             mLoadingAnimator.cancel();
         }
         mLoadingAnimator = getVisibilityAnimator(mLoadingLayout, show);
-        mLoadingAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        mLoadingAnimator.setDuration(ANIMATION_DURATION);
-        mLoadingAnimator.addListener(listener);
-        mLoadingAnimator.start();
+
+        if (mLoadingAnimator != null) {
+            mLoadingAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            mLoadingAnimator.setDuration(ANIMATION_DURATION);
+            mLoadingAnimator.addListener(listener);
+            mLoadingAnimator.start();
+        }
     }
 
     private Animator getVisibilityAnimator(final View view, final boolean show) {
@@ -291,8 +296,13 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
         final int centerX = (view.getLeft() + view.getRight()) / 2;
         final int centerY = (view.getTop() + view.getBottom()) / 2;
 
-        return ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius,
-                finalRadius);
+        try {
+            return ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius,
+                    finalRadius);
+        } catch (IllegalStateException e) {
+            Log.e(TAG, e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -348,7 +358,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
         final boolean connected = NetworkController.getInstance().isConnected();
 
         final Animator animator = getVisibilityAnimator(mNetworkLayout, !connected);
-        if (!connected && mNetworkLayout.getVisibility() == View.INVISIBLE) {
+        if (animator != null && !connected && mNetworkLayout.getVisibility() == View.INVISIBLE) {
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(final Animator animation) {
@@ -358,7 +368,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
 
             animator.start();
 
-        } else if (connected && mNetworkLayout.getVisibility() == View.VISIBLE) {
+        } else if (animator != null && connected && mNetworkLayout.getVisibility() == View.VISIBLE) {
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(final Animator animation) {
@@ -468,7 +478,7 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
                     Thread.sleep(MINIMUM_UPDATE_DURATION);
                 }
             } catch (final Exception e) {
-                Log.e("LoadModuleDataTask", e.getMessage(), e);
+                Log.w("LoadModuleDataTask", e.getMessage(), e);
             }
 
             return null;
@@ -486,6 +496,5 @@ public abstract class BaseModuleFragment<T extends Parcelable, V extends Abstrac
 
             deliverResponse(data);
         }
-
     }
 }

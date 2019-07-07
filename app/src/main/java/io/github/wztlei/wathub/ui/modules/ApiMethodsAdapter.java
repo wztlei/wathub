@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.deange.uwaterlooapi.annotations.ModuleInfo;
-import com.deange.uwaterlooapi.annotations.ModuleMap;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;

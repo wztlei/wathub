@@ -1,7 +1,11 @@
 package io.github.wztlei.wathub.ui.modules.buildings;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,18 +17,22 @@ import com.deange.uwaterlooapi.model.common.Responses;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.MapActivity;
+import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
+import io.github.wztlei.wathub.utils.MapUtils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @ModuleFragment(path = "/buildings/*")
-public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, Building> {
+public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, Building>
+        implements MapTypeDialog.OnMapTypeSelectedListener {
 
     public static final String TAG = BuildingFragment.class.getSimpleName();
 
@@ -42,6 +50,23 @@ public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, 
         ButterKnife.bind(this, root);
 
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_poi_layers, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.menu_layers) {
+            MapTypeDialog mapTypeDialog = new MapTypeDialog(getContext(), this);
+            mapTypeDialog.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -77,6 +102,11 @@ public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, 
         }
     }
 
+    @Override
+    public void onMapTypeSelected() {
+        mMapView.getMapAsync(this::showLocation);
+    }
+
     private void showLocation(final GoogleMap map) {
         if (mBuilding == null) {
             return;
@@ -96,11 +126,13 @@ public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, 
 
             map.clear();
             map.setIndoorEnabled(false);
+            map.setBuildingsEnabled(true);
             map.setOnMapClickListener(this);
-            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            map.setMapType(MapUtils.googleMapType(getContext()));
             map.getUiSettings().setAllGesturesEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(false);
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(buildingLocation, 18));
+            map.addMarker(new MarkerOptions().position(buildingLocation));
         }
     }
 

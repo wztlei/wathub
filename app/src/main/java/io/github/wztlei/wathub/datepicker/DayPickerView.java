@@ -49,7 +49,7 @@ public class DayPickerView extends ListView implements OnScrollListener,
     // How long to wait after receiving an onScrollStateChanged notification
     // before acting on it
     protected static final int SCROLL_CHANGE_DELAY = 40;
-    private static final String TAG = "MonthFragment";
+    private static final String TAG = "WL/MonthFragment";
     public static int LIST_TOP_OFFSET = -1; // so that the top line will be
     private static SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy", Locale.getDefault());
     private static float mScale = 0;

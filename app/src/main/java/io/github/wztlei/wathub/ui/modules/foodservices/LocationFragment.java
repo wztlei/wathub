@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -48,6 +50,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.wztlei.wathub.utils.MapUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
 
 public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
@@ -160,27 +163,25 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
             }
         }
 
-        do {
-            // Handle bold status of the current time range (if any)
-            final Date now = new Date();
+        // Handle bold status of the current time range (if any)
+        final Date now = new Date();
 
-            for (int i = 0; i < datesClosed.size(); i++) {
-                if (datesClosed.get(i).contains(now)) {
-                    boldClosedDay(i);
-                    break;
-                }
+        for (int i = 0; i < datesClosed.size(); i++) {
+            if (datesClosed.get(i).contains(now)) {
+                boldClosedDay(i);
+                break;
             }
+        }
 
-            for (final Location.SpecialRange specialRange : specialHours) {
-                if (specialRange.contains(now)) {
-                    mSpecialHoursView.bold(specialRange.formatDate());
-                    break;
-                }
+        for (final Location.SpecialRange specialRange : specialHours) {
+            if (specialRange.contains(now)) {
+                mSpecialHoursView.bold(specialRange.formatDate());
+                break;
             }
+        }
 
-            // Fallback to default bold if closed/special cases do not apply
-            mWeekHoursView.setTodayBold();
-        } while (false);
+        // Fallback to default bold if closed/special cases do not apply
+        mWeekHoursView.setTodayBold();
     }
 
     private void boldClosedDay(final int field) {
@@ -200,10 +201,8 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
             end = text.length();
         }
 
-        final Typeface boldFont = FontUtils.getFont(FontUtils.MEDIUM);
-
         final SpannableString ss = new SpannableString(text);
-        ss.setSpan(new CalligraphyTypefaceSpan(boldFont), start, end, 0);
+        ss.setSpan(null, start, end, 0);
         mClosedDays.setText(ss);
     }
 
@@ -231,6 +230,7 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
         final LatLng latLng = new LatLng(coordinates[0], coordinates[1]);
 
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.setIndoorEnabled(false);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
         map.getUiSettings().setAllGesturesEnabled(true);
         map.getUiSettings().setMapToolbarEnabled(false);
