@@ -34,7 +34,7 @@ import retrofit2.Call;
 @ModuleFragment(path = "/news/*/*")
 public class NewsFragment extends BaseModuleFragment<Responses.NewsEntity, NewsArticle> {
 
-    private static final String TAG = "NewsFragment";
+    private static final String TAG = "WL/NewsFragment";
 
     private NewsArticle mNewsArticle;
 

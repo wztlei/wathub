@@ -201,10 +201,8 @@ public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
             end = text.length();
         }
 
-        final Typeface boldFont = FontUtils.getFont(FontUtils.MEDIUM);
-
         final SpannableString ss = new SpannableString(text);
-        ss.setSpan(new CalligraphyTypefaceSpan(boldFont), start, end, 0);
+        ss.setSpan(null, start, end, 0);
         mClosedDays.setText(ss);
     }
 

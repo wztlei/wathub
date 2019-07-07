@@ -1,5 +1,6 @@
 package io.github.wztlei.wathub.ui.modules;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -24,12 +25,11 @@ import io.github.wztlei.wathub.utils.FontUtils;
 
 public class ModuleHostActivity extends BaseActivity implements FragmentManager.OnBackStackChangedListener {
 
-    private static final String TAG = "module_fragment";
+    private static final String TAG = "WL/module_fragment";
     private static final String ARG_FRAGMENT_CLASS = "fragment_class";
 
     private UWaterlooApi mApi;
     private BaseModuleFragment mChildFragment;
-    private Toolbar mToolbar;
 
     public static <T extends BaseModuleFragment> Intent getStartIntent(
             final Context context,
@@ -51,6 +51,7 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
         return intent;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void startActivityForResult(
             final Intent intent,
@@ -72,8 +73,8 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
         mApi = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
         mApi.setWatcardCredentials(WatcardManager.getInstance().getCredentials());
 
-        mToolbar = getToolbar();
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = getToolbar();
+        setSupportActionBar(toolbar);
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         mChildFragment = findContentFragment();

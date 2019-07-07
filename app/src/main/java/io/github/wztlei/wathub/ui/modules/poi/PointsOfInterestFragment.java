@@ -69,7 +69,7 @@ public class PointsOfInterestFragment
         LayersDialog.OnLayersSelectedListener,
         OnMapReadyCallback {
 
-    private static final String TAG = "PointsOfInterest";
+    private static final String TAG = "WL/PointsOfInterest";
 
     private static final int BEST_SIZE = Runtime.getRuntime().availableProcessors() * 2 - 1;
     private static final Executor EXECUTOR = Executors.newFixedThreadPool(BEST_SIZE);

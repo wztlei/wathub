@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,24 +110,24 @@ class LayersDialog {
         }
 
         @OnClick({
-                R.id.poi_layers_atm_label,
-                R.id.poi_layers_greyhound_label,
-                R.id.poi_layers_photosphere_label,
-                R.id.poi_layers_helplines_label,
-                R.id.poi_layers_libraries_label,
-                R.id.poi_layers_defibrillators_label,
+            R.id.poi_layers_atm_label,
+            R.id.poi_layers_greyhound_label,
+            R.id.poi_layers_photosphere_label,
+            R.id.poi_layers_helplines_label,
+            R.id.poi_layers_libraries_label,
+            R.id.poi_layers_defibrillators_label,
         })
         void onAtmLabelClicked(final View view) {
             ((CheckBox) ((ViewGroup) view.getParent()).getChildAt(1)).toggle();
         }
 
         @OnCheckedChanged({
-                R.id.poi_layers_atm_check,
-                R.id.poi_layers_greyhound_check,
-                R.id.poi_layers_photosphere_check,
-                R.id.poi_layers_helplines_check,
-                R.id.poi_layers_libraries_check,
-                R.id.poi_layers_defibrillators_check,
+            R.id.poi_layers_atm_check,
+            R.id.poi_layers_greyhound_check,
+            R.id.poi_layers_photosphere_check,
+            R.id.poi_layers_helplines_check,
+            R.id.poi_layers_libraries_check,
+            R.id.poi_layers_defibrillators_check,
         })
         void onLayerToggled() {
             mSelectAllButton.setText((save() == FLAG_ALL)

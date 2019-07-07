@@ -42,7 +42,7 @@ public class YearPickerView
         extends ListView
         implements OnItemClickListener,
         DatePickerDialog.OnDateChangedListener {
-    private static final String TAG = "YearPickerView";
+    private static final String TAG = "WL/YearPickerView";
 
     private final DatePickerController mController;
     private YearAdapter mAdapter;

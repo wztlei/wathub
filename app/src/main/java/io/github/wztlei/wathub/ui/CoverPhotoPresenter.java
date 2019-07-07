@@ -16,7 +16,7 @@ import retrofit2.Response;
 
 public final class CoverPhotoPresenter {
 
-    private static final String TAG = "CoverPhotoPresenter";
+    private static final String TAG = "WL/CoverPhotoPresenter";
 
     private static final FlickrApi API = new FlickrApi(Constants.FLICKR_API_KEY);
     private static final Random sRandom = new Random();

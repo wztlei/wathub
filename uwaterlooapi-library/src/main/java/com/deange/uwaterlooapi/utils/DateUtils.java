@@ -13,7 +13,7 @@ import java.util.Locale;
 
 public final class DateUtils {
 
-  private static final String TAG = "DateUtils";
+  private static final String TAG = "WL/DateUtils";
 
   public static final List<String> MONTHS = Arrays.asList(
       "January",
