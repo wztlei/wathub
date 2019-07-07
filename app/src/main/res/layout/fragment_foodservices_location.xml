@@ -21,7 +21,7 @@
             app:expandedTitleMargin="16dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="?colorPrimary">
+            app:statusBarScrim="?colorPrimary" >
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/list_location_map_view"
@@ -46,7 +46,7 @@
                 android:fitsSystemWindows="true" />
 
             <android.support.v7.widget.Toolbar
-                style="@style/ToolbarStyle"
+                style="@style/ToolbarStyleYellow"
                 android:background="@null" />
 
         </android.support.design.widget.CollapsingToolbarLayout>

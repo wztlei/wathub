@@ -3,6 +3,9 @@ package io.github.wztlei.wathub.ui.modules.parking;
 import android.animation.LayoutTransition;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,6 +20,7 @@ import com.deange.uwaterlooapi.model.parking.ParkingLot;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.Colors;
+import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
@@ -40,7 +44,8 @@ import retrofit2.Call;
     path = "/parking/watpark",
     layout = R.layout.module_parking
 )
-public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot> {
+public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot>
+        implements MapTypeDialog.OnMapTypeSelectedListener {
 
     @SuppressWarnings("unused")
     private static final String TAG = "WL/ParkingFragment";
@@ -65,6 +70,23 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
     }
 
     @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_poi_layers, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.menu_layers) {
+            MapTypeDialog mapTypeDialog = new MapTypeDialog(getContext(), this);
+            mapTypeDialog.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Call<Responses.Parking> onLoadData(final UWaterlooApi api) {
         return api.Parking.getParkingInfo();
     }
@@ -78,6 +100,45 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_parking);
+    }
+
+    @Override
+    protected void onRefreshRequested() {
+        hideInfoView();
+    }
+
+    @Override
+    public void onMapLongClick(final LatLng latLng) {
+        onMapClick(latLng);
+    }
+
+    @Override
+    public void onMapClick(final LatLng latLng) {
+        boolean found = false;
+        final float py = (float) latLng.latitude;
+        final float px = (float) latLng.longitude;
+
+        mSelected = null;
+        for (final ParkingLot parkingLot : mResponse) {
+            final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
+            if (!found && ParkingLots.isInPoly(px, py, points)) {
+                mSelected = parkingLot;
+                onParkingLotInfoRequested(parkingLot);
+                found = true;
+            }
+        }
+
+        mMapView.getMapAsync(this::redrawPolygons);
+
+        // No parking lot clicked on
+        if (!found) {
+            hideInfoView();
+        }
+    }
+
+    @Override
+    public void onMapTypeSelected() {
+        mMapView.getMapAsync(this::showLotInfo);
     }
 
     private void showLotInfo(final GoogleMap map) {
@@ -129,40 +190,6 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
             );
 
             map.addPolygon(polygon);
-        }
-    }
-
-    @Override
-    protected void onRefreshRequested() {
-        hideInfoView();
-    }
-
-    @Override
-    public void onMapLongClick(final LatLng latLng) {
-        onMapClick(latLng);
-    }
-
-    @Override
-    public void onMapClick(final LatLng latLng) {
-        boolean found = false;
-        final float py = (float) latLng.latitude;
-        final float px = (float) latLng.longitude;
-
-        mSelected = null;
-        for (final ParkingLot parkingLot : mResponse) {
-            final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
-            if (!found && ParkingLots.isInPoly(px, py, points)) {
-                mSelected = parkingLot;
-                onParkingLotInfoRequested(parkingLot);
-                found = true;
-            }
-        }
-
-        mMapView.getMapAsync(this::redrawPolygons);
-
-        // No parking lot clicked on
-        if (!found) {
-            hideInfoView();
         }
     }
 
