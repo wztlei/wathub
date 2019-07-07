@@ -4,6 +4,9 @@ package io.github.wztlei.wathub.ui.modules.resources;
 import android.animation.LayoutTransition;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,6 +20,7 @@ import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.resources.GooseNest;
 
 import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
@@ -42,7 +46,7 @@ import retrofit2.Call;
         layout = R.layout.module_resources_goosewatch
 )
 public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, GooseNest>
-        implements GoogleMap.OnMarkerClickListener {
+        implements GoogleMap.OnMarkerClickListener, MapTypeDialog.OnMapTypeSelectedListener {
 
     public static final String TAG = GooseWatchFragment.class.getSimpleName();
 
@@ -68,6 +72,23 @@ public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, Go
     }
 
     @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_poi_layers, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.menu_layers) {
+            MapTypeDialog mapTypeDialog = new MapTypeDialog(getContext(), this);
+            mapTypeDialog.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Call<Responses.GooseWatch> onLoadData(final UWaterlooApi api) {
         return api.Resources.getGeeseNests();
     }
@@ -75,7 +96,6 @@ public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, Go
     @Override
     public void onBindData(final Metadata metadata, final List<GooseNest> data) {
         mResponse = data;
-
         mMapView.getMapAsync(this::showNests);
     }
 
@@ -87,6 +107,11 @@ public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, Go
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_resources_goosewatch);
+    }
+
+    @Override
+    public void onMapTypeSelected() {
+        mMapView.getMapAsync(this::showNests);
     }
 
     private void showNests(final GoogleMap map) {

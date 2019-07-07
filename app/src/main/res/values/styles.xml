@@ -65,6 +65,11 @@
         <item name="spinBars">false</item>
     </style>
 
+    <style name="DrawerArrowToggleBlack" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/black</item>
+        <item name="spinBars">false</item>
+    </style>
+
     <style name="CardListView">
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
@@ -81,6 +86,19 @@
 
     <style name="CardViewStyle" parent="@style/CardView.Light" />
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/uw_yellow</item>
+        <item name="android:textColorPrimary">@color/uw_yellow</item>
+        <item name="android:textColorSecondary">@color/uw_yellow</item>
+    </style>
+
+    <style name="ToolbarThemeYellow" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+
     <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:id">@id/toolbar</item>
         <item name="android:theme">@style/ToolbarTheme</item>
@@ -90,11 +108,13 @@
         <item name="layout_collapseMode">pin</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:backgroundTint">@color/black</item>
-        <item name="android:textColor">@color/uw_yellow</item>
-        <item name="android:textColorPrimary">@color/uw_yellow</item>
-        <item name="android:textColorSecondary">@color/uw_yellow</item>
+    <style name="ToolbarStyleYellow" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:id">@id/toolbar</item>
+        <item name="android:theme">@style/ToolbarThemeYellow</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/uw_yellow</item>
+        <item name="layout_collapseMode">pin</item>
     </style>
 
     <style name="OperatingHoursRow">
