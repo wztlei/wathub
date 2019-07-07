@@ -1,7 +1,8 @@
-package io.github.wztlei.wathub.utils;
+package io.github.wztlei.wathub.ui.modules;
 
 import com.deange.uwaterlooapi.annotations.ModuleInfo;
 
+import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.buildings.BuildingFragment;
 import io.github.wztlei.wathub.ui.modules.buildings.ListBuildingsFragment;
 import io.github.wztlei.wathub.ui.modules.courses.CoursesFragment;
@@ -24,7 +25,7 @@ import java.lang.String;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ModuleMap {
+final class ModuleMap {
     private static final Map<String, ModuleInfo> sEndpoints = new HashMap<>();
 
     static {
@@ -32,56 +33,55 @@ public final class ModuleMap {
                 new ModuleInfo(BuildingFragment.class, 0));
 
         sEndpoints.put("/buildings/list",
-                new ModuleInfo(ListBuildingsFragment.class, 2131427414));
+                new ModuleInfo(ListBuildingsFragment.class, R.layout.module_buildings));
 
         sEndpoints.put("/courses/*",
-                new ModuleInfo(CoursesFragment.class, 2131427415));
+                new ModuleInfo(CoursesFragment.class, R.layout.module_courses));
 
         sEndpoints.put("/events/*/*",
                 new ModuleInfo(EventFragment.class, 0));
 
         sEndpoints.put("/events",
-                new ModuleInfo(EventsFragment.class, 2131427416));
+                new ModuleInfo(EventsFragment.class, R.layout.module_events));
 
         sEndpoints.put("/foodservices/announcements",
-                new ModuleInfo(AnnouncementsFragment.class, 2131427417));
+                new ModuleInfo(AnnouncementsFragment.class, R.layout.module_foodservices_announcements));
 
         sEndpoints.put("/foodservices/locations",
-                new ModuleInfo(LocationsFragment.class, 2131427418));
+                new ModuleInfo(LocationsFragment.class, R.layout.module_foodservices_locations));
 
         sEndpoints.put("/foodservices/menu",
-                new ModuleInfo(MenusFragment.class, 2131427419));
+                new ModuleInfo(MenusFragment.class, R.layout.module_foodservices_menus));
 
         sEndpoints.put("/foodservices/notes",
-                new ModuleInfo(NotesFragment.class, 2131427420));
+                new ModuleInfo(NotesFragment.class, R.layout.module_foodservices_notes));
 
         sEndpoints.put("/news/*/*",
                 new ModuleInfo(NewsFragment.class, 0));
 
         sEndpoints.put("/news",
-                new ModuleInfo(NewsListFragment.class, 2131427422));
+                new ModuleInfo(NewsListFragment.class, R.layout.module_news));
 
         sEndpoints.put("/parking/watpark",
-                new ModuleInfo(ParkingFragment.class, 2131427423));
+                new ModuleInfo(ParkingFragment.class, R.layout.module_parking));
 
         sEndpoints.put("/poi",
-                new ModuleInfo(PointsOfInterestFragment.class, 2131427424));
+                new ModuleInfo(PointsOfInterestFragment.class, R.layout.module_poi));
 
         sEndpoints.put("/resources/goosewatch",
-                new ModuleInfo(GooseWatchFragment.class, 2131427425));
+                new ModuleInfo(GooseWatchFragment.class, R.layout.module_resources_goosewatch));
 
         sEndpoints.put("/resources/sites",
-                new ModuleInfo(SitesFragment.class, 2131427426));
+                new ModuleInfo(SitesFragment.class, R.layout.module_resources_sites));
 
         sEndpoints.put("/resources/sunshinelist",
-                new ModuleInfo(SunshineListFragment.class, 2131427427));
+                new ModuleInfo(SunshineListFragment.class, R.layout.module_resources_sunshine));
 
         sEndpoints.put("/watcard/balance",
-                new ModuleInfo(WatcardBalanceFragment.class, 2131427428));
+                new ModuleInfo(WatcardBalanceFragment.class, R.layout.module_watcard_balance));
 
         sEndpoints.put("/weather/current",
-                new ModuleInfo(WeatherFragment.class, 2131427429));
-
+                new ModuleInfo(WeatherFragment.class, R.layout.module_weather));
     }
 
     public static ModuleInfo getFragmentInfo(final String endpoint) {

@@ -106,7 +106,7 @@ public class SimpleMonthView extends View {
     protected static final int DEFAULT_FOCUS_MONTH = -1;
     protected static final int DEFAULT_NUM_ROWS = 6;
     protected static final int MAX_NUM_ROWS = 6;
-    private static final String TAG = "SimpleMonthView";
+    private static final String TAG = "WL/SimpleMonthView";
     private static final int SELECTED_CIRCLE_ALPHA = 255;
     protected static int FULL_ROW_OFFSET;
     protected static int DEFAULT_HEIGHT = 32;

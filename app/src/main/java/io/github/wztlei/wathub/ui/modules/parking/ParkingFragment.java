@@ -37,12 +37,13 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 @ModuleFragment(
-        path = "/parking/watpark",
-        layout = R.layout.module_parking
+    path = "/parking/watpark",
+    layout = R.layout.module_parking
 )
 public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot> {
 
-    private static final String TAG = "ParkingFragment";
+    @SuppressWarnings("unused")
+    private static final String TAG = "WL/ParkingFragment";
 
     @BindView(R.id.parking_lot_info)
     ViewGroup mInfoRoot;
@@ -71,11 +72,6 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
     @Override
     public void onBindData(final Metadata metadata, final List<ParkingLot> data) {
         mResponse = data;
-
-        for (final ParkingLot parkingLot : mResponse) {
-            final String lotName = parkingLot.getLotName();
-        }
-
         mMapView.getMapAsync(this::showLotInfo);
     }
 
@@ -88,15 +84,18 @@ public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingL
         redrawPolygons(map);
 
         final LatLngBounds.Builder builder = LatLngBounds.builder();
+
         for (final ParkingLot parkingLot : mResponse) {
             final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
             for (final LatLng point : points) {
                 builder.include(point);
             }
         }
+
         final LatLngBounds bounds = builder.build();
         final int padding = Px.fromDp(16);
 
+        // Set the appearance of the map
         map.setIndoorEnabled(false);
         map.setBuildingsEnabled(true);
         map.setMapType(MapUtils.googleMapType(getContext()));

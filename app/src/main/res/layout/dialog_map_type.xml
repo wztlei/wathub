@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map_type_radio_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="24dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <RadioButton
+        android:id="@+id/satellite_radio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/map_type_satellite"
+        android:textSize="16sp"
+        android:layout_marginBottom="2dp" />
+
+    <RadioButton
+        android:id="@+id/hybrid_radio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/map_type_hybrid"
+        android:textSize="16sp"
+        android:layout_marginBottom="2dp" />
+
+    <RadioButton
+        android:id="@+id/road_map_radio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/map_type_road_map"
+        android:textSize="16sp" />
+</RadioGroup>
+

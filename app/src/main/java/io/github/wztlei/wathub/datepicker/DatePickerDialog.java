@@ -56,7 +56,7 @@ import java.util.TimeZone;
 public class DatePickerDialog extends DialogFragment
         implements OnClickListener, DatePickerController {
 
-    private static final String TAG = "DatePickerDialog";
+    private static final String TAG = "WL/DatePickerDialog";
 
     private static final int UNINITIALIZED = -1;
     private static final int MONTH_AND_DAY_VIEW = 0;

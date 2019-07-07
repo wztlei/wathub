@@ -10,7 +10,6 @@ import com.deange.uwaterlooapi.annotations.ModuleInfo;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
-import io.github.wztlei.wathub.utils.ModuleMap;
 
 public class ApiMethodsAdapter extends ArrayAdapter<String> implements View.OnClickListener {
 

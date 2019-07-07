@@ -33,7 +33,7 @@ import java.util.HashMap;
 public class SimpleMonthAdapter extends BaseAdapter implements SimpleMonthView.OnDayClickListener {
 
     protected static final int MONTHS_IN_YEAR = 12;
-    private static final String TAG = "SimpleMonthAdapter";
+    private static final String TAG = "WL/SimpleMonthAdapter";
     protected static int WEEK_7_OVERHANG_HEIGHT = 7;
     private final Context mContext;
     private final DatePickerController mController;
