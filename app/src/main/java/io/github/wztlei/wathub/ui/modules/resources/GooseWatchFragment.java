@@ -42,8 +42,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 @ModuleFragment(
-        path = "/resources/goosewatch",
-        layout = R.layout.module_resources_goosewatch
+    path = "/resources/goosewatch",
+    layout = R.layout.module_resources_goosewatch
 )
 public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, GooseNest>
         implements GoogleMap.OnMarkerClickListener, MapTypeDialog.OnMapTypeSelectedListener {
