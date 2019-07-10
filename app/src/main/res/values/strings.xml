@@ -7,6 +7,7 @@
     <string name="api_foodservices">Food Services</string>
     <string name="api_watcard">WatCard</string>
     <string name="api_courses">Courses</string>
+    <string name="api_ci">Campus Information</string>
     <string name="api_maps">Maps</string>
     <!-- update "Maps" to "Campus Information" ; change below  -->
     <string name="api_ci">Campus Information</string>
@@ -255,6 +256,9 @@
         <item>"App Version"</item>
         <item>@string/app_version_name</item>
     </string-array>
+
+    <!-- Feedback -->
+
 
     <!-- General -->
     <string name="and">and</string>

@@ -17,7 +17,7 @@
   "weather": [
     "/weather/current"
   ],
-  "maps": [
+  "Campus Information": [
     "/poi",
     "/buildings/list",
     "/parking/watpark",
