@@ -1,4 +1,4 @@
-This source code is distributed under the MIT License:
+<p>This source code is distributed under the MIT License:
 Copyright (c) 2019 William Lei
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,10 +17,10 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-
-This project includes code from the uwaterloo-api repository: 
+THE SOFTWARE. 
+</p>
+<br/>
+<p>This project includes code from the uwaterloo-api repository: 
 Copyright (c) 2017 Christian De Angelis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -40,3 +40,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+</p>
