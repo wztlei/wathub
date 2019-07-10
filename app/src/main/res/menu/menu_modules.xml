@@ -50,6 +50,12 @@
             android:id="@+id/menu_item_about"
             android:icon="@drawable/ic_info_outline"
             android:title="@string/menu_about" />
+<!--
+        <item
+            android:id="@+id/menu_item_feedback"
+            android:icon="@drawable/........"
+            android:title="Feedback" />
+            -->
 
     </group>
 

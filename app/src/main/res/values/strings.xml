@@ -255,6 +255,9 @@
         <item>@string/app_version_name</item>
     </string-array>
 
+    <!-- Feedback -->
+
+
     <!-- General -->
     <string name="and">and</string>
     <string name="open_in_browser">Open in browser</string>
