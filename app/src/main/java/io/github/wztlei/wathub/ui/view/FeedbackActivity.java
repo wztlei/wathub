@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.*;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,12 +30,35 @@ public class FeedbackActivity extends BaseActivity {
     private EditText feedbackinput;
     private EditText feedbackemail;
 
-
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+        // create a feedback xml page
+
+        // add feedback is in xml under activity_feedback
+        feedbackname = (EditText) findViewById(R.id.feedback_name);
+        feedbackinput = (EditText) findViewById(R.id.feedback_input);
+        feedbackemail = (EditText) findViewById(R.id.feedback_email);
+
+        // create a feedback button
+        findViewById(R.id.fb_submit).setOnClickListener(
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        checkInput();
+                    }
+                }
+        );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void checkInput() {
@@ -43,10 +67,21 @@ public class FeedbackActivity extends BaseActivity {
             Toast.makeText(FeedbackActivity.this, "Please fill feedback!", Toast.LENGTH_LONG);
         }
         else {
-            checkName();
+            checkRest();
         }
     }
 
+    private void checkRest() {
+        if (feedbackname.getText().toString().trim().length() == 0) {
+            feedbackname.setText("Null Name");
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(feedbackemail.getText()).matches()) {
+            feedbackemail.setText("Null Email");
+        }
+        sendout();
+    }
+
+    /*
     private void checkName() {
         if (feedbackname.getText().toString().trim().length() == 0) {
             feedbackname.setText("Null Name");
@@ -66,6 +101,7 @@ public class FeedbackActivity extends BaseActivity {
             sendout();
         }
     }
+    */
 
     private void sendout() {
 
@@ -77,10 +113,24 @@ public class FeedbackActivity extends BaseActivity {
         String name = feedbackname.getText().toString();
         String email = feedbackemail.getText().toString();
 
-        final feedbacksendout fbout = retrofit.create(feedbacksendout.class);
+        final feedbacksendout fbout = rf.create(feedbacksendout.class);
 
-        Call<Void> fbcall = fbout.feedbacksendout()
+        Call<Void> fbcall = fbout.fbSend(input, name, email);
+        fbcall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                //Log.d("XXX", "Submitted. " + response);
+                Toast.makeText(FeedbackActivity.this,"Feedback Submitted!",Toast.LENGTH_LONG).show();
+                feedbackinput.setText("");
+                feedbackname.setText("");
+                feedbackemail.setText("");
+            }
 
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                //Log.e("XXX", "Failed", t);
+                Toast.makeText(FeedbackActivity.this,"Failed.",Toast.LENGTH_LONG).show();
+            }}
+        );
     }
-
 }
