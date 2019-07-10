@@ -51,6 +51,7 @@ captures/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+*google-services*
 
 # Freeline
 freeline.py
@@ -67,6 +68,8 @@ fastlane/readme.md
 # API Keys
 **/CustomBuildConfig.java
 **/Constants.java
+*BuildConfig*
+*Constants*
 
 # Configuration files
 /*.properties
