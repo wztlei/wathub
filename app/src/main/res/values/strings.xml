@@ -7,6 +7,7 @@
     <string name="api_foodservices">Food Services</string>
     <string name="api_watcard">WatCard</string>
     <string name="api_courses">Courses</string>
+    <string name="api_ci">Campus Information</string>
     <string name="api_maps">Maps</string>
     <string name="api_news">News</string>
     <string name="api_weather">Weather</string>
