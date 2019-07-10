@@ -1,5 +1,5 @@
-<p>This source code is distributed under the MIT License:
-Copyright (c) 2019 William Lei
+<p><b>This source code is distributed under the MIT License:
+  Copyright (c) 2019 William Lei</b>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. 
 </p>
 <br/>
-<p>This project includes code from the uwaterloo-api repository: 
-Copyright (c) 2017 Christian De Angelis
+<p><b>This project includes code from the uwaterloo-api repository: 
+  Copyright (c) 2017 Christian De Angelis</b>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
