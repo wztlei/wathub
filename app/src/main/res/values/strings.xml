@@ -9,8 +9,6 @@
     <string name="api_courses">Courses</string>
     <string name="api_ci">Campus Information</string>
     <string name="api_maps">Maps</string>
-    <!-- update "Maps" to "Campus Information" ; change below  -->
-    <string name="api_ci">Campus Information</string>
     <string name="api_news">News</string>
     <string name="api_weather">Weather</string>
     <string name="api_resources">Resources</string>
