@@ -283,5 +283,6 @@
     <string name="error_no_network_detailed">No network connection! Please reconnect to the internet and try again.</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_about">About</string>
+    <string name="menu_feedback">Feedback</string>
 
 </resources>
