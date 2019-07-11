@@ -256,7 +256,24 @@
     </string-array>
 
     <!-- Feedback -->
-
+    <string name="feedback_name">Name</string>
+    <string name="feedback_input">Feedback</string>
+    <string name="feedback_email">Email</string>
+    <string name="name_hint">Name</string>
+    <string name="input_hint">Feedback goes here!</string>
+    <string name="email_hint">first.last@email.com</string>
+    <string-array name="feedbackinfo1">
+        <item>"Why provide us feedback?"</item>
+        <item>"It is important for us to know what our users want to see next in our app! With every piece of feedback we can get to work implementing your ideas as well as squash those nasty bugs!"</item>
+    </string-array>
+    <string-array name="feedbackinfo2">
+        <item>"Why do we want your name and email?"</item>
+        <item>"It makes it easier for us to track our feedback and allows us to notify you if and when we implement your feedback! If you don't want to provide us that information, that's fine too! This information is completely optional."</item>
+    </string-array>
+    <string-array name="feedbackinfo3">
+        <item>"Can I reach out another way?"</item>
+        <item>"Of course! You can &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us directly!"</item>
+    </string-array>
 
     <!-- General -->
     <string name="and">and</string>

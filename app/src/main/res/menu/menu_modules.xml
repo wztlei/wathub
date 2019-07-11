@@ -50,12 +50,12 @@
             android:id="@+id/menu_item_about"
             android:icon="@drawable/ic_info_outline"
             android:title="@string/menu_about" />
-<!--
+
+        <!-- remember to update icon-->
         <item
             android:id="@+id/menu_item_feedback"
-            android:icon="@drawable/........"
+            android:icon="@drawable/ic_info_outline"
             android:title="Feedback" />
-            -->
 
     </group>
 

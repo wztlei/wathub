@@ -1,28 +1,29 @@
-package io.github.wztlei.wathub.ui.view;
+package io.github.wztlei.wathub.ui;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Typeface;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.*;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.ui.view.ElevationOffsetListener;
+import io.github.wztlei.wathub.utils.FontUtils;
+import io.github.wztlei.wathub.utils.Px;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.ui.BaseActivity;
 import io.github.wztlei.wathub.ui.modules.Feedback.feedbacksendout;
 
 public class FeedbackActivity extends BaseActivity {
@@ -30,18 +31,42 @@ public class FeedbackActivity extends BaseActivity {
     private EditText feedbackinput;
     private EditText feedbackemail;
 
+    @BindView(R.id.appbar)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindString(R.string.menu_about)
+    String mFeedbackString;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-        // create a feedback xml page
 
-        // add feedback is in xml under activity_feedback
+        mAppBarLayout.addOnOffsetChangedListener(new ElevationOffsetListener(Px.fromDpF(8)));
+
+        final Typeface typeface = FontUtils.getFont(FontUtils.BOOK);
+        mCollapsingLayout.setCollapsedTitleTypeface(typeface);
+        mCollapsingLayout.setExpandedTitleTypeface(typeface);
+        mCollapsingLayout.setTitle(mFeedbackString);
+
+        setSupportActionBar(mToolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(mFeedbackString);
+            actionBar.setElevation(Px.fromDpF(8));
+        }
+
         feedbackname = (EditText) findViewById(R.id.feedback_name);
         feedbackinput = (EditText) findViewById(R.id.feedback_input);
         feedbackemail = (EditText) findViewById(R.id.feedback_email);
 
-        // create a feedback button
         findViewById(R.id.fb_submit).setOnClickListener(
                 new OnClickListener() {
                     @Override
@@ -50,6 +75,12 @@ public class FeedbackActivity extends BaseActivity {
                     }
                 }
         );
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.stay, R.anim.bottom_out);
     }
 
     @Override
@@ -64,7 +95,7 @@ public class FeedbackActivity extends BaseActivity {
     private void checkInput() {
         if (feedbackinput.getText().toString().trim().length() == 0) {
             feedbackinput.setError("Please enter your feedback!");
-            Toast.makeText(FeedbackActivity.this, "Please fill feedback!", Toast.LENGTH_LONG);
+            Toast.makeText(FeedbackActivity.this, "Please fill feedback!", Toast.LENGTH_LONG).show();
         }
         else {
             checkRest();
@@ -73,10 +104,12 @@ public class FeedbackActivity extends BaseActivity {
 
     private void checkRest() {
         if (feedbackname.getText().toString().trim().length() == 0) {
-            feedbackname.setText("Null Name");
+            String NN = "Null Name";
+            feedbackname.setText(NN);
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(feedbackemail.getText()).matches()) {
-            feedbackemail.setText("Null Email");
+            String EM = "Null Email";
+            feedbackemail.setText(EM);
         }
         sendout();
     }
