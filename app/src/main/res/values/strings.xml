@@ -268,7 +268,7 @@
     </string-array>
     <string-array name="feedbackinfo2">
         <item>"Why do we want your name and email?"</item>
-        <item>"It makes it easier for us to track our feedback and allows us to notify you if and when we implement your feedback! If you don't want to provide us that information, that's fine too! This information is completely optional."</item>
+        <item>"It makes it easier for us to track our feedback and allows us to notify you if and when we implement your feedback! It also allows to make adjustments to how we deliver our services to better suit our users!"</item>
     </string-array>
     <string-array name="feedbackinfo3">
         <item>"Can I reach out another way?"</item>
