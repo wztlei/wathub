@@ -134,13 +134,16 @@ public class FeedbackActivity extends BaseActivity {
         }
         else {
             // implement a generic email for sendout
+
+            // String EM = "death12005@hotmail.com"
+            // feedbackemail.setTest(EM);
+
             feedbackemail.setError("Please enter a valid email!");
             Toast.makeText(FeedbackActivity.this, "Please enter a valid email.", Toast.LENGTH_LONG);
            // feedbackemail.setText("Null Email");
            // sendout();
         }
     }
-
 
     private void sendout() {
 
