@@ -8,6 +8,7 @@
     <string name="api_watcard">WatCard</string>
     <string name="api_courses">Courses</string>
     <string name="api_maps">Maps</string>
+    <string name="api_campus">Campus</string>
     <string name="api_news">News</string>
     <string name="api_weather">Weather</string>
     <string name="api_resources">Resources</string>

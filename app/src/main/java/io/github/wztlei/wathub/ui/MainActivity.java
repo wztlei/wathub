@@ -92,8 +92,6 @@ public class MainActivity extends BaseActivity
             FontUtils.apply(mNavigationView, FontUtils.DEFAULT);
             return true;
         });
-
-
     }
 
     @Override
@@ -183,8 +181,7 @@ public class MainActivity extends BaseActivity
             final String category = idName.substring("menu_item_".length());
             final List<String> endpoints = containsKey(category) ? get(category) : new ArrayList<>();
 
-            return endpoints.toArray(new String[endpoints.size()]);
+            return endpoints.toArray(new String[0]);
         }
-
     }
 }
