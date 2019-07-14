@@ -148,7 +148,7 @@ public class FeedbackActivity extends BaseActivity {
     private void sendout() {
 
         Retrofit rf = new Retrofit.Builder()
-                .baseUrl("https://docs.google.com/spreadsheets/d/1Pl5vnBZU7D1HWlvgM_Ocfa1eWxJ6uGW9zXLaLN6HaUQ/edit#gid=157590125")
+                .baseUrl("https://docs.google.com/forms/d/e/")
                 .build();
 
         String input = feedbackinput.getText().toString();
