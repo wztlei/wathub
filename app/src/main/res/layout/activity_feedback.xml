@@ -46,6 +46,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:text="@string/feedback_input" />
 
                 <Space
@@ -71,6 +72,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:text="@string/feedback_name" />
 
                 <Space
@@ -96,6 +98,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:text="@string/feedback_email" />
 
                 <Space
@@ -110,7 +113,7 @@
                         android:id="@+id/feedback_email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="@string/name_hint"
+                        android:hint="@string/email_hint"
                         android:inputType="textEmailAddress" />
                 </android.support.design.widget.TextInputLayout>
 
