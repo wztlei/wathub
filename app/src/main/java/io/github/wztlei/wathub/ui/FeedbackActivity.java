@@ -6,6 +6,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
+import android.util.Log;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,7 +71,7 @@ public class FeedbackActivity extends BaseActivity {
         findViewById(R.id.fb_submit).setOnClickListener(
                 new OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
                         checkInput();
                     }
                 }
@@ -98,11 +99,12 @@ public class FeedbackActivity extends BaseActivity {
             Toast.makeText(FeedbackActivity.this, "Please fill feedback!", Toast.LENGTH_LONG).show();
         }
         else {
-            // checkname();
-            checkRest();
+             checkName();
+            //checkRest();
         }
     }
 
+    /*
     private void checkRest() {
         if (feedbackname.getText().toString().trim().length() == 0) {
             String NN = "Null Name";
@@ -114,8 +116,8 @@ public class FeedbackActivity extends BaseActivity {
         }
         sendout();
     }
+    */
 
-    /*
     private void checkName() {
         if (feedbackname.getText().toString().trim().length() == 0) {
             feedbackname.setText("Null Name");
@@ -131,11 +133,13 @@ public class FeedbackActivity extends BaseActivity {
             sendout();
         }
         else {
-            feedbackemail.setText("Null Email");
-            sendout();
+            feedbackemail.setError("Please enter a valid email!");
+            Toast.makeText(FeedbackActivity.this, "Please enter a valid email.", Toast.LENGTH_LONG);
+           // feedbackemail.setText("Null Email");
+           // sendout();
         }
     }
-    */
+
 
     private void sendout() {
 
@@ -162,7 +166,7 @@ public class FeedbackActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                //Log.e("XXX", "Failed", t);
+                Log.e("XXX", "Failed", t);
                 Toast.makeText(FeedbackActivity.this,"Failed.",Toast.LENGTH_LONG).show();
             }}
         );
