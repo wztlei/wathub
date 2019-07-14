@@ -133,6 +133,7 @@ public class FeedbackActivity extends BaseActivity {
             sendout();
         }
         else {
+            // implement a generic email for sendout
             feedbackemail.setError("Please enter a valid email!");
             Toast.makeText(FeedbackActivity.this, "Please enter a valid email.", Toast.LENGTH_LONG);
            // feedbackemail.setText("Null Email");
@@ -157,7 +158,7 @@ public class FeedbackActivity extends BaseActivity {
         fbcall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                //Log.d("XXX", "Submitted. " + response);
+                Log.d("XXX", "Submitted. " + response);
                 Toast.makeText(FeedbackActivity.this,"Feedback Submitted!",Toast.LENGTH_LONG).show();
                 feedbackinput.setText("");
                 feedbackname.setText("");
