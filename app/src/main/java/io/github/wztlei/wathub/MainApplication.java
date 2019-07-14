@@ -46,7 +46,7 @@ public class MainApplication extends MultiDexApplication {
         WatcardManager.init(this);
 
         // Room fetcher
-//        new RoomFetcher(getApplicationContext(), getApplicationContext()
-//                .getResources().getStringArray(R.array.course_subjects)).retrieveSchedules();
+        new RoomFetcher(getApplicationContext(), getApplicationContext()
+                .getResources().getStringArray(R.array.course_subjects)).retrieveSchedules();
     }
 }

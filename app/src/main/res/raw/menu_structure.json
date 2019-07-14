@@ -1,8 +1,8 @@
 {
   "foodservices": [
+    "/foodservices/locations",
     "/foodservices/menu",
-    "/foodservices/notes",
-    "/foodservices/locations"
+    "/foodservices/notes"
   ],
   "watcard": [
     "/watcard/balance"
