@@ -31,9 +31,9 @@ public class FeedbackActivity extends BaseActivity {
     private EditText feedbackinput;
     private EditText feedbackemail;
 
-    @BindView(R.id.appbar)
+    @BindView(R.id.appbarfeedback)
     AppBarLayout mAppBarLayout;
-    @BindView(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar_feedback)
     CollapsingToolbarLayout mCollapsingLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -98,6 +98,7 @@ public class FeedbackActivity extends BaseActivity {
             Toast.makeText(FeedbackActivity.this, "Please fill feedback!", Toast.LENGTH_LONG).show();
         }
         else {
+            // checkname();
             checkRest();
         }
     }
