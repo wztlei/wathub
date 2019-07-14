@@ -1,4 +1,4 @@
-package io.github.wztlei.wathub.ui.modules.openclassroom;
+package io.github.wztlei.wathub.net;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,33 +15,36 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.net.Calls;
 
-public class RoomFetcher{
+public class RoomScheduleFetcher {
 
     private String[] mSubjects;
     private SharedPreferences mSharedPreferences;
     private JSONObject mDaysOfWeekMap;
     private int mCurrentTerm;
-    private static final String TAG = "WL/RoomFetcher";
+    private static final String TAG = "WL/RoomScheduleFetcher";
 
-    public RoomFetcher (Context context, String[] subjects) {
-        mSubjects = subjects;
+    /**
+     * Constructor for a RoomScheduleFetcher object.
+     *
+     * @param context the context in which the Room Fetcher is created
+     */
+    public RoomScheduleFetcher(Context context) {
+        mSubjects = context.getResources().getStringArray(R.array.course_subjects);
         mSharedPreferences = context.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
         InputStream inputStream = context.getResources().openRawResource(R.raw.days_of_week);
 
+        // Get the json mapping of a days of week string to a JSON array of booleans
         try {
             int size = inputStream.available();
             byte[] buffer = new byte[size];
-            //noinspection ResultOfMethodCallIgnored
+            // noinspection ResultOfMethodCallIgnored
             inputStream.read(buffer);
             inputStream.close();
             mDaysOfWeekMap = new JSONObject(new String(buffer));
@@ -49,15 +52,19 @@ public class RoomFetcher{
             mDaysOfWeekMap = new JSONObject();
             e.printStackTrace();
         }
-
-        Log.d(TAG, mDaysOfWeekMap.toString());
     }
 
+    /**
+     * Retrieves the room schedules on a separate thread.
+     */
     public void retrieveSchedules() {
         Thread thread = new Thread(this::handleRetrieveSchedules);
         thread.start();
     }
 
+    /**
+     * Handles retrieving the room schedules, but this will take over a minute and block the thread.
+     */
     private void handleRetrieveSchedules() {
         // Get the arguments passed into the class
         UWaterlooApi api = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
@@ -66,13 +73,18 @@ public class RoomFetcher{
         RoomSchedule roomSchedule = new RoomSchedule();
         mCurrentTerm = Calls.unwrap(api.Terms.getTermList()).getData().getCurrentTerm();
         SharedPreferences.Editor editor = mSharedPreferences.edit();
+        int subjectProgressIndex = mSharedPreferences.getInt(Constants.SUBJECT_PROGRESS_KEY, 0)
+                % mSubjects.length;
 
-        // Iterate through every subject (ex. MATH, ECON, ENGL, ...)
-        for (String subject : mSubjects) {
-            Log.d(TAG, "Retrieving the " + subject + " schedule");
+        // Iterate through every subject (ex. MATH, ECON, ENGL, ...) resuming from where we left off
+        for (int i = subjectProgressIndex; i < mSubjects.length; i++) {
+            String subject = mSubjects[i];
 
+            Log.d(TAG, "Retrieving the schedule for subject #" + i + " - " + subject);
+
+            // Get the schedule for the subject using a thread-blocking API call
             List<CourseSchedule> subjectSchedule =
-                     Calls.unwrap(api.Terms.getSchedule(mCurrentTerm, subject)).getData();
+                    Calls.unwrap(api.Terms.getSchedule(mCurrentTerm, subject)).getData();
 
             // Iterate through every course schedule in that subject (ex. CS 135 LEC 003, ...)
             for (CourseSchedule courseSchedule : subjectSchedule) {
@@ -85,6 +97,10 @@ public class RoomFetcher{
                     }
                 }
             }
+
+            // Update the progress
+            editor.putInt(Constants.SUBJECT_PROGRESS_KEY, i + 1);
+            editor.apply();
         }
 
         editor.putString(Constants.ROOMS_KEY, roomSchedule.toString());
@@ -98,6 +114,7 @@ public class RoomFetcher{
                 return;
             }
 
+            // Get the building
             String building = classInfo.getBuilding();
 
             // Add a new building if necessary
@@ -107,9 +124,9 @@ public class RoomFetcher{
                 this.put(building, new JSONObject());
             }
 
-            // Get the JSON object for the building
-            JSONObject buildingRooms = this.getJSONObject(building);
+            // Get the room number and the JSON object for the building
             String room = classInfo.getRoom();
+            JSONObject buildingRooms = this.getJSONObject(building);
 
             // Add a new room if necessary
             if (room == null) {
@@ -122,59 +139,101 @@ public class RoomFetcher{
             JSONArray classTimes = buildingRooms.getJSONArray(room);
             ClassDate classTime = classInfo.getDate();
 
+            // Determine if a class exists
             if (classTime == null || classTime.isCancelled()
                     || classTime.isClosed() || classTime.isTBA()) {
                 return;
             }
 
+            // Get the data from class time
             String startTime = classTime.getStartTime();
             String endTime = classTime.getEndTime();
             String startDateString = classTime.getStartDate();
             String endDateString = classTime.getEndDate();
             String weekdaysString = classTime.getWeekdays();
+
+            // Create a new JSON array for the class time
             JSONArray newClassTime = new JSONArray();
 
+            // Add the data by parsing the various strings
             newClassTime.put( getChars0And1(startTime, 8) );
             newClassTime.put( getChars3And4(startTime, 30) );
             newClassTime.put( getChars0And1(endTime, 10) );
             newClassTime.put( getChars3And4(endTime, 0) );
             newClassTime.put( mDaysOfWeekMap.getJSONArray(weekdaysString) );
-            newClassTime.put( getChars0And1(startDateString, termStartMonth(mCurrentTerm)) );
+            newClassTime.put( getChars0And1(startDateString, termStartMonth()) );
             newClassTime.put( getChars3And4(startDateString, termStartDate()) );
-            newClassTime.put( getChars0And1(endDateString, termEndMonth(mCurrentTerm)) );
+            newClassTime.put( getChars0And1(endDateString, termEndMonth()) );
             newClassTime.put( getChars3And4(endDateString, termEndDate()) );
 
+            // Add the new class time to the list of existing class times
             classTimes.put(newClassTime);
         }
 
-        private int getChars0And1(String time, int defaultValue) {
-            if (time == null || time.length() < 5) {
+        /**
+         * Returns the integer formed by the first and second chars in a string or
+         * a default value if no integer is formed.
+         *
+         * @param string        the string to be parsed
+         * @param defaultValue  the default value if the string is not formatted properly
+         * @return              the integer formed by the first and second chars
+         */
+        private int getChars0And1(String string, int defaultValue) {
+            try {
+                return Integer.parseInt(string.substring(0, 2));
+            } catch (Exception e) {
                 return defaultValue;
             }
-
-            return Integer.parseInt(time.substring(0, 2));
         }
 
-        private int getChars3And4(String time, int defaultValue) {
-            if (time == null || time.length() < 5) {
+        /**
+         * Returns the integer formed by the fourth and fifth chars in a string or
+         * a default value if no integer is formed.
+         *
+         * @param string        the string to be parsed
+         * @param defaultValue  the default value if the string is not formatted properly
+         * @return              the integer formed by the fourth and fifth chars
+         */
+        private int getChars3And4(String string, int defaultValue) {
+            try {
+                return Integer.parseInt(string.substring(3, 5));
+            } catch (Exception e) {
                 return defaultValue;
             }
-
-            return Integer.parseInt(time.substring(3, 5));
         }
 
-        private int termStartMonth(int termNumber) {
-            return termNumber % 10;
+        /**
+         * Returns the estimated start month for the term.
+         *
+         * @return the estimated start month for the term
+         */
+        private int termStartMonth() {
+            return mCurrentTerm % 10;
         }
 
+        /**
+         * Returns the estimated start date for the term.
+         *
+         * @return the estimated start date for the term
+         */
         private int termStartDate() {
             return 1;
         }
 
-        private int termEndMonth(int termNumber) {
-            return (termNumber % 10) + 3;
+        /**
+         * Returns the estimated ending month for the term.
+         *
+         * @return the estimated end month for the term
+         */
+        private int termEndMonth() {
+            return (mCurrentTerm % 10) + 3;
         }
 
+        /**
+         * Returns the estimated end date for the term.
+         *
+         * @return the estimated end date for the term
+         */
         private int termEndDate() {
             return 6;
         }

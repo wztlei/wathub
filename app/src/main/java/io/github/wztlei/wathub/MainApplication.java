@@ -5,7 +5,7 @@ import android.util.Log;
 
 import io.github.wztlei.wathub.controller.EncryptionController;
 import io.github.wztlei.wathub.controller.WatcardManager;
-import io.github.wztlei.wathub.ui.modules.openclassroom.RoomFetcher;
+import io.github.wztlei.wathub.net.RoomScheduleFetcher;
 import io.github.wztlei.wathub.utils.FontUtils;
 import io.github.wztlei.wathub.utils.NetworkController;
 import io.github.wztlei.wathub.utils.Px;
@@ -46,7 +46,6 @@ public class MainApplication extends MultiDexApplication {
         WatcardManager.init(this);
 
         // Room fetcher
-        new RoomFetcher(getApplicationContext(), getApplicationContext()
-                .getResources().getStringArray(R.array.course_subjects)).retrieveSchedules();
+        new RoomScheduleFetcher(getApplicationContext()).retrieveSchedules();
     }
 }
