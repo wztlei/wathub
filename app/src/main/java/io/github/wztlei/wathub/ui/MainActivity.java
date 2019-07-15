@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    static final class ModuleCategories extends HashMap<String, List<String>> {
+    private static final class ModuleCategories extends HashMap<String, List<String>> {
 
         String[] getApiMethods(final @IdRes int menuItemId, final Resources res) {
             final String idName = res.getResourceEntryName(menuItemId);

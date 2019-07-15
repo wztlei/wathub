@@ -4,5 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:moduleDescription="@string/description_open_classrooms"
-    app:moduleIcon="@drawable/ic_my_location"
+    app:moduleIcon="@drawable/ic_open_classroom"
     app:moduleTitle="@string/title_open_classrooms" />
