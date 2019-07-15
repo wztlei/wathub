@@ -46,7 +46,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:text="@string/feedback_input" />
 
                 <Space
@@ -72,7 +71,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:text="@string/feedback_name" />
 
                 <Space
@@ -98,7 +96,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:text="@string/feedback_email" />
 
                 <Space

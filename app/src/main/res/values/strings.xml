@@ -261,14 +261,14 @@
     <string name="feedback_email">Email</string>
     <string name="name_hint">Name</string>
     <string name="input_hint">Feedback goes here!</string>
-    <string name="email_hint">first.last@email.com</string>
+    <string name="email_hint">someone@example.com</string>
     <string-array name="feedbackinfo1">
         <item>"Why provide us feedback?"</item>
-        <item>"It is important for us to know what our users want to see next in our app! With every piece of feedback we can get to work implementing your ideas as well as squash those nasty bugs!"</item>
+        <item>"It is important for us to know what our users want to see next in our app. With every piece of feedback we can get to work implementing your ideas as well as squash those nasty bugs!"</item>
     </string-array>
     <string-array name="feedbackinfo2">
         <item>"Why do we want your name and email?"</item>
-        <item>"It makes it easier for us to track our feedback and allows us to notify you if and when we implement your feedback! It also allows to make adjustments to how we deliver our services to better suit our users!"</item>
+        <item>"It makes it easier for us to track our feedback and allows us to notify you if and when we implement your feedback. It also allows us to make adjustments to how we deliver our services to better suit our users."</item>
     </string-array>
     <string-array name="feedbackinfo3">
         <item>"Can I reach out another way?"</item>
