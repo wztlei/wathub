@@ -55,9 +55,7 @@ public class Calls {
         }
 
         @Override
-        public void cancel() {
-            // No-op
-        }
+        public void cancel() {}
 
         @Override
         public boolean isCanceled() {

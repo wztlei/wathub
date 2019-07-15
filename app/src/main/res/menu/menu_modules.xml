@@ -27,7 +27,7 @@
 
         <item
             android:id="@+id/menu_item_maps"
-            android:icon="@drawable/ic_maps"
+            android:icon="@drawable/ic_school"
             android:title="@string/api_campus" />
 
         <item

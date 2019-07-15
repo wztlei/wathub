@@ -46,6 +46,6 @@ public class MainApplication extends MultiDexApplication {
         WatcardManager.init(this);
 
         // Room fetcher
-        new RoomScheduleFetcher(getApplicationContext()).retrieveSchedules();
+        new RoomScheduleFetcher(getApplicationContext()).retrieveRoomScheduleAsync();
     }
 }

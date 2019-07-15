@@ -2,6 +2,7 @@ package io.github.wztlei.wathub.net;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
@@ -20,12 +21,21 @@ import java.util.List;
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class RoomScheduleFetcher {
 
     private String[] mSubjects;
+    private String[] mBuildings;
     private SharedPreferences mSharedPreferences;
     private JSONObject mDaysOfWeekMap;
     private int mCurrentTerm;
+    private static final String ROOM_SCHEDULES_GITHUB_URL =
+            "https://raw.githubusercontent.com/wztlei/wathub/master/app/src/main/res/raw/room_schedule.json";
     private static final String TAG = "WL/RoomScheduleFetcher";
 
     /**
@@ -38,34 +48,93 @@ public class RoomScheduleFetcher {
         mSharedPreferences = context.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        InputStream inputStream = context.getResources().openRawResource(R.raw.days_of_week);
-
         // Get the json mapping of a days of week string to a JSON array of booleans
         try {
+            InputStream inputStream = context.getResources().openRawResource(R.raw.days_of_week);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             // noinspection ResultOfMethodCallIgnored
             inputStream.read(buffer);
             inputStream.close();
             mDaysOfWeekMap = new JSONObject(new String(buffer));
+
+            // Use the room schedule from res/raw if shared preferences is missing room schedules
+            if (!mSharedPreferences.contains(Constants.ROOM_SCHEDULE_KEY)) {
+                inputStream = context.getResources().openRawResource(R.raw.days_of_week);
+                size = inputStream.available();
+                buffer = new byte[size];
+                // noinspection ResultOfMethodCallIgnored
+                inputStream.read(buffer);
+                inputStream.close();
+
+                // Update the room schedule with the data from res/raw
+                updateRoomSchedule(new JSONObject(new String(buffer)).toString());
+            }
         } catch (IOException | JSONException e) {
+            e.printStackTrace();
             mDaysOfWeekMap = new JSONObject();
+        }
+    }
+
+
+    /**
+     * Returns a list of buildings that contain classrooms.
+     *
+     * @return a list of buildings that contain classrooms
+     */
+    public String[] getBuildings() {
+        return mBuildings;
+    }
+
+    /**
+     * Retrieves the room schedules from a JSON file hosted on GitHub and then by using the
+     * UWaterloo Open Data API to get the schedule for each course.
+     */
+    public void retrieveRoomScheduleAsync() {
+        try {
+            // Create a request using the OkHttpClient library
+            OkHttpClient okHttpClient = new OkHttpClient();
+            Request request = new Request.Builder().url(ROOM_SCHEDULES_GITHUB_URL).build();
+
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                    try {
+                        // Update the room schedules with a JSON string from the response body
+                        // noinspection ConstantConditions
+                        String jsonString = response.body().string();
+                        updateRoomSchedule(jsonString);
+                        Log.d(TAG, "Updated room schedules from GitHub");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        // Use the UWaterloo API to get room schedules
+                        retrieveSchedulesWithApi();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull final Call call, @NonNull IOException e) {
+                    // Use the UWaterloo API to get room schedules
+                    retrieveSchedulesWithApi();
+                }
+            });
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Retrieves the room schedules on a separate thread.
+     * Retrieves the room schedules using the UWaterloo Open Data API on a separate thread.
      */
-    public void retrieveSchedules() {
-        Thread thread = new Thread(this::handleRetrieveSchedules);
-        thread.start();
+    private void retrieveSchedulesWithApi() {
+        new Thread(this::handleRetrieveSchedulesWithApi).start();
     }
 
     /**
      * Handles retrieving the room schedules, but this will take over a minute and block the thread.
      */
-    private void handleRetrieveSchedules() {
+    private void handleRetrieveSchedulesWithApi() {
         // Get the arguments passed into the class
         UWaterlooApi api = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
 
@@ -103,11 +172,41 @@ public class RoomScheduleFetcher {
             editor.apply();
         }
 
-        editor.putString(Constants.ROOMS_KEY, roomSchedule.toString());
+        // Put the room schedule in shared preferences
+        updateRoomSchedule(roomSchedule.toString());
+    }
+
+    /**
+     * Updates the state of the class upon receiving a JSON string storing the room schedule.
+     *
+     * @param jsonString        a JSON string storing the room schedule data
+     */
+    private void updateRoomSchedule(String jsonString) {
+        // Put the json string in shared preferences
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(Constants.ROOM_SCHEDULE_KEY, jsonString);
         editor.apply();
+
+        // Get a list of buildings from the JSON object
+        try {
+            JSONObject roomSchedule = new JSONObject(jsonString);
+            JSONArray buildingNames = roomSchedule.names();
+            mBuildings = new String[buildingNames.length()];
+
+            // Store all of the building names in a list
+            for (int i = 0; i < buildingNames.length(); i++) {
+                mBuildings[i] = buildingNames.getString(i);
+            }
+        } catch (JSONException e) {
+            Log.w(TAG, e.getMessage());   
+        }
     }
 
 
+    /**
+     * A JSONObject representation of the room schedule with an additional method for updating
+     * itself with new data about a class.
+     */
     private class RoomSchedule extends JSONObject {
         void update(Class classInfo) throws JSONException, NullPointerException {
             if (classInfo == null) {

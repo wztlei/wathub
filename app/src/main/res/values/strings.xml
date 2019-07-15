@@ -38,6 +38,7 @@
     <string name="title_news">News</string>
     <string name="title_parking">Parking</string>
     <string name="title_poi">Points Of Interest</string>
+    <string name="title_open_classrooms">Open Classrooms</string>
 
     <string name="description_foodservices_announcements">Additional announcements regarding food being served at various places on campus.</string>
     <string name="description_foodservices_locations">Places serving food and beverages on campus, including operating hours and detailed outlet information.</string>
@@ -55,6 +56,7 @@
     <string name="description_news">News curated by various sources affiliated with the University of Waterloo.</string>
     <string name="description_parking">Real-time parking counts in select parking lots across campus.</string>
     <string name="description_poi">ATMs, libraries, and other interesting places and things to see across campus.</string>
+    <string name="description_open_classrooms">Free, unused classrooms on campus for studying or hosting events.</string>
 
     <string name="home_quick_course_lookup">Course Lookup</string>
     <string name="home_quick_course_hint_subject">eg: MATH</string>
