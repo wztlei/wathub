@@ -16,7 +16,7 @@ import com.deange.uwaterlooapi.model.foodservices.Announcement;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.DateSelectorView;
 import io.github.wztlei.wathub.utils.DateUtils;
 
@@ -33,8 +33,8 @@ import retrofit2.Call;
     path = "/foodservices/announcements",
     layout = R.layout.module_foodservices_announcements
 )
-public class AnnouncementsFragment
-        extends BaseListModuleFragment<Responses.Announcements, Announcement>
+public class AnnouncementsFragmentApi
+        extends BaseListApiModuleFragment<Responses.Announcements, Announcement>
         implements DateSelectorView.OnDateChangedListener {
 
     @BindView(R.id.fragment_empty_view)

@@ -14,7 +14,7 @@ import com.deange.uwaterlooapi.model.foodservices.WatcardVendor;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.utils.PlatformUtils;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import retrofit2.Call;
 //        path = "/foodservices/watcard",
 //        layout = R.layout.module_foodservices_watcards
 //)
-public class WatcardFragment extends BaseListModuleFragment<Responses.Watcards, WatcardVendor> {
+public class WatcardFragmentApi extends BaseListApiModuleFragment<Responses.Watcards, WatcardVendor> {
 
     private final List<WatcardVendor> mResponse = new ArrayList<>();
 

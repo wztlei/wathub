@@ -36,7 +36,8 @@ public class RoomScheduleFetcher {
     private JSONObject mDaysOfWeekMap;
     private int mCurrentTerm;
 
-    private static final String SUBJECT_SCHEDULE_PROGRESS_KEY = "SUBJECT_SCHEDULE_PROGRESS_KEY";
+    private static final String SCHEDULE_PROGRESS_INDEX_KEY = "SCHEDULE_PROGRESS_INDEX_KEY";
+    private static final String SCHEDULE_INCOMPLETE_JSON_KEY = "SCHEDULE_INCOMPLETE_JSON_KEY";
     private static final String ROOM_SCHEDULES_GITHUB_URL =
             "https://raw.githubusercontent.com/wztlei/wathub/master/app/src/main/res/raw/room_schedule.json";
     private static final String TAG = "WL/RoomScheduleFetcher";
@@ -138,31 +139,48 @@ public class RoomScheduleFetcher {
      * Handles retrieving the room schedules, but this will take over a minute and block the thread.
      */
     private void handleRetrieveSchedulesWithApi() {
-        // Get the arguments passed into the class
-        UWaterlooApi api = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
-
         // Initialize variables
-        RoomSchedule roomSchedule = new RoomSchedule();
-        mCurrentTerm = Calls.unwrap(api.Terms.getTermList()).getData().getCurrentTerm();
+        UWaterlooApi api = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
+        String incompleteJson = mSharedPreferences.getString(SCHEDULE_INCOMPLETE_JSON_KEY, "");
+        RoomSchedule roomSchedule;
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        int subjectProgressIndex = mSharedPreferences.getInt(SUBJECT_SCHEDULE_PROGRESS_KEY, 0)
+
+        // Initialize a room schedule with the incomplete JSON file
+        try {
+            roomSchedule = new RoomSchedule(incompleteJson);
+        } catch (JSONException e) {
+            // Reset the progress
+            roomSchedule = new RoomSchedule();
+            editor.putInt(SCHEDULE_PROGRESS_INDEX_KEY, 0);
+            editor.putString(SCHEDULE_INCOMPLETE_JSON_KEY, "");
+            editor.apply();
+            Log.e(TAG, e.getMessage());
+        }
+
+        Responses.Terms responseTerms = null;
+
+        while (responseTerms == null) {
+            responseTerms = Calls.unwrap(api.Terms.getTermList());
+        }
+
+        // Get the current term and the progress within the subjects
+        mCurrentTerm = responseTerms.getData().getCurrentTerm();
+        int subjectProgressIndex = mSharedPreferences.getInt(SCHEDULE_PROGRESS_INDEX_KEY, 0)
                 % mSubjects.length;
 
         // Iterate through every subject (ex. MATH, ECON, ENGL, ...) resuming from where we left off
         for (int i = subjectProgressIndex; i < mSubjects.length; i++) {
+            // Get the subject to download
             String subject = mSubjects[i];
-
+            Responses.CoursesSchedule response = null;
             Log.d(TAG, "Retrieving the schedule for subject #" + i + " - " + subject);
 
             // Get the schedule for the subject using a thread-blocking API call
-            Responses.CoursesSchedule response = Calls.unwrap(api.Terms.getSchedule(mCurrentTerm, subject));
-            List<CourseSchedule> subjectSchedule;
-            if (response != null) {
-                subjectSchedule = response.getData();
-            } else {
-                i--;
-                continue;
+            while (response == null) {
+                response = Calls.unwrap(api.Terms.getSchedule(mCurrentTerm, subject));
             }
+
+            List<CourseSchedule> subjectSchedule = response.getData();
 
             // Iterate through every course schedule in that subject (ex. CS 135 LEC 003, ...)
             for (CourseSchedule courseSchedule : subjectSchedule) {
@@ -177,7 +195,8 @@ public class RoomScheduleFetcher {
             }
 
             // Update the progress
-            editor.putInt(SUBJECT_SCHEDULE_PROGRESS_KEY, i + 1);
+            editor.putInt(SCHEDULE_PROGRESS_INDEX_KEY, i + 1);
+            editor.putString(SCHEDULE_INCOMPLETE_JSON_KEY, roomSchedule.toString());
             editor.apply();
         }
 
@@ -217,6 +236,14 @@ public class RoomScheduleFetcher {
      * itself with new data about a class.
      */
     private class RoomSchedule extends JSONObject {
+        RoomSchedule() {
+            super();
+        }
+
+        RoomSchedule(String json) throws JSONException{
+            super(json);
+        }
+
         void update(Class classInfo) throws JSONException, NullPointerException {
             if (classInfo == null) {
                 return;

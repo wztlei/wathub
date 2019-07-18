@@ -15,7 +15,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleIndexedAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,7 @@ import retrofit2.Call;
         path = "/buildings/list",
         layout = R.layout.module_buildings
 )
-public class ListBuildingsFragment extends BaseListModuleFragment<Responses.Buildings, Building>
+public class ListBuildingsFragmentApi extends BaseListApiModuleFragment<Responses.Buildings, Building>
         implements View.OnClickListener {
 
     private final List<Building> mResponse = new ArrayList<>();
@@ -85,7 +85,7 @@ public class ListBuildingsFragment extends BaseListModuleFragment<Responses.Buil
     public void onClick(final View v) {
         final int position = (int) v.getTag();
         final Building building = mResponse.get(position);
-        showModule(BuildingFragment.class, BuildingFragment.newBundle(building));
+        showModule(BuildingFragmentApi.class, BuildingFragmentApi.newBundle(building));
     }
 
     private final class BuildingsAdapter
@@ -104,7 +104,7 @@ public class ListBuildingsFragment extends BaseListModuleFragment<Responses.Buil
         public void bindView(final Context context, final int position, final View view) {
 
             view.setTag(position);
-            view.setOnClickListener(ListBuildingsFragment.this);
+            view.setOnClickListener(ListBuildingsFragmentApi.this);
 
             final TextView header = (TextView) view.findViewById(R.id.building_abbreviation);
             final TextView buildingName = (TextView) view.findViewById(R.id.building_name);

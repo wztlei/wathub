@@ -27,13 +27,19 @@ public class ApiMethodsFragment extends ListFragment implements ModuleListItemLi
     }
 
     public static void openModule(final Context context, final String endpoint) {
-        final ModuleInfo fragmentInfo = ModuleMap.getFragmentInfo(endpoint);
-        context.startActivity(ModuleHostActivity.getStartIntent(context, fragmentInfo.fragment));
+        if (endpoint.contains("wathub")) {
+
+        } else {
+            final ModuleInfo fragmentInfo = ModuleMap.getFragmentInfo(endpoint);
+            String fragmentCanonicalName = fragmentInfo.fragment.getCanonicalName();
+            context.startActivity(ModuleHostActivity.getStartIntent(context, fragmentCanonicalName));
+        }
     }
 
-    public ApiMethodsFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public ApiMethodsFragment() {}
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {

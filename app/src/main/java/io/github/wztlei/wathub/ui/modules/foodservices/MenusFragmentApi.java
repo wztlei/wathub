@@ -14,7 +14,7 @@ import com.deange.uwaterlooapi.model.foodservices.MenuInfo;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.DateSelectorView;
 
 import org.joda.time.LocalDate;
@@ -27,7 +27,7 @@ import retrofit2.Call;
     path = "/foodservices/menu",
     layout = R.layout.module_foodservices_menus
 )
-public class MenusFragment extends BaseModuleFragment<Responses.Menus, MenuInfo>
+public class MenusFragmentApi extends BaseApiModuleFragment<Responses.Menus, MenuInfo>
         implements ModuleListItemListener, DateSelectorView.OnDateChangedListener {
 
     @BindView(R.id.fragment_date_selector)
@@ -80,7 +80,7 @@ public class MenusFragment extends BaseModuleFragment<Responses.Menus, MenuInfo>
     @Override
     public void onItemClicked(final int position) {
         final int dayOfWeek = mDateSelector.getDate().getDayOfWeek(); // range [1,7]
-        showModule(MenuFragment.class, MenuFragment.newBundle(mAdapter.getItem(position), dayOfWeek));
+        showModule(MenuFragmentApi.class, MenuFragmentApi.newBundle(mAdapter.getItem(position), dayOfWeek));
     }
 
     @Override

@@ -22,7 +22,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.Colors;
 import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.Px;
@@ -44,11 +44,11 @@ import retrofit2.Call;
     path = "/parking/watpark",
     layout = R.layout.module_parking
 )
-public class ParkingFragment extends BaseMapFragment<Responses.Parking, ParkingLot>
+public class ParkingFragmentApi extends BaseApiMapFragment<Responses.Parking, ParkingLot>
         implements MapTypeDialog.OnMapTypeSelectedListener {
 
     @SuppressWarnings("unused")
-    private static final String TAG = "WL/ParkingFragment";
+    private static final String TAG = "WL/ParkingFragmentApi";
 
     @BindView(R.id.parking_lot_info)
     ViewGroup mInfoRoot;

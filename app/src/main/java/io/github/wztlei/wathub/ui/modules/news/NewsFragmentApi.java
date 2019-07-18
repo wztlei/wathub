@@ -20,7 +20,7 @@ import com.deange.uwaterlooapi.model.news.NewsDetails;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.Joiner;
@@ -32,9 +32,9 @@ import butterknife.OnClick;
 import retrofit2.Call;
 
 @ModuleFragment(path = "/news/*/*")
-public class NewsFragment extends BaseModuleFragment<Responses.NewsEntity, NewsArticle> {
+public class NewsFragmentApi extends BaseApiModuleFragment<Responses.NewsEntity, NewsArticle> {
 
-    private static final String TAG = "WL/NewsFragment";
+    private static final String TAG = "WL/NewsFragmentApi";
 
     private NewsArticle mNewsArticle;
 

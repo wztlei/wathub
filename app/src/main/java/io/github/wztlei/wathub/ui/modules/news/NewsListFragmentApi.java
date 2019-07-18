@@ -17,7 +17,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import retrofit2.Call;
     path = "/news",
     layout = R.layout.module_news
 )
-public class NewsListFragment extends BaseListModuleFragment<Responses.News, NewsDetails>
+public class NewsListFragmentApi extends BaseListApiModuleFragment<Responses.News, NewsDetails>
         implements ModuleListItemListener {
 
     private final List<NewsDetails> mResponse = new ArrayList<>();
@@ -74,7 +74,7 @@ public class NewsListFragment extends BaseListModuleFragment<Responses.News, New
     public void onItemClicked(final int position) {
         final NewsDetails news = mResponse.get(position);
 
-        showModule(NewsFragment.class, NewsFragment.newBundle(news));
+        showModule(NewsFragmentApi.class, NewsFragmentApi.newBundle(news));
     }
 
     private class NewsAdapter extends ModuleAdapter {

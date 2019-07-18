@@ -23,11 +23,10 @@ import android.widget.TextView;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.common.UpperCaseTextWatcher;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.courses.CourseFragment;
-import io.github.wztlei.wathub.ui.modules.courses.CoursesFragment;
+import io.github.wztlei.wathub.ui.modules.courses.CourseFragmentApi;
+import io.github.wztlei.wathub.ui.modules.courses.CoursesFragmentApi;
 import io.github.wztlei.wathub.ui.modules.courses.SubjectAdapter;
-import io.github.wztlei.wathub.ui.modules.weather.WeatherFragment;
+import io.github.wztlei.wathub.ui.modules.weather.WeatherFragmentApi;
 import io.github.wztlei.wathub.utils.Px;
 import io.github.wztlei.wathub.utils.SimpleTextWatcher;
 
@@ -132,7 +131,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @OnClick(R.id.home_weather_selectable)
     public void onWeatherClicked() {
-        startActivity(ModuleHostActivity.getStartIntent(getContext(), WeatherFragment.class));
+        startActivity(ModuleHostActivity.getStartIntent(
+                getContext(), WeatherFragmentApi.class.getCanonicalName()));
     }
 
     @OnClick(R.id.home_course_search)
@@ -144,13 +144,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         if (!TextUtils.isEmpty(code)) {
             intent = ModuleHostActivity.getStartIntent(
                     getContext(),
-                    CourseFragment.class,
-                    CourseFragment.newBundle(subject, code));
+                    CourseFragmentApi.class.getCanonicalName(),
+                    CourseFragmentApi.newBundle(subject, code));
         } else {
             intent = ModuleHostActivity.getStartIntent(
                     getContext(),
-                    CoursesFragment.class,
-                    CoursesFragment.newBundle(subject));
+                    CoursesFragmentApi.class.getCanonicalName(),
+                    CoursesFragmentApi.newBundle(subject));
         }
 
         startActivity(intent);

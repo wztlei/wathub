@@ -25,7 +25,7 @@ import io.github.wztlei.wathub.common.UpperCaseTextWatcher;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import retrofit2.Call;
     path = "/courses/*",
     layout = R.layout.module_courses
 )
-public class CoursesFragment extends BaseListModuleFragment<Responses.Courses, Course>
+public class CoursesFragmentApi extends BaseListApiModuleFragment<Responses.Courses, Course>
         implements ModuleListItemListener, AdapterView.OnItemClickListener, TextView.OnEditorActionListener {
 
     private static final String KEY_COURSE_SUBJECT = "subject";
@@ -170,7 +170,7 @@ public class CoursesFragment extends BaseListModuleFragment<Responses.Courses, C
         // Remove focus from the list item
         getListView().requestFocus();
 
-        showModule(CourseFragment.class, CourseFragment.newBundle(mResponse.get(position)));
+        showModule(CourseFragmentApi.class, CourseFragmentApi.newBundle(mResponse.get(position)));
     }
 
     @Override

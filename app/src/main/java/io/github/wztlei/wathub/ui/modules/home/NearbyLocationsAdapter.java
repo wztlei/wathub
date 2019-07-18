@@ -11,8 +11,8 @@ import com.deange.uwaterlooapi.model.foodservices.Location;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
-import io.github.wztlei.wathub.ui.modules.foodservices.LocationFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
+import io.github.wztlei.wathub.ui.modules.foodservices.LocationFragmentApi;
 import io.github.wztlei.wathub.utils.MathUtils;
 
 import java.util.List;
@@ -104,6 +104,8 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
         final Location location = getItem(position);
 
         getContext().startActivity(ModuleHostActivity.getStartIntent(
-                getContext(), LocationFragment.class, BaseModuleFragment.newBundle(location)));
+                getContext(),
+                LocationFragmentApi.class.getCanonicalName(),
+                BaseApiModuleFragment.newBundle(location)));
     }
 }

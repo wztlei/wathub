@@ -18,7 +18,7 @@ import com.deange.uwaterlooapi.model.resources.Sunshiner;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -35,7 +35,7 @@ import retrofit2.Call;
     path = "/resources/sunshinelist",
     layout = R.layout.module_resources_sunshine
 )
-public class SunshineListFragment extends BaseListModuleFragment<Responses.Sunshine, Sunshiner>
+public class SunshineListFragmentApi extends BaseListApiModuleFragment<Responses.Sunshine, Sunshiner>
         implements AdapterView.OnItemSelectedListener {
 
     // Correspond to @array/sunshine_list_sort

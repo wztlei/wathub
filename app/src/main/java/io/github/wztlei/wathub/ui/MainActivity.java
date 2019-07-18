@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == android.support.v7.appcompat.R.id.home) {
+        if (item.getItemId() == R.id.home) {
             return mDrawerToggle.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);

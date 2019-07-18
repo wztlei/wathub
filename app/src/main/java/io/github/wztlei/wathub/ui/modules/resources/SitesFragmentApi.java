@@ -17,7 +17,7 @@ import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleIndexedAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.utils.IntentUtils;
 
 import java.util.ArrayList;
@@ -32,8 +32,8 @@ import retrofit2.Call;
         path = "/resources/sites",
         layout = R.layout.module_resources_sites
 )
-public class SitesFragment
-        extends BaseListModuleFragment<Responses.Sites, Site>
+public class SitesFragmentApi
+        extends BaseListApiModuleFragment<Responses.Sites, Site>
         implements
         ModuleListItemListener {
 
@@ -135,7 +135,7 @@ public class SitesFragment
 
         @Override
         public String getFirstCharOf(final int position) {
-            return SitesFragment.this.getFirstCharOf(position);
+            return SitesFragmentApi.this.getFirstCharOf(position);
         }
 
     }
