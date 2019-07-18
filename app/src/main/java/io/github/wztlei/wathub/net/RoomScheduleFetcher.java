@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
+import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.courses.Class;
 import com.deange.uwaterlooapi.model.courses.ClassDate;
 import com.deange.uwaterlooapi.model.courses.CourseSchedule;
@@ -34,6 +35,8 @@ public class RoomScheduleFetcher {
     private SharedPreferences mSharedPreferences;
     private JSONObject mDaysOfWeekMap;
     private int mCurrentTerm;
+
+    private static final String SUBJECT_SCHEDULE_PROGRESS_KEY = "SUBJECT_SCHEDULE_PROGRESS_KEY";
     private static final String ROOM_SCHEDULES_GITHUB_URL =
             "https://raw.githubusercontent.com/wztlei/wathub/master/app/src/main/res/raw/room_schedule.json";
     private static final String TAG = "WL/RoomScheduleFetcher";
@@ -142,7 +145,7 @@ public class RoomScheduleFetcher {
         RoomSchedule roomSchedule = new RoomSchedule();
         mCurrentTerm = Calls.unwrap(api.Terms.getTermList()).getData().getCurrentTerm();
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        int subjectProgressIndex = mSharedPreferences.getInt(Constants.SUBJECT_PROGRESS_KEY, 0)
+        int subjectProgressIndex = mSharedPreferences.getInt(SUBJECT_SCHEDULE_PROGRESS_KEY, 0)
                 % mSubjects.length;
 
         // Iterate through every subject (ex. MATH, ECON, ENGL, ...) resuming from where we left off
@@ -152,8 +155,14 @@ public class RoomScheduleFetcher {
             Log.d(TAG, "Retrieving the schedule for subject #" + i + " - " + subject);
 
             // Get the schedule for the subject using a thread-blocking API call
-            List<CourseSchedule> subjectSchedule =
-                    Calls.unwrap(api.Terms.getSchedule(mCurrentTerm, subject)).getData();
+            Responses.CoursesSchedule response = Calls.unwrap(api.Terms.getSchedule(mCurrentTerm, subject));
+            List<CourseSchedule> subjectSchedule;
+            if (response != null) {
+                subjectSchedule = response.getData();
+            } else {
+                i--;
+                continue;
+            }
 
             // Iterate through every course schedule in that subject (ex. CS 135 LEC 003, ...)
             for (CourseSchedule courseSchedule : subjectSchedule) {
@@ -168,7 +177,7 @@ public class RoomScheduleFetcher {
             }
 
             // Update the progress
-            editor.putInt(Constants.SUBJECT_PROGRESS_KEY, i + 1);
+            editor.putInt(SUBJECT_SCHEDULE_PROGRESS_KEY, i + 1);
             editor.apply();
         }
 
