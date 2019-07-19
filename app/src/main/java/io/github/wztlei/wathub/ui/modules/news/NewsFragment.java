@@ -32,9 +32,9 @@ import butterknife.OnClick;
 import retrofit2.Call;
 
 @ModuleFragment(path = "/news/*/*")
-public class NewsFragmentApi extends BaseApiModuleFragment<Responses.NewsEntity, NewsArticle> {
+public class NewsFragment extends BaseApiModuleFragment<Responses.NewsEntity, NewsArticle> {
 
-    private static final String TAG = "WL/NewsFragmentApi";
+    private static final String TAG = "WL/NewsFragment";
 
     private NewsArticle mNewsArticle;
 

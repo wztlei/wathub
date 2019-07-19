@@ -30,10 +30,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @ModuleFragment(path = "/buildings/*")
-public class BuildingFragmentApi extends BaseApiMapFragment<Responses.BuildingEntity, Building>
+public class BuildingFragment extends BaseApiMapFragment<Responses.BuildingEntity, Building>
         implements MapTypeDialog.OnMapTypeSelectedListener {
 
-    public static final String TAG = BuildingFragmentApi.class.getSimpleName();
+    public static final String TAG = BuildingFragment.class.getSimpleName();
 
     @BindView(R.id.building_empty_view)
     View mEmptyView;

@@ -48,7 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
 
-public class LocationFragmentApi extends BaseApiMapFragment<BaseResponse, Location>
+public class LocationFragment extends BaseApiMapFragment<BaseResponse, Location>
         implements OnMapReadyCallback {
 
     @BindView(R.id.toolbar)

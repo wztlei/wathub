@@ -73,7 +73,7 @@ import retrofit2.Call;
     path = "/weather/current",
     layout = R.layout.module_weather
 )
-public class WeatherFragmentApi extends BaseApiModuleFragment<Responses.Weather, WeatherReading>
+public class WeatherFragment extends BaseApiModuleFragment<Responses.Weather, WeatherReading>
         implements ViewTreeObserver.OnScrollChangedListener {
 
     private static final Handler sMainHandler = new Handler(Looper.getMainLooper());
@@ -605,17 +605,17 @@ public class WeatherFragmentApi extends BaseApiModuleFragment<Responses.Weather,
 
     private static class PhotoFetcher extends AsyncTask<String, Void, Photo> {
 
-        private final WeakReference<WeatherFragmentApi> mFragmentRef;
+        private final WeakReference<WeatherFragment> mFragmentRef;
 
-        public static void fetchRandom(final WeatherFragmentApi fragment) {
+        public static void fetchRandom(final WeatherFragment fragment) {
             fetch(fragment, null);
         }
 
-        public static void fetch(final WeatherFragmentApi fragment, final String photoId) {
+        public static void fetch(final WeatherFragment fragment, final String photoId) {
             new PhotoFetcher(fragment).execute(photoId);
         }
 
-        private PhotoFetcher(final WeatherFragmentApi fragment) {
+        private PhotoFetcher(final WeatherFragment fragment) {
             mFragmentRef = new WeakReference<>(fragment);
         }
 
@@ -626,7 +626,7 @@ public class WeatherFragmentApi extends BaseApiModuleFragment<Responses.Weather,
 
         @Override
         protected void onPostExecute(final Photo photo) {
-            final WeatherFragmentApi fragment = mFragmentRef.get();
+            final WeatherFragment fragment = mFragmentRef.get();
             if (fragment != null) {
                 fragment.loadPicture(photo);
             }

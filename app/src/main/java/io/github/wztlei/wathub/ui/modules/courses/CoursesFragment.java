@@ -40,7 +40,7 @@ import retrofit2.Call;
     path = "/courses/*",
     layout = R.layout.module_courses
 )
-public class CoursesFragmentApi extends BaseListApiModuleFragment<Responses.Courses, Course>
+public class CoursesFragment extends BaseListApiModuleFragment<Responses.Courses, Course>
         implements ModuleListItemListener, AdapterView.OnItemClickListener, TextView.OnEditorActionListener {
 
     private static final String KEY_COURSE_SUBJECT = "subject";
@@ -170,7 +170,7 @@ public class CoursesFragmentApi extends BaseListApiModuleFragment<Responses.Cour
         // Remove focus from the list item
         getListView().requestFocus();
 
-        showModule(CourseFragmentApi.class, CourseFragmentApi.newBundle(mResponse.get(position)));
+        showModule(CourseFragment.class, CourseFragment.newBundle(mResponse.get(position)));
     }
 
     @Override

@@ -62,7 +62,7 @@ import retrofit2.Call;
     path = "/poi",
     layout = R.layout.module_poi
 )
-public class PointsOfInterestFragmentApi
+public class PointsOfInterestFragment
         extends BaseApiMapFragment<CombinedPointsOfInterestInfoResponse, CombinedPointsOfInterestInfo>
         implements
         GoogleMap.OnMarkerClickListener,

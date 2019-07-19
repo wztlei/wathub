@@ -30,7 +30,7 @@ import retrofit2.Call;
     path = "/news",
     layout = R.layout.module_news
 )
-public class NewsListFragmentApi extends BaseListApiModuleFragment<Responses.News, NewsDetails>
+public class NewsListFragment extends BaseListApiModuleFragment<Responses.News, NewsDetails>
         implements ModuleListItemListener {
 
     private final List<NewsDetails> mResponse = new ArrayList<>();
@@ -74,7 +74,7 @@ public class NewsListFragmentApi extends BaseListApiModuleFragment<Responses.New
     public void onItemClicked(final int position) {
         final NewsDetails news = mResponse.get(position);
 
-        showModule(NewsFragmentApi.class, NewsFragmentApi.newBundle(news));
+        showModule(NewsFragment.class, NewsFragment.newBundle(news));
     }
 
     private class NewsAdapter extends ModuleAdapter {

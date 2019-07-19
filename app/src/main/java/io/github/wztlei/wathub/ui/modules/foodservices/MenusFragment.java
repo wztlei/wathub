@@ -27,7 +27,7 @@ import retrofit2.Call;
     path = "/foodservices/menu",
     layout = R.layout.module_foodservices_menus
 )
-public class MenusFragmentApi extends BaseApiModuleFragment<Responses.Menus, MenuInfo>
+public class MenusFragment extends BaseApiModuleFragment<Responses.Menus, MenuInfo>
         implements ModuleListItemListener, DateSelectorView.OnDateChangedListener {
 
     @BindView(R.id.fragment_date_selector)
@@ -80,7 +80,7 @@ public class MenusFragmentApi extends BaseApiModuleFragment<Responses.Menus, Men
     @Override
     public void onItemClicked(final int position) {
         final int dayOfWeek = mDateSelector.getDate().getDayOfWeek(); // range [1,7]
-        showModule(MenuFragmentApi.class, MenuFragmentApi.newBundle(mAdapter.getItem(position), dayOfWeek));
+        showModule(MenuFragment.class, MenuFragment.newBundle(mAdapter.getItem(position), dayOfWeek));
     }
 
     @Override

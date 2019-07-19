@@ -29,7 +29,7 @@ import retrofit2.Call;
         path = "/buildings/list",
         layout = R.layout.module_buildings
 )
-public class ListBuildingsFragmentApi extends BaseListApiModuleFragment<Responses.Buildings, Building>
+public class ListBuildingsFragment extends BaseListApiModuleFragment<Responses.Buildings, Building>
         implements View.OnClickListener {
 
     private final List<Building> mResponse = new ArrayList<>();
@@ -85,7 +85,7 @@ public class ListBuildingsFragmentApi extends BaseListApiModuleFragment<Response
     public void onClick(final View v) {
         final int position = (int) v.getTag();
         final Building building = mResponse.get(position);
-        showModule(BuildingFragmentApi.class, BuildingFragmentApi.newBundle(building));
+        showModule(BuildingFragment.class, BuildingFragment.newBundle(building));
     }
 
     private final class BuildingsAdapter
@@ -104,7 +104,7 @@ public class ListBuildingsFragmentApi extends BaseListApiModuleFragment<Response
         public void bindView(final Context context, final int position, final View view) {
 
             view.setTag(position);
-            view.setOnClickListener(ListBuildingsFragmentApi.this);
+            view.setOnClickListener(ListBuildingsFragment.this);
 
             final TextView header = (TextView) view.findViewById(R.id.building_abbreviation);
             final TextView buildingName = (TextView) view.findViewById(R.id.building_name);

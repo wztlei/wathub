@@ -33,7 +33,7 @@ import retrofit2.Call;
     path = "/foodservices/announcements",
     layout = R.layout.module_foodservices_announcements
 )
-public class AnnouncementsFragmentApi
+public class AnnouncementsFragment
         extends BaseListApiModuleFragment<Responses.Announcements, Announcement>
         implements DateSelectorView.OnDateChangedListener {
 

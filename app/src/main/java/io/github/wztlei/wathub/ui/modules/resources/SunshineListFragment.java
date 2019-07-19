@@ -35,7 +35,7 @@ import retrofit2.Call;
     path = "/resources/sunshinelist",
     layout = R.layout.module_resources_sunshine
 )
-public class SunshineListFragmentApi extends BaseListApiModuleFragment<Responses.Sunshine, Sunshiner>
+public class SunshineListFragment extends BaseListApiModuleFragment<Responses.Sunshine, Sunshiner>
         implements AdapterView.OnItemSelectedListener {
 
     // Correspond to @array/sunshine_list_sort

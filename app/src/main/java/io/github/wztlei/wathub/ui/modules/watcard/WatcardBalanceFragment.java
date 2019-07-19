@@ -31,7 +31,7 @@ import retrofit2.Call;
     path = "/watcard/balance",
     layout = R.layout.module_watcard_balance
 )
-public class WatcardBalanceFragmentApi extends AbstractApiModuleFragment<Watcard> {
+public class WatcardBalanceFragment extends AbstractApiModuleFragment<Watcard> {
 
     @BindView(R.id.watcard_balance_total)
     TextView mTotalView;

@@ -32,7 +32,7 @@ import retrofit2.Call;
         path = "/resources/sites",
         layout = R.layout.module_resources_sites
 )
-public class SitesFragmentApi
+public class SitesFragment
         extends BaseListApiModuleFragment<Responses.Sites, Site>
         implements
         ModuleListItemListener {
@@ -135,7 +135,7 @@ public class SitesFragmentApi
 
         @Override
         public String getFirstCharOf(final int position) {
-            return SitesFragmentApi.this.getFirstCharOf(position);
+            return SitesFragment.this.getFirstCharOf(position);
         }
 
     }

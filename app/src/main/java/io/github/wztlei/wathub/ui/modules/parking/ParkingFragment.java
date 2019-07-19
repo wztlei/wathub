@@ -44,11 +44,11 @@ import retrofit2.Call;
     path = "/parking/watpark",
     layout = R.layout.module_parking
 )
-public class ParkingFragmentApi extends BaseApiMapFragment<Responses.Parking, ParkingLot>
+public class ParkingFragment extends BaseApiMapFragment<Responses.Parking, ParkingLot>
         implements MapTypeDialog.OnMapTypeSelectedListener {
 
     @SuppressWarnings("unused")
-    private static final String TAG = "WL/ParkingFragmentApi";
+    private static final String TAG = "WL/ParkingFragment";
 
     @BindView(R.id.parking_lot_info)
     ViewGroup mInfoRoot;

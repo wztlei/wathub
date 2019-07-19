@@ -24,7 +24,7 @@ import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.ui.modules.foodservices.LocationsFragmentApi;
+import io.github.wztlei.wathub.ui.modules.foodservices.LocationsFragment;
 import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.NetworkController;
 
@@ -267,7 +267,7 @@ public class NearbyLocationsFragment extends Fragment implements
     @OnClick(R.id.nearby_locations_see_all)
     public void onSeeAllClicked() {
         startActivity(ModuleHostActivity.getStartIntent(
-                getContext(), LocationsFragmentApi.class.getCanonicalName()));
+                getContext(), LocationsFragment.class.getCanonicalName()));
     }
 
     @OnClick(R.id.nearby_locations_enable_permission)

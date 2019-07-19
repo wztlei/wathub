@@ -27,7 +27,7 @@ import retrofit2.Call;
 //        path = "/foodservices/watcard",
 //        layout = R.layout.module_foodservices_watcards
 //)
-public class WatcardFragmentApi extends BaseListApiModuleFragment<Responses.Watcards, WatcardVendor> {
+public class WatcardFragment extends BaseListApiModuleFragment<Responses.Watcards, WatcardVendor> {
 
     private final List<WatcardVendor> mResponse = new ArrayList<>();
 

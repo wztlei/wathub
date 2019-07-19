@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuFragmentApi extends BaseApiModuleFragment<Responses.Outlets, Outlet> {
+public class MenuFragment extends BaseApiModuleFragment<Responses.Outlets, Outlet> {
 
     private static final String KEY_DAY_OF_WEEK = "day_of_week";
 

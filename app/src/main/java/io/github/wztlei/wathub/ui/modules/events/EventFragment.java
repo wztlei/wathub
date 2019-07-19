@@ -42,7 +42,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 
 @ModuleFragment(path = "/events/*/*")
-public class EventFragmentApi extends BaseApiModuleFragment<Responses.EventDetails, EventInfo> {
+public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails, EventInfo> {
 
     private EventInfo mEventInfo;
     private View mRoot;

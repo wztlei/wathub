@@ -45,10 +45,10 @@ import retrofit2.Call;
     path = "/resources/goosewatch",
     layout = R.layout.module_resources_goosewatch
 )
-public class GooseWatchFragmentApi extends BaseApiMapFragment<Responses.GooseWatch, GooseNest>
+public class GooseWatchFragment extends BaseApiMapFragment<Responses.GooseWatch, GooseNest>
         implements GoogleMap.OnMarkerClickListener, MapTypeDialog.OnMapTypeSelectedListener {
 
-    public static final String TAG = GooseWatchFragmentApi.class.getSimpleName();
+    public static final String TAG = GooseWatchFragment.class.getSimpleName();
 
     @BindView(R.id.goosewatch_empty_view)
     View mEmptyView;

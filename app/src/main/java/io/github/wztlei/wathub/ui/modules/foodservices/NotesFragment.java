@@ -34,7 +34,7 @@ import retrofit2.Call;
         path = "/foodservices/notes",
         layout = R.layout.module_foodservices_notes
 )
-public class NotesFragmentApi extends BaseListApiModuleFragment<Responses.Notes, Note>
+public class NotesFragment extends BaseListApiModuleFragment<Responses.Notes, Note>
         implements DateSelectorView.OnDateChangedListener {
 
     @BindView(R.id.fragment_date_selector)

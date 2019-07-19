@@ -29,7 +29,7 @@ import retrofit2.Call;
     path = "/foodservices/locations",
     layout = R.layout.module_foodservices_locations
 )
-public class LocationsFragmentApi extends BaseListApiModuleFragment<Responses.Locations, Location>
+public class LocationsFragment extends BaseListApiModuleFragment<Responses.Locations, Location>
         implements AdapterView.OnItemSelectedListener, ModuleListItemListener {
 
     private static final Comparator<Location> COMPARATOR =
@@ -119,8 +119,8 @@ public class LocationsFragmentApi extends BaseListApiModuleFragment<Responses.Lo
 
     @Override
     public void onItemClicked(final int position) {
-        showModule(LocationFragmentApi.class,
-                LocationFragmentApi.newBundle(mAdapter.getItem(position)));
+        showModule(LocationFragment.class,
+                LocationFragment.newBundle(mAdapter.getItem(position)));
     }
 
     @SuppressWarnings({"Convert2Lambda", "Anonymous2MethodRef"})

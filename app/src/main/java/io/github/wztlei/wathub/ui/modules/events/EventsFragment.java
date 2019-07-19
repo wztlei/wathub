@@ -31,7 +31,7 @@ import retrofit2.Call;
     path = "/events",
     layout = R.layout.module_events
 )
-public class EventsFragmentApi extends BaseListApiModuleFragment<Responses.Events, Event>
+public class EventsFragment extends BaseListApiModuleFragment<Responses.Events, Event>
         implements ModuleListItemListener {
 
     private final List<Event> mResponse = new ArrayList<>();
@@ -97,7 +97,7 @@ public class EventsFragmentApi extends BaseListApiModuleFragment<Responses.Event
     public void onItemClicked(final int position) {
         final Event event = mResponse.get(position);
 
-        showModule(EventFragmentApi.class, EventFragmentApi.newBundle(event));
+        showModule(EventFragment.class, EventFragment.newBundle(event));
     }
 
     private class EventAdapter extends ModuleAdapter {
