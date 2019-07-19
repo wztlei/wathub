@@ -15,8 +15,6 @@ import android.view.MenuItem;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
 
-import org.jsoup.Connection;
-
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.controller.WatcardManager;
@@ -34,13 +32,13 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
     private UWaterlooApi mApi;
     private BaseModuleFragment mChildFragment;
 
-    public static <T extends BaseApiModuleFragment> Intent getStartIntent(
+    public static <T extends BaseModuleFragment> Intent getStartIntent(
             final Context context,
             final String fragmentCanonicalName) {
         return getStartIntent(context, fragmentCanonicalName, new Bundle());
     }
 
-    public static <T extends BaseApiModuleFragment> Intent getStartIntent(
+    public static <T extends BaseModuleFragment> Intent getStartIntent(
             final Context context,
             final String fragmentCanonicalName,
             final Bundle args) {
@@ -107,12 +105,12 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
         return (Toolbar) findViewById(R.id.host_toolbar);
     }
 
-    private BaseApiModuleFragment findContentFragment() {
-        return (BaseApiModuleFragment) getSupportFragmentManager().findFragmentById(R.id.content);
+    private BaseModuleFragment findContentFragment() {
+        return (BaseModuleFragment) getSupportFragmentManager().findFragmentById(R.id.content);
     }
 
     public void showFragment(
-            final BaseApiModuleFragment fragment, final boolean addToBackStack,
+            final BaseModuleFragment fragment, final boolean addToBackStack,
             final Bundle arguments) {
         mChildFragment = fragment;
         mChildFragment.setArguments(arguments);

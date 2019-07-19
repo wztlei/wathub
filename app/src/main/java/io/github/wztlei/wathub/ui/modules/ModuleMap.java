@@ -89,10 +89,10 @@ final class ModuleMap {
                 new ModuleInfo(OpenClassroomFragment.class, R.layout.module_open_classrooms));
     }
 
-    public static ModuleInfo getFragmentInfo(final String endpoint) {
+    static ModuleInfo getFragmentInfo(final String endpoint) {
         String path = endpoint;
         path = path.replace(".json", "");
-        path = path.replaceAll("\\{[^\\}]*\\}", "*");
+        path = path.replaceAll("\\{[^}]*}", "*");
         return sEndpoints.get(path);
     }
 }

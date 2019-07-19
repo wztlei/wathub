@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -35,13 +34,13 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import io.github.wztlei.wathub.utils.NetworkController;
-import io.github.wztlei.wathub.utils.Px;
 
 import java.util.List;
 
 import retrofit2.Call;
 
-public abstract class BaseApiModuleFragment<T extends Parcelable, V extends AbstractModel> extends BaseModuleFragment
+public abstract class BaseApiModuleFragment<T extends Parcelable, V extends AbstractModel>
+        extends BaseModuleFragment
         implements View.OnTouchListener, SwipeRefreshLayout.OnRefreshListener {
 
     protected static final long MINIMUM_UPDATE_DURATION = 1000;
@@ -69,8 +68,10 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         return bundle;
     }
 
+    /**
+     * Required constructor
+     */
     public BaseApiModuleFragment() {
-        // Required constructor
         setHasOptionsMenu(true);
     }
 
@@ -111,7 +112,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
             parent.addView(contentView);
         }
 
-        mSwipeLayout = (SwipeRefreshLayout) root.findViewById(R.id.fragment_swipe_container);
+        mSwipeLayout = root.findViewById(R.id.fragment_swipe_container);
         if (mSwipeLayout != null) {
             mSwipeLayout.setOnRefreshListener(this);
         }
@@ -157,8 +158,8 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     protected final void syncRefreshMenuItem(final Menu menu) {
         final MenuItem refreshItem = menu.findItem(R.id.menu_refresh);
         if (refreshItem != null) {
-            refreshItem.setVisible(!isRefreshing());
-            refreshItem.setEnabled(!isRefreshing());
+            refreshItem.setVisible(noTaskRunning());
+            refreshItem.setEnabled(noTaskRunning());
         }
     }
 
@@ -237,8 +238,10 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         return ((ModuleHostActivity) getActivity()).getApi();
     }
 
+    /**
+     * Overridden by subclasses
+     */
     protected void onRefreshRequested() {
-        // Overridden by subclasses
     }
 
     private void changeLoadingVisibilityInternal(final boolean show) {
@@ -314,8 +317,8 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         return mLastUpdate;
     }
 
-    public boolean isRefreshing() {
-        return mTask != null;
+    private boolean noTaskRunning() {
+        return mTask == null;
     }
 
     protected void onContentShown() {

@@ -27,13 +27,13 @@ public class ApiMethodsFragment extends ListFragment implements ModuleListItemLi
     }
 
     public static void openModule(final Context context, final String endpoint) {
-        if (endpoint.contains("wathub")) {
-
-        } else {
+//        if (endpoint.contains("wathub")) {
+//            Log.d(TAG, "openModule");
+//        } else {
             final ModuleInfo fragmentInfo = ModuleMap.getFragmentInfo(endpoint);
             String fragmentCanonicalName = fragmentInfo.fragment.getCanonicalName();
             context.startActivity(ModuleHostActivity.getStartIntent(context, fragmentCanonicalName));
-        }
+//        }
     }
 
     /**
