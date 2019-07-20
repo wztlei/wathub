@@ -278,6 +278,7 @@
         <item>"Of course! You can &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us directly!"</item>
     </string-array>
 
+
     <!-- General -->
     <string name="and">and</string>
     <string name="open_in_browser">Open in browser</string>

@@ -136,12 +136,14 @@ public class MainActivity extends BaseActivity
             return false;
         }
 
+        /*
         // feedback addition -- change 10/07/19
         if (itemId == R.id.menu_item_feedback) {
             startActivity(new Intent(this, FeedbackActivity.class));
             overridePendingTransition(R.anim.bottom_in, R.anim.stay);
             return false;
         }
+        */
 
         if (itemId == R.id.menu_item_home) {
             fragment = new HomeFragment();
