@@ -15,15 +15,20 @@
             android:icon="@drawable/ic_foodservices"
             android:title="@string/api_foodservices" />
 
+        <!--<item-->
+        <!--android:id="@+id/menu_item_watcard"-->
+        <!--android:icon="@drawable/ic_watcard"-->
+        <!--android:title="@string/api_watcard" />-->
+
         <item
             android:id="@+id/menu_item_courses"
             android:icon="@drawable/ic_courses"
             android:title="@string/api_courses" />
 
         <item
-            android:id="@+id/menu_item_campusinfo"
-            android:icon="@drawable/ic_maps"
-            android:title="@string/api_ci" />
+            android:id="@+id/menu_item_campus"
+            android:icon="@drawable/ic_school"
+            android:title="@string/api_campus" />
 
         <item
             android:id="@+id/menu_item_news"
@@ -50,12 +55,6 @@
             android:id="@+id/menu_item_about"
             android:icon="@drawable/ic_info_outline"
             android:title="@string/menu_about" />
-
-        <!-- remember to update icon-->
-        <item
-            android:id="@+id/menu_item_feedback"
-            android:icon="@drawable/ic_info_outline"
-            android:title="Feedback" />
 
     </group>
 
