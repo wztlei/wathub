@@ -134,10 +134,9 @@ public class SunshineListFragment extends BaseListApiModuleFragment<Responses.Su
         // Nothing to do here
     }
 
-    private class SunshineAdapter
-            extends ModuleAdapter {
+    private class SunshineAdapter extends ModuleAdapter {
 
-        public SunshineAdapter(final Context context) {
+        SunshineAdapter(final Context context) {
             super(context);
         }
 

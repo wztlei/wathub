@@ -13,13 +13,16 @@ import java.util.List;
 public class StringAdapter extends ArrayAdapter<Object> {
 
     private int mViewId = android.R.layout.simple_list_item_1;
-    private int mDropdownId = android.R.layout.simple_list_item_1;
 
-    public StringAdapter(final Context context, final List<Object> objects) {
+    StringAdapter(final Context context, final List<Object> objects) {
         this(context, objects, 0);
     }
 
-    public StringAdapter(final Context context, final List<Object> objects, final int layoutId) {
+    public StringAdapter(final Context context, final String[] objects) {
+        super(context, 0, objects);
+    }
+
+    private StringAdapter(final Context context, final List<Object> objects, final int layoutId) {
         super(context, layoutId, objects);
     }
 
@@ -34,19 +37,16 @@ public class StringAdapter extends ArrayAdapter<Object> {
             final int position,
             final View convertView,
             @NonNull final ViewGroup parent) {
-        return doGetView(position, convertView, parent, mDropdownId);
+        int dropdownId = android.R.layout.simple_list_item_1;
+        return doGetView(position, convertView, parent, dropdownId);
     }
 
     public void setViewLayoutId(final int viewId) {
         mViewId = viewId;
     }
 
-    public void setDropdownLayoutId(final int dropdownId) {
-        mDropdownId = dropdownId;
-    }
-
-    private View doGetView(
-            final int position, final View convertView, final ViewGroup parent, final int layoutResId) {
+    private View doGetView(final int position, final View convertView,
+                           final ViewGroup parent, final int layoutResId) {
         final View view;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(layoutResId, parent, false);
@@ -58,7 +58,7 @@ public class StringAdapter extends ArrayAdapter<Object> {
         if (view instanceof TextView) {
             textView = (TextView) view;
         } else {
-            textView = (TextView) view.findViewById(android.R.id.text1);
+            textView = view.findViewById(android.R.id.text1);
         }
 
         textView.setText(String.valueOf(getItem(position)));
