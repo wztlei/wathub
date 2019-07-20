@@ -9,7 +9,7 @@ public class RoomTimeInterval {
     private int endMin;
 
     public RoomTimeInterval(String building, String roomNum, int startHour,
-                     int startMin, int endHour, int endMin) {
+                            int startMin, int endHour, int endMin) {
         this.building = building;
         this.roomNum = roomNum;
         this.startHour = startHour;
