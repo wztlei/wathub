@@ -37,6 +37,7 @@ public abstract class ModuleAdapter extends BaseAdapter implements View.OnClickL
                 selectable = v;
             }
 
+            //noinspection ConstantConditions
             if (selectable != null) {
                 selectable.setTag(position);
                 selectable.setOnClickListener(this);
