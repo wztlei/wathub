@@ -25,7 +25,7 @@ import io.github.wztlei.wathub.common.UpperCaseTextWatcher;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import retrofit2.Call;
     path = "/courses/*",
     layout = R.layout.module_courses
 )
-public class CoursesFragment extends BaseListModuleFragment<Responses.Courses, Course>
+public class CoursesFragment extends BaseListApiModuleFragment<Responses.Courses, Course>
         implements ModuleListItemListener, AdapterView.OnItemClickListener, TextView.OnEditorActionListener {
 
     private static final String KEY_COURSE_SUBJECT = "subject";

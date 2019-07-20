@@ -23,7 +23,7 @@ public class CourseSpan extends ClickableSpan {
 
         final Intent intent = ModuleHostActivity.getStartIntent(
                 context,
-                CourseFragment.class,
+                CourseFragment.class.getCanonicalName(),
                 CourseFragment.newBundle(mSubject, mCode));
 
         context.startActivity(intent);

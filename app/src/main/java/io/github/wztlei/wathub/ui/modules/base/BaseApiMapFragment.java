@@ -10,8 +10,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 
-public abstract class BaseMapFragment<T extends BaseResponse, V extends AbstractModel>
-        extends BaseModuleFragment<T, V>
+public abstract class BaseApiMapFragment<T extends BaseResponse, V extends AbstractModel>
+        extends BaseApiModuleFragment<T, V>
         implements GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
     private static final String KEY_MAP_BUNDLE = "map_state";

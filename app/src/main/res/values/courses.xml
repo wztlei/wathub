@@ -1,118 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="course_subjects">
+        <item>AADMS</item>
+        <item>AB</item>
+        <item>ACC</item>
+        <item>ACINTY</item>
         <item>ACTSC</item>
+        <item>ADMGT</item>
+        <item>AES</item>
         <item>AFM</item>
         <item>AHS</item>
         <item>AMATH</item>
         <item>ANTH</item>
+        <item>APHYS</item>
         <item>APPLS</item>
         <item>ARBUS</item>
         <item>ARCH</item>
+        <item>ARCHL</item>
+        <item>ART</item>
         <item>ARTS</item>
+        <item>ASIAN</item>
+        <item>ASTRN</item>
         <item>AVIA</item>
         <item>BASE</item>
+        <item>BE</item>
         <item>BET</item>
         <item>BIOL</item>
         <item>BME</item>
+        <item>BOT</item>
         <item>BUS</item>
+        <item>CCIV</item>
+        <item>CDNST</item>
+        <item>CEDEV</item>
         <item>CHE</item>
         <item>CHEM</item>
         <item>CHINA</item>
         <item>CIVE</item>
         <item>CLAS</item>
+        <item>CM</item>
         <item>CMW</item>
         <item>CO</item>
         <item>COGSCI</item>
         <item>COMM</item>
+        <item>COMPT</item>
+        <item>COMST</item>
+        <item>CONST</item>
         <item>COOP</item>
         <item>CROAT</item>
         <item>CS</item>
+        <item>CT</item>
+        <item>CULMG</item>
+        <item>CULT</item>
         <item>DAC</item>
+        <item>DANCE</item>
+        <item>DEI</item>
+        <item>DES</item>
+        <item>DEVIS</item>
+        <item>DM</item>
         <item>DRAMA</item>
         <item>DUTCH</item>
         <item>EARTH</item>
         <item>EASIA</item>
+        <item>EBUS</item>
         <item>ECE</item>
         <item>ECON</item>
         <item>EFAS</item>
+        <item>ELE</item>
+        <item>ELPE</item>
         <item>EMLS</item>
         <item>ENBUS</item>
         <item>ENGL</item>
         <item>ENVE</item>
         <item>ENVS</item>
         <item>ERS</item>
+        <item>ESL</item>
+        <item>EVSY</item>
+        <item>FILM</item>
+        <item>FINAN</item>
         <item>FINE</item>
         <item>FR</item>
+        <item>FRCS</item>
         <item>GBDA</item>
+        <item>GEMCC</item>
         <item>GENE</item>
         <item>GEOE</item>
         <item>GEOG</item>
+        <item>GEOL</item>
         <item>GER</item>
         <item>GERON</item>
+        <item>GGOV</item>
+        <item>GLOBAL</item>
+        <item>GRAD</item>
         <item>GRK</item>
+        <item>GS</item>
+        <item>HEBRW</item>
         <item>HIST</item>
         <item>HLTH</item>
+        <item>HRCS</item>
         <item>HRM</item>
+        <item>HS</item>
+        <item>HSG</item>
         <item>HUMSC</item>
+        <item>HUNGN</item>
+        <item>IFS</item>
         <item>INDEV</item>
         <item>INTEG</item>
+        <item>INTERN</item>
         <item>INTST</item>
+        <item>INTTS</item>
         <item>IS</item>
+        <item>ISS</item>
         <item>ITAL</item>
         <item>ITALST</item>
         <item>JAPAN</item>
         <item>JS</item>
         <item>KIN</item>
         <item>KOREA</item>
+        <item>KPE</item>
+        <item>LANG</item>
         <item>LAT</item>
+        <item>LATAM</item>
+        <item>LED</item>
         <item>LS</item>
+        <item>LSC</item>
         <item>MATBUS</item>
         <item>MATH</item>
         <item>ME</item>
+        <item>MEDST</item>
         <item>MEDVL</item>
+        <item>MENV</item>
+        <item>MES</item>
+        <item>MI</item>
+        <item>MISC</item>
         <item>MNS</item>
         <item>MSCI</item>
+        <item>MSE</item>
         <item>MTE</item>
         <item>MTHEL</item>
         <item>MUSIC</item>
+        <item>NANO</item>
         <item>NATST</item>
         <item>NE</item>
+        <item>NES</item>
         <item>OPTOM</item>
         <item>PACS</item>
+        <item>PAS</item>
         <item>PD</item>
         <item>PDARCH</item>
+        <item>PDENG</item>
         <item>PDPHRM</item>
+        <item>PED</item>
+        <item>PERST</item>
         <item>PHARM</item>
         <item>PHIL</item>
+        <item>PHS</item>
         <item>PHYS</item>
         <item>PLAN</item>
         <item>PMATH</item>
+        <item>POLSH</item>
         <item>PORT</item>
+        <item>PS</item>
         <item>PSCI</item>
         <item>PSYCH</item>
+        <item>QIC</item>
         <item>REC</item>
         <item>REES</item>
+        <item>RELC</item>
         <item>RS</item>
+        <item>RSCH</item>
         <item>RUSS</item>
         <item>SCBUS</item>
         <item>SCI</item>
         <item>SDS</item>
         <item>SE</item>
+        <item>SEQ</item>
         <item>SI</item>
+        <item>SIPAR</item>
         <item>SMF</item>
         <item>SOC</item>
+        <item>SOCIN</item>
         <item>SOCWK</item>
+        <item>SOCWL</item>
         <item>SPAN</item>
         <item>SPCOM</item>
+        <item>SPD</item>
         <item>STAT</item>
         <item>STV</item>
-        <item>SVENT</item>
+        <item>SUSM</item>
+        <item>SWK</item>
         <item>SWREN</item>
         <item>SYDE</item>
+        <item>TAX</item>
+        <item>THTRE</item>
+        <item>TN</item>
+        <item>TOUR</item>
+        <item>TPM</item>
+        <item>TPPE</item>
+        <item>TS</item>
+        <item>UKRAN</item>
+        <item>UN</item>
         <item>UNIV</item>
+        <item>URBAN</item>
+        <item>UU</item>
         <item>VCULT</item>
+        <item>WATER</item>
+        <item>WHMIS</item>
         <item>WKRPT</item>
         <item>WS</item>
+        <item>ZOOL</item>
     </string-array>
 </resources>

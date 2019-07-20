@@ -4,6 +4,7 @@ package io.github.wztlei.wathub.ui.modules;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 
 import com.deange.uwaterlooapi.annotations.ModuleInfo;
 
@@ -13,6 +14,7 @@ import io.github.wztlei.wathub.utils.Px;
 public class ApiMethodsFragment extends ListFragment implements ModuleListItemListener {
 
     private static final String ARG_METHODS = "methods";
+    private static final String TAG = "WL/ApiMethodsFragment";
 
     public static ApiMethodsFragment newInstance(final String[] endpoints) {
         final ApiMethodsFragment fragment = new ApiMethodsFragment();
@@ -26,12 +28,14 @@ public class ApiMethodsFragment extends ListFragment implements ModuleListItemLi
 
     public static void openModule(final Context context, final String endpoint) {
         final ModuleInfo fragmentInfo = ModuleMap.getFragmentInfo(endpoint);
-        context.startActivity(ModuleHostActivity.getStartIntent(context, fragmentInfo.fragment));
+        String fragmentCanonicalName = fragmentInfo.fragment.getCanonicalName();
+        context.startActivity(ModuleHostActivity.getStartIntent(context, fragmentCanonicalName));
     }
 
-    public ApiMethodsFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public ApiMethodsFragment() {}
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -43,8 +47,13 @@ public class ApiMethodsFragment extends ListFragment implements ModuleListItemLi
         getListView().setDividerHeight(0);
 
         final String[] methods = getArguments().getStringArray(ARG_METHODS);
-        if (methods != null) {
-            setListAdapter(new ApiMethodsAdapter(getActivity(), methods, ApiMethodsFragment.this));
+        try {
+            if (methods != null) {
+                setListAdapter(new ApiMethodsAdapter(
+                        getActivity(), methods, ApiMethodsFragment.this));
+            }
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 

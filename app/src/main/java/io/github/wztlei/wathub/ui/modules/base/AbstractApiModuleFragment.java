@@ -5,8 +5,8 @@ import com.deange.uwaterlooapi.model.Metadata;
 
 import java.util.List;
 
-public abstract class AbstractModuleFragment<T extends AbstractModel>
-        extends BaseModuleFragment<T, T> {
+public abstract class AbstractApiModuleFragment<T extends AbstractModel>
+        extends BaseApiModuleFragment<T, T> {
 
     @Override
     protected void deliverResponse(final T data) {

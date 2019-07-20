@@ -32,7 +32,7 @@ import io.github.wztlei.wathub.model.CombinedPointsOfInterestInfo;
 import io.github.wztlei.wathub.model.responses.CombinedPointsOfInterestInfoResponse;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.LocationUtils;
 import io.github.wztlei.wathub.utils.MapUtils;
@@ -63,7 +63,7 @@ import retrofit2.Call;
     layout = R.layout.module_poi
 )
 public class PointsOfInterestFragment
-        extends BaseMapFragment<CombinedPointsOfInterestInfoResponse, CombinedPointsOfInterestInfo>
+        extends BaseApiMapFragment<CombinedPointsOfInterestInfoResponse, CombinedPointsOfInterestInfo>
         implements
         GoogleMap.OnMarkerClickListener,
         LayersDialog.OnLayersSelectedListener,

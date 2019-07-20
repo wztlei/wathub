@@ -43,7 +43,7 @@ import io.github.wztlei.wathub.model.PhotoUrl;
 import io.github.wztlei.wathub.ui.Colors;
 import io.github.wztlei.wathub.ui.CoverPhotoPresenter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.RangeView;
 import io.github.wztlei.wathub.ui.view.SliceView;
 import io.github.wztlei.wathub.ui.view.WaveView;
@@ -73,7 +73,7 @@ import retrofit2.Call;
     path = "/weather/current",
     layout = R.layout.module_weather
 )
-public class WeatherFragment extends BaseModuleFragment<Responses.Weather, WeatherReading>
+public class WeatherFragment extends BaseApiModuleFragment<Responses.Weather, WeatherReading>
         implements ViewTreeObserver.OnScrollChangedListener {
 
     private static final Handler sMainHandler = new Handler(Looper.getMainLooper());

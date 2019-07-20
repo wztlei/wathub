@@ -1,7 +1,6 @@
 package io.github.wztlei.wathub.ui.modules.buildings;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +18,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.MapActivity;
 import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
 import io.github.wztlei.wathub.utils.MapUtils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @ModuleFragment(path = "/buildings/*")
-public class BuildingFragment extends BaseMapFragment<Responses.BuildingEntity, Building>
+public class BuildingFragment extends BaseApiMapFragment<Responses.BuildingEntity, Building>
         implements MapTypeDialog.OnMapTypeSelectedListener {
 
     public static final String TAG = BuildingFragment.class.getSimpleName();

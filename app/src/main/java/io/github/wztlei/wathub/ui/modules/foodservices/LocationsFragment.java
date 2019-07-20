@@ -16,7 +16,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,7 @@ import retrofit2.Call;
     path = "/foodservices/locations",
     layout = R.layout.module_foodservices_locations
 )
-public class LocationsFragment extends BaseListModuleFragment<Responses.Locations, Location>
+public class LocationsFragment extends BaseListApiModuleFragment<Responses.Locations, Location>
         implements AdapterView.OnItemSelectedListener, ModuleListItemListener {
 
     private static final Comparator<Location> COMPARATOR =

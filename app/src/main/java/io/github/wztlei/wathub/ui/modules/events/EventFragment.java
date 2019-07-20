@@ -26,7 +26,7 @@ import com.deange.uwaterlooapi.model.events.EventLocation;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.Joiner;
@@ -42,7 +42,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 
 @ModuleFragment(path = "/events/*/*")
-public class EventFragment extends BaseModuleFragment<Responses.EventDetails, EventInfo> {
+public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails, EventInfo> {
 
     private EventInfo mEventInfo;
     private View mRoot;

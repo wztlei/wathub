@@ -5,6 +5,7 @@ import android.util.Log;
 
 import io.github.wztlei.wathub.controller.EncryptionController;
 import io.github.wztlei.wathub.controller.WatcardManager;
+import io.github.wztlei.wathub.net.RoomScheduleFetcher;
 import io.github.wztlei.wathub.utils.FontUtils;
 import io.github.wztlei.wathub.utils.NetworkController;
 import io.github.wztlei.wathub.utils.Px;
@@ -21,7 +22,7 @@ public class MainApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        Log.v(TAG, "onCreate()");
+        Log.d(TAG, "onCreate()");
 
         // Set up connectivity manager
         NetworkController.init(this);
@@ -43,5 +44,8 @@ public class MainApplication extends MultiDexApplication {
 
         // Watcard manager
         WatcardManager.init(this);
+
+        // Room fetcher
+        new RoomScheduleFetcher(getApplicationContext()).retrieveRoomScheduleAsync();
     }
 }

@@ -3,8 +3,6 @@ package io.github.wztlei.wathub.net;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.io.IOException;
-
 import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,8 +21,8 @@ public class Calls {
     public static <T> T unwrap(final Call<T> call) {
         try {
             return call.execute().body();
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            return null;
         }
     }
 
@@ -55,9 +53,7 @@ public class Calls {
         }
 
         @Override
-        public void cancel() {
-            // No-op
-        }
+        public void cancel() {}
 
         @Override
         public boolean isCanceled() {
@@ -75,5 +71,4 @@ public class Calls {
             return new Request.Builder().build();
         }
     }
-
 }

@@ -15,12 +15,11 @@ public class SimpleListResponse<T extends Parcelable>
     Parcelable {
 
   @SerializedName("data")
-  List<T> mData;
+  private List<T> mData;
 
-  protected SimpleListResponse() {
-  }
+  SimpleListResponse() {}
 
-  protected SimpleListResponse(final Parcel in) {
+  private SimpleListResponse(final Parcel in) {
     super(in);
 
     final int size = in.readInt();
@@ -68,5 +67,4 @@ public class SimpleListResponse<T extends Parcelable>
   public List<T> getData() {
     return mData;
   }
-
 }

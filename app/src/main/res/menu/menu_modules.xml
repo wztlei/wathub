@@ -26,9 +26,9 @@
             android:title="@string/api_courses" />
 
         <item
-            android:id="@+id/menu_item_maps"
-            android:icon="@drawable/ic_maps"
-            android:title="@string/api_maps" />
+            android:id="@+id/menu_item_campus"
+            android:icon="@drawable/ic_school"
+            android:title="@string/api_campus" />
 
         <item
             android:id="@+id/menu_item_news"
