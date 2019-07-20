@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.Calendar;
@@ -27,9 +29,13 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     @BindView(R.id.building_open_classroom_spinner)
     Spinner mBuildingSpinner;
 
+    @BindView(R.id.open_classroom_list)
+    ListView mOpenRoomList;
+
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;
 
+    @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
     private static final String BUILDING_KEY = "BUILDING_KEY";
 
@@ -90,12 +96,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         RoomTimeIntervalList buildingOpenSchedule = mRoomScheduleManager.findOpenRooms(building,
                 hour, hour+1);
 
-        for (RoomTimeInterval r : buildingOpenSchedule) {
-            Log.d(TAG, "r: " + r.getBuilding() + " " + r.getRoomNum() + " r");
-        }
-
         // Update the recycler view displaying the open classroom schedule 
-//        scheduleRecyclerView.setAdapter(new ScheduleAdapter(buildingOpenSchedule));
+        mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
 
         // Update the text view displaying the building's full name
 //        buildingFullNameTextView.setText(buildingCodeToFullName(building));
@@ -104,5 +106,33 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(BUILDING_KEY, building);
         editor.apply();
+    }
+
+    private class OpenClassroomAdapter extends BaseAdapter {
+        RoomTimeIntervalList mRoomTimeIntervalList;
+
+        OpenClassroomAdapter(RoomTimeIntervalList roomTimeIntervalList) {
+            mRoomTimeIntervalList = roomTimeIntervalList;
+        }
+
+        @Override
+        public int getCount() {
+            return mRoomTimeIntervalList == null ? 0 : mRoomTimeIntervalList.size();
+        }
+
+        @Override
+        public RoomTimeInterval getItem(int i) {
+            return mRoomTimeIntervalList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            return null;
+        }
     }
 }

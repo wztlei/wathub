@@ -167,7 +167,7 @@ public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails,
 
         private final List<MultidayDateRange> mTimes;
 
-        public TimesAdapter(final Context context, final List<MultidayDateRange> times) {
+        TimesAdapter(final Context context, final List<MultidayDateRange> times) {
             super(context);
             mTimes = times;
         }

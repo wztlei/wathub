@@ -195,10 +195,9 @@ public class CoursesFragment extends BaseListApiModuleFragment<Responses.Courses
         return false;
     }
 
-    public class CourseAdapter
-            extends ModuleAdapter {
+    public class CourseAdapter extends ModuleAdapter {
 
-        public CourseAdapter(final Context context, final ModuleListItemListener listener) {
+        CourseAdapter(final Context context, final ModuleListItemListener listener) {
             super(context, listener);
         }
 
