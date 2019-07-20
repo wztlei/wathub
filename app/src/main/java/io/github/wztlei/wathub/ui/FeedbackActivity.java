@@ -39,6 +39,7 @@ public class FeedbackActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    // fix menu feedback
     @BindString(R.string.menu_feedback)
     String mFeedbackString;
 
