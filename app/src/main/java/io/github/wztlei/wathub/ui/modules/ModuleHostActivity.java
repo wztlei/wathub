@@ -19,6 +19,7 @@ import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.controller.WatcardManager;
 import io.github.wztlei.wathub.ui.BaseActivity;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.FontUtils;
 
@@ -33,17 +34,17 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
 
     public static <T extends BaseModuleFragment> Intent getStartIntent(
             final Context context,
-            final Class<T> fragment) {
-        return getStartIntent(context, fragment, new Bundle());
+            final String fragmentCanonicalName) {
+        return getStartIntent(context, fragmentCanonicalName, new Bundle());
     }
 
     public static <T extends BaseModuleFragment> Intent getStartIntent(
             final Context context,
-            final Class<T> fragment,
+            final String fragmentCanonicalName,
             final Bundle args) {
         final Intent intent = new Intent(context, ModuleHostActivity.class);
 
-        intent.putExtra(ARG_FRAGMENT_CLASS, fragment.getCanonicalName());
+        intent.putExtra(ARG_FRAGMENT_CLASS, fragmentCanonicalName);
         if (args != null) {
             intent.putExtras(args);
         }
@@ -80,8 +81,16 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
         mChildFragment = findContentFragment();
         if (mChildFragment == null) {
             final String fragmentName = getIntent().getStringExtra(ARG_FRAGMENT_CLASS);
-            showFragment((BaseModuleFragment) Fragment.instantiate(this, fragmentName), false,
-                    getIntent().getExtras());
+            Fragment fragment = Fragment.instantiate(this, fragmentName);
+
+            if (fragment instanceof BaseApiModuleFragment) {
+                showFragment((BaseApiModuleFragment) fragment, false,
+                        getIntent().getExtras());
+            } else if (fragment instanceof BaseModuleFragment){
+                mChildFragment = (BaseModuleFragment) fragment;
+                final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content, mChildFragment, TAG).commit();
+            }
         }
         refreshActionBar();
     }

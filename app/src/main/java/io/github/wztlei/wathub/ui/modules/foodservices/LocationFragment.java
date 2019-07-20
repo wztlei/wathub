@@ -3,13 +3,10 @@ package io.github.wztlei.wathub.ui.modules.foodservices;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -30,9 +27,8 @@ import com.deange.uwaterlooapi.model.foodservices.OperatingHours;
 
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
 import io.github.wztlei.wathub.ui.view.OperatingHoursView;
-import io.github.wztlei.wathub.utils.FontUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.Joiner;
 
@@ -50,10 +46,9 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.wztlei.wathub.utils.MapUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
 
-public class LocationFragment extends BaseMapFragment<BaseResponse, Location>
+public class LocationFragment extends BaseApiMapFragment<BaseResponse, Location>
         implements OnMapReadyCallback {
 
     @BindView(R.id.toolbar)

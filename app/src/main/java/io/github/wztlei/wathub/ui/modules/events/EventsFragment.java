@@ -17,7 +17,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseListModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import retrofit2.Call;
     path = "/events",
     layout = R.layout.module_events
 )
-public class EventsFragment extends BaseListModuleFragment<Responses.Events, Event>
+public class EventsFragment extends BaseListApiModuleFragment<Responses.Events, Event>
         implements ModuleListItemListener {
 
     private final List<Event> mResponse = new ArrayList<>();

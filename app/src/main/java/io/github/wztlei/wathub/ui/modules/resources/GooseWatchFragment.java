@@ -22,7 +22,7 @@ import com.deange.uwaterlooapi.model.resources.GooseNest;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseMapFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.Px;
@@ -45,7 +45,7 @@ import retrofit2.Call;
     path = "/resources/goosewatch",
     layout = R.layout.module_resources_goosewatch
 )
-public class GooseWatchFragment extends BaseMapFragment<Responses.GooseWatch, GooseNest>
+public class GooseWatchFragment extends BaseApiMapFragment<Responses.GooseWatch, GooseNest>
         implements GoogleMap.OnMarkerClickListener, MapTypeDialog.OnMapTypeSelectedListener {
 
     public static final String TAG = GooseWatchFragment.class.getSimpleName();

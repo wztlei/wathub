@@ -266,7 +266,8 @@ public class NearbyLocationsFragment extends Fragment implements
 
     @OnClick(R.id.nearby_locations_see_all)
     public void onSeeAllClicked() {
-        startActivity(ModuleHostActivity.getStartIntent(getContext(), LocationsFragment.class));
+        startActivity(ModuleHostActivity.getStartIntent(
+                getContext(), LocationsFragment.class.getCanonicalName()));
     }
 
     @OnClick(R.id.nearby_locations_enable_permission)

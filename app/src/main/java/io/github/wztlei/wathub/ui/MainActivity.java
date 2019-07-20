@@ -92,8 +92,6 @@ public class MainActivity extends BaseActivity
             FontUtils.apply(mNavigationView, FontUtils.DEFAULT);
             return true;
         });
-
-
     }
 
     @Override
@@ -104,7 +102,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == android.support.v7.appcompat.R.id.home) {
+        if (item.getItemId() == R.id.home) {
             return mDrawerToggle.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
@@ -183,15 +181,14 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    static final class ModuleCategories extends HashMap<String, List<String>> {
+    private static final class ModuleCategories extends HashMap<String, List<String>> {
 
         String[] getApiMethods(final @IdRes int menuItemId, final Resources res) {
             final String idName = res.getResourceEntryName(menuItemId);
             final String category = idName.substring("menu_item_".length());
             final List<String> endpoints = containsKey(category) ? get(category) : new ArrayList<>();
 
-            return endpoints.toArray(new String[endpoints.size()]);
+            return endpoints.toArray(new String[0]);
         }
-
     }
 }

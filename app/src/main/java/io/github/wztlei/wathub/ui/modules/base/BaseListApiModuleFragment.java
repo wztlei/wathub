@@ -16,8 +16,8 @@ import io.github.wztlei.wathub.ui.ModuleAdapter;
 
 import java.util.Collections;
 
-public abstract class BaseListModuleFragment<T extends SimpleListResponse<V>, V extends AbstractModel>
-        extends BaseModuleFragment<T, V> {
+public abstract class BaseListApiModuleFragment<T extends SimpleListResponse<V>, V extends AbstractModel>
+        extends BaseApiModuleFragment<T, V> {
 
     private ListView mListView;
 

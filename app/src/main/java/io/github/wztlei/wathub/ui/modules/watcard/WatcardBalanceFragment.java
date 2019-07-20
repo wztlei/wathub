@@ -21,7 +21,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.controller.WatcardManager;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.AbstractModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.AbstractApiModuleFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +31,7 @@ import retrofit2.Call;
     path = "/watcard/balance",
     layout = R.layout.module_watcard_balance
 )
-public class WatcardBalanceFragment extends AbstractModuleFragment<Watcard> {
+public class WatcardBalanceFragment extends AbstractApiModuleFragment<Watcard> {
 
     @BindView(R.id.watcard_balance_total)
     TextView mTotalView;

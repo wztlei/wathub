@@ -14,6 +14,7 @@ import io.github.wztlei.wathub.ui.modules.foodservices.MenusFragment;
 import io.github.wztlei.wathub.ui.modules.foodservices.NotesFragment;
 import io.github.wztlei.wathub.ui.modules.news.NewsFragment;
 import io.github.wztlei.wathub.ui.modules.news.NewsListFragment;
+import io.github.wztlei.wathub.ui.modules.openclassroom.OpenClassroomFragment;
 import io.github.wztlei.wathub.ui.modules.parking.ParkingFragment;
 import io.github.wztlei.wathub.ui.modules.poi.PointsOfInterestFragment;
 import io.github.wztlei.wathub.ui.modules.resources.GooseWatchFragment;
@@ -21,6 +22,7 @@ import io.github.wztlei.wathub.ui.modules.resources.SitesFragment;
 import io.github.wztlei.wathub.ui.modules.resources.SunshineListFragment;
 import io.github.wztlei.wathub.ui.modules.watcard.WatcardBalanceFragment;
 import io.github.wztlei.wathub.ui.modules.weather.WeatherFragment;
+
 import java.lang.String;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,9 +84,13 @@ final class ModuleMap {
 
         sEndpoints.put("/weather/current",
                 new ModuleInfo(WeatherFragment.class, R.layout.module_weather));
+
+        sEndpoints.put("/wathub/openclassrooms",
+                new ModuleInfo(OpenClassroomFragment.class, R.layout.module_open_classrooms));
     }
 
-    public static ModuleInfo getFragmentInfo(final String endpoint) {
+    @SuppressWarnings("RegExpRedundantEscape")
+    static ModuleInfo getFragmentInfo(final String endpoint) {
         String path = endpoint;
         path = path.replace(".json", "");
         path = path.replaceAll("\\{[^\\}]*\\}", "*");

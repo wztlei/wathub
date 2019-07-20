@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ClassDate
-    extends BaseModel
-    implements
-    Parcelable {
+public class ClassDate extends BaseModel implements Parcelable {
 
   @SerializedName("start_time")
   String mStartTime;

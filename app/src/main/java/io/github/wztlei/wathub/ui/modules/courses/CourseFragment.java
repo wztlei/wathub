@@ -25,7 +25,7 @@ import io.github.wztlei.wathub.model.CombinedCourseInfo;
 import io.github.wztlei.wathub.model.responses.CombinedCourseInfoResponse;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
+import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -35,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 
-public class CourseFragment extends BaseModuleFragment<CombinedCourseInfoResponse, CombinedCourseInfo> {
+public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResponse, CombinedCourseInfo> {
 
     private static final String KEY_COURSE_MODEL = "course";
     private static final String KEY_COURSE_SUBJECT = "subject";
