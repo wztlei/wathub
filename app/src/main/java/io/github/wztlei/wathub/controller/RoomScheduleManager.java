@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -268,6 +269,8 @@ public class RoomScheduleManager {
             for (int i = 0; i < buildingNames.length(); i++) {
                 sBuildings[i] = buildingNames.getString(i);
             }
+
+            Arrays.sort(sBuildings);
         } catch (JSONException e) {
             Log.w(TAG, e.getMessage());   
         }
