@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,7 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
 
     private static final int BEST_SIZE = Runtime.getRuntime().availableProcessors() * 2 - 1;
     private static final Executor EXECUTOR = Executors.newFixedThreadPool(BEST_SIZE);
+    private static final String TAG = "WL/CourseFragment";
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -82,10 +84,14 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.menu_browser) {
-            final Uri url = Uri.parse(mCourseData.getCourseInfo().getUrl());
-            startActivity(new Intent(Intent.ACTION_VIEW, url));
-            return true;
+        try {
+            if (item.getItemId() == R.id.menu_browser) {
+                final Uri url = Uri.parse(mCourseData.getCourseInfo().getUrl());
+                startActivity(new Intent(Intent.ACTION_VIEW, url));
+                return true;
+            }
+        } catch (NullPointerException e) {
+            Log.w(TAG, e.getMessage());
         }
 
         return super.onOptionsItemSelected(item);
