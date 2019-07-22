@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -51,29 +52,38 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             final ViewGroup container,
             final Bundle savedInstanceState) {
 
+        // Set up the view
         final View root = inflater.inflate(R.layout.fragment_module, container, false);
         final ViewGroup parent = root.findViewById(R.id.container_content_view);
         final View contentView = inflater.inflate(R.layout.fragment_open_classrooms, parent, false);
+        parent.addView(contentView);
 
+        // Initialize instance variables
         ButterKnife.bind(this, contentView);
         mRoomScheduleManager = RoomScheduleManager.getInstance();
         mOpenRoomList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mSharedPreferences = getContext().getSharedPreferences(
+                Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        parent.addView(contentView);
-
-        // Use an adapter to display all potentially available buildings
+        // Use a StringAdapter to display all potentially available buildings
         String[] buildings = mRoomScheduleManager.getBuildings();
         StringAdapter buildingsAdapter = new StringAdapter(getContext(), buildings);
         buildingsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
         mBuildingSpinner.setAdapter(buildingsAdapter);
 
+        // Use a StringAdapter to display all hours
         String[] hours = getHourDropdownOptionList();
         StringAdapter hoursAdapter = new StringAdapter(getContext(), hours);
         hoursAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
         mHoursSpinner.setAdapter(hoursAdapter);
 
-        mSharedPreferences = getContext().getSharedPreferences(
-                Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        // Remember the last building selected
+        String lastBuildingQueried = mSharedPreferences.getString(BUILDING_KEY, "");
+        int indexLastBuildingQueried = Arrays.asList(buildings).indexOf(lastBuildingQueried);
+
+        if (indexLastBuildingQueried != -1) {
+            mBuildingSpinner.setSelection(indexLastBuildingQueried);
+        }
 
         setListeners();
         displayNewQueryResults();
@@ -95,6 +105,16 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        mHoursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                displayNewQueryResults();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
     /**
      * Updates the UI to display the open classroom schedule based on the building and hour 
@@ -103,16 +123,14 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     private void displayNewQueryResults() {
         // Get the building and index of the selected hour option
         String building = mBuildingSpinner.getSelectedItem().toString();
-        //int hourIndex = hourDropdown.getSelectedItemPosition();
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int hourIndex = mHoursSpinner.getSelectedItemPosition();
+
         // Retrieve a schedule of the open classrooms for the query from roomScheduleManager
-        RoomTimeIntervalList buildingOpenSchedule = mRoomScheduleManager.findOpenRooms(building,
-                hour, hour+1);
+        RoomTimeIntervalList buildingOpenSchedule =
+                mRoomScheduleManager.findOpenRooms(building, hourIndex);
 
         // Update the recycler view displaying the open classroom schedule 
         mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
-
-        Log.d(TAG, "displayNewQueryResults");
 
         // Update the text view displaying the building's full name
 //        buildingFullNameTextView.setText(buildingCodeToFullName(building));
