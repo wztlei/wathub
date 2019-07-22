@@ -131,7 +131,7 @@ public class RoomScheduleManager {
      * @return a list of buildings that contain classrooms
      */
     public String[] getBuildings() {
-        return sBuildings;
+        return sBuildings == null ? new String[0] : sBuildings;
     }
 
     /**

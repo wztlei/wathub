@@ -42,9 +42,7 @@ public class DateUtils {
         return android.text.format.DateFormat.getTimeFormat(context).format(date);
     }
 
-    public static String getTimeDifference(
-            final Resources resources,
-            final long millis) {
+    public static String getTimeDifference(final Resources resources, final long millis) {
         final long now = System.currentTimeMillis();
         final Instant instantNow = new Instant(now);
         final Instant instantMillis = new Instant(millis);
@@ -96,30 +94,30 @@ public class DateUtils {
         }
 
         // Format the minute by adding 0s as padding if necessary
-        String minStr = formatHourOrMin(min);
+        String minStr = formatMin(min);
 
         // Determine the hour of the day to add AM or PM or subtract 12 from the hour accordingly
         if (hour == 0) {
             return String.format("12:%s AM", minStr);
         } else if (hour <= 11) {
-            String hourStr = formatHourOrMin(hour);
+            String hourStr = Integer.toString(hour);
             return String.format("%s:%s AM", hourStr, minStr);
         } else if (hour == 12) {
             return String.format("12:%s PM", minStr);
         } else {
-            String hourStr = formatHourOrMin(hour - 12);
+            String hourStr = Integer.toString(hour - 12);
             return String.format("%s:%s PM", hourStr, minStr);
         }
     }
 
     /**
-     * Returns a string with an integer representing an hour or minute so it has at least 2 digits,
+     * Returns a string with an integer representing a minute so it has at least 2 digits,
      * by adding 0s to the left as padding if necessary.
      *
-     * @param hourOrMin the hour or minute of a time
-     * @return          the hour or minute formatted with 0s as left padding
+     * @param min the minute of a time
+     * @return          the minute formatted with 0s as left padding
      */
-    private static String formatHourOrMin(int hourOrMin) {
-        return String.format(Locale.CANADA, "%02d", hourOrMin);
+    private static String formatMin(int min) {
+        return String.format(Locale.CANADA, "%02d", min);
     }
 }

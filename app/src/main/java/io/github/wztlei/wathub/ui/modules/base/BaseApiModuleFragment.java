@@ -194,13 +194,6 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
                 ModuleHostActivity.getStartIntent(getActivity(), fragment.getCanonicalName(), arguments));
     }
 
-    public void showModule(
-            final BaseApiModuleFragment fragment,
-            final boolean addToBackStack,
-            final Bundle arguments) {
-        ((ModuleHostActivity) getActivity()).showFragment(fragment, addToBackStack, arguments);
-    }
-
     public <M> M getModel() {
         // noinspection unchecked
         return (M) getArguments().getParcelable(KEY_MODEL);
@@ -382,6 +375,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected void deliverResponse(final T data) {
         resolveNetworkLayoutVisibility();
 

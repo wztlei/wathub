@@ -32,6 +32,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     @BindView(R.id.building_open_classroom_spinner)
     Spinner mBuildingSpinner;
 
+    @BindView(R.id.hours_open_classroom_spinner)
+    Spinner mHoursSpinner;
+
     @BindView(R.id.open_classroom_list)
     RecyclerView mOpenRoomList;
 
@@ -59,9 +62,16 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         parent.addView(contentView);
 
         // Use an adapter to display all potentially available buildings
-        StringAdapter adapter = new StringAdapter(getContext(), mRoomScheduleManager.getBuildings());
-        adapter.setViewLayoutId(android.R.layout.simple_spinner_item);
-        mBuildingSpinner.setAdapter(adapter);
+        String[] buildings = mRoomScheduleManager.getBuildings();
+        StringAdapter buildingsAdapter = new StringAdapter(getContext(), buildings);
+        buildingsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
+        mBuildingSpinner.setAdapter(buildingsAdapter);
+
+        String[] hours = getHourDropdownOptionList();
+        StringAdapter hoursAdapter = new StringAdapter(getContext(), hours);
+        hoursAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
+        mHoursSpinner.setAdapter(hoursAdapter);
+
         mSharedPreferences = getContext().getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
@@ -111,6 +121,29 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(BUILDING_KEY, building);
         editor.apply();
+    }
+
+    /**
+     * Returns a list of hours as formatted strings to be displayed as options for the hours
+     * dropdown and stores the hours in 24h format as integers for use in queries.
+     *
+     * @return a list of strings which are the hour dropdown selection options
+     */
+    private String[] getHourDropdownOptionList() {
+        // Initialize a list to store the formatted times and determine the current hour of the day
+        String[] timeStringOptions = new String[24];
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        // Add all the hours from 1h in the future to 11PM as possible options
+        for (int h = 0; h <= 23; h++) {
+            if (h == currentHour) {
+                timeStringOptions[h] = "Now";
+            } else {
+                timeStringOptions[h] = DateUtils.format12hTime(h, 0);
+            }
+        }
+
+        return timeStringOptions;
     }
 
     class OpenClassroomAdapter extends RecyclerView.Adapter<OpenClassroomViewHolder> {
