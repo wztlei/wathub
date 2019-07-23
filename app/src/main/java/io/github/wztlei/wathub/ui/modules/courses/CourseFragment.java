@@ -50,6 +50,7 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
     TabLayout mTabLayout;
     @BindView(R.id.tab_content)
     ViewPager mViewPager;
+
     private CourseInfoAdapter mAdapter;
     private CombinedCourseInfo mCourseData;
 

@@ -6,31 +6,31 @@ import java.util.Iterator;
 
 public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
     /**
-     * Sorts a RoomTimeIntervalList chronologically and using
-     * the building and room numbers for tie-breakers.
+     * Sorts a RoomTimeIntervalList by building and room numbers and then chronologically.
      */
     public void sort() {
         Collections.sort(this, (rti1, rti2) -> {
             // Compare the fields of the two RoomTimeIntervals in the following order:
-            // 1. Starting hour
-            // 2. Starting minute
-            // 3. Ending hour
-            // 4. Ending minute
-            // 5. Building
-            // 6. Room number
-            if (rti1.getStartHour() != rti2.getStartHour()) {
+            // 1. Building
+            // 2. Room number
+            // 3. Starting hour
+            // 4. Starting minute
+            // 5. Ending hour
+            // 6. Ending minute
+            String room1 = rti1.getBuilding() + rti1.getRoomNum();
+            String room2 = rti2.getBuilding() + rti2.getRoomNum();
+
+            if (!room1.equals(room2)) {
+                return room1.compareTo(room2);
+            } else if (rti1.getStartHour() != rti2.getStartHour()) {
                 return rti1.getStartHour() - rti2.getStartHour();
             } else if (rti1.getStartMin() != rti2.getStartMin()) {
                 return rti1.getStartMin() - rti2.getStartMin();
             } else if (rti1.getEndHour() != rti2.getEndHour()) {
                 return rti1.getEndHour() - rti2.getEndHour();
-            } else if (rti1.getEndMin() != rti2.getEndMin()) {
+            } else {
                 return rti1.getEndMin() - rti2.getEndMin();
             }
-
-            String room1 = rti1.getBuilding() + rti1.getRoomNum();
-            String room2 = rti2.getBuilding() + rti2.getRoomNum();
-            return room1.compareTo(room2);
         });
     }
 

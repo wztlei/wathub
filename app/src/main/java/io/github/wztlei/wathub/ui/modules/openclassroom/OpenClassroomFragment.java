@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +29,7 @@ import io.github.wztlei.wathub.controller.RoomScheduleManager;
 import io.github.wztlei.wathub.model.RoomTimeInterval;
 import io.github.wztlei.wathub.model.RoomTimeIntervalList;
 import io.github.wztlei.wathub.ui.StringAdapter;
+import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 
@@ -57,6 +62,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         final ViewGroup parent = root.findViewById(R.id.container_content_view);
         final View contentView = inflater.inflate(R.layout.fragment_open_classrooms, parent, false);
         parent.addView(contentView);
+        setHasOptionsMenu(true);
 
         // Initialize instance variables
         ButterKnife.bind(this, contentView);
@@ -85,6 +91,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             mBuildingSpinner.setSelection(indexLastBuildingQueried);
         }
 
+        // Select the current hour
+        mHoursSpinner.setSelection(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+
         setListeners();
         displayNewQueryResults();
         return root;
@@ -92,9 +101,34 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     
     @Override
     public String getToolbarTitle() {
-        return "Open Classrooms";
+        return getString(R.string.title_open_classrooms);
     }
-    
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_info_and_refresh, menu);
+        Log.d(TAG, "onCreateOptionsMenu");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected");
+        if (item.getItemId() == R.id.menu_refresh) {
+
+            return true;
+        } else if (item.getItemId() == R.id.menu_info) {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("About")
+                    .setMessage("The rooms may be unavailable due to exams or other special events of which the app is not aware.")
+                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {})
+                    .create()
+                    .show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setListeners() {
         mBuildingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -121,6 +155,10 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      * that the user selected from the dropdowns.
      */
     private void displayNewQueryResults() {
+        if (mBuildingSpinner.getSelectedItem() == null) {
+            return;
+        }
+
         // Get the building and index of the selected hour option
         String building = mBuildingSpinner.getSelectedItem().toString();
         int hourIndex = mHoursSpinner.getSelectedItemPosition();
