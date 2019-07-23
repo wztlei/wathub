@@ -37,6 +37,7 @@ public abstract class ModuleAdapter extends BaseAdapter implements View.OnClickL
                 selectable = v;
             }
 
+            //noinspection ConstantConditions
             if (selectable != null) {
                 selectable.setTag(position);
                 selectable.setOnClickListener(this);
@@ -69,7 +70,7 @@ public abstract class ModuleAdapter extends BaseAdapter implements View.OnClickL
         return false;
     }
 
-    public View newDropDownView(final Context context, final int position, final ViewGroup parent) {
+    private View newDropDownView(final Context context, final int position, final ViewGroup parent) {
         return newView(context, position, parent);
     }
 

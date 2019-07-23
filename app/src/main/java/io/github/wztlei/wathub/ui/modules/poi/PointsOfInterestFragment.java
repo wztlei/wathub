@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -141,38 +143,49 @@ public class PointsOfInterestFragment
                 info);
         final Semaphore semaphore = new Semaphore(1 - LayersDialog.LAYERS_COUNT);
 
-        // ATMs
-        fetchPointOfInterestInfo(semaphore, () -> info.setATMs(
-                Calls.unwrap(api.PointsOfInterest.getATMs()).getData()));
+        try {
+            // ATMs
+            fetchPointOfInterestInfo(semaphore, () ->
+                    info.setATMs(Objects.requireNonNull(
+                            Calls.unwrap(api.PointsOfInterest.getATMs())).getData()));
 
-        // Greyhound stops
-        fetchPointOfInterestInfo(semaphore, () -> info.setGreyhounds(
-                Calls.unwrap(api.PointsOfInterest.getGreyhoundStops()).getData()));
+            // Greyhound stops
+            fetchPointOfInterestInfo(semaphore, () ->
+                    info.setGreyhounds(Objects.requireNonNull(
+                            Calls.unwrap(api.PointsOfInterest.getGreyhoundStops())).getData()));
 
-        // Photospheres
-        fetchPointOfInterestInfo(semaphore, () -> {
-            // Disable Photospheres API due to bug
-            info.setPhotospheres(new ArrayList<>()
-                    /*Calls.unwrap(api.PointsOfInterest.getPhotospheres()).getData()*/);
-        });
+            // Photospheres
+            fetchPointOfInterestInfo(semaphore, () -> {
+                // Disable Photospheres API due to bug
+                info.setPhotospheres(new ArrayList<>()
+                        /*Calls.unwrap(api.PointsOfInterest.getPhotospheres()).getData()*/);
+            });
 
-        // Helplines
-        fetchPointOfInterestInfo(semaphore, () -> info.setHelplines(
-                Calls.unwrap(api.PointsOfInterest.getHelplines()).getData()));
+            // Helplines
+            fetchPointOfInterestInfo(semaphore, () ->
+                    info.setHelplines(Objects.requireNonNull(
+                            Calls.unwrap(api.PointsOfInterest.getHelplines())).getData()));
 
-        // Libraries
-        fetchPointOfInterestInfo(semaphore, () -> info.setLibraries(
-                Calls.unwrap(api.PointsOfInterest.getLibraries()).getData()));
+            // Libraries
+            fetchPointOfInterestInfo(semaphore, () ->
+                    info.setLibraries(Objects.requireNonNull(
+                            Calls.unwrap(api.PointsOfInterest.getLibraries())).getData()));
 
-        // Defibrillators
-        fetchPointOfInterestInfo(semaphore, () -> info.setDefibrillators(
-                Calls.unwrap(api.PointsOfInterest.getDefibrillators()).getData()));
+            // Defibrillators
+            fetchPointOfInterestInfo(semaphore, () ->
+                    info.setDefibrillators(Objects.requireNonNull(
+                            Calls.unwrap(api.PointsOfInterest.getDefibrillators())).getData()));
+        } catch (RuntimeException e) {
+            Log.w(TAG, e.getMessage());
+            return null;
+        }
 
         try {
             // Wait until all data is loaded
             semaphore.acquire();
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            Log.w(TAG, e.getMessage());
+            return null;
         }
 
         return Calls.wrap(response);

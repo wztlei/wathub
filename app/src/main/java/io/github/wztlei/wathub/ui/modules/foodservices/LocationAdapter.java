@@ -43,7 +43,7 @@ public class LocationAdapter extends ModuleIndexedAdapter<String> {
         for (int i = 0; i < mLocations.size(); i++) {
             indices.add(getFirstCharOf(i));
         }
-        mIndices = indices.toArray(new String[indices.size()]);
+        mIndices = indices.toArray(new String[0]);
     }
 
     @Override
@@ -57,9 +57,9 @@ public class LocationAdapter extends ModuleIndexedAdapter<String> {
     public void bindView(final Context context, final int position, final View view) {
         final Location location = getItem(position);
 
-        final TextView titleView = (TextView) view.findViewById(R.id.list_location_title);
-        final TextView locationView = (TextView) view.findViewById(R.id.list_location_building);
-        final TextView timingView = (TextView) view.findViewById(R.id.list_location_timing_desc);
+        final TextView titleView = view.findViewById(R.id.list_location_title);
+        final TextView locationView = view.findViewById(R.id.list_location_building);
+        final TextView timingView = view.findViewById(R.id.list_location_timing_desc);
         final View iconView = view.findViewById(R.id.list_location_timing_icon);
 
         final String[] split = location.getName().split(" - ");
@@ -113,7 +113,7 @@ public class LocationAdapter extends ModuleIndexedAdapter<String> {
         return String.valueOf(getItem(position).getName().charAt(0));
     }
 
-    public static LocalTime getClosingTime(final Location location) {
+    private static LocalTime getClosingTime(final Location location) {
 
         LocalTime closing = null;
         final LocalDate today = LocalDate.now();

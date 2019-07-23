@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.ui.modules.foodservices;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +28,7 @@ import butterknife.ButterKnife;
 public class MenuFragment extends BaseApiModuleFragment<Responses.Outlets, Outlet> {
 
     private static final String KEY_DAY_OF_WEEK = "day_of_week";
+    private static final String TAG = "WL/MenuFragment";
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -87,7 +90,11 @@ public class MenuFragment extends BaseApiModuleFragment<Responses.Outlets, Outle
                 for (int i = 0; i < mAdapter.getCount(); ++i) {
                     final LocalDate date = LocalDate.fromDateFields(mAdapter.getItem(i).getDate());
                     if (date.getDayOfWeek() == dayOfWeek) {
-                        mTabLayout.getTabAt(i).select();
+                        try {
+                            Objects.requireNonNull(mTabLayout.getTabAt(i)).select();
+                        } catch (RuntimeException e) {
+                            Log.w(TAG, e.getMessage());
+                        }
                     }
                 }
             }

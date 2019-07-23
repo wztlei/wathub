@@ -78,8 +78,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @BindView(R.id.home_cards_parent)
     ViewGroup mCardsParent;
 
-    private NearbyLocationsFragment mNearbyLocationsFragment;
-
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +92,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        mToolbar = getActivity().findViewById(R.id.toolbar);
 
         ButterKnife.bind(this, view);
 
@@ -117,9 +115,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mNearbyLocationsFragment = (NearbyLocationsFragment)
-                getChildFragmentManager().findFragmentById(R.id.home_nearby_locations_fragment);
     }
 
     @Override
@@ -156,6 +151,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         startActivity(intent);
     }
 
+    @SuppressWarnings("unused")
     @OnEditorAction({R.id.home_course_subject, R.id.home_course_number})
     public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_NEXT) {

@@ -51,6 +51,7 @@ public class CoursesFragment extends BaseListApiModuleFragment<Responses.Courses
     @BindView(R.id.course_picker_view)
     AutoCompleteTextView mCoursePicker;
 
+    @SuppressWarnings("unused")
     public static <V extends AbstractModel> Bundle newBundle(final String subject) {
         final Bundle bundle = new Bundle();
         bundle.putString(KEY_COURSE_SUBJECT, subject);
@@ -102,7 +103,6 @@ public class CoursesFragment extends BaseListApiModuleFragment<Responses.Courses
 
         if (TextUtils.isEmpty(course)) {
             return null;
-
         } else {
             return api.Courses.getCourseInfo(course);
         }
@@ -195,10 +195,9 @@ public class CoursesFragment extends BaseListApiModuleFragment<Responses.Courses
         return false;
     }
 
-    public class CourseAdapter
-            extends ModuleAdapter {
+    public class CourseAdapter extends ModuleAdapter {
 
-        public CourseAdapter(final Context context, final ModuleListItemListener listener) {
+        CourseAdapter(final Context context, final ModuleListItemListener listener) {
             super(context, listener);
         }
 
