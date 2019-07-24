@@ -2,6 +2,7 @@ package io.github.wztlei.wathub.model;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("WeakerAccess")
 public class PhotoTitle {
 
     @SerializedName("_content")

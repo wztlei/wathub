@@ -20,7 +20,6 @@ public class NetworkController {
     private static NetworkController sInstance;
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    private final Context mContext;
     private final ConnectivityManager mManager;
     private final Set<WeakReference<OnNetworkChangedListener>> mListeners = new HashSet<>();
 
@@ -42,13 +41,15 @@ public class NetworkController {
     }
 
     private NetworkController(final Context context) {
-        mContext = context.getApplicationContext();
-        mManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        mContext.registerReceiver(new NetworkReceiver(),
+        Context appContext = context.getApplicationContext();
+        mManager = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        appContext.registerReceiver(new NetworkReceiver(),
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         // Don't call updateNetworkConnectivity() just yet
-        mCurrentNetwork = mManager.getActiveNetworkInfo();
+        if (mManager != null) {
+            mCurrentNetwork = mManager.getActiveNetworkInfo();
+        }
     }
 
     public boolean isConnected() {
@@ -96,9 +97,7 @@ public class NetworkController {
         });
     }
 
-    private final class NetworkReceiver
-            extends BroadcastReceiver {
-
+    private final class NetworkReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             updateNetworkConnectivity();

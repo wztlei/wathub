@@ -11,17 +11,16 @@ import android.widget.Spinner;
 import com.deange.uwaterlooapi.model.buildings.Building;
 import com.deange.uwaterlooapi.model.buildings.BuildingSection;
 
-import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.utils.MapUtils;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.utils.MapUtils;
 
 public class MapActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 

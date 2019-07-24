@@ -73,9 +73,9 @@ public class WatcardBalanceFragment extends AbstractApiModuleFragment<Watcard> {
         final LayoutInflater inflater = LayoutInflater.from(getContext());
         final View view = inflater.inflate(R.layout.dialog_watcard_editor, null);
 
-        final EditText studentNumberText = (EditText) view.findViewById(
+        final EditText studentNumberText = view.findViewById(
                 R.id.dialog_watcard_student_number);
-        final EditText pinText = (EditText) view.findViewById(R.id.dialog_watcard_pin);
+        final EditText pinText = view.findViewById(R.id.dialog_watcard_pin);
 
         final WatcardCredentials credentials = getApi().getWatcardCredentials();
         if (credentials != null) {
@@ -111,11 +111,7 @@ public class WatcardBalanceFragment extends AbstractApiModuleFragment<Watcard> {
     }
 
     @Override
-    protected void onNullResponseReceived() {
-        if (getApi().getWatcardCredentials() == null) {
-            // Expected, since no watcard credentials are found
-        }
-    }
+    protected void onNullResponseReceived() {}
 
     @Override
     public void onBindData(final Watcard data) {
@@ -142,7 +138,7 @@ public class WatcardBalanceFragment extends AbstractApiModuleFragment<Watcard> {
 
     private class BalancesAdapter extends ModuleAdapter {
 
-        public BalancesAdapter(final Context context) {
+        BalancesAdapter(final Context context) {
             super(context);
         }
 

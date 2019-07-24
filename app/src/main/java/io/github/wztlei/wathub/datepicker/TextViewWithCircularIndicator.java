@@ -30,8 +30,7 @@ import io.github.wztlei.wathub.R;
 /**
  * A text view which, when pressed or activated, displays a circle around the text.
  */
-public class TextViewWithCircularIndicator
-        extends CheckedTextView {
+public class TextViewWithCircularIndicator extends CheckedTextView {
 
     private static final int SELECTED_CIRCLE_ALPHA = 255;
     private final int mCircleColor;

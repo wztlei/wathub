@@ -19,7 +19,7 @@ public class CourseInfoAdapter extends PagerAdapter {
     private final CombinedCourseInfo mInfo;
     private final String[] mTitles;
 
-    public CourseInfoAdapter(final Context context, final CombinedCourseInfo info) {
+    CourseInfoAdapter(final Context context, final CombinedCourseInfo info) {
         mContext = context;
         mInfo = info;
 

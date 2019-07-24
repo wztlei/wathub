@@ -15,7 +15,7 @@ public class CombinedCourseInfoResponse extends BaseResponse implements Parcelab
         mInfo = info;
     }
 
-    protected CombinedCourseInfoResponse(final Parcel in) {
+    private CombinedCourseInfoResponse(final Parcel in) {
         super(in);
         mInfo = in.readParcelable(CombinedCourseInfo.class.getClassLoader());
     }

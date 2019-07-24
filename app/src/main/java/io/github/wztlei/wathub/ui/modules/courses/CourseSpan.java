@@ -2,6 +2,7 @@ package io.github.wztlei.wathub.ui.modules.courses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
@@ -18,7 +19,7 @@ public class CourseSpan extends ClickableSpan {
     }
 
     @Override
-    public void onClick(final View view) {
+    public void onClick(@NonNull final View view) {
         final Context context = view.getContext();
 
         final Intent intent = ModuleHostActivity.getStartIntent(

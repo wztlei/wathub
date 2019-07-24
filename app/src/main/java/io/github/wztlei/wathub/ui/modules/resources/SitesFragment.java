@@ -72,7 +72,7 @@ public class SitesFragment
         for (int i = 0; i < mResponse.size(); i++) {
             mSections.add(getFirstCharOf(i));
         }
-        mSectionsArray = mSections.toArray(new String[mSections.size()]);
+        mSectionsArray = mSections.toArray(new String[0]);
 
         getListView().setFastScrollEnabled(true);
         getListView().setFastScrollAlwaysVisible(true);
@@ -98,10 +98,9 @@ public class SitesFragment
         return String.valueOf(mResponse.get(position).getName().charAt(0));
     }
 
-    private class SiteAdapter
-            extends ModuleIndexedAdapter<String> {
+    private class SiteAdapter extends ModuleIndexedAdapter<String> {
 
-        public SiteAdapter(final Context context, final ModuleListItemListener listener) {
+        SiteAdapter(final Context context, final ModuleListItemListener listener) {
             super(context, listener);
         }
 

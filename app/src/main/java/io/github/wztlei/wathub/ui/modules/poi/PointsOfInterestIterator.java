@@ -1,10 +1,13 @@
 package io.github.wztlei.wathub.ui.modules.poi;
 
+import android.support.annotation.NonNull;
+
 import com.deange.uwaterlooapi.model.poi.BasicPointOfInterest;
 
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 
 public class PointsOfInterestIterator
@@ -40,7 +43,11 @@ public class PointsOfInterestIterator
 
     @Override
     public BasicPointOfInterest next() {
-        return mIterators.peek().next();
+        try {
+            return Objects.requireNonNull(mIterators.peek()).next();
+        } catch (RuntimeException e) {
+            return null;
+        }
     }
 
     @Override
@@ -51,6 +58,7 @@ public class PointsOfInterestIterator
         }
     }
 
+    @NonNull
     @Override
     public Iterator<BasicPointOfInterest> iterator() {
         return this;

@@ -34,6 +34,7 @@ import retrofit2.Call;
 @ModuleFragment(path = "/news/*/*")
 public class NewsFragment extends BaseApiModuleFragment<Responses.NewsEntity, NewsArticle> {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "WL/NewsFragment";
 
     private NewsArticle mNewsArticle;

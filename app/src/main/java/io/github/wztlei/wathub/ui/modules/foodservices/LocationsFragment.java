@@ -36,7 +36,7 @@ public class LocationsFragment extends BaseListApiModuleFragment<Responses.Locat
             (l1, l2) -> String.CASE_INSENSITIVE_ORDER.compare(l1.getName(), l2.getName());
 
     private LocationAdapter mAdapter;
-    private List<Location> mAllLocations = Collections.unmodifiableList(new ArrayList<Location>());
+    private List<Location> mAllLocations = Collections.unmodifiableList(new ArrayList<>());
     private final List<Location> mDataLocations = new ArrayList<>();
 
     private LocationFilter mFilter = LocationFilter.NONE;
@@ -45,7 +45,7 @@ public class LocationsFragment extends BaseListApiModuleFragment<Responses.Locat
     protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
         final View root = super.getContentView(inflater, parent);
 
-        final Spinner spinner = (Spinner) root.findViewById(R.id.locations_filter_spinner);
+        final Spinner spinner = root.findViewById(R.id.locations_filter_spinner);
         spinner.setOnItemSelectedListener(this);
 
         return root;
