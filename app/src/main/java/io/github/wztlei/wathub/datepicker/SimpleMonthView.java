@@ -667,7 +667,7 @@ public class SimpleMonthView extends View {
 
         @Override
         protected void getVisibleItems(List<CalendarDay> items) {
-            // TODO: Optimize, only return items visible within parent bounds.
+            // TODO CD: Optimize, only return items visible within parent bounds.
             for (int day = 1; day <= mNumCells; day++) {
                 items.add(getItemForId(day));
             }

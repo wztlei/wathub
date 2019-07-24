@@ -29,7 +29,6 @@ import io.github.wztlei.wathub.controller.RoomScheduleManager;
 import io.github.wztlei.wathub.model.RoomTimeInterval;
 import io.github.wztlei.wathub.model.RoomTimeIntervalList;
 import io.github.wztlei.wathub.ui.StringAdapter;
-import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.DateUtils;
 
@@ -50,6 +49,11 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
     private static final String BUILDING_KEY = "BUILDING_KEY";
+
+    // TODO WL: Add functionality to the refresh icon to fetch the latest schedules from GitHub
+    // TODO WL: Update the hour dropdown every 10s to keep the 'Now' option up-to-date
+    // TODO WL: Update the TextView at the bottom of the page to display a building's full name
+    // TODO WL: Ask others for their opinions on this feature
 
     @Override
     public final View onCreateView(

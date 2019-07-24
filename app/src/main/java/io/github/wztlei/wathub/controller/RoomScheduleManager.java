@@ -39,9 +39,9 @@ public class RoomScheduleManager {
     private static SharedPreferences sSharedPreferences;
     private static RoomSchedule sRoomSchedule;
     private static JSONObject sDaysOfWeekMap;
-    private static int sCurrentTerm;
     private static String[] sSubjects;
     private static String[] sBuildings;
+    private static int sCurrentTerm;
     private static int sCurrentMonth;
     private static int sCurrentDate;
     private static int sCurrentDayOfWeek;
@@ -53,6 +53,7 @@ public class RoomScheduleManager {
     private static final String INCOMPLETE_SCHEDULE_JSON_KEY = "INCOMPLETE_SCHEDULE_JSON_KEY";
     private static final String ROOM_SCHEDULES_GITHUB_URL =
             "https://raw.githubusercontent.com/wztlei/wathub/master/app/src/main/res/raw/room_schedule.json";
+    private static final String TAG = "WL/RoomScheduleManager";
     private static final int START_HOUR_INDEX = 0;
     private static final int START_MIN_INDEX = 1;
     private static final int END_HOUR_INDEX = 2;
@@ -63,7 +64,6 @@ public class RoomScheduleManager {
     private static final int END_MONTH_INDEX = 7;
     private static final int END_DATE_INDEX = 8;
     private static final int HALF_HOURS_PER_DAY = 48;
-    private static final String TAG = "WL/RoomScheduleManager";
 
     /**
      * Initializes the static instance of a RoomScheduleManager.
