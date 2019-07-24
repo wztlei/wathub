@@ -122,8 +122,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             return true;
         } else if (item.getItemId() == R.id.menu_info) {
             new AlertDialog.Builder(getContext())
-                    .setTitle("About")
-                    .setMessage("The rooms may be unavailable due to exams or other special events of which the app is not aware.")
+                    .setTitle(getString(R.string.open_classroom_dialog_title))
+                    .setMessage(getString(R.string.open_classroom_dialog_message))
                     .setPositiveButton(android.R.string.ok, (dialog1, which) -> {})
                     .create()
                     .show();
