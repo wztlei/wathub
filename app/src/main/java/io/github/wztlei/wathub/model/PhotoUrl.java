@@ -5,9 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class PhotoUrl {
-
-    public static final String PHOTO_PAGE = "photopage";
 
     @SerializedName("type")
     String mType;
@@ -27,7 +26,7 @@ public class PhotoUrl {
         @SerializedName("url")
         List<PhotoUrl> mUrls;
 
-        public List<PhotoUrl> getUrls() {
+        List<PhotoUrl> getUrls() {
             return (mUrls == null) ? new ArrayList<>() : mUrls;
         }
     }

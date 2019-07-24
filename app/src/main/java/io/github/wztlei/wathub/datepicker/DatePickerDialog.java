@@ -18,6 +18,7 @@ package io.github.wztlei.wathub.datepicker;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -40,14 +41,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import io.github.wztlei.wathub.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import io.github.wztlei.wathub.R;
 
 
 /**
@@ -91,8 +91,6 @@ public class DatePickerDialog extends DialogFragment
     private TextView mYearView;
     private DayPickerView mDayPickerView;
     private YearPickerView mYearPickerView;
-    private Button mDoneButton;
-    private Button mClearButton;
     private boolean mIsClearVisible;
     private boolean mHighlightWeek;
     private int mWeekStart = mCalendar.getFirstDayOfWeek();
@@ -187,15 +185,19 @@ public class DatePickerDialog extends DialogFragment
             ViewGroup container,
             Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Window window = getDialog().getWindow();
+
+        if (window != null) {
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
 
         View view = inflater.inflate(R.layout.view_datetimepicker_date_dialog, null);
 
-        mMonthAndDayView = (LinearLayout) view.findViewById(R.id.date_picker_month_and_day);
+        mMonthAndDayView = view.findViewById(R.id.date_picker_month_and_day);
         mMonthAndDayView.setOnClickListener(this);
-        mSelectedMonthTextView = (TextView) view.findViewById(R.id.date_picker_month);
-        mSelectedDayTextView = (TextView) view.findViewById(R.id.date_picker_day);
-        mYearView = (TextView) view.findViewById(R.id.date_picker_year);
+        mSelectedMonthTextView = view.findViewById(R.id.date_picker_month);
+        mSelectedDayTextView = view.findViewById(R.id.date_picker_day);
+        mYearView = view.findViewById(R.id.date_picker_year);
         mYearView.setOnClickListener(this);
 
         int listPosition = -1;
@@ -221,7 +223,7 @@ public class DatePickerDialog extends DialogFragment
         mYearPickerDescription = res.getString(R.string.datetimepicker_year_description);
         mSelectYear = res.getString(R.string.datetimepicker_select_year);
 
-        mAnimator = (AccessibleDateAnimator) view.findViewById(R.id.animator);
+        mAnimator = view.findViewById(R.id.animator);
         mAnimator.addView(mDayPickerView);
         mAnimator.addView(mYearPickerView);
         mAnimator.setDateMillis(mCalendar.getTimeInMillis());
@@ -232,35 +234,26 @@ public class DatePickerDialog extends DialogFragment
         animation2.setDuration(ANIMATION_DURATION);
         mAnimator.setOutAnimation(animation2);
 
-        mDoneButton = (Button) view.findViewById(R.id.module_calendar_datetimepicker_done_button);
-        mDoneButton.setOnClickListener(
-                new OnClickListener() {
+        Button doneButton = view.findViewById(R.id.module_calendar_datetimepicker_done_button);
+        doneButton.setOnClickListener(v -> {
+            tryVibrate();
+            if (mCallBack != null) {
+                mCallBack.onDateSet(
+                        DatePickerDialog.this, mCalendar.get(Calendar.YEAR),
+                        mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+            }
+            dismiss();
+        });
 
-                    @Override
-                    public void onClick(View v) {
-                        tryVibrate();
-                        if (mCallBack != null) {
-                            mCallBack.onDateSet(
-                                    DatePickerDialog.this, mCalendar.get(Calendar.YEAR),
-                                    mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
-                        }
-                        dismiss();
-                    }
-                });
-
-        mClearButton = (Button) view.findViewById(R.id.module_calendar_datetimepicker_clear_button);
-        mClearButton.setVisibility(mIsClearVisible ? View.VISIBLE : View.GONE);
-        mClearButton.setOnClickListener(
-                new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        tryVibrate();
-                        if (mCallBack != null) {
-                            mCallBack.onDateCleared();
-                        }
-                        dismiss();
-                    }
-                });
+        Button clearButton = view.findViewById(R.id.module_calendar_datetimepicker_clear_button);
+        clearButton.setVisibility(mIsClearVisible ? View.VISIBLE : View.GONE);
+        clearButton.setOnClickListener(v -> {
+            tryVibrate();
+            if (mCallBack != null) {
+                mCallBack.onDateCleared();
+            }
+            dismiss();
+        });
 
         updateDisplay(false);
         setCurrentView(currentView);
@@ -346,6 +339,7 @@ public class DatePickerDialog extends DialogFragment
         }
     }
 
+    @SuppressWarnings("unused")
     public void setYearRange(
             int startYear,
             int endYear) {
@@ -413,9 +407,8 @@ public class DatePickerDialog extends DialogFragment
     }
 
     private void updatePickers() {
-        Iterator<OnDateChangedListener> iterator = mListeners.iterator();
-        while (iterator.hasNext()) {
-            iterator.next().onDateChanged();
+        for (OnDateChangedListener mListener : mListeners) {
+            mListener.onDateChanged();
         }
     }
 
@@ -439,6 +432,7 @@ public class DatePickerDialog extends DialogFragment
         return mWeekStart;
     }
 
+    @SuppressWarnings("unused")
     public void setFirstDayOfWeek(int startOfWeek) {
         if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
             throw new IllegalArgumentException(
@@ -465,14 +459,19 @@ public class DatePickerDialog extends DialogFragment
      * Try to vibrate. To prevent this becoming a single continuous vibration, nothing will
      * happen if we have vibrated very recently.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void tryVibrate() {
         if (mVibrator != null) {
             long now = SystemClock.uptimeMillis();
             // We want to try to vibrate each individual tick discretely.
             if (now - mLastVibrate >= 125) {
-                mVibrator.vibrate(5);
-                mLastVibrate = now;
+                try {
+                    mVibrator.vibrate(5);
+                    mLastVibrate = now;
+                } catch (Exception e) {
+                    Log.w(TAG, e.getMessage());
+                }
             }
         }
     }

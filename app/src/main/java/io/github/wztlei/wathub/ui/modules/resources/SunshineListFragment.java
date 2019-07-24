@@ -158,9 +158,9 @@ public class SunshineListFragment extends BaseListApiModuleFragment<Responses.Su
             final int progress = salary.intValue();
             final float fraction = progress / (float) max;
 
-            final TextView nameView = (TextView) view.findViewById(R.id.sunshiner_name);
-            final TextView salaryView = (TextView) view.findViewById(R.id.sunshiner_salary);
-            final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.sunshiner_progress_bar);
+            final TextView nameView = view.findViewById(R.id.sunshiner_name);
+            final TextView salaryView = view.findViewById(R.id.sunshiner_salary);
+            final ProgressBar progressBar = view.findViewById(R.id.sunshiner_progress_bar);
 
             nameView.setText(name);
             progressBar.setMax(max);

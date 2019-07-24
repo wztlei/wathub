@@ -137,14 +137,14 @@ public class MenuDayAdapter extends PagerAdapter {
             final Meal meal = getItem(position);
             if (meal != null) {
                 ((TextView) view.findViewById(android.R.id.text1)).setText(meal.getName());
-                ViewUtils.setText((TextView) view.findViewById(android.R.id.text2), meal.getDietType());
+                ViewUtils.setText(view.findViewById(android.R.id.text2), meal.getDietType());
             }
             return view;
         }
 
         @Override
         public boolean onLongClick(final View v) {
-            final TextView view = (TextView) v.findViewById(android.R.id.text1);
+            final TextView view = v.findViewById(android.R.id.text1);
             final String text = view.getText().toString();
 
             PlatformUtils.copyToClipboard(getContext(), text);

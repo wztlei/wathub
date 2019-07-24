@@ -4,15 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class PhotoDetails {
     /**
      * "urls":{
-     * "url":[
-     * {
-     * "type":"photopage",
-     * "_content":"https:\/\/www.flickr.com\/photos\/manjos\/5134434028\/"
-     * }
-     * ]
+     *      "url":[
+     *          {
+     *              "type":"photopage",
+     *              "_content":"https:\/\/www.flickr.com\/photos\/manjos\/5134434028\/"
+     *          }
+     *      ]
      * }
      */
 

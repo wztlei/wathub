@@ -10,6 +10,7 @@ public class Photo {
     public Photo() {
     }
 
+    @SuppressWarnings("unused")
     public Photo(final PhotoDetails details, final List<PhotoSize> sizes) {
         mDetails = details;
         mSizes = sizes;

@@ -122,7 +122,7 @@ public final class ParkingLots {
         throw new AssertionError();
     }
 
-    public static PolygonOptions getShape(final String parkingLot) {
+    static PolygonOptions getShape(final String parkingLot) {
         PolygonOptions shape = CACHE_POLYGON.get(parkingLot);
 
         if (shape == null) {
@@ -135,7 +135,7 @@ public final class ParkingLots {
         return shape;
     }
 
-    public static List<LatLng> getPoints(final String parkingLot) {
+    static List<LatLng> getPoints(final String parkingLot) {
         List<LatLng> points = CACHE_POINTS.get(parkingLot);
 
         if (points == null) {
@@ -146,6 +146,7 @@ public final class ParkingLots {
         return points;
     }
 
+    @SuppressWarnings("unused")
     public static boolean isSupported(final String parkingLot) {
         return getFloatArray(parkingLot).length != 0;
     }
@@ -174,7 +175,7 @@ public final class ParkingLots {
     }
 
     // yeah idk how this works (http://stackoverflow.com/a/2922778/1403479)
-    public static boolean isInPoly(final float px, final float py, List<LatLng> points) {
+    static boolean isInPoly(final float px, final float py, List<LatLng> points) {
         boolean inPoly = false;
         final int n = points.size();
 

@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -19,22 +20,31 @@ public final class ViewUtils {
         throw new AssertionError();
     }
 
+    @SuppressWarnings("unused")
     public static void showKeyboard(final Activity activity) {
         final InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
+    @SuppressWarnings("unused")
     public static void showKeyboard(final View view) {
         final InputMethodManager imm =
                 (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+        if (imm != null) {
+            imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+        }
     }
 
     public static void hideKeyboard(final Activity activity) {
         final InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
     public static void setText(final TextView view, final CharSequence text) {
@@ -55,6 +65,7 @@ public final class ViewUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static Spannable replaceUrlSpans(final Spanned oldText) {
         final URLSpan[] spans = oldText.getSpans(0, oldText.length() - 1, URLSpan.class);
         final Spannable text = Spannable.Factory.getInstance().newSpannable(oldText);
@@ -70,19 +81,17 @@ public final class ViewUtils {
         return text;
     }
 
-    private static class UrlSpan
-            extends ClickableSpan {
+    private static class UrlSpan extends ClickableSpan {
 
         private final String mUrl;
 
-        public UrlSpan(final String url) {
+        UrlSpan(final String url) {
             mUrl = url;
         }
 
         @Override
-        public void onClick(final View view) {
+        public void onClick(@NonNull final View view) {
             IntentUtils.openBrowser(view.getContext(), mUrl);
         }
     }
-
 }

@@ -30,7 +30,7 @@ public class CombinedPointsOfInterestInfo
     public CombinedPointsOfInterestInfo() {
     }
 
-    protected CombinedPointsOfInterestInfo(final Parcel in) {
+    private CombinedPointsOfInterestInfo(final Parcel in) {
         super(in);
         mATMs = in.createTypedArrayList(ATM.CREATOR);
         mGreyhounds = in.createTypedArrayList(GreyhoundStop.CREATOR);

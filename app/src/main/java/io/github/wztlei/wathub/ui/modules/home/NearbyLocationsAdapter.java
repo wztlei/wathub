@@ -1,6 +1,7 @@
 package io.github.wztlei.wathub.ui.modules.home;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
     private final float[] mDistanceHolder = new float[1];
     private float[] mCurrentLocation;
 
-    public NearbyLocationsAdapter(
+    NearbyLocationsAdapter(
             final Context context,
             final List<Location> locations,
             final android.location.Location currentLocation) {
@@ -37,7 +38,7 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
         }
     }
 
-    public void updateCurrentLocation(final android.location.Location currentLocation) {
+    void updateCurrentLocation(final android.location.Location currentLocation) {
         if (currentLocation != null) {
             mCurrentLocation = new float[]{
                     (float) currentLocation.getLatitude(),
@@ -51,15 +52,19 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
         notifyDataSetChanged();
     }
 
-    public void updateLocations(final List<Location> locations) {
+    void updateLocations(final List<Location> locations) {
         clear();
         addAll(locations);
 
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(
+            final int position,
+            final View convertView,
+            @NonNull final ViewGroup parent) {
         final View view;
         if (convertView != null) {
             view = convertView;
@@ -70,11 +75,14 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
 
         final Location location = getItem(position);
 
-        ((TextView) view.findViewById(R.id.nearby_location_title)).setText(location.getName());
-        ((TextView) view.findViewById(R.id.nearby_location_distance)).setText(formatDistance(location));
+        if (location != null) {
+            ((TextView) view.findViewById(R.id.nearby_location_title)).setText(location.getName());
+            ((TextView) view.findViewById(R.id.nearby_location_distance)).setText(formatDistance(location));
 
-        view.setOnClickListener(this);
-        view.setTag(position);
+            view.setOnClickListener(this);
+            view.setTag(position);
+        }
+
 
         return view;
     }

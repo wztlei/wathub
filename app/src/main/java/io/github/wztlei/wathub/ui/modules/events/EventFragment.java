@@ -45,7 +45,6 @@ import retrofit2.Call;
 public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails, EventInfo> {
 
     private EventInfo mEventInfo;
-    private View mRoot;
 
     @BindView(R.id.event_title)
     TextView mTitleView;
@@ -71,9 +70,9 @@ public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails,
 
     @Override
     protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
-        mRoot = inflater.inflate(R.layout.fragment_event, parent, false);
+        View root = inflater.inflate(R.layout.fragment_event, parent, false);
 
-        ButterKnife.bind(this, mRoot);
+        ButterKnife.bind(this, root);
 
         mBannerRoot.addOnLayoutChangeListener(
                 (v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
@@ -82,7 +81,7 @@ public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails,
                             mSpacer.requestLayout();
                         }));
 
-        return mRoot;
+        return root;
     }
 
     @Override

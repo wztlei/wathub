@@ -8,15 +8,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import java.util.Objects;
-
+import butterknife.BindString;
+import butterknife.BindView;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.view.ElevationOffsetListener;
 import io.github.wztlei.wathub.utils.FontUtils;
 import io.github.wztlei.wathub.utils.Px;
-
-import butterknife.BindString;
-import butterknife.BindView;
 
 public class AboutActivity extends BaseActivity {
 

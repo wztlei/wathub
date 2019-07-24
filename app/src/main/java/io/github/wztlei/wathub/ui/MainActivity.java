@@ -10,19 +10,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.controller.GsonController;
-import io.github.wztlei.wathub.ui.modules.ApiMethodsFragment;
-import io.github.wztlei.wathub.ui.modules.home.HomeFragment;
-import io.github.wztlei.wathub.utils.FontUtils;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.controller.GsonController;
+import io.github.wztlei.wathub.ui.modules.ApiMethodsFragment;
+import io.github.wztlei.wathub.ui.modules.home.HomeFragment;
+import io.github.wztlei.wathub.utils.FontUtils;
 
 
 public class MainActivity extends BaseActivity
@@ -69,8 +67,8 @@ public class MainActivity extends BaseActivity
         mNavigationView.setNavigationItemSelectedListener(this);
 
         final View headerView = mNavigationView.getHeaderView(0);
-        final TextView titleView = (TextView) headerView.findViewById(R.id.navigation_header_title);
-        final TextView subtitleView = (TextView) headerView.findViewById(
+        final TextView titleView = headerView.findViewById(R.id.navigation_header_title);
+        final TextView subtitleView = headerView.findViewById(
                 R.id.navigation_header_subtitle);
         HeaderTitlePresenter.show(titleView, subtitleView);
 

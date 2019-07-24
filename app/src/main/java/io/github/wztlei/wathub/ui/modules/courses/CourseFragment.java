@@ -28,6 +28,7 @@ import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -51,7 +52,6 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
     @BindView(R.id.tab_content)
     ViewPager mViewPager;
 
-    private CourseInfoAdapter mAdapter;
     private CombinedCourseInfo mCourseData;
 
     public static Bundle newBundle(final Course model) {
@@ -113,34 +113,39 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
         final CombinedCourseInfoResponse response = new CombinedCourseInfoResponse(info);
         final Semaphore semaphore = new Semaphore(1 - 4);
 
-        // General course info
-        fetchCourseInfo(semaphore, () -> {
-            final Responses.CoursesInfo infoResponse = Calls.unwrap(
-                    api.Courses.getCourseInfo(subject, code));
-            info.setMetadata(infoResponse.getMetadata());
-            info.setCourseInfo(infoResponse.getData());
-        });
+        try {
+            // General course info
+            fetchCourseInfo(semaphore, () -> {
+                final Responses.CoursesInfo infoResponse = Calls.unwrap(
+                        api.Courses.getCourseInfo(subject, code));
+                info.setMetadata(Objects.requireNonNull(infoResponse).getMetadata());
+                info.setCourseInfo(infoResponse.getData());
+            });
 
-        // Prerequisite info
-        fetchCourseInfo(semaphore,
-                () -> info.setPrerequisites(
-                        Calls.unwrap(api.Courses.getPrerequisites(subject, code)).getData()));
+            // Prerequisite info
+            fetchCourseInfo(semaphore, () ->
+                    info.setPrerequisites(Objects.requireNonNull(
+                            Calls.unwrap(api.Courses.getPrerequisites(subject, code))).getData()));
 
-        // Course scheduling info
-        fetchCourseInfo(semaphore,
-                () -> info.setSchedules(
-                        Calls.unwrap(api.Courses.getCourseSchedule(subject, code)).getData()));
+            // Course scheduling info
+            fetchCourseInfo(semaphore, () ->
+                    info.setSchedules(Objects.requireNonNull(
+                            Calls.unwrap(api.Courses.getCourseSchedule(subject, code))).getData()));
 
-        // Exam schedule info
-        fetchCourseInfo(semaphore,
-                () -> info.setExams(
-                        Calls.unwrap(api.Courses.getExamSchedule(subject, code)).getData()));
+            // Exam schedule info
+            fetchCourseInfo(semaphore, () ->
+                    info.setExams(Objects.requireNonNull(
+                            Calls.unwrap(api.Courses.getExamSchedule(subject, code))).getData()));
+        } catch (RuntimeException e) {
+            Log.w(TAG, e.getMessage());
+        }
 
         try {
             // Wait until all data is loaded
             semaphore.acquire();
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            Log.w(TAG, e.getMessage());
+            return null;
         }
 
         return Calls.wrap(response);
@@ -159,9 +164,7 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
     @Override
     public void onBindData(final Metadata metadata, final CombinedCourseInfo data) {
         mCourseData = data;
-        mAdapter = new CourseInfoAdapter(getActivity(), data);
-
-        mViewPager.setAdapter(mAdapter);
+        mViewPager.setAdapter(new CourseInfoAdapter(getActivity(), data));
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -176,9 +179,8 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
         return subject.first + " " + subject.second;
     }
 
-    private
     @Nullable
-    Course getCourse() {
+    private Course getCourse() {
         return getArguments().getParcelable(KEY_COURSE_MODEL);
     }
 

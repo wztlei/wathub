@@ -109,11 +109,9 @@ public class NotesFragment extends BaseListApiModuleFragment<Responses.Notes, No
         doRefresh();
     }
 
-    private class NotesAdapter
-            extends ModuleAdapter
-            implements View.OnLongClickListener {
+    private class NotesAdapter extends ModuleAdapter implements View.OnLongClickListener {
 
-        public NotesAdapter(final Context context) {
+        NotesAdapter(final Context context) {
             super(context);
         }
 
@@ -139,11 +137,13 @@ public class NotesFragment extends BaseListApiModuleFragment<Responses.Notes, No
 
         @Override
         public int getCount() {
+            //noinspection ConstantConditions
             return mResponse == null ? 0 : mResponse.size();
         }
 
         @Override
         public Note getItem(final int position) {
+            //noinspection ConstantConditions
             return mResponse == null ? null : mResponse.get(position);
         }
 

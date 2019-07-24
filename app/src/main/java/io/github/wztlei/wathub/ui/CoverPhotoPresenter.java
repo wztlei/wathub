@@ -21,7 +21,7 @@ public final class CoverPhotoPresenter {
     private static final FlickrApi API = new FlickrApi(Constants.FLICKR_API_KEY);
     private static final Random sRandom = new Random();
 
-    public static final String[] PHOTO_IDS = new String[]{
+    private static final String[] PHOTO_IDS = new String[]{
             "10053104793",
             "10395423826",
             "121557152",

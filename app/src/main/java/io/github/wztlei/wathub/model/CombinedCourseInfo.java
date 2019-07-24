@@ -24,7 +24,7 @@ public class CombinedCourseInfo extends BaseModel implements Parcelable {
     public CombinedCourseInfo() {
     }
 
-    protected CombinedCourseInfo(final Parcel in) {
+    private CombinedCourseInfo(final Parcel in) {
         super(in);
         mMetadata = in.readParcelable(Metadata.class.getClassLoader());
         mCourseInfo = in.readParcelable(CourseInfo.class.getClassLoader());
