@@ -32,22 +32,20 @@ import java.util.HashMap;
  */
 public class SimpleMonthAdapter extends BaseAdapter implements SimpleMonthView.OnDayClickListener {
 
-    protected static final int MONTHS_IN_YEAR = 12;
+    static final int MONTHS_IN_YEAR = 12;
     private static final String TAG = "WL/SimpleMonthAdapter";
-    protected static int WEEK_7_OVERHANG_HEIGHT = 7;
     private final Context mContext;
     private final DatePickerController mController;
     private CalendarDay mSelectedDay;
 
-    SimpleMonthAdapter(
-            Context context,
-            DatePickerController controller) {
+    SimpleMonthAdapter(Context context, DatePickerController controller) {
         mContext = context;
         mController = controller;
         init();
         setSelectedDay(mController.getSelectedDay());
     }
 
+    @SuppressWarnings("unused")
     public CalendarDay getSelectedDay() {
         return mSelectedDay;
     }
@@ -57,7 +55,7 @@ public class SimpleMonthAdapter extends BaseAdapter implements SimpleMonthView.O
      *
      * @param day The day to highlight
      */
-    public void setSelectedDay(CalendarDay day) {
+    void setSelectedDay(CalendarDay day) {
         mSelectedDay = day;
         notifyDataSetChanged();
     }
@@ -156,7 +154,7 @@ public class SimpleMonthAdapter extends BaseAdapter implements SimpleMonthView.O
      *
      * @param day The day that was tapped
      */
-    protected void onDayTapped(CalendarDay day) {
+    private void onDayTapped(CalendarDay day) {
         mController.tryVibrate();
         mController.onDayOfMonthSelected(day.year, day.month, day.day);
         setSelectedDay(day);

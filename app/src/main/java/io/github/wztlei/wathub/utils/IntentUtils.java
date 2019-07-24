@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 
@@ -26,11 +25,10 @@ public final class IntentUtils {
             // Enable Chrome Custom Tabs
             final int color = ResourcesCompat.getColor(context.getResources(), R.color.uw_yellow,
                     context.getTheme());
-            final IBinder binder = null;
 
             final Bundle extras = new Bundle();
             extras.putInt(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, color);
-            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, binder);
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
             intent.putExtras(extras);
 
             if (isIntentSupported(context, intent)) {

@@ -33,7 +33,8 @@ import android.view.accessibility.AccessibilityManager;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import java.lang.Object;
+import java.lang.CharSequence;
 
 public abstract class TouchExplorationHelper<T>
         extends AccessibilityNodeProviderCompat
@@ -41,7 +42,7 @@ public abstract class TouchExplorationHelper<T>
     /**
      * Virtual node identifier value for invalid nodes.
      */
-    public static final int INVALID_ID = Integer.MIN_VALUE;
+    private static final int INVALID_ID = Integer.MIN_VALUE;
     private final Rect mTempScreenRect = new Rect();
     private final Rect mTempParentRect = new Rect();
     private final Rect mTempVisibleRect = new Rect();
@@ -78,7 +79,7 @@ public abstract class TouchExplorationHelper<T>
      *
      * @param context The parent context.
      */
-    public TouchExplorationHelper(
+    TouchExplorationHelper(
             Context context,
             View parentView) {
         mManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
@@ -89,7 +90,7 @@ public abstract class TouchExplorationHelper<T>
      * @return The current accessibility focused item, or {@code null} if no
      * item is focused.
      */
-    public T getFocusedItem() {
+    T getFocusedItem() {
         return getItemForId(mFocusedItemId);
     }
 
@@ -98,7 +99,7 @@ public abstract class TouchExplorationHelper<T>
      *
      * @param item The item to place focus on.
      */
-    public void setFocusedItem(T item) {
+    void setFocusedItem(T item) {
         final int itemId = getIdForItem(item);
         if (itemId == INVALID_ID) {
             return;
@@ -110,7 +111,7 @@ public abstract class TouchExplorationHelper<T>
     /**
      * Clears the current accessibility focused item.
      */
-    public void clearFocusedItem() {
+    void clearFocusedItem() {
         final int itemId = mFocusedItemId;
         if (itemId == INVALID_ID) {
             return;
@@ -138,7 +139,7 @@ public abstract class TouchExplorationHelper<T>
      * changed.
      * </p>
      *
-     * @param item
+     * @param item the item to invalidate
      */
     public void invalidateItem(T item) {
         sendEventForItem(item, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED);
@@ -152,9 +153,7 @@ public abstract class TouchExplorationHelper<T>
      * @param eventType The type of event to send.
      * @return {@code true} if the event was sent successfully.
      */
-    public boolean sendEventForItem(
-            T item,
-            int eventType) {
+    boolean sendEventForItem(T item, int eventType) {
         if (!mManager.isEnabled()) {
             return false;
         }
@@ -389,7 +388,7 @@ public abstract class TouchExplorationHelper<T>
         return localRect.intersect(mTempVisibleRect);
     }
 
-    public AccessibilityDelegateCompat getAccessibilityDelegate() {
+    AccessibilityDelegateCompat getAccessibilityDelegate() {
         return mDelegate;
     }
 

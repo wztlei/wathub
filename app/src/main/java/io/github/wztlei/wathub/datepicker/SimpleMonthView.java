@@ -50,6 +50,7 @@ import java.util.Locale;
  * A calendar-like view displaying a specified month and the appropriate selectable day numbers
  * within the specified month.
  */
+@SuppressWarnings("unused")
 public class SimpleMonthView extends View {
     /**
      * This sets the height of this week in pixels
@@ -61,44 +62,53 @@ public class SimpleMonthView extends View {
      * {@link #VIEW_PARAMS_WEEK} is the only required field, though the default
      * values are unlikely to fit most layouts correctly.
      */
+
     /**
      * This specifies the position (or weeks since the epoch) of this week,
      * calculated using {@link Utils#getWeeksSinceEpochFromJulianDay}
      */
     public static final String VIEW_PARAMS_MONTH = "month";
+
     /**
      * This specifies the position (or weeks since the epoch) of this week,
      * calculated using {@link Utils#getWeeksSinceEpochFromJulianDay}
      */
     public static final String VIEW_PARAMS_YEAR = "year";
+
     /**
      * This sets one of the days in this view as selected {@link Time#SUNDAY}
      * through {@link Time#SATURDAY}.
      */
     public static final String VIEW_PARAMS_SELECTED_DAY = "selected_day";
+
     /**
      * Which day the week should start on. {@link Time#SUNDAY} through
      * {@link Time#SATURDAY}.
      */
     public static final String VIEW_PARAMS_WEEK_START = "week_start";
+
     /**
      * Highlight the week or individual day of a selected {@link CalendarDay}
      */
     public static final String VIEW_PARAMS_HIGHLIGHT_WEEK = "highlight_week";
+
     /**
      * How many days to display at a time. Days will be displayed starting with
      * {@link #mWeekStart}.
      */
     public static final String VIEW_PARAMS_NUM_DAYS = "num_days";
+
     /**
      * Which month is currently in focus, as defined by {@link Time#month}
      * [0-11].
      */
     public static final String VIEW_PARAMS_FOCUS_MONTH = "focus_month";
+
     /**
      * If this month should display week numbers. false if 0, true otherwise.
      */
     public static final String VIEW_PARAMS_SHOW_WK_NUM = "show_wk_num";
+
     protected static final int DEFAULT_SELECTED_DAY = -1;
     protected static final int DEFAULT_WEEK_START = Calendar.SUNDAY;
     protected static final int DEFAULT_NUM_DAYS = 7;
@@ -117,23 +127,32 @@ public class SimpleMonthView extends View {
     protected static int MONTH_DAY_LABEL_TEXT_SIZE;
     protected static int MONTH_HEADER_SIZE;
     protected static int DAY_SELECTED_CIRCLE_SIZE;
+
     // used for scaling to the device density
     protected static float mScale = 0;
+
     private final Formatter mFormatter;
     private final StringBuilder mStringBuilder;
     private final Calendar mCalendar;
     private final Calendar mDayLabelCalendar;
     private final MonthViewNodeProvider mNodeProvider;
+
     // Which day is today [0-6] or -1 if no day is today
     protected int mToday = DEFAULT_SELECTED_DAY;
+
     // Which day of the week to start on [0-6]
     protected int mWeekStart = DEFAULT_WEEK_START;
+
     // How many days to display
     protected int mNumDays = DEFAULT_NUM_DAYS;
+
     // The number of days + a spot for week number if it is displayed
     protected int mNumCells = mNumDays;
+
     // The height this view should draw at in pixels, set by height param
+    @SuppressWarnings("UnusedAssignment")
     protected int mRowHeight = DEFAULT_HEIGHT;
+
     // affects the padding on the sides of this view
     protected int mPadding = 0;
     protected Paint mMonthNumPaint;
@@ -141,22 +160,30 @@ public class SimpleMonthView extends View {
     protected Paint mMonthTitleBGPaint;
     protected Paint mSelectedCirclePaint;
     protected Paint mMonthDayLabelPaint;
+
     // The Julian day of the first day displayed by this item
     protected int mFirstJulianDay = -1;
+
     // The month of the first day in this week
     protected int mFirstMonth = -1;
+
     // The month of the last day in this week
     protected int mLastMonth = -1;
     protected int mMonth;
     protected int mYear;
+
     // Quick reference to the width of this view, matches parent
     protected int mWidth;
+
     // If this view contains the today
     protected boolean mHasToday = false;
+
     // Which day is selected [0-6] or -1 if no day is selected
     protected int mSelectedDay = -1;
+
     // The left edge of the selected day
     protected int mSelectedLeft = -1;
+
     // The right edge of the selected day
     protected int mSelectedRight = -1;
     protected int mSelectedDayTextColor;
@@ -167,8 +194,10 @@ public class SimpleMonthView extends View {
     private int mNumRows = DEFAULT_NUM_ROWS;
     private String mDayOfWeekTypeface;
     private String mMonthTitleTypeface;
+
     // Optional listener for handling day click actions
     private OnDayClickListener mOnDayClickListener;
+
     // Whether to prevent setting the accessibility delegate
     private boolean mLockAccessibilityDelegate;
     private int mDayOfWeekStart = 0;
@@ -236,13 +265,11 @@ public class SimpleMonthView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_UP:
-                final CalendarDay day = getDayFromLocation(event.getX(), event.getY());
-                if (day != null) {
-                    onDayClick(day);
-                }
-                break;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            final CalendarDay day = getDayFromLocation(event.getX(), event.getY());
+            if (day != null) {
+                onDayClick(day);
+            }
         }
         return true;
     }
@@ -481,7 +508,7 @@ public class SimpleMonthView extends View {
             } else {
                 mMonthNumPaint.setColor(mDayTextColor);
             }
-            canvas.drawText(String.format("%d", dayNumber), x, y, mMonthNumPaint);
+            canvas.drawText(String.format(Locale.CANADA, "%d", dayNumber), x, y, mMonthNumPaint);
             j++;
             if (j == mNumDays) {
                 j = 0;
@@ -574,25 +601,20 @@ public class SimpleMonthView extends View {
      * Handles callbacks when the user clicks on a time object.
      */
     public interface OnDayClickListener {
-        public void onDayClick(
-                SimpleMonthView view,
-                CalendarDay day);
+        void onDayClick(SimpleMonthView view, CalendarDay day);
     }
 
     /**
      * Provides a virtual view hierarchy for interfacing with an accessibility
      * service.
      */
-    private class MonthViewNodeProvider
-            extends TouchExplorationHelper<CalendarDay> {
+    private class MonthViewNodeProvider extends TouchExplorationHelper<CalendarDay> {
         private final SparseArray<CalendarDay> mCachedItems = new SparseArray<>();
         private final Rect mTempRect = new Rect();
 
         Calendar recycle;
 
-        public MonthViewNodeProvider(
-                Context context,
-                View parent) {
+        MonthViewNodeProvider(Context context, View parent) {
             super(context, parent);
         }
 
@@ -613,10 +635,9 @@ public class SimpleMonthView extends View {
                 CalendarDay item,
                 int action,
                 Bundle arguments) {
-            switch (action) {
-                case AccessibilityNodeInfo.ACTION_CLICK:
-                    onDayClick(item);
-                    return true;
+            if (action == AccessibilityNodeInfo.ACTION_CLICK) {
+                onDayClick(item);
+                return true;
             }
 
             return false;
@@ -687,9 +708,7 @@ public class SimpleMonthView extends View {
          * @param item The time object to calculate bounds for
          * @param rect The rectangle in which to store the bounds
          */
-        private void getItemBounds(
-                CalendarDay item,
-                Rect rect) {
+        private void getItemBounds(CalendarDay item, Rect rect) {
             final int offsetX = mPadding;
             final int offsetY = MONTH_HEADER_SIZE;
             final int cellHeight = mRowHeight;

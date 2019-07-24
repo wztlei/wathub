@@ -33,13 +33,11 @@ import java.util.Calendar;
  */
 public class Utils {
 
-    public static final int YEAR_MIN = 1970;
-    public static final int YEAR_MAX = 2036;
+    private static final int MONDAY_BEFORE_JULIAN_EPOCH = Time.EPOCH_JULIAN_DAY - 3;
+    private static final int PULSE_ANIMATOR_DURATION = 544;
 
-    public static final int MONDAY_BEFORE_JULIAN_EPOCH = Time.EPOCH_JULIAN_DAY - 3;
-    public static final int PULSE_ANIMATOR_DURATION = 544;
-
-    public static boolean isJellybeanOrLater() {
+    @SuppressLint("ObsoleteSdkInt")
+    private static boolean isJellybeanOrLater() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
@@ -49,17 +47,13 @@ public class Utils {
      * @param text Text to announce.
      */
     @SuppressLint("NewApi")
-    public static void tryAccessibilityAnnounce(
-            View view,
-            CharSequence text) {
+    static void tryAccessibilityAnnounce(View view, CharSequence text) {
         if (isJellybeanOrLater() && view != null && text != null) {
             view.announceForAccessibility(text);
         }
     }
 
-    public static int getDaysInMonth(
-            int month,
-            int year) {
+    static int getDaysInMonth(int month, int year) {
         switch (month) {
             case Calendar.JANUARY:
             case Calendar.MARCH:
@@ -92,6 +86,7 @@ public class Utils {
      * @param week Number of weeks since the epoch
      * @return The julian day for the Monday of the given week since the epoch
      */
+    @SuppressWarnings("unused")
     public static int getJulianMondayFromWeeksSinceEpoch(int week) {
         return MONDAY_BEFORE_JULIAN_EPOCH + week * 7;
     }
@@ -109,9 +104,7 @@ public class Utils {
      *                       see {@link Time#SUNDAY}
      * @return Weeks since the epoch
      */
-    public static int getWeeksSinceEpochFromJulianDay(
-            int julianDay,
-            int firstDayOfWeek) {
+    static int getWeeksSinceEpochFromJulianDay(int julianDay, int firstDayOfWeek) {
         int diff = Time.THURSDAY - firstDayOfWeek;
         if (diff < 0) {
             diff += 7;
@@ -126,7 +119,7 @@ public class Utils {
      * @param labelToAnimate the view to pulsate.
      * @return The animator object. Use .start() to begin.
      */
-    public static ObjectAnimator getPulseAnimator(
+    static ObjectAnimator getPulseAnimator(
             View labelToAnimate,
             float decreaseRatio,
             float increaseRatio) {
@@ -149,7 +142,7 @@ public class Utils {
      *
      * @return the first day of week in android.text.format.Time
      */
-    public static int getFirstDayOfWeek(Context context) {
+    private static int getFirstDayOfWeek() {
         return Calendar.getInstance().getFirstDayOfWeek();
     }
 
@@ -158,14 +151,15 @@ public class Utils {
      *
      * @return the first day of week as a java.util.Calendar constant
      */
+    @SuppressWarnings("unused")
     public static int getFirstDayOfWeekAsCalendar(Context context) {
-        return convertDayOfWeekFromTimeToCalendar(getFirstDayOfWeek(context));
+        return convertDayOfWeekFromTimeToCalendar(getFirstDayOfWeek());
     }
 
     /**
      * Converts the day of the week from android.text.format.Time to java.util.Calendar
      */
-    public static int convertDayOfWeekFromTimeToCalendar(int timeDayOfWeek) {
+    private static int convertDayOfWeekFromTimeToCalendar(int timeDayOfWeek) {
         switch (timeDayOfWeek) {
             case Time.MONDAY:
                 return Calendar.MONDAY;
@@ -183,8 +177,7 @@ public class Utils {
                 return Calendar.SUNDAY;
             default:
                 throw new IllegalArgumentException(
-                        "Argument must be between Time.SUNDAY and " +
-                                "Time.SATURDAY");
+                        "Argument must be between Time.SUNDAY and Time.SATURDAY");
         }
     }
 }

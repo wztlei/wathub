@@ -22,6 +22,7 @@ public final class Authorities {
         return createAuthority(BASE_AUTHORITY, "key", key);
     }
 
+    @SuppressWarnings("unused")
     public static int requestCode(final String name) {
         return createAuthority(BASE_AUTHORITY, name).hashCode() & 0xFFFF;
     }

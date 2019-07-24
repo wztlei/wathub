@@ -52,7 +52,7 @@ public class EncryptionController {
         }
     }
 
-    public synchronized String encryptString(final String key, final String text) {
+    synchronized String encryptString(final String key, final String text) {
         if (text == null) {
             return null;
         }

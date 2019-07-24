@@ -33,17 +33,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-
 /**
  * This displays a list of months in a calendar format with selectable days.
  */
 public class DayPickerView extends ListView implements OnScrollListener,
         DatePickerDialog.OnDateChangedListener {
 
-    // The number of days to display in each week
-    public static final int DAYS_PER_WEEK = 7;
-    // Affects when the month selection will change while scrolling up
-    protected static final int SCROLL_HYST_WEEKS = 2;
     // How long the GoTo fling animation should last
     protected static final int GOTO_SCROLL_DURATION = 250;
     // How long to wait after receiving an onScrollStateChanged notification
@@ -54,29 +49,29 @@ public class DayPickerView extends ListView implements OnScrollListener,
     private static SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy", Locale.getDefault());
     private static float mScale = 0;
     private final DatePickerController mController;
-    // under the separator
-    // You can override these numbers to get a different appearance
-    protected int mNumWeeks = 6;
-    protected boolean mShowWeekNumber = false;
-    protected int mDaysPerWeek = 7;
+
     // These affect the scroll speed and feel
     protected float mFriction = 1.0f;
     protected Context mContext;
     protected Handler mHandler;
+
     // highlighted time
     protected CalendarDay mSelectedDay = new CalendarDay();
     protected SimpleMonthAdapter mAdapter;
     protected CalendarDay mTempDay = new CalendarDay();
-    // When the week starts; numbered like Time.<WEEKDAY> (e.g. SUNDAY=0).
-    protected int mFirstDayOfWeek;
+
     // The last name announced by accessibility
     protected CharSequence mPrevMonthName;
+
     // which month should be displayed/highlighted [0-11]
     protected int mCurrentMonthDisplayed;
+
     // used for tracking during a scroll
     protected long mPreviousScrollPosition;
+
     // used for tracking what state listview is in
     protected int mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE;
+
     // used for tracking what state listview is in
     protected int mCurrentScrollState = OnScrollListener.SCROLL_STATE_IDLE;
     protected ScrollStateRunnable mScrollStateChangedRunnable = new ScrollStateRunnable();
@@ -373,11 +368,9 @@ public class DayPickerView extends ListView implements OnScrollListener,
         Calendar cal = Calendar.getInstance();
         cal.set(day.year, day.month, day.day);
 
-        StringBuffer sbuf = new StringBuffer();
-        sbuf.append(cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
-        sbuf.append(" ");
-        sbuf.append(YEAR_FORMAT.format(cal.getTime()));
-        return sbuf.toString();
+        return cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) +
+                " " +
+                YEAR_FORMAT.format(cal.getTime());
     }
 
     /**
@@ -439,8 +432,7 @@ public class DayPickerView extends ListView implements OnScrollListener,
         return true;
     }
 
-    protected class ScrollStateRunnable
-            implements Runnable {
+    protected class ScrollStateRunnable implements Runnable {
         private int mNewState;
 
         /**
@@ -450,9 +442,7 @@ public class DayPickerView extends ListView implements OnScrollListener,
          * @param view        The list view that changed state
          * @param scrollState The new state it changed to
          */
-        public void doScrollStateChange(
-                AbsListView view,
-                int scrollState) {
+        void doScrollStateChange(AbsListView view, int scrollState) {
             mHandler.removeCallbacks(this);
             mNewState = scrollState;
             mHandler.postDelayed(this, SCROLL_CHANGE_DELAY);
