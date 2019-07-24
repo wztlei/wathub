@@ -39,4 +39,6 @@
 	
 5. Repeat step 4 with a few modules but with the internet turned off.
 
-6. 
+6. Update the release notes in the Google Play Console.
+
+7. Release the app!
