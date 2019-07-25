@@ -104,7 +104,7 @@ public class AnnouncementsFragment
 
     private class AnnouncementAdapter extends ModuleAdapter {
 
-        public AnnouncementAdapter(final Context context) {
+        AnnouncementAdapter(final Context context) {
             super(context);
         }
 
@@ -124,11 +124,13 @@ public class AnnouncementsFragment
 
         @Override
         public int getCount() {
+            //noinspection ConstantConditions
             return mResponse == null ? 0 : mResponse.size();
         }
 
         @Override
         public Announcement getItem(final int position) {
+            //noinspection ConstantConditions
             return mResponse == null ? null : mResponse.get(position);
         }
     }

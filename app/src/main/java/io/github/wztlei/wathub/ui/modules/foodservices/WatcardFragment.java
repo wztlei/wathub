@@ -71,7 +71,7 @@ public class WatcardFragment extends BaseListApiModuleFragment<Responses.Watcard
             implements
             View.OnLongClickListener {
 
-        public WatcardVendorAdapter(final Context context) {
+        WatcardVendorAdapter(final Context context) {
             super(context);
         }
 

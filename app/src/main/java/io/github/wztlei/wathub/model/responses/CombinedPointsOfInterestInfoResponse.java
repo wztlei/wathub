@@ -15,7 +15,7 @@ public class CombinedPointsOfInterestInfoResponse extends BaseResponse implement
         mInfo = info;
     }
 
-    protected CombinedPointsOfInterestInfoResponse(final Parcel in) {
+    private CombinedPointsOfInterestInfoResponse(final Parcel in) {
         super(in);
         mInfo = in.readParcelable(CombinedPointsOfInterestInfo.class.getClassLoader());
     }

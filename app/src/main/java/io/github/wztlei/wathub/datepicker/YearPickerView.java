@@ -16,10 +16,10 @@
 
 package io.github.wztlei.wathub.datepicker;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
@@ -29,19 +29,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import io.github.wztlei.wathub.R;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import io.github.wztlei.wathub.R;
 
 
 /**
  * Displays a selectable list of years.
  */
-public class YearPickerView
-        extends ListView
-        implements OnItemClickListener,
-        DatePickerDialog.OnDateChangedListener {
+public class YearPickerView extends ListView
+        implements OnItemClickListener, DatePickerDialog.OnDateChangedListener {
+    @SuppressWarnings("unused")
     private static final String TAG = "WL/YearPickerView";
 
     private final DatePickerController mController;
@@ -51,7 +51,7 @@ public class YearPickerView
     private TextViewWithCircularIndicator mSelectedView;
 
     /**
-     * @param context
+     * @param context the context in which the YearPickerView is instantiated
      */
     public YearPickerView(
             Context context,
@@ -78,18 +78,14 @@ public class YearPickerView
     private void init(Context context) {
         ArrayList<String> years = new ArrayList<>();
         for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++) {
-            years.add(String.format("%d", year));
+            years.add(String.format(Locale.CANADA, "%d", year));
         }
         mAdapter = new YearAdapter(context, R.layout.view_datetimepicker_year_label_text_view, years);
         setAdapter(mAdapter);
     }
 
     @Override
-    public void onItemClick(
-            AdapterView<?> parent,
-            View view,
-            int position,
-            long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mController.tryVibrate();
         TextViewWithCircularIndicator clickedView = (TextViewWithCircularIndicator) view;
         if (clickedView != null) {
@@ -115,19 +111,11 @@ public class YearPickerView
         postSetSelectionFromTop(position, mViewSize / 2 - mChildSize / 2);
     }
 
-    public void postSetSelectionFromTop(
-            final int position,
-            final int offset) {
-        post(
-                new Runnable() {
-
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void run() {
-                        setSelectionFromTop(position, offset);
-                        requestLayout();
-                    }
-                });
+    public void postSetSelectionFromTop(final int position, final int offset) {
+        post(() -> {
+            setSelectionFromTop(position, offset);
+            requestLayout();
+        });
     }
 
     public int getFirstPositionOffset() {
@@ -153,21 +141,18 @@ public class YearPickerView
         }
     }
 
-    private class YearAdapter
-            extends ArrayAdapter<String> {
+    private class YearAdapter extends ArrayAdapter<String> {
 
-        public YearAdapter(
-                Context context,
-                int resource,
-                List<String> objects) {
+        YearAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
         }
 
+        @NonNull
         @Override
         public View getView(
                 int position,
                 View convertView,
-                ViewGroup parent) {
+                @NonNull ViewGroup parent) {
             TextViewWithCircularIndicator v = (TextViewWithCircularIndicator)
                     super.getView(position, convertView, parent);
             v.requestLayout();

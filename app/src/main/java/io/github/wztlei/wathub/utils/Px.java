@@ -22,7 +22,7 @@ public final class Px {
         return (int) fromSpF(sp);
     }
 
-    public static float fromSpF(final float sp) {
+    private static float fromSpF(final float sp) {
         return (sContext.getResources().getDisplayMetrics().scaledDensity * sp);
     }
 

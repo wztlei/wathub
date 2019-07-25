@@ -15,6 +15,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 
+@SuppressWarnings("WeakerAccess")
 public final class FontUtils {
 
     public static final int THIN = 0;

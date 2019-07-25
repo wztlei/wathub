@@ -27,7 +27,7 @@ public final class FlickrApi {
         mInterface = buildInterface();
     }
 
-    public String getApiKey() {
+    private String getApiKey() {
         return mApiKey;
     }
 

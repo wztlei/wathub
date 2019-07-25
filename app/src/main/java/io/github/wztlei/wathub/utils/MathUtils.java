@@ -12,6 +12,7 @@ public final class MathUtils {
         return (f < min ? min : (f > max ? max : f));
     }
 
+    @SuppressWarnings("unused")
     public static String formatFloat(final float num) {
         return formatFloat(String.valueOf(num));
     }

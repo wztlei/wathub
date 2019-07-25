@@ -353,8 +353,7 @@ public class NearbyLocationsFragment extends Fragment implements
     }
 
     @SuppressWarnings("MissingPermission")
-    private final class LocationTask
-            extends AsyncTask<Void, Void, Boolean> {
+    private final class LocationTask extends AsyncTask<Void, Void, Boolean> {
 
         private final GoogleApiClient mApiClient;
         private Responses.Locations mResponse;
@@ -380,7 +379,7 @@ public class NearbyLocationsFragment extends Fragment implements
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (getActivity() != null) {
+            if (getActivity() != null && mResponse != null) {
                 if (success) {
                     onLocationsLoaded(mResponse.getData());
                     onLocationChanged(mLocation);
