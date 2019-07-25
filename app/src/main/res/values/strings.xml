@@ -265,6 +265,7 @@
     <string name="name_hint">Name</string>
     <string name="input_hint">Feedback goes here!</string>
     <string name="email_hint">someone@example.com</string>
+    <string name="feedback_click_button">Submit Feedback</string>
     <string-array name="feedbackinfo1">
         <item>"Why provide us feedback?"</item>
         <item>"It is important for us to know what our users want to see next in our app. With every piece of feedback we can get to work implementing your ideas as well as squash those nasty bugs!"</item>
@@ -276,6 +277,10 @@
     <string-array name="feedbackinfo3">
         <item>"Can I reach out another way?"</item>
         <item>"Of course! You can &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us directly!"</item>
+    </string-array>
+    <string-array name="feedbackfaq">
+        <item>"Can I give you feedback?"</item>
+        <item>"Of course! You can &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us directly or submit your feedback by clicking the button."</item>
     </string-array>
 
 

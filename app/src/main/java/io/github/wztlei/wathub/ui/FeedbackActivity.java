@@ -39,13 +39,9 @@ public class FeedbackActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    // menu_feedback does not exist in the menu anymore --> is moved to the about section
-    // this will be resolved in future patch
-    /*
-    @BindString(R.string.menu_feedback)
-     */
-    // temporarily set to 'Feedback'
-    String mFeedbackString = "Feedback";
+
+    @BindString(R.string.feedback_input)
+    String mFeedbackString;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
