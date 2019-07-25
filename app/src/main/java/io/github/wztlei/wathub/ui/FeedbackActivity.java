@@ -112,7 +112,7 @@ public class FeedbackActivity extends BaseActivity {
     private void checkInput() {
         if (feedbackinput.getText().toString().trim().length() == 0) {
             feedbackinput.setError("Please enter your feedback!");
-            Toast.makeText(FeedbackActivity.this, "Please fill feedback!", Toast.LENGTH_LONG).show();
+            Toast.makeText(FeedbackActivity.this, "Please enter your feedback!", Toast.LENGTH_LONG).show();
         }
         else {
              checkName();
