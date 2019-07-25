@@ -62,6 +62,7 @@ public class RoomScheduleFetcher {
             inputStream.close();
             mDaysOfWeekMap = new JSONObject(new String(buffer));
 
+            /*
             // Use the room schedule from res/raw if shared preferences is missing room schedules
             if (!mSharedPreferences.contains(Constants.ROOM_SCHEDULE_KEY)) {
                 inputStream = context.getResources().openRawResource(R.raw.days_of_week);
@@ -74,6 +75,7 @@ public class RoomScheduleFetcher {
                 // Update the room schedule with the data from res/raw
                 updateRoomSchedule(new JSONObject(new String(buffer)).toString());
             }
+            */
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             mDaysOfWeekMap = new JSONObject();
@@ -212,7 +214,7 @@ public class RoomScheduleFetcher {
     private void updateRoomSchedule(String jsonString) {
         // Put the json string in shared preferences
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.ROOM_SCHEDULE_KEY, jsonString);
+        //editor.putString(Constants.ROOM_SCHEDULE_KEY, jsonString);
         editor.apply();
 
         // Get a list of buildings from the JSON object
