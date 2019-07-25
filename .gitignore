@@ -67,7 +67,7 @@ fastlane/readme.md
 
 # API Keys
 **/CustomBuildConfig.java
-**/Constants.java
+#**/Constants.java
 *BuildConfig*
 *Constants*
 
