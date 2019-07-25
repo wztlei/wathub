@@ -146,10 +146,12 @@
                     android:layout_height="wrap_content"
                     android:entries="@array/feedbackinfo2" />
 
+                <!--
                 <io.github.wztlei.wathub.ui.view.FaqSection
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/feedbackinfo3" />
+                -->
 
             </LinearLayout>
 

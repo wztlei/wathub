@@ -245,7 +245,7 @@
 
     <string-array name="question5">
         <item>"I have ideas!"</item>
-        <item>"Great! Please &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us to submit your fantastic idea! You can also &lt;a href='https://play.google.com/store/apps/details?id=io.github.wztlei.wathub'>leave a review&lt;/a> on the Google Play Store."</item>
+        <item>"Great! Please &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us, or click on the button below to submit your fantastic idea! You can also &lt;a href='https://play.google.com/store/apps/details?id=io.github.wztlei.wathub'>leave a review&lt;/a> on the Google Play Store."</item>
     </string-array>
 
     <string-array name="question6">

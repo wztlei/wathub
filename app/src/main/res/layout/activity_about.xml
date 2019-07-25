@@ -39,10 +39,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--
             <io.github.wztlei.wathub.ui.view.FaqSection
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/feedbackfaq" />
+
 
             <Button
                 android:id="@+id/goto_feedback_button"
@@ -51,6 +53,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:text="@string/feedback_click_button"/>
+            -->
 
             <io.github.wztlei.wathub.ui.view.FaqSection
                 android:layout_width="match_parent"
@@ -76,6 +79,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/question5" />
+
+            <Button
+                android:id="@+id/goto_feedback_button"
+                android:backgroundTint="@color/uw_yellow"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="@string/feedback_click_button"/>
 
             <io.github.wztlei.wathub.ui.view.FaqSection
                 android:layout_width="match_parent"

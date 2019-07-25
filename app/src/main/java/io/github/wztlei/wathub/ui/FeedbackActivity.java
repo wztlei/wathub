@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.View.*;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -73,10 +76,22 @@ public class FeedbackActivity extends BaseActivity {
                 new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        checkInput();
+                        if (!isNetworkConnected()) {
+                            Toast.makeText(FeedbackActivity.this, "You are not connected to the internet, please try later.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            checkInput();
+                        }
                     }
                 }
         );
+    }
+
+    // check for a network connection
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnected();
     }
 
     @Override
