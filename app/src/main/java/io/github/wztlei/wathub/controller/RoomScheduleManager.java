@@ -2,6 +2,8 @@ package io.github.wztlei.wathub.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -48,12 +50,23 @@ public class RoomScheduleManager {
     private static int sCurrentHour;
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private static int sCurrentMin;
+    private static int sNumNetworkFailures;
 
     private static final String SCHEDULE_PROGRESS_INDEX_KEY = "SCHEDULE_PROGRESS_INDEX_KEY";
     private static final String INCOMPLETE_SCHEDULE_JSON_KEY = "INCOMPLETE_SCHEDULE_JSON_KEY";
+    private static final String ROOM_SCHEDULE_KEY = "ROOM_SCHEDULE_KEY";
+    private static final String ROOM_SCHEDULE_SOURCE_KEY = "ROOM_SCHEDULE_SOURCE_KEY";
+    private static final String PREFS_SOURCE = "PREFS_SOURCE";
+    private static final String RES_SOURCE = "RES_SOURCE";
+    private static final String GITHUB_SOURCE = "GITHUB_SOURCE";
+    private static final String UNKNOWN_SOURCE = "UNKNOWN_SOURCE";
+    private static final String API_SOURCE = "API_SOURCE";
+
     private static final String ROOM_SCHEDULES_GITHUB_URL =
             "https://raw.githubusercontent.com/wztlei/wathub/master/app/src/main/res/raw/room_schedule.json";
     private static final String TAG = "WL/RoomScheduleManager";
+    private static final int REFRESH_WAIT_MS = 10000;
+    private static final int MAX_NETWORK_FAILURES = 3;
     private static final int START_HOUR_INDEX = 0;
     private static final int START_MIN_INDEX = 1;
     private static final int END_HOUR_INDEX = 2;
@@ -110,8 +123,8 @@ public class RoomScheduleManager {
             sDaysOfWeekMap = new JSONObject(new String(buffer));
 
             // Use the room schedule from res/raw if shared preferences is missing room schedules
-            if (!sSharedPreferences.contains(Constants.ROOM_SCHEDULE_KEY)) {
-                inputStream = context.getResources().openRawResource(R.raw.days_of_week);
+            if (!sSharedPreferences.contains(ROOM_SCHEDULE_KEY)) {
+                inputStream = context.getResources().openRawResource(R.raw.room_schedule);
                 size = inputStream.available();
                 buffer = new byte[size];
                 // noinspection ResultOfMethodCallIgnored
@@ -119,7 +132,9 @@ public class RoomScheduleManager {
                 inputStream.close();
 
                 // Update the room schedule with the data from res/raw
-                updateRoomSchedule(new JSONObject(new String(buffer)).toString());
+                updateRoomSchedule(new JSONObject(new String(buffer)).toString(), RES_SOURCE);
+            } else {
+                updateRoomSchedule(sSharedPreferences.getString(ROOM_SCHEDULE_KEY, ""), PREFS_SOURCE);
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -153,7 +168,11 @@ public class RoomScheduleManager {
                         // Update the room schedules with a JSON string from the response body
                         // noinspection ConstantConditions
                         String jsonString = response.body().string();
-                        updateRoomSchedule(jsonString);
+                        String source = sSharedPreferences.getString(ROOM_SCHEDULE_SOURCE_KEY, UNKNOWN_SOURCE);
+
+                        if (!source.equals(API_SOURCE)) {
+                            updateRoomSchedule(jsonString, GITHUB_SOURCE);
+                        }
                         Log.d(TAG, "Updated room schedules from GitHub");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -165,8 +184,13 @@ public class RoomScheduleManager {
 
                 @Override
                 public void onFailure(@NonNull final Call call, @NonNull IOException e) {
-                    // Use the UWaterloo API to get room schedules
-                    retrieveSchedulesWithApi();
+                    // Try again after a delay if there has not been a certain number of failures
+                    if (sNumNetworkFailures < MAX_NETWORK_FAILURES) {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            sNumNetworkFailures++;
+                            refreshRoomScheduleAsync();
+                        }, REFRESH_WAIT_MS);
+                    }
                 }
             });
         } catch (Exception e) {
@@ -247,18 +271,20 @@ public class RoomScheduleManager {
         }
 
         // Put the room schedule in shared preferences
-        updateRoomSchedule(incompleteRoomSchedule.toString());
+        updateRoomSchedule(incompleteRoomSchedule.toString(), API_SOURCE);
     }
 
     /**
      * Updates the state of the class upon receiving a JSON string storing the room schedule.
      *
      * @param jsonString        a JSON string storing the room schedule data
+     * @param source            the source of the JSON string
      */
-    private void updateRoomSchedule(String jsonString) {
+    private void updateRoomSchedule(String jsonString, String source) {
         // Put the json string in shared preferences
         SharedPreferences.Editor editor = sSharedPreferences.edit();
-        editor.putString(Constants.ROOM_SCHEDULE_KEY, jsonString);
+        editor.putString(ROOM_SCHEDULE_KEY, jsonString);
+        editor.putString(ROOM_SCHEDULE_SOURCE_KEY, source);
         editor.apply();
 
         // Get a list of buildings from the JSON object

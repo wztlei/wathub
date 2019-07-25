@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,12 +110,10 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_info_and_refresh, menu);
-        Log.d(TAG, "onCreateOptionsMenu");
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected");
         if (item.getItemId() == R.id.menu_refresh) {
 
             return true;
@@ -249,7 +246,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         @Override
         public int getItemCount() {
-            Log.d(TAG, "getItemCount" + mRoomTimeIntervalList.size());
             return mRoomTimeIntervalList.size();
         }
     }

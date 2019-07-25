@@ -39,6 +39,10 @@
 	
 5. Repeat step 4 with a few modules but with the internet turned off.
 
-6. Update the release notes in the Google Play Console.
+6. Generate a signed APK of the release variant with both the V1 Jar signature and the V2 full APK signature.
 
-7. Release the app!
+7. Upload the APK with the path `app/release/app-release.apk` to the Google Play Console.
+
+8. Update the release notes in the Google Play Console and remember to use the latest version name.
+
+9. Release the app!

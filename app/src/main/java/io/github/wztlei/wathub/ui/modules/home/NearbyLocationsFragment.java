@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class NearbyLocationsFragment extends Fragment implements
 
     private static final String KEY_ALL_LOCATIONS = "all_locations";
     private static final String KEY_MY_LOCATION = "my_location";
+    private static final String TAG = "NearbyLocationsFragment";
 
     private static final long ERROR_ANIMATION_DURATION = 1000L;
     private static final int LOCATION_AMOUNT = 3;
@@ -296,16 +298,20 @@ public class NearbyLocationsFragment extends Fragment implements
     }
 
     private void showError(@StringRes final int resId, final boolean show) {
-        if (show) {
-            mErrorView.setText(resId);
-            mErrorView.animate().alpha(1f).setDuration(ERROR_ANIMATION_DURATION).start();
+        try {
+            if (show) {
+                mErrorView.setText(resId);
+                mErrorView.animate().alpha(1f).setDuration(ERROR_ANIMATION_DURATION).start();
 
-        } else {
-            // Another error may have changed this field's text
-            if (TextUtils.equals(mErrorView.getText(), getString(resId))) {
-                mErrorView.setText(null);
-                mErrorView.animate().alpha(0f).setDuration(ERROR_ANIMATION_DURATION).start();
+            } else {
+                // Another error may have changed this field's text
+                if (TextUtils.equals(mErrorView.getText(), getString(resId))) {
+                    mErrorView.setText(null);
+                    mErrorView.animate().alpha(0f).setDuration(ERROR_ANIMATION_DURATION).start();
+                }
             }
+        } catch (IllegalStateException e) {
+            Log.w(TAG, e.getMessage());
         }
     }
 
