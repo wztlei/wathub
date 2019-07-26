@@ -35,12 +35,14 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
     @BindView(R.id.building_open_classroom_spinner)
     Spinner mBuildingSpinner;
-
     @BindView(R.id.hours_open_classroom_spinner)
     Spinner mHoursSpinner;
-
     @BindView(R.id.open_classroom_list)
     RecyclerView mOpenRoomList;
+    @BindView(R.id.open_classroom_full_building_name)
+    TextView mFullBuildingName;
+    @BindView(R.id.open_classroom_no_results)
+    TextView mNoResultsText;
 
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;
@@ -61,9 +63,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             final Bundle savedInstanceState) {
 
         // Set up the view
-        final View root = inflater.inflate(R.layout.fragment_module, container, false);
-        final ViewGroup parent = root.findViewById(R.id.container_content_view);
-        final View contentView = inflater.inflate(R.layout.fragment_open_classrooms, parent, false);
+        View root = inflater.inflate(R.layout.fragment_module, container, false);
+        ViewGroup parent = root.findViewById(R.id.container_content_view);
+        View contentView = inflater.inflate(R.layout.fragment_open_classrooms, parent, false);
         parent.addView(contentView);
         setHasOptionsMenu(true);
 
@@ -168,11 +170,24 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         RoomTimeIntervalList buildingOpenSchedule =
                 mRoomScheduleManager.findOpenRooms(building, hourIndex);
 
-        // Update the recycler view displaying the open classroom schedule 
-        mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
+        // Check if any open classrooms has been found
+        if (buildingOpenSchedule.size() > 0 && building.equals("MC")) {
+            // Update the visibility of the views
+            mOpenRoomList.setVisibility(View.VISIBLE);
+            mFullBuildingName.setVisibility(View.VISIBLE);
+            mNoResultsText.setVisibility(View.GONE);
 
-        // Update the text view displaying the building's full name
-//        buildingFullNameTextView.setText(buildingCodeToFullName(building));
+            // Update the recycler view displaying the open classroom schedule
+            mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
+
+            // Update the text view displaying the building's full name
+            mFullBuildingName.setText("Douglas Wright Engineering Building Douglas Wright Engineering Building");
+        } else {
+            // Update the visibility of the views
+            mOpenRoomList.setVisibility(View.GONE);
+            mFullBuildingName.setVisibility(View.GONE);
+            mNoResultsText.setVisibility(View.VISIBLE);
+        }
 
         // Store the latest building of the latest query in shared preferences for later recall
         SharedPreferences.Editor editor = mSharedPreferences.edit();
