@@ -54,6 +54,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     // TODO WL: Add functionality to the refresh icon to fetch the latest schedules from GitHub
     // TODO WL: Update the hour dropdown every 10s to keep the 'Now' option up-to-date
     // TODO WL: Update the TextView at the bottom of the page to display a building's full name
+    // TODO WL: Display a loading animation whenever a new building or time is selected
     // TODO WL: Ask others for their opinions on this feature
 
     @Override
