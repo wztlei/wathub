@@ -171,7 +171,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
                 mRoomScheduleManager.findOpenRooms(building, hourIndex);
 
         // Check if any open classrooms has been found
-        if (buildingOpenSchedule.size() > 0 && building.equals("MC")) {
+        if (buildingOpenSchedule.size() > 0) {
             // Update the visibility of the views
             mOpenRoomList.setVisibility(View.VISIBLE);
             mFullBuildingName.setVisibility(View.VISIBLE);
