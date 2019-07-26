@@ -30,6 +30,8 @@ import retrofit2.Retrofit;
 
 import io.github.wztlei.wathub.ui.modules.Feedback.feedbacksendout;
 
+// Rolf Li, July 2019
+
 public class FeedbackActivity extends BaseActivity {
     private EditText feedbackname;
     private EditText feedbackinput;
