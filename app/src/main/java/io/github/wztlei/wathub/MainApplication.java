@@ -3,7 +3,9 @@ package io.github.wztlei.wathub;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import io.github.wztlei.wathub.controller.BuildingManager;
 import io.github.wztlei.wathub.controller.EncryptionController;
+import io.github.wztlei.wathub.controller.TermManager;
 import io.github.wztlei.wathub.controller.WatcardManager;
 import io.github.wztlei.wathub.controller.RoomScheduleManager;
 import io.github.wztlei.wathub.utils.FontUtils;
@@ -11,6 +13,8 @@ import io.github.wztlei.wathub.controller.NetworkController;
 import io.github.wztlei.wathub.utils.Px;
 
 import net.danlew.android.joda.JodaTimeAndroid;
+
+import java.util.Calendar;
 
 import pl.tajchert.nammu.Nammu;
 
@@ -45,8 +49,17 @@ public class MainApplication extends MultiDexApplication {
         // Watcard manager
         WatcardManager.init(this);
 
-        // Room fetcher
+        // Term manager
+        TermManager.init(this);
+
+        // Building manager
+        BuildingManager.init(this);
+
+        // Room schedule manager
         RoomScheduleManager.init(this);
         RoomScheduleManager.getInstance().refreshRoomScheduleAsync();
+
+        Log.d("TAG", Calendar.getInstance().get(Calendar.MONTH) + "");
+
     }
 }

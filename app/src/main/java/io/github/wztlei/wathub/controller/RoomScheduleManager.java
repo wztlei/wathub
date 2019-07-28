@@ -39,12 +39,12 @@ import okhttp3.Response;
 public class RoomScheduleManager {
 
     private static RoomScheduleManager sInstance;
+    private static TermManager sTermManager;
     private static SharedPreferences sSharedPreferences;
     private static RoomSchedule sRoomSchedule;
     private static JSONObject sDaysOfWeekMap;
     private static String[] sSubjects;
     private static String[] sBuildings;
-    private static int sCurrentTerm;
     private static int sCurrentMonth;
     private static int sCurrentDate;
     private static int sCurrentDayOfWeek;
@@ -102,12 +102,13 @@ public class RoomScheduleManager {
     /**
      * Constructor for a RoomScheduleManager object.
      *
-     * @param context the context in which the Room Fetcher is created
+     * @param context the context in which the RoomScheduleManager is created
      */
     private RoomScheduleManager(Context context) {
         sSubjects = context.getResources().getStringArray(R.array.course_subjects);
         sSharedPreferences = context.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        sTermManager = TermManager.getInstance();
 
         // Get the json mapping of a days of week string to a JSON array of booleans
         try {
@@ -227,14 +228,7 @@ public class RoomScheduleManager {
             Log.e(TAG, e.getMessage());
         }
 
-        Responses.Terms responseTerms = null;
-
-        while (responseTerms == null) {
-            responseTerms = Calls.unwrap(api.Terms.getTermList());
-        }
-
         // Get the current term and the progress within the subjects
-        sCurrentTerm = responseTerms.getData().getCurrentTerm();
         int subjectProgressIndex = sSharedPreferences
                 .getInt(Constants.SCHEDULE_PROGRESS_INDEX_KEY, 0)
                 % sSubjects.length;
@@ -248,7 +242,7 @@ public class RoomScheduleManager {
 
             // Get the schedule for the subject using a thread-blocking API call
             while (response == null) {
-                response = Calls.unwrap(api.Terms.getSchedule(sCurrentTerm, subject));
+                response = Calls.unwrap(api.Terms.getSchedule(sTermManager.currentTerm(), subject));
             }
 
             List<CourseSchedule> subjectSchedule = response.getData();
@@ -511,7 +505,7 @@ public class RoomScheduleManager {
         Calendar calendar = Calendar.getInstance();
 
         // Update the current month, date of the month, and minute
-        sCurrentMonth = calendar.get(Calendar.MONTH);
+        sCurrentMonth = calendar.get(Calendar.MONTH) + 1;
         sCurrentDate = calendar.get(Calendar.DATE);
         sCurrentHour = calendar.get(Calendar.HOUR_OF_DAY);
         sCurrentMin = calendar.get(Calendar.MINUTE);
@@ -620,10 +614,10 @@ public class RoomScheduleManager {
             newClassTime.put( getChars0And1(endTime, 22) );
             newClassTime.put( getChars3And4(endTime, 0) );
             newClassTime.put( sDaysOfWeekMap.getJSONArray(weekdaysString) );
-            newClassTime.put( getChars0And1(startDateString, termStartMonth()) );
-            newClassTime.put( getChars3And4(startDateString, termStartDate()) );
-            newClassTime.put( getChars0And1(endDateString, termEndMonth()) );
-            newClassTime.put( getChars3And4(endDateString, termEndDate()) );
+            newClassTime.put( getChars0And1(startDateString, sTermManager.currentTermStartMonth()) );
+            newClassTime.put( getChars3And4(startDateString, sTermManager.currentTermStartDate()) );
+            newClassTime.put( getChars0And1(endDateString, sTermManager.currentTermEndMonth()) );
+            newClassTime.put( getChars3And4(endDateString, sTermManager.currentTermEndDate()) );
 
             // Add the new class time to the list of existing class times
             classTimes.put(newClassTime);
@@ -659,42 +653,6 @@ public class RoomScheduleManager {
             } catch (Exception e) {
                 return defaultValue;
             }
-        }
-
-        /**
-         * Returns the estimated start month for the term.
-         *
-         * @return the estimated start month for the term
-         */
-        private int termStartMonth() {
-            return sCurrentTerm % 10;
-        }
-
-        /**
-         * Returns the estimated start date for the term.
-         *
-         * @return the estimated start date for the term
-         */
-        private int termStartDate() {
-            return 1;
-        }
-
-        /**
-         * Returns the estimated ending month for the term.
-         *
-         * @return the estimated end month for the term
-         */
-        private int termEndMonth() {
-            return (sCurrentTerm % 10) + 3;
-        }
-
-        /**
-         * Returns the estimated end date for the term.
-         *
-         * @return the estimated end date for the term
-         */
-        private int termEndDate() {
-            return 6;
         }
     }
 }

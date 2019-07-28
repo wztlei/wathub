@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -25,10 +24,9 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:layout_gravity="center_vertical"
             android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:paddingEnd="0dp">
 
             <Spinner
                 android:id="@+id/hours_open_classroom_spinner"
@@ -36,15 +34,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"/>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_events"
-                android:background="@color/uw_yellow"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/open_classroom_calendar_button"/>
+            <!--<ImageButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/ic_events"-->
+                <!--android:background="@color/uw_yellow"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:paddingStart="0dp"-->
+                <!--android:paddingEnd="12dp"-->
+                <!--android:contentDescription="@string/open_classroom_calendar_button"/>-->
 
         </LinearLayout>
 
