@@ -7,7 +7,7 @@ import io.github.wztlei.wathub.controller.EncryptionController;
 import io.github.wztlei.wathub.controller.WatcardManager;
 import io.github.wztlei.wathub.controller.RoomScheduleManager;
 import io.github.wztlei.wathub.utils.FontUtils;
-import io.github.wztlei.wathub.utils.NetworkController;
+import io.github.wztlei.wathub.controller.NetworkController;
 import io.github.wztlei.wathub.utils.Px;
 
 import net.danlew.android.joda.JodaTimeAndroid;

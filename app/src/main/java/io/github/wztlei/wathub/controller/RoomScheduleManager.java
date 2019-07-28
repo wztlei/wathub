@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import io.github.wztlei.wathub.ApiKeys;
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.model.RoomTimeInterval;
@@ -52,10 +53,6 @@ public class RoomScheduleManager {
     private static int sCurrentMin;
     private static int sNumNetworkFailures;
 
-    private static final String SCHEDULE_PROGRESS_INDEX_KEY = "SCHEDULE_PROGRESS_INDEX_KEY";
-    private static final String INCOMPLETE_SCHEDULE_JSON_KEY = "INCOMPLETE_SCHEDULE_JSON_KEY";
-    private static final String ROOM_SCHEDULE_KEY = "ROOM_SCHEDULE_KEY";
-    private static final String ROOM_SCHEDULE_SOURCE_KEY = "ROOM_SCHEDULE_SOURCE_KEY";
     private static final String PREFS_SOURCE = "PREFS_SOURCE";
     private static final String RES_SOURCE = "RES_SOURCE";
     private static final String GITHUB_SOURCE = "GITHUB_SOURCE";
@@ -85,7 +82,7 @@ public class RoomScheduleManager {
      */
     public static void init(Context context) {
         if (sInstance != null) {
-            throw new IllegalStateException("WatcardManager already instantiated!");
+            throw new IllegalStateException("RoomScheduleManager already instantiated!");
         }
         sInstance = new RoomScheduleManager(context);
     }
@@ -97,7 +94,7 @@ public class RoomScheduleManager {
      */
     public static RoomScheduleManager getInstance() {
         if (sInstance == null) {
-            throw new IllegalStateException("WatcardManager not instantiated!");
+            throw new IllegalStateException("RoomScheduleManager not instantiated!");
         }
         return sInstance;
     }
@@ -123,7 +120,7 @@ public class RoomScheduleManager {
             sDaysOfWeekMap = new JSONObject(new String(buffer));
 
             // Use the room schedule from res/raw if shared preferences is missing room schedules
-            if (!sSharedPreferences.contains(ROOM_SCHEDULE_KEY)) {
+            if (!sSharedPreferences.contains(Constants.ROOM_SCHEDULE_KEY)) {
                 inputStream = context.getResources().openRawResource(R.raw.room_schedule);
                 size = inputStream.available();
                 buffer = new byte[size];
@@ -134,7 +131,8 @@ public class RoomScheduleManager {
                 // Update the room schedule with the data from res/raw
                 updateRoomSchedule(new JSONObject(new String(buffer)).toString(), RES_SOURCE);
             } else {
-                updateRoomSchedule(sSharedPreferences.getString(ROOM_SCHEDULE_KEY, ""), PREFS_SOURCE);
+                updateRoomSchedule(sSharedPreferences.getString(
+                        Constants.ROOM_SCHEDULE_KEY, ""), PREFS_SOURCE);
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -168,7 +166,8 @@ public class RoomScheduleManager {
                         // Update the room schedules with a JSON string from the response body
                         // noinspection ConstantConditions
                         String jsonString = response.body().string();
-                        String source = sSharedPreferences.getString(ROOM_SCHEDULE_SOURCE_KEY, UNKNOWN_SOURCE);
+                        String source = sSharedPreferences.getString(
+                                Constants.ROOM_SCHEDULE_SOURCE_KEY, UNKNOWN_SOURCE);
 
                         if (!source.equals(API_SOURCE)) {
                             updateRoomSchedule(jsonString, GITHUB_SOURCE);
@@ -210,8 +209,9 @@ public class RoomScheduleManager {
      */
     private void handleRetrieveSchedulesWithApi() {
         // Initialize variables
-        UWaterlooApi api = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
-        String incompleteJson = sSharedPreferences.getString(INCOMPLETE_SCHEDULE_JSON_KEY, "");
+        UWaterlooApi api = new UWaterlooApi(ApiKeys.UWATERLOO_API_KEY);
+        String incompleteJson = sSharedPreferences.getString(
+                Constants.INCOMPLETE_SCHEDULE_JSON_KEY, "");
         SharedPreferences.Editor editor = sSharedPreferences.edit();
         RoomSchedule incompleteRoomSchedule;
         
@@ -221,8 +221,8 @@ public class RoomScheduleManager {
         } catch (JSONException e) {
             // Reset the progress
             incompleteRoomSchedule = new RoomSchedule();
-            editor.putInt(SCHEDULE_PROGRESS_INDEX_KEY, 0);
-            editor.putString(INCOMPLETE_SCHEDULE_JSON_KEY, "");
+            editor.putInt(Constants.SCHEDULE_PROGRESS_INDEX_KEY, 0);
+            editor.putString(Constants.INCOMPLETE_SCHEDULE_JSON_KEY, "");
             editor.apply();
             Log.e(TAG, e.getMessage());
         }
@@ -235,7 +235,8 @@ public class RoomScheduleManager {
 
         // Get the current term and the progress within the subjects
         sCurrentTerm = responseTerms.getData().getCurrentTerm();
-        int subjectProgressIndex = sSharedPreferences.getInt(SCHEDULE_PROGRESS_INDEX_KEY, 0)
+        int subjectProgressIndex = sSharedPreferences
+                .getInt(Constants.SCHEDULE_PROGRESS_INDEX_KEY, 0)
                 % sSubjects.length;
 
         // Iterate through every subject (ex. MATH, ECON, ENGL, ...) resuming from where we left off
@@ -265,8 +266,9 @@ public class RoomScheduleManager {
             }
 
             // Update the progress
-            editor.putInt(SCHEDULE_PROGRESS_INDEX_KEY, i + 1);
-            editor.putString(INCOMPLETE_SCHEDULE_JSON_KEY, incompleteRoomSchedule.toString());
+            editor.putInt(Constants.SCHEDULE_PROGRESS_INDEX_KEY, i + 1);
+            editor.putString(Constants.INCOMPLETE_SCHEDULE_JSON_KEY,
+                    incompleteRoomSchedule.toString());
             editor.apply();
         }
 
@@ -283,8 +285,8 @@ public class RoomScheduleManager {
     private void updateRoomSchedule(String jsonString, String source) {
         // Put the json string in shared preferences
         SharedPreferences.Editor editor = sSharedPreferences.edit();
-        editor.putString(ROOM_SCHEDULE_KEY, jsonString);
-        editor.putString(ROOM_SCHEDULE_SOURCE_KEY, source);
+        editor.putString(Constants.ROOM_SCHEDULE_KEY, jsonString);
+        editor.putString(Constants.ROOM_SCHEDULE_SOURCE_KEY, source);
         editor.apply();
 
         // Get a list of buildings from the JSON object

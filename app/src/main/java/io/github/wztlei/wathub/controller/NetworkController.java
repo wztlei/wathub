@@ -1,4 +1,4 @@
-package io.github.wztlei.wathub.utils;
+package io.github.wztlei.wathub.controller;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

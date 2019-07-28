@@ -33,7 +33,7 @@ import com.deange.uwaterlooapi.model.common.SimpleListResponse;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.utils.NetworkController;
+import io.github.wztlei.wathub.controller.NetworkController;
 
 import java.util.List;
 

@@ -2,32 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorPrimary"
+        android:orientation="horizontal"
         android:elevation="8dp">
 
         <Spinner
             android:id="@+id/building_open_classroom_spinner"
-            android:layout_width="110dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:spinnerMode="dropdown"
-            android:layout_gravity="start"/>
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentStart="true"/>
 
-        <Spinner
-            android:id="@+id/hours_open_classroom_spinner"
+        <LinearLayout
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:padding="16dp"
-            android:spinnerMode="dropdown"
-            android:layout_gravity="end"/>
+            android:layout_alignParentEnd="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
-    </FrameLayout>
+            <Spinner
+                android:id="@+id/hours_open_classroom_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:spinnerMode="dropdown"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_events"
+                android:background="@color/uw_yellow"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/open_classroom_calendar_button"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/open_classroom_list"

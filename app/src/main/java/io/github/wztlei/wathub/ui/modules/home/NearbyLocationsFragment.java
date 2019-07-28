@@ -21,13 +21,13 @@ import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.foodservices.Location;
 
-import io.github.wztlei.wathub.Constants;
+import io.github.wztlei.wathub.ApiKeys;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import io.github.wztlei.wathub.ui.modules.foodservices.LocationsFragment;
 import io.github.wztlei.wathub.utils.MapUtils;
-import io.github.wztlei.wathub.utils.NetworkController;
+import io.github.wztlei.wathub.controller.NetworkController;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -372,7 +372,7 @@ public class NearbyLocationsFragment extends Fragment implements
         @Override
         protected Boolean doInBackground(final Void... params) {
             try {
-                final UWaterlooApi api = new UWaterlooApi(Constants.UWATERLOO_API_KEY);
+                final UWaterlooApi api = new UWaterlooApi(ApiKeys.UWATERLOO_API_KEY);
                 mResponse = Calls.unwrap(api.FoodServices.getLocations());
                 mLocation = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
 

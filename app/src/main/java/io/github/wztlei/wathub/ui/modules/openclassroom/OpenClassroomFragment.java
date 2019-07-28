@@ -49,7 +49,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
     @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
-    private static final String BUILDING_KEY = "BUILDING_KEY";
 
     // TODO WL: Add functionality to the refresh icon to fetch the latest schedules from GitHub
     // TODO WL: Update the hour dropdown every 10s to keep the 'Now' option up-to-date
@@ -90,7 +89,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         mHoursSpinner.setAdapter(hoursAdapter);
 
         // Remember the last building selected
-        String lastBuildingQueried = mSharedPreferences.getString(BUILDING_KEY, "");
+        String lastBuildingQueried = mSharedPreferences.getString(Constants.BUILDING_KEY, "");
         int indexLastBuildingQueried = Arrays.asList(buildings).indexOf(lastBuildingQueried);
 
         if (indexLastBuildingQueried != -1) {
@@ -192,7 +191,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         // Store the latest building of the latest query in shared preferences for later recall
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(BUILDING_KEY, building);
+        editor.putString(Constants.BUILDING_KEY, building);
         editor.apply();
     }
 
