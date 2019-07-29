@@ -8,152 +8,79 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarfeedback"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        android:layout_height="55dp">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_feedback"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:expandedTitleMarginEnd="16dp"
-            app:expandedTitleMarginStart="16dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.Toolbar
                 style="@style/ToolbarStyle"
                 app:titleTextColor="@color/uw_yellow"
                 app:subtitleTextColor="@color/uw_yellow" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </LinearLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:layout_marginBottom="30dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fillViewport="true">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="55dp" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+            <io.github.wztlei.wathub.ui.view.FaqSection
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/feedbackinfo1" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/feedback_input" />
+            <io.github.wztlei.wathub.ui.view.FaqSection
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/feedbackinfo2" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/feedback_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/input_hint"
-                        android:inputType="textMultiLine" />
-                </android.support.design.widget.TextInputLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/feedback_name" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/feedback_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/name_hint"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/feedback_email" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/feedback_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/email_hint"
-                        android:inputType="textEmailAddress" />
-                </android.support.design.widget.TextInputLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <!-- android:layout_marginRight="8dp" -->
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fb_submit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_submitbutton"
-                    android:layout_marginLeft="12dp"
-                    app:backgroundTint="@color/uw_yellow"
-                    app:elevation="6dp"
-                    app:fabSize="normal"
-                    app:layout_anchor="@id/appbar"
-                    app:layout_anchorGravity="bottom|right|end"
-                    app:pressedTranslationZ="12dp" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <io.github.wztlei.wathub.ui.view.FaqSection
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/feedbackinfo1" />
-
-                <io.github.wztlei.wathub.ui.view.FaqSection
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/feedbackinfo2" />
-
-                <!--
+            <!--
                 <io.github.wztlei.wathub.ui.view.FaqSection
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/feedbackinfo3" />
                 -->
 
+            <LinearLayout
+                android:id="@+id/feedback_browser_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/divider" />
+
+                <Button
+                    android:id="@+id/feedback_browser"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:text="@string/feedback_click_button"
+                    android:textAllCaps="true" />
+
             </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

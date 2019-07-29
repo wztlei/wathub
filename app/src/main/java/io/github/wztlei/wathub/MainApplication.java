@@ -1,6 +1,5 @@
 package io.github.wztlei.wathub;
 
-//test
 
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package io.github.wztlei.wathub.ui.modules.Feedback;
+package io.github.wztlei.wathub.net.feedback;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -7,7 +7,7 @@ import retrofit2.http.POST;
 
 // Rolf Li, July 2019
 
-public interface feedbacksendout {
+public interface FeedbackInterface {
     /* for future reference (in case of forum change)
     *  after google forum creation, click preview
     *  inspect page url, we find 3 'entry.' fields for the 3 inputs
