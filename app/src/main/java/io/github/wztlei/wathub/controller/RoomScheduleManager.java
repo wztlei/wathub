@@ -614,10 +614,10 @@ public class RoomScheduleManager {
             newClassTime.put( getChars0And1(endTime, 22) );
             newClassTime.put( getChars3And4(endTime, 0) );
             newClassTime.put( sDaysOfWeekMap.getJSONArray(weekdaysString) );
-            newClassTime.put( getChars0And1(startDateString, sTermManager.currentTermStartMonth()) );
-            newClassTime.put( getChars3And4(startDateString, sTermManager.currentTermStartDate()) );
-            newClassTime.put( getChars0And1(endDateString, sTermManager.currentTermEndMonth()) );
-            newClassTime.put( getChars3And4(endDateString, sTermManager.currentTermEndDate()) );
+            newClassTime.put( getChars0And1(startDateString, sTermManager.lecturePeriodStartMonth()) );
+            newClassTime.put( getChars3And4(startDateString, sTermManager.lecturePeriodStartDate()) );
+            newClassTime.put( getChars0And1(endDateString, sTermManager.lecturePeriodEndMonth()) );
+            newClassTime.put( getChars3And4(endDateString, sTermManager.lecturePeriodEndDate()) );
 
             // Add the new class time to the list of existing class times
             classTimes.put(newClassTime);

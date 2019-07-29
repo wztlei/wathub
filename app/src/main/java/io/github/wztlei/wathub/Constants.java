@@ -9,6 +9,7 @@ public class Constants {
     public static final String ROOM_SCHEDULE_SOURCE_KEY = "room_schedule_source";
     public static final String ROOM_SCHEDULE_KEY = "room_schedule";
     public static final String BUILDING_KEY = "building";
+    public static final String BUILDINGS_JSON_KEY = "buildings_json";
 
 
 }

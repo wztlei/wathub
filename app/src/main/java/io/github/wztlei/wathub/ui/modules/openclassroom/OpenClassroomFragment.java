@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.controller.BuildingManager;
 import io.github.wztlei.wathub.controller.RoomScheduleManager;
 import io.github.wztlei.wathub.model.RoomTimeInterval;
 import io.github.wztlei.wathub.model.RoomTimeIntervalList;
@@ -181,7 +182,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
 
             // Update the text view displaying the building's full name
-            mFullBuildingName.setText("Douglas Wright Engineering Building Douglas Wright Engineering Building");
+            mFullBuildingName.setText(BuildingManager.getInstance().getBuildingFullName(building));
         } else {
             // Update the visibility of the views
             mOpenRoomList.setVisibility(View.GONE);

@@ -14,19 +14,16 @@ import io.github.wztlei.wathub.utils.Px;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import java.util.Calendar;
-
 import pl.tajchert.nammu.Nammu;
 
 public class MainApplication extends MultiDexApplication {
 
-    private static final String TAG = MainApplication.class.getSimpleName();
+    @SuppressWarnings("unused")
+    private static final String TAG = "WL/MainApplication";
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Log.d(TAG, "onCreate()");
 
         // Set up connectivity manager
         NetworkController.init(this);
@@ -58,8 +55,5 @@ public class MainApplication extends MultiDexApplication {
         // Room schedule manager
         RoomScheduleManager.init(this);
         RoomScheduleManager.getInstance().refreshRoomScheduleAsync();
-
-        Log.d("TAG", Calendar.getInstance().get(Calendar.MONTH) + "");
-
     }
 }
