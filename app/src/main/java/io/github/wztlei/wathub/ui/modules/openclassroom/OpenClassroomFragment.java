@@ -98,7 +98,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             }
 
             new Handler().postDelayed(mHoursDropdownUpdater, HOURS_UPDATE_PERIOD_MS);
-            Log.d(TAG, "Updating the hours dropdown spinner");
         };
 
         // Initial call to set the hours dropdown
