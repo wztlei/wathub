@@ -3,10 +3,12 @@ package io.github.wztlei.wathub.ui.modules.openclassroom;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,7 +37,7 @@ import io.github.wztlei.wathub.utils.DateUtils;
 public class OpenClassroomFragment extends BaseModuleFragment {
 
     @BindView(R.id.building_open_classroom_spinner)
-    Spinner mBuildingSpinner;
+    Spinner mBuildingsSpinner;
     @BindView(R.id.hours_open_classroom_spinner)
     Spinner mHoursSpinner;
     @BindView(R.id.open_classroom_list)
@@ -47,15 +49,22 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;
+    private Runnable mHoursDropdownUpdater;
+    private Context mContext;
+    private int mLastUpdateHour;
 
     @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
+    private static final int HOURS_UPDATE_PERIOD_MS = 10000;
 
     // TODO WL: Add functionality to the refresh icon to fetch the latest schedules from GitHub
-    // TODO WL: Update the hour dropdown every 10s to keep the 'Now' option up-to-date
-    // TODO WL: Update the TextView at the bottom of the page to display a building's full name
     // TODO WL: Display a loading animation whenever a new building or time is selected
-    // TODO WL: Ask others for their opinions on this feature
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public final View onCreateView(
@@ -73,34 +82,31 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         // Initialize instance variables
         ButterKnife.bind(this, contentView);
         mRoomScheduleManager = RoomScheduleManager.getInstance();
-        mOpenRoomList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mSharedPreferences = getContext().getSharedPreferences(
+        mOpenRoomList.setLayoutManager(new LinearLayoutManager(mContext));
+        mSharedPreferences = mContext.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
-        // Use a StringAdapter to display all potentially available buildings
-        String[] buildings = mRoomScheduleManager.getBuildings();
-        StringAdapter buildingsAdapter = new StringAdapter(getContext(), buildings);
-        buildingsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
-        mBuildingSpinner.setAdapter(buildingsAdapter);
-
-        // Use a StringAdapter to display all hours
-        String[] hours = getHourDropdownOptionList();
-        StringAdapter hoursAdapter = new StringAdapter(getContext(), hours);
-        hoursAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
-        mHoursSpinner.setAdapter(hoursAdapter);
-
-        // Remember the last building selected
-        String lastBuildingQueried = mSharedPreferences.getString(Constants.BUILDING_KEY, "");
-        int indexLastBuildingQueried = Arrays.asList(buildings).indexOf(lastBuildingQueried);
-
-        if (indexLastBuildingQueried != -1) {
-            mBuildingSpinner.setSelection(indexLastBuildingQueried);
-        }
-
-        // Select the current hour
+        // Set up the options for the buildings and hours spinners
+        updateBuildingsSpinner();
+        updateHoursSpinner();
         mHoursSpinner.setSelection(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
-        setListeners();
+        // Define a Runnable object that updates the hours spinner whenever the hour changes
+        mHoursDropdownUpdater = () -> {
+            if (mLastUpdateHour != Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+                updateHoursSpinner();
+            }
+
+            new Handler().postDelayed(mHoursDropdownUpdater, HOURS_UPDATE_PERIOD_MS);
+            Log.d(TAG, "Updating the hours dropdown spinner");
+        };
+
+        // Initial call to set the hours dropdown
+        new Handler().post(mHoursDropdownUpdater);
+        mHoursSpinner.setSelection(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+
+        // Set listeners on the dropdown spinners and display the initial query results
+        setSpinnerSelectionListeners();
         displayNewQueryResults();
         return root;
     }
@@ -121,7 +127,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
             return true;
         } else if (item.getItemId() == R.id.menu_info) {
-            new AlertDialog.Builder(getContext())
+            // Creates an alert dialog displaying important info about the open classroom data
+            new AlertDialog.Builder(mContext)
                     .setTitle(getString(R.string.open_classroom_dialog_title))
                     .setMessage(getString(R.string.open_classroom_dialog_message))
                     .setPositiveButton(android.R.string.ok, (dialog1, which) -> {})
@@ -133,8 +140,49 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setListeners() {
-        mBuildingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /**
+     * Updates the dropdown options of the buildings spinner to include all building options.
+     */
+    private void updateBuildingsSpinner() {
+        String[] buildings = mRoomScheduleManager.getBuildings();
+        StringAdapter buildingsAdapter = new StringAdapter(mContext, buildings);
+        buildingsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
+        mBuildingsSpinner.setAdapter(buildingsAdapter);
+
+        // Remember the last building selected
+        String lastBuildingQueried = mSharedPreferences.getString(Constants.BUILDING_KEY, "");
+        int indexLastBuildingQueried = Arrays.asList(buildings).indexOf(lastBuildingQueried);
+
+        if (indexLastBuildingQueried != -1) {
+            mBuildingsSpinner.setSelection(indexLastBuildingQueried);
+        }
+    }
+
+    /**
+     * Updates the dropdown options of the hours spinner to include "Now" in place of
+     * the current hour.
+     */
+    private void updateHoursSpinner() {
+        String[] hours = getHourDropdownOptionList();
+        StringAdapter hoursAdapter = new StringAdapter(mContext, hours);
+        int spinnerSelectionIndex = mHoursSpinner.getSelectedItemPosition();
+        hoursAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
+
+        mHoursSpinner.setAdapter(hoursAdapter);
+
+        if (spinnerSelectionIndex != AdapterView.INVALID_POSITION) {
+            mHoursSpinner.setSelection(spinnerSelectionIndex);
+        }
+
+        mLastUpdateHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
+     * Sets OnItemSelectedListeners on the two spinners to display the new building and hour query
+     * results whenever a new dropdown option is selected.
+     */
+    private void setSpinnerSelectionListeners() {
+        mBuildingsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 displayNewQueryResults();
@@ -159,12 +207,12 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      * that the user selected from the dropdowns.
      */
     private void displayNewQueryResults() {
-        if (mBuildingSpinner.getSelectedItem() == null) {
+        if (mBuildingsSpinner.getSelectedItem() == null) {
             return;
         }
 
         // Get the building and index of the selected hour option
-        String building = mBuildingSpinner.getSelectedItem().toString();
+        String building = mBuildingsSpinner.getSelectedItem().toString();
         int hourIndex = mHoursSpinner.getSelectedItemPosition();
 
         // Retrieve a schedule of the open classrooms for the query from roomScheduleManager
