@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +31,7 @@ import io.github.wztlei.wathub.model.RoomTimeInterval;
 import io.github.wztlei.wathub.model.RoomTimeIntervalList;
 import io.github.wztlei.wathub.ui.StringAdapter;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 
 public class OpenClassroomFragment extends BaseModuleFragment {
 
@@ -46,16 +45,22 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     TextView mFullBuildingName;
     @BindView(R.id.open_classroom_no_results)
     TextView mNoResultsText;
+    @BindView(R.id.loading_layout)
+    ViewGroup mLoadingLayout;
+    @BindView(R.id.open_classroom_layout)
+    ViewGroup mOpenClassroomLayout;
 
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;
     private Runnable mHoursDropdownUpdater;
     private Context mContext;
+    private MenuItem mRefreshMenuItem;
     private int mLastUpdateHour;
 
     @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
     private static final int HOURS_UPDATE_PERIOD_MS = 10000;
+    private static final int ON_CREATE_VIEW_LOADING_DURATION = 3000;
 
     // TODO WL: Add functionality to the refresh icon to fetch the latest schedules from GitHub
     // TODO WL: Display a loading animation whenever a new building or time is selected
@@ -106,7 +111,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         // Set listeners on the dropdown spinners and display the initial query results
         setSpinnerSelectionListeners();
-        displayNewQueryResults();
+        displayNewQueryResults(ON_CREATE_VIEW_LOADING_DURATION);
         return root;
     }
     
@@ -118,14 +123,16 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_info_and_refresh, menu);
+        mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.menu_refresh) {
-
+    public boolean onOptionsItemSelected(final MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.menu_refresh) {
+            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem);
+            mRoomScheduleManager.handleManualRefresh(getActivity());
             return true;
-        } else if (item.getItemId() == R.id.menu_info) {
+        } else if (menuItem.getItemId() == R.id.menu_info) {
             // Creates an alert dialog displaying important info about the open classroom data
             new AlertDialog.Builder(mContext)
                     .setTitle(getString(R.string.open_classroom_dialog_title))
@@ -136,13 +143,14 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(menuItem);
     }
 
     /**
      * Updates the dropdown options of the buildings spinner to include all building options.
      */
     private void updateBuildingsSpinner() {
+        // Get the options for the buildings dropdown
         String[] buildings = mRoomScheduleManager.getBuildings();
         StringAdapter buildingsAdapter = new StringAdapter(mContext, buildings);
         buildingsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
@@ -152,6 +160,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         String lastBuildingQueried = mSharedPreferences.getString(Constants.BUILDING_KEY, "");
         int indexLastBuildingQueried = Arrays.asList(buildings).indexOf(lastBuildingQueried);
 
+        // Set the spinner to the selection before the update
         if (indexLastBuildingQueried != -1) {
             mBuildingsSpinner.setSelection(indexLastBuildingQueried);
         }
@@ -162,17 +171,21 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      * the current hour.
      */
     private void updateHoursSpinner() {
+        // Get the options for the hours dropdown
         String[] hours = getHourDropdownOptionList();
         StringAdapter hoursAdapter = new StringAdapter(mContext, hours);
         int spinnerSelectionIndex = mHoursSpinner.getSelectedItemPosition();
         hoursAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
 
+        // Set the new dropdown options
         mHoursSpinner.setAdapter(hoursAdapter);
 
+        // Set the spinner to the selection before the update
         if (spinnerSelectionIndex != AdapterView.INVALID_POSITION) {
             mHoursSpinner.setSelection(spinnerSelectionIndex);
         }
 
+        // Record the hour when the spinner last updated
         mLastUpdateHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     }
 
@@ -201,11 +214,26 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
+
     /**
-     * Updates the UI to display the open classroom schedule based on the building and hour 
+     * Updates the UI to display the open classroom schedule based on the building and hour
      * that the user selected from the dropdowns.
      */
     private void displayNewQueryResults() {
+        displayNewQueryResults(ANIMATION_DURATION);
+    }
+
+    /**
+     * Updates the UI to display the open classroom schedule based on the building and hour 
+     * that the user selected from the dropdowns.
+     *
+     * @param loadingDuration the length of time in ms to display the loading duration
+     */
+    private void displayNewQueryResults(int loadingDuration) {
+        // Display the loading screen
+        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, loadingDuration);
+
+        // Determine if a building is actually selected
         if (mBuildingsSpinner.getSelectedItem() == null) {
             return;
         }
@@ -259,13 +287,17 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             if (h == currentHour) {
                 timeStringOptions[h] = "Now";
             } else {
-                timeStringOptions[h] = DateUtils.format12hTime(h, 0);
+                timeStringOptions[h] = DateTimeUtils.format12hTime(h, 0);
             }
         }
 
         return timeStringOptions;
     }
 
+
+    /**
+     * A custom RecyclerView Adapter for the list of open classrooms.
+     */
     class OpenClassroomAdapter extends RecyclerView.Adapter<OpenClassroomViewHolder> {
         private RoomTimeIntervalList mRoomTimeIntervalList;
 
@@ -292,19 +324,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             String roomNum = roomTimeInterval.getRoomNum();
             String room = building + " " + roomNum;
 
-            // Get the starting and ending times for when the room is open
-            int startHour = roomTimeInterval.getStartHour();
-            int startMin = roomTimeInterval.getStartMin();
-            int endHour = roomTimeInterval.getEndHour();
-            int endMin = roomTimeInterval.getEndMin();
-
-            // Create a string to store the formatted time interval
-            String timeInterval = DateUtils.format12hTime(startHour, startMin) + " - "
-                    + DateUtils.format12hTime(endHour, endMin);
-
             // Update the text of the item in the recycler view
             viewHolder.roomTextView.setText(room);
-            viewHolder.timeIntervalTextView.setText(timeInterval);
+            viewHolder.timeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
         }
 
         @Override
@@ -313,6 +335,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         }
     }
 
+    /**
+     * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
+     */
     class OpenClassroomViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.room_text_view)
         TextView roomTextView;

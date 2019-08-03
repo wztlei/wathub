@@ -43,10 +43,6 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         extends BaseModuleFragment
         implements View.OnTouchListener, SwipeRefreshLayout.OnRefreshListener {
 
-    protected static final long MINIMUM_UPDATE_DURATION = 1000;
-    protected static final long ANIMATION_DURATION = 300;
-    protected static final Interpolator ANIMATION_INTERPOLATOR = new FastOutSlowInInterpolator();
-
     private static final String KEY_MODEL = "model";
     private static final String KEY_RESPONSE = "response";
     private static final String KEY_LAST_UPDATED = "last_updated";
@@ -254,6 +250,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
         if (show) {
             mLoadingLayout.setVisibility(View.VISIBLE);
+            Log.d(TAG, "mLastUpdate=" + mLastUpdate);
             if (mLastUpdate == 0) {
                 return;
             }
@@ -274,6 +271,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         if (mLoadingAnimator != null) {
             mLoadingAnimator.cancel();
         }
+
         mLoadingAnimator = getVisibilityAnimator(mLoadingLayout, show);
 
         if (mLoadingAnimator != null) {

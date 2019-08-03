@@ -18,7 +18,7 @@ import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.DateSelectorView;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 
 import org.joda.time.LocalDate;
 
@@ -119,7 +119,7 @@ public class AnnouncementsFragment
             final Announcement announcement = getItem(position);
             ((TextView) view.findViewById(android.R.id.text1)).setText(announcement.getText());
             ((TextView) view.findViewById(android.R.id.text2))
-                    .setText(DateUtils.formatDate(announcement.getDate()));
+                    .setText(DateTimeUtils.formatDate(announcement.getDate()));
         }
 
         @Override

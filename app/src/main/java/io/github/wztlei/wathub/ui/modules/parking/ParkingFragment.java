@@ -23,7 +23,7 @@ import io.github.wztlei.wathub.ui.Colors;
 import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.Px;
 
@@ -251,7 +251,7 @@ public class ParkingFragment extends BaseApiMapFragment<Responses.Parking, Parki
         final String title = lotName + " (" + filledSpots + ")";
         final String date = getString(
                 R.string.parking_last_updated,
-                DateUtils.getTimeDifference(getResources(),
+                DateTimeUtils.getTimeDifference(getResources(),
                         parkingLot.getLastUpdated().getTime()).toLowerCase());
 
         ((TextView) mInfoRoot.findViewById(android.R.id.text1)).setText(title);

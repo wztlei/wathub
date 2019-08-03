@@ -23,7 +23,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.MapTypeDialog;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseApiMapFragment;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.Px;
 
@@ -131,7 +131,7 @@ public class GooseWatchFragment extends BaseApiMapFragment<Responses.GooseWatch,
                             .title(nest.getLocationDescription())
                             .snippet(getString(
                                     R.string.goosewatch_last_updated,
-                                    DateUtils.formatDate(getContext(), nest.getUpdatedDate())))
+                                    DateTimeUtils.formatDate(getContext(), nest.getUpdatedDate())))
             );
         }
 
@@ -226,7 +226,7 @@ public class GooseWatchFragment extends BaseApiMapFragment<Responses.GooseWatch,
         }
         final String date = getString(
                 R.string.goosewatch_last_updated,
-                DateUtils.getTimeDifference(getResources(), nest.getUpdatedDate().getTime()).toLowerCase());
+                DateTimeUtils.getTimeDifference(getResources(), nest.getUpdatedDate().getTime()).toLowerCase());
 
         mNestDetails.setText(title);
         mNestUpdated.setText(date);

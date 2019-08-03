@@ -17,7 +17,7 @@ import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.DateSelectorView;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.PlatformUtils;
 
 import org.joda.time.LocalDate;
@@ -127,7 +127,7 @@ public class NotesFragment extends BaseListApiModuleFragment<Responses.Notes, No
             ((TextView) view.findViewById(R.id.note_outlet)).setText(note.getOutletName());
             ((TextView) view.findViewById(R.id.note_content)).setText(note.getNote());
             ((TextView) view.findViewById(R.id.note_date))
-                    .setText(DateUtils.formatDate(note.getDate()));
+                    .setText(DateTimeUtils.formatDate(note.getDate()));
 
             final View selectableView = view.findViewById(R.id.selectable);
             selectableView.setTag(position);

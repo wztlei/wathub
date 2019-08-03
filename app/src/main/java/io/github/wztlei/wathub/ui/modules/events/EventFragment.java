@@ -27,7 +27,7 @@ import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.Joiner;
 import io.github.wztlei.wathub.utils.ViewUtils;
@@ -175,10 +175,10 @@ public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails,
         public void bindView(final Context context, final int position, final View view) {
             final MultidayDateRange range = getItem(position);
 
-            final String startDate = DateUtils.formatDate(mContext, range.getStart());
-            final String startTime = DateUtils.formatTime(mContext, range.getStart());
-            final String endDate = DateUtils.formatDate(mContext, range.getStart());
-            final String endTime = DateUtils.formatTime(mContext, range.getStart());
+            final String startDate = DateTimeUtils.formatDate(mContext, range.getStart());
+            final String startTime = DateTimeUtils.formatTime(mContext, range.getStart());
+            final String endDate = DateTimeUtils.formatDate(mContext, range.getStart());
+            final String endTime = DateTimeUtils.formatTime(mContext, range.getStart());
 
             String result = startDate + ", " + startTime;
             if (!TextUtils.equals(startDate, endDate)) {

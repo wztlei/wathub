@@ -15,14 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateUtils {
+public class DateTimeUtils {
 
     private static final DateFormat sDateFormat =
             new SimpleDateFormat("MMM dd, yyyy", Locale.CANADA);
     private static final DateFormat sDateTimeFormat =
             new SimpleDateFormat("hh:mm aa, MMM dd", Locale.CANADA);
 
-    private DateUtils() {
+    private DateTimeUtils() {
         throw new UnsupportedOperationException();
     }
 
@@ -119,5 +119,16 @@ public class DateUtils {
      */
     private static String formatMin(int min) {
         return String.format(Locale.CANADA, "%02d", min);
+    }
+
+    /**
+     * Returns the minute of the day.
+     *
+     * @param   hour    the hour of the day
+     * @param   min     the minute of the hour
+     * @return          the minute of the day
+     */
+    public static int minOfDay(int hour, int min) {
+        return hour * 60 + min;
     }
 }

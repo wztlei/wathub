@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import io.github.wztlei.wathub.utils.DateTimeUtils;
+
 public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
     /**
      * Sorts a RoomTimeIntervalList by building and room numbers and then chronologically.
@@ -35,50 +37,22 @@ public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
     }
 
     /**
-     * Filters itself by only keeping time intervals that contain the hour passed in.
-     *
-     * @param hour  the hour that time intervals must contain
-     */
-    public void filterByHour(int hour) {
-        for (Iterator<RoomTimeInterval> iterator = this.iterator(); iterator.hasNext();) {
-            RoomTimeInterval rti = iterator.next();
-
-            if (rti.getStartHour() < hour && rti.getEndHour() < hour) {
-                iterator.remove();
-            } else if (rti.getStartHour() > hour && rti.getEndHour() > hour) {
-                iterator.remove();
-            }
-        }
-    }
-
-    /**
      * Filters itself by only keeping time intervals that contain the hour and min passed in.
      *
      * @param hour  the hour that time intervals must contain
      * @param min   the min that time intervals must contain
      */
     public void filterByHourAndMin(int hour, int min) {
-        int filterMinOfDay = minOfDay(hour, min);
+        int filterMinOfDay = DateTimeUtils.minOfDay(hour, min);
 
         for (Iterator<RoomTimeInterval> iterator = this.iterator(); iterator.hasNext();) {
             RoomTimeInterval rti = iterator.next();
-            int startMinOfDay = minOfDay(rti.getStartHour(), rti.getStartMin());
-            int endMinOfDay = minOfDay(rti.getEndHour(), rti.getEndMin());
+            int startMinOfDay = DateTimeUtils.minOfDay(rti.getStartHour(), rti.getStartMin());
+            int endMinOfDay = DateTimeUtils.minOfDay(rti.getEndHour(), rti.getEndMin());
 
             if (!(startMinOfDay <= filterMinOfDay && filterMinOfDay <= endMinOfDay)) {
                 iterator.remove();
             }
         }
-    }
-
-    /**
-     * Returns the minute of the day.
-     *
-     * @param   hour    the hour of the day
-     * @param   min     the minute of the hour
-     * @return          the minute of the day
-     */
-    private int minOfDay(int hour, int min) {
-        return hour * 60 + min;
     }
 }

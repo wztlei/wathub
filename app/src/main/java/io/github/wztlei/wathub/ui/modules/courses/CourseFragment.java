@@ -36,6 +36,7 @@ import java.util.concurrent.Semaphore;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResponse, CombinedCourseInfo> {
 
@@ -116,26 +117,48 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
         try {
             // General course info
             fetchCourseInfo(semaphore, () -> {
-                final Responses.CoursesInfo infoResponse = Calls.unwrap(
-                        api.Courses.getCourseInfo(subject, code));
-                info.setMetadata(Objects.requireNonNull(infoResponse).getMetadata());
+                Responses.CoursesInfo infoResponse = null;
+
+                while (infoResponse == null) {
+                    infoResponse = Calls.unwrap(api.Courses.getCourseInfo(subject, code));
+                }
+
+                info.setMetadata(infoResponse.getMetadata());
                 info.setCourseInfo(infoResponse.getData());
             });
 
             // Prerequisite info
-            fetchCourseInfo(semaphore, () ->
-                    info.setPrerequisites(Objects.requireNonNull(
-                            Calls.unwrap(api.Courses.getPrerequisites(subject, code))).getData()));
+            fetchCourseInfo(semaphore, () -> {
+                Responses.Prerequisites infoResponse = null;
+
+                while (infoResponse == null) {
+                    infoResponse = Calls.unwrap(api.Courses.getPrerequisites(subject, code));
+                }
+
+                info.setPrerequisites(infoResponse.getData());
+            });
 
             // Course scheduling info
-            fetchCourseInfo(semaphore, () ->
-                    info.setSchedules(Objects.requireNonNull(
-                            Calls.unwrap(api.Courses.getCourseSchedule(subject, code))).getData()));
+            fetchCourseInfo(semaphore, () -> {
+                Responses.CoursesSchedule infoResponse = null;
+
+                while (infoResponse == null) {
+                    infoResponse = Calls.unwrap(api.Courses.getCourseSchedule(subject, code));
+                }
+
+                info.setSchedules(infoResponse.getData());
+            });
 
             // Exam schedule info
-            fetchCourseInfo(semaphore, () ->
-                    info.setExams(Objects.requireNonNull(
-                            Calls.unwrap(api.Courses.getExamSchedule(subject, code))).getData()));
+            fetchCourseInfo(semaphore, () -> {
+                Responses.ExamSchedule infoResponse = null;
+
+                while (infoResponse == null) {
+                    infoResponse = Calls.unwrap(api.Courses.getExamSchedule(subject, code));
+                }
+
+                info.setExams(infoResponse.getData());
+            });
         } catch (RuntimeException e) {
             Log.w(TAG, e.getMessage());
         }
@@ -194,9 +217,7 @@ public class CourseFragment extends BaseApiModuleFragment<CombinedCourseInfoResp
         return Pair.create(args.getString(KEY_COURSE_SUBJECT), args.getString(KEY_COURSE_CODE));
     }
 
-    private void fetchCourseInfo(
-            final Semaphore semaphore,
-            final InfoFetcher fetcher) {
+    private void fetchCourseInfo(final Semaphore semaphore, final InfoFetcher fetcher) {
 
         EXECUTOR.execute(() -> {
             try {

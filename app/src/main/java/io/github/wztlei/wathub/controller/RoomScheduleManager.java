@@ -1,11 +1,13 @@
 package io.github.wztlei.wathub.controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.model.common.Responses;
@@ -43,13 +45,13 @@ public class RoomScheduleManager {
     private static SharedPreferences sSharedPreferences;
     private static RoomSchedule sRoomSchedule;
     private static JSONObject sDaysOfWeekMap;
+    private static Thread sApiRetrievalThread;
     private static String[] sSubjects;
     private static String[] sBuildings;
     private static int sCurrentMonth;
     private static int sCurrentDate;
     private static int sCurrentDayOfWeek;
     private static int sCurrentHour;
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private static int sCurrentMin;
     private static int sNumNetworkFailures;
 
@@ -63,7 +65,7 @@ public class RoomScheduleManager {
             "https://raw.githubusercontent.com/wztlei/wathub/master/app/src/main/res/raw/room_schedule.json";
     private static final String TAG = "WL/RoomScheduleManager";
     private static final int REFRESH_WAIT_MS = 10000;
-    private static final int MAX_NETWORK_FAILURES = 3;
+    private static final int DEFAULT_MAX_NETWORK_FAILURES = 3;
     private static final int START_HOUR_INDEX = 0;
     private static final int START_MIN_INDEX = 1;
     private static final int END_HOUR_INDEX = 2;
@@ -105,10 +107,12 @@ public class RoomScheduleManager {
      * @param context the context in which the RoomScheduleManager is created
      */
     private RoomScheduleManager(Context context) {
+        // Initialize static variables
         sSubjects = context.getResources().getStringArray(R.array.course_subjects);
         sSharedPreferences = context.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
         sTermManager = TermManager.getInstance();
+        sApiRetrievalThread = null;
 
         // Get the json mapping of a days of week string to a JSON array of booleans
         try {
@@ -151,10 +155,27 @@ public class RoomScheduleManager {
     }
 
     /**
+     * Handles a user-requested refresh of the room schedules by 
+     */
+    public void handleManualRefresh(Activity activity) {
+        refreshRoomScheduleAsync(activity, 0, true, false);
+    }
+
+    /**
      * Retrieves the room schedules from a JSON file hosted on GitHub and then by using the
      * UWaterloo Open Data API to get the schedule for each course.
      */
     public void refreshRoomScheduleAsync() {
+        refreshRoomScheduleAsync(null, DEFAULT_MAX_NETWORK_FAILURES,
+                false, true);
+    }
+    
+    /**
+     * Retrieves the room schedules from a JSON file hosted on GitHub and then by using the
+     * UWaterloo Open Data API to get the schedule for each course.
+     */
+    private void refreshRoomScheduleAsync(Activity activity, int maxFailures,
+                                          boolean showFailureToast, boolean useApi) {
         try {
             // Create a request using the OkHttpClient library
             OkHttpClient okHttpClient = new OkHttpClient();
@@ -177,19 +198,31 @@ public class RoomScheduleManager {
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
-                        // Use the UWaterloo API to get room schedules
-                        retrieveSchedulesWithApi();
+                        // Use the UWaterloo API to get room schedules if needed
+                        if (useApi) {
+                            retrieveSchedulesWithApi();
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull final Call call, @NonNull IOException e) {
+                    // Display the failure toast
+                    if (showFailureToast && activity != null) {
+                        CharSequence failureText = activity.getText(R.string.error_no_network);
+                        activity.runOnUiThread(() ->
+                                Toast.makeText(activity, failureText, Toast.LENGTH_SHORT).show());
+                    }
+
                     // Try again after a delay if there has not been a certain number of failures
-                    if (sNumNetworkFailures < MAX_NETWORK_FAILURES) {
+                    if (sNumNetworkFailures < maxFailures) {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             sNumNetworkFailures++;
-                            refreshRoomScheduleAsync();
+                            refreshRoomScheduleAsync(activity, maxFailures,
+                                    showFailureToast, useApi);
                         }, REFRESH_WAIT_MS);
+                    } else {
+                        sNumNetworkFailures = 0;
                     }
                 }
             });
@@ -202,7 +235,10 @@ public class RoomScheduleManager {
      * Retrieves the room schedules using the UWaterloo Open Data API on a separate thread.
      */
     private void retrieveSchedulesWithApi() {
-        new Thread(this::handleRetrieveSchedulesWithApi).start();
+        if (sApiRetrievalThread == null) {
+            sApiRetrievalThread = new Thread(this::handleRetrieveSchedulesWithApi);
+            sApiRetrievalThread.start();
+        }
     }
 
     /**
@@ -237,6 +273,7 @@ public class RoomScheduleManager {
         for (int i = subjectProgressIndex; i < sSubjects.length; i++) {
             // Get the subject to download
             String subject = sSubjects[i];
+            Log.d(TAG, "subject=" + subject);
             Responses.CoursesSchedule response = null;
 
             // Get the schedule for the subject using a thread-blocking API call
@@ -331,7 +368,7 @@ public class RoomScheduleManager {
             if (searchHour == sCurrentHour) {
                 buildingOpenSchedule.filterByHourAndMin(sCurrentHour, sCurrentMin);
             } else {
-                buildingOpenSchedule.filterByHour(searchHour);
+                buildingOpenSchedule.filterByHourAndMin(searchHour, 0);
             }
 
             return buildingOpenSchedule;
@@ -500,39 +537,46 @@ public class RoomScheduleManager {
      * Updates the instance variables that store the current time and date.
      */
     private static void updateCurrentTime() {
-        // Get an instance of a Calendar object that stores all the date for the current time
-        Calendar calendar = Calendar.getInstance();
+//        // Get an instance of a Calendar object that stores all the date for the current time
+//        Calendar calendar = Calendar.getInstance();
+//
+//        // Update the current month, date of the month, and minute
+//        sCurrentMonth = calendar.get(Calendar.MONTH) + 1;
+//        sCurrentDate = calendar.get(Calendar.DATE);
+//        sCurrentHour = calendar.get(Calendar.HOUR_OF_DAY);
+//        sCurrentMin = calendar.get(Calendar.MINUTE);
+//
+//        // Update the current day of the week
+//        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+//            case Calendar.MONDAY:
+//                sCurrentDayOfWeek = 0;
+//                break;
+//            case Calendar.TUESDAY:
+//                sCurrentDayOfWeek = 1;
+//                break;
+//            case Calendar.WEDNESDAY:
+//                sCurrentDayOfWeek = 2;
+//                break;
+//            case Calendar.THURSDAY:
+//                sCurrentDayOfWeek = 3;
+//                break;
+//            case Calendar.FRIDAY:
+//                sCurrentDayOfWeek = 4;
+//                break;
+//            case Calendar.SATURDAY:
+//                sCurrentDayOfWeek = 5;
+//                break;
+//            case Calendar.SUNDAY:
+//                sCurrentDayOfWeek = 6;
+//                break;
+//        }
 
-        // Update the current month, date of the month, and minute
-        sCurrentMonth = calendar.get(Calendar.MONTH) + 1;
-        sCurrentDate = calendar.get(Calendar.DATE);
-        sCurrentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        sCurrentMin = calendar.get(Calendar.MINUTE);
-
-        // Update the current day of the week
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.MONDAY:
-                sCurrentDayOfWeek = 0;
-                break;
-            case Calendar.TUESDAY:
-                sCurrentDayOfWeek = 1;
-                break;
-            case Calendar.WEDNESDAY:
-                sCurrentDayOfWeek = 2;
-                break;
-            case Calendar.THURSDAY:
-                sCurrentDayOfWeek = 3;
-                break;
-            case Calendar.FRIDAY:
-                sCurrentDayOfWeek = 4;
-                break;
-            case Calendar.SATURDAY:
-                sCurrentDayOfWeek = 5;
-                break;
-            case Calendar.SUNDAY:
-                sCurrentDayOfWeek = 6;
-                break;
-        }
+        // TODO WL: IMPORTANT!!! Use the actual date and time
+        sCurrentMonth = 7;
+        sCurrentDate = 30;
+        sCurrentHour = 12;
+        sCurrentMin = 12;
+        sCurrentDayOfWeek = 1;
     }
 
     /**

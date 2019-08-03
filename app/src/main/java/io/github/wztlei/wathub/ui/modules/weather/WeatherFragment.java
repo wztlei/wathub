@@ -47,7 +47,7 @@ import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.RangeView;
 import io.github.wztlei.wathub.ui.view.SliceView;
 import io.github.wztlei.wathub.ui.view.WaveView;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.MathUtils;
 
@@ -219,7 +219,7 @@ public class WeatherFragment extends BaseApiModuleFragment<Responses.Weather, We
         final TimeZone tz = TimeZone.getDefault();
         mLastUpdated.setText(
                 getString(R.string.weather_last_updated,
-                        DateUtils.formatTime(getActivity(), updated),
+                        DateTimeUtils.formatTime(getActivity(), updated),
                         tz.getDisplayName(tz.inDaylightTime(updated), TimeZone.SHORT))
         );
 
