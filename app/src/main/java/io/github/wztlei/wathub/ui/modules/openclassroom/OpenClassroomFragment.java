@@ -273,7 +273,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         // Add all the hours from 1h in the future to 11PM as possible options
-        for (int h = 0; h <= 23; h++) {
+        for (int h = currentHour; h <= currentHour + 23; h++) {
             if (h == currentHour) {
                 timeStringOptions[h] = "Now";
             } else {
