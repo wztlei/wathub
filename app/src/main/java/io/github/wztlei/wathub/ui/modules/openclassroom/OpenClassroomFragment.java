@@ -105,8 +105,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         new Handler().post(mHoursDropdownUpdater);
         mHoursSpinner.setSelection(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
-        // Set listeners on the dropdown spinners and display the initial query results
-        setSpinnerSelectionListeners();
+
         return root;
     }
     
@@ -117,14 +116,19 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        // Inflate the menu
         inflater.inflate(R.menu.menu_info_and_refresh, menu);
         mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
+
+        // Set listeners on the dropdown spinners and display the initial query results
+        setSpinnerSelectionListeners();
         displayQueryResults(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.menu_refresh) {
+            // Refresh the screen and retrieve the latest schedules from GitHub
             displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
             mRoomScheduleManager.handleManualRefresh(getActivity());
             return true;
@@ -137,9 +141,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
                     .create()
                     .show();
             return true;
+        } else {
+            return super.onOptionsItemSelected(menuItem);
         }
-
-        return super.onOptionsItemSelected(menuItem);
     }
 
     /**
@@ -216,6 +220,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      * that the user selected from the dropdowns.
      */
     private void displayQueryResults(boolean initialDisplay) {
+        // Display the loading screen to provide feedback to the user
         displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, initialDisplay);
 
         // Determine if a building is actually selected

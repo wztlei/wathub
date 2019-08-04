@@ -26,39 +26,39 @@ public class BaseModuleFragment extends Fragment {
     protected static final int DEFAULT_REFRESH_DURATION = 500;
     private static final String TAG = "WL/BaseModuleFragment";
 
-    public String getToolbarTitle() {
-        return null;
-    }
-
-    public String getToolbarSubtitle() {
-        return null;
+    /**
+     * Displays the loading screen when the fragment is refreshed.
+     *
+     * @param loadingLayout     the layout which contains the loading screen
+     * @param refreshMenuItem   the menu item for the user to refresh the fragment
+     * @param initialDisplay    true if the fragment has just been started, and false otherwise
+     */
+    protected void displayLoadingScreen(View loadingLayout, MenuItem refreshMenuItem,
+                                        boolean initialDisplay) {
+        changeLoadingVisibility(loadingLayout, refreshMenuItem, initialDisplay, true);
     }
 
     /**
-     * Overridden by subclasses.
+     * Reveals and hides the visibility of the loading screen with a circular animation.
      *
-     * @return the pixel elevation of the toolbar
+     * @param loadingLayout     the layout which contains the loading screen
+     * @param refreshMenuItem   the menu item for the user to refresh the fragment
+     * @param initialDisplay    true if the fragment has just been started, and false otherwise
+     * @param show              true if the loading screen is to be revealed, and false otherwise
      */
-    public float getToolbarElevationPx() {
-        return Px.fromDpF(8);
-    }
-
-    protected void displayLoadingScreen(View loadingLayout, MenuItem menuItem,
-                                        boolean initialDisplay) {
-        changeLoadingVisibility(loadingLayout, menuItem, initialDisplay, true);
-    }
-
-    private void changeLoadingVisibility(View loadingLayout, MenuItem menuItem,
+    private void changeLoadingVisibility(View loadingLayout, MenuItem refreshMenuItem,
                                          boolean initialDisplay, boolean show) {
-        if (menuItem != null) {
-            menuItem.setVisible(!show);
-            menuItem.setEnabled(!show);
+        // Update the visibility of the refresh menu item
+        if (refreshMenuItem != null) {
+            refreshMenuItem.setVisible(!show);
+            refreshMenuItem.setEnabled(!show);
         }
 
+        // Just hide the loading screen if the fragment has just been created
         if (initialDisplay) {
             mIsRefreshing = true;
             new Handler(Looper.getMainLooper()).postDelayed(() ->
-                            changeLoadingVisibility(loadingLayout, menuItem,
+                            changeLoadingVisibility(loadingLayout, refreshMenuItem,
                                     false, false),
                     MINIMUM_UPDATE_DURATION);
             return;
@@ -66,7 +66,8 @@ public class BaseModuleFragment extends Fragment {
             return;
         }
 
-        final AnimatorListenerAdapter listener = new AnimatorListenerAdapter() {
+        // Update the visibility of the loading layout at the end of the animation
+        AnimatorListenerAdapter listener = new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final Animator animation) {
                 loadingLayout.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -78,12 +79,15 @@ public class BaseModuleFragment extends Fragment {
             }
         };
 
+        // Cancel the loading animation if needed
         if (mLoadingAnimator != null) {
             mLoadingAnimator.cancel();
         }
 
+        // Create a new loading animation
         mLoadingAnimator = getVisibilityAnimator(loadingLayout, show);
 
+        // Start a new loading animation
         if (mLoadingAnimator != null) {
             mLoadingAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
             mLoadingAnimator.setDuration(ANIMATION_DURATION);
@@ -91,24 +95,34 @@ public class BaseModuleFragment extends Fragment {
             mLoadingAnimator.start();
         }
 
+        // If we are showing the loading screen, then hide it after a delay
         if (show) {
             mIsRefreshing = true;
             loadingLayout.setVisibility(View.VISIBLE);
-            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                            changeLoadingVisibility(loadingLayout, menuItem, false, false),
+            new Handler(Looper.getMainLooper()).postDelayed(() -> changeLoadingVisibility(
+                    loadingLayout, refreshMenuItem, false, false),
                     DEFAULT_REFRESH_DURATION);
         } else {
             mIsRefreshing = false;
         }
     }
 
+    /**
+     * Creates an circular animation that reveals or hides a view.
+     *
+     * @param view  the view to reveal or hide
+     * @param show  true if the view is to be revealed, or false if the view is to be hidden
+     * @return      a circular animation
+     */
     private Animator getVisibilityAnimator(final View view, final boolean show) {
+        // Get the dimensions of the animation
         final int full = Math.max(view.getWidth(), view.getHeight());
-        final int startRadius = (show) ? 0 : full;
-        final int finalRadius = (show) ? full : 0;
+        final int startRadius = show ? 0 : full;
+        final int finalRadius = show ? full : 0;
         final int centerX = (view.getLeft() + view.getRight()) / 2;
         final int centerY = (view.getTop() + view.getBottom()) / 2;
 
+        // Create a circular revealing animation
         try {
             return ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius,
                     finalRadius);
@@ -116,5 +130,32 @@ public class BaseModuleFragment extends Fragment {
             Log.w(TAG, e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Returns the title of the toolbar. This method is overridden by subclasses.
+     *
+     * @return the title of the toolbar at the top of the fragment
+     */
+    public String getToolbarTitle() {
+        return null;
+    }
+
+    /**
+     * Returns the subtitle of the toolbar. This method is overridden by subclasses.
+     *
+     * @return the subtitle of the toolbar at the top of the fragment
+     */
+    public String getToolbarSubtitle() {
+        return null;
+    }
+
+    /**
+     * Returns the pixel elevation of the toolbar. This method is overridden by subclasses.
+     *
+     * @return the pixel elevation of the toolbar
+     */
+    public float getToolbarElevationPx() {
+        return Px.fromDpF(8);
     }
 }
