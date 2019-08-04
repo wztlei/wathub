@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
@@ -30,13 +28,12 @@ import com.deange.uwaterlooapi.model.BaseResponse;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.SimpleListResponse;
 
-import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.net.Calls;
-import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.controller.NetworkController;
-
 import java.util.List;
 
+import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.controller.NetworkController;
+import io.github.wztlei.wathub.net.Calls;
+import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import retrofit2.Call;
 
 public abstract class BaseApiModuleFragment<T extends Parcelable, V extends AbstractModel>

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,10 +61,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
     private static final int HOURS_UPDATE_PERIOD_MS = 10000;
-    private static final int ON_CREATE_VIEW_LOADING_DURATION = 3000;
-
-    // TODO WL: Add functionality to the refresh icon to fetch the latest schedules from GitHub
-    // TODO WL: Display a loading animation whenever a new building or time is selected
 
     @Override
     public void onAttach(Context context){
@@ -94,7 +91,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         // Set up the options for the buildings and hours spinners
         updateBuildingsSpinner();
         updateHoursSpinner();
-        mHoursSpinner.setSelection(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
         // Define a Runnable object that updates the hours spinner whenever the hour changes
         mHoursDropdownUpdater = () -> {
@@ -111,7 +107,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         // Set listeners on the dropdown spinners and display the initial query results
         setSpinnerSelectionListeners();
-        displayNewQueryResults(ON_CREATE_VIEW_LOADING_DURATION);
         return root;
     }
     
@@ -124,12 +119,13 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_info_and_refresh, menu);
         mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
+        displayQueryResults(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.menu_refresh) {
-            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem);
+            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
             mRoomScheduleManager.handleManualRefresh(getActivity());
             return true;
         } else if (menuItem.getItemId() == R.id.menu_info) {
@@ -197,7 +193,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         mBuildingsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                displayNewQueryResults();
+                displayQueryResults(false);
             }
 
             @Override
@@ -207,7 +203,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         mHoursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                displayNewQueryResults();
+                displayQueryResults(false);
             }
 
             @Override
@@ -216,22 +212,11 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     }
 
     /**
-     * Updates the UI to display the open classroom schedule based on the building and hour
-     * that the user selected from the dropdowns.
-     */
-    private void displayNewQueryResults() {
-        displayNewQueryResults(ANIMATION_DURATION);
-    }
-
-    /**
      * Updates the UI to display the open classroom schedule based on the building and hour 
      * that the user selected from the dropdowns.
-     *
-     * @param loadingDuration the length of time in ms to display the loading duration
      */
-    private void displayNewQueryResults(int loadingDuration) {
-        // Display the loading screen
-        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, loadingDuration);
+    private void displayQueryResults(boolean initialDisplay) {
+        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, initialDisplay);
 
         // Determine if a building is actually selected
         if (mBuildingsSpinner.getSelectedItem() == null) {

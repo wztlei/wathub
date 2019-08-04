@@ -7,22 +7,23 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.Interpolator;
 
-import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.utils.Px;
 
 public class BaseModuleFragment extends Fragment {
 
     private Animator mLoadingAnimator;
+    private boolean mIsRefreshing;
 
     protected static final Interpolator ANIMATION_INTERPOLATOR = new FastOutSlowInInterpolator();
     protected static final int MINIMUM_UPDATE_DURATION = 1000;
     protected static final int ANIMATION_DURATION = 300;
+
+    protected static final int DEFAULT_REFRESH_DURATION = 500;
     private static final String TAG = "WL/BaseModuleFragment";
 
     public String getToolbarTitle() {
@@ -42,18 +43,27 @@ public class BaseModuleFragment extends Fragment {
         return Px.fromDpF(8);
     }
 
-    protected void displayLoadingScreen(View loadingLayout, MenuItem menuItem) {
-        changeLoadingVisibility(loadingLayout, menuItem, true);
+    protected void displayLoadingScreen(View loadingLayout, MenuItem menuItem,
+                                        boolean initialDisplay) {
+        changeLoadingVisibility(loadingLayout, menuItem, initialDisplay, true);
     }
 
-    protected void displayLoadingScreen(View loadingLayout, MenuItem menuItem, int duration) {
-        changeLoadingVisibility(loadingLayout, menuItem, true);
-    }
-
-    private void changeLoadingVisibility(View loadingLayout, MenuItem menuItem, boolean show) {
+    private void changeLoadingVisibility(View loadingLayout, MenuItem menuItem,
+                                         boolean initialDisplay, boolean show) {
         if (menuItem != null) {
             menuItem.setVisible(!show);
             menuItem.setEnabled(!show);
+        }
+
+        if (initialDisplay) {
+            mIsRefreshing = true;
+            new Handler(Looper.getMainLooper()).postDelayed(() ->
+                            changeLoadingVisibility(loadingLayout, menuItem,
+                                    false, false),
+                    MINIMUM_UPDATE_DURATION);
+            return;
+        } else if (mIsRefreshing && show) {
+            return;
         }
 
         final AnimatorListenerAdapter listener = new AnimatorListenerAdapter() {
@@ -75,16 +85,20 @@ public class BaseModuleFragment extends Fragment {
         mLoadingAnimator = getVisibilityAnimator(loadingLayout, show);
 
         if (mLoadingAnimator != null) {
-            mLoadingAnimator.setInterpolator(BaseApiModuleFragment.ANIMATION_INTERPOLATOR);
-            mLoadingAnimator.setDuration(BaseApiModuleFragment.ANIMATION_DURATION);
+            mLoadingAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            mLoadingAnimator.setDuration(ANIMATION_DURATION);
             mLoadingAnimator.addListener(listener);
             mLoadingAnimator.start();
         }
 
         if (show) {
+            mIsRefreshing = true;
             loadingLayout.setVisibility(View.VISIBLE);
             new Handler(Looper.getMainLooper()).postDelayed(() ->
-                    changeLoadingVisibility(loadingLayout, menuItem, false), 300);
+                            changeLoadingVisibility(loadingLayout, menuItem, false, false),
+                    DEFAULT_REFRESH_DURATION);
+        } else {
+            mIsRefreshing = false;
         }
     }
 

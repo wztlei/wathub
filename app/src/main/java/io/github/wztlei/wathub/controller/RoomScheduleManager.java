@@ -273,7 +273,6 @@ public class RoomScheduleManager {
         for (int i = subjectProgressIndex; i < sSubjects.length; i++) {
             // Get the subject to download
             String subject = sSubjects[i];
-            Log.d(TAG, "subject=" + subject);
             Responses.CoursesSchedule response = null;
 
             // Get the schedule for the subject using a thread-blocking API call
