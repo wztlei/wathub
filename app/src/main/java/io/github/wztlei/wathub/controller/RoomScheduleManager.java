@@ -346,6 +346,7 @@ public class RoomScheduleManager {
             RoomTimeIntervalList buildingOpenSchedule = new RoomTimeIntervalList();
             int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             int currentMin = Calendar.getInstance().get(Calendar.MINUTE);
+            int searchHour = searchDate.get(Calendar.HOUR_OF_DAY);
 
             // Iterate through each room in the building and add the time intervals
             // when that room is available to buildingOpenSchedule
@@ -359,10 +360,10 @@ public class RoomScheduleManager {
             // Sort the schedule chronologically and then by room number as a tie-breaker
             buildingOpenSchedule.sort();
 
-            if (searchDate.get(Calendar.HOUR_OF_DAY) == currentHour) {
+            if (searchHour == currentHour) {
                 buildingOpenSchedule.filterByHourAndMin(currentHour, currentMin);
             } else {
-                buildingOpenSchedule.filterByHourAndMin(currentHour, 0);
+                buildingOpenSchedule.filterByHourAndMin(searchHour, 0);
             }
 
             return buildingOpenSchedule;
@@ -391,7 +392,7 @@ public class RoomScheduleManager {
         // Use the fact that all classes start at either XX:00 or XX:30 and end at
         // either XX:20 or XX:50 to cleanly divide the day into half-hour blocks.
         // Note that Java arrays are auto-initialized to 0 or false in this case
-        boolean[] occupiedHalfHours = new boolean[HALF_HOURS_PER_DAY * 2];
+        boolean[] occupiedHalfHours = new boolean[HALF_HOURS_PER_DAY];
 
         // Iterate through each class in the JSON array
         for (int i = 0; i < classTimes.length(); i++) {
@@ -420,6 +421,8 @@ public class RoomScheduleManager {
         // Initialize variables to store the time when a classroom's open time interval begins
         // The value of -1 signifies that an open time interval has not yet begun yet
         int openStartHour = -1, openStartMin = -1;
+        int month = searchDate.get(Calendar.MONTH) + 1;
+        int date = searchDate.get(Calendar.DAY_OF_MONTH);
 
         // Iterate from the starting index of the search to the index at the end of the day
         for (int i = 0; i < HALF_HOURS_PER_DAY; i++) {
@@ -445,8 +448,8 @@ public class RoomScheduleManager {
                 int openEndMin = ((oneDayIndex - 1) % 2 == 0) ? 20 : 50;
 
                 // Add the time interval when the room is open to the building's open room schedule
-                RoomTimeInterval openRoomTimeInterval = new RoomTimeInterval(
-                        building, roomNum, openStartHour, openStartMin, openEndHour, openEndMin);
+                RoomTimeInterval openRoomTimeInterval = new RoomTimeInterval(building, roomNum,
+                        month, date, openStartHour, openStartMin, openEndHour, openEndMin);
                 buildingOpenSchedule.add(openRoomTimeInterval);
 
                 // Record that we have exited an interval for when the room was open
@@ -458,8 +461,8 @@ public class RoomScheduleManager {
                 int openEndMin = 59;
 
                 // Add the time interval when the room is open to the building's open room schedule
-                RoomTimeInterval openRoomTimeInterval = new RoomTimeInterval(
-                        building, roomNum, openStartHour, openStartMin, openEndHour, openEndMin);
+                RoomTimeInterval openRoomTimeInterval = new RoomTimeInterval(building, roomNum,
+                        month, date, openStartHour, openStartMin, openEndHour, openEndMin);
                 buildingOpenSchedule.add(openRoomTimeInterval);
             }
         }

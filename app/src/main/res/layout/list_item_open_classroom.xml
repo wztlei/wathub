@@ -50,8 +50,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:id="@+id/date_text_view"
-                    android:textColor="@color/black"
-                    android:text="Tomorrow"/>
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 

@@ -76,7 +76,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         // Set up the view
         View root = inflater.inflate(R.layout.fragment_module, container, false);
         ViewGroup parent = root.findViewById(R.id.container_content_view);
-        View contentView = inflater.inflate(R.layout.fragment_open_classrooms, parent, false);
+        View contentView = inflater.inflate(R.layout.fragment_open_classrooms,
+                parent, false);
         parent.addView(contentView);
         setHasOptionsMenu(true);
 
@@ -104,8 +105,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         // Initial call to set the hours dropdown
         new Handler().post(mHoursDropdownUpdater);
-        mHoursSpinner.setSelection(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-
 
         return root;
     }
@@ -234,10 +233,10 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         int hourIndex = mHoursSpinner.getSelectedItemPosition();
 
         // Retrieve a schedule of the open classrooms for the query from roomScheduleManager
-        Calendar searchCalendar = (Calendar) mLastUpdateTime.clone();
-        searchCalendar.add(Calendar.HOUR_OF_DAY, hourIndex);
+        Calendar searchDate = (Calendar) mLastUpdateTime.clone();
+        searchDate.add(Calendar.HOUR_OF_DAY, hourIndex);
         RoomTimeIntervalList buildingOpenSchedule =
-                mRoomScheduleManager.findOpenRooms(building, searchCalendar);
+                mRoomScheduleManager.findOpenRooms(building, searchDate);
 
         // Check if any open classrooms has been found
         if (buildingOpenSchedule.size() > 0) {
@@ -279,10 +278,11 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             if (h == currentHour) {
                 timeStringOptions[h - currentHour] = "Now";
             } else if (h <= 23){
-                timeStringOptions[h - currentHour] = DateTimeUtils.format12hTime(h);
+                timeStringOptions[h - currentHour] =
+                        String.format("%s, Today", DateTimeUtils.format12hTime(h));
             } else {
                 timeStringOptions[h - currentHour] =
-                        DateTimeUtils.format12hTime(h % 24) + ", Jun 30";
+                        String.format("%s, Tomorrow", DateTimeUtils.format12hTime(h % 24));
             }
         }
 
@@ -320,8 +320,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             String room = building + " " + roomNum;
 
             // Update the text of the item in the recycler view
-            viewHolder.roomTextView.setText(room);
-            viewHolder.timeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
+            viewHolder.mRoomTextView.setText(room);
+            viewHolder.mTimeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
+            viewHolder.mDateTextView.setText(roomTimeInterval.formatMonthAndDate());
         }
 
         @Override
@@ -335,10 +336,13 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      */
     class OpenClassroomViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.room_text_view)
-        TextView roomTextView;
+        TextView mRoomTextView;
 
         @BindView(R.id.time_interval_text_view)
-        TextView timeIntervalTextView;
+        TextView mTimeIntervalTextView;
+        
+        @BindView(R.id.date_text_view)
+        TextView mDateTextView;
 
         OpenClassroomViewHolder(@NonNull View itemView) {
             super(itemView);
