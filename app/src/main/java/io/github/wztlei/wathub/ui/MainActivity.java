@@ -134,6 +134,7 @@ public class MainActivity extends BaseActivity
             return false;
         }
 
+
         if (itemId == R.id.menu_item_home) {
             fragment = new HomeFragment();
 

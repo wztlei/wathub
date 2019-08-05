@@ -7,6 +7,7 @@
     <string name="api_foodservices">Food Services</string>
     <string name="api_watcard">WatCard</string>
     <string name="api_courses">Courses</string>
+    <string name="api_ci">Campus Information</string>
     <string name="api_maps">Maps</string>
     <string name="api_campus">Campus</string>
     <string name="api_news">News</string>
@@ -250,7 +251,7 @@
 
     <string-array name="question5">
         <item>"I have ideas!"</item>
-        <item>"Great! Please &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us to submit your fantastic idea! You can also &lt;a href='https://play.google.com/store/apps/details?id=io.github.wztlei.wathub'>leave a review&lt;/a> on the Google Play Store."</item>
+        <item>"Great! Please &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us, or click on the button below to submit your fantastic idea! You can also &lt;a href='https://play.google.com/store/apps/details?id=io.github.wztlei.wathub'>leave a review&lt;/a> on the Google Play Store."</item>
     </string-array>
 
     <string-array name="question6">
@@ -263,6 +264,32 @@
         <item>"1195.0.4"</item>
     </string-array>
 
+    <!-- Feedback -->
+    <string name="feedback_name">Name</string>
+    <string name="feedback_input">Feedback</string>
+    <string name="feedback_email">Email</string>
+    <string name="name_hint">Name</string>
+    <string name="input_hint">Feedback goes here!</string>
+    <string name="email_hint">someone@example.com</string>
+    <string name="feedback_click_button">Submit Feedback</string>
+    <string-array name="feedbackinfo1">
+        <item>"Why provide us feedback?"</item>
+        <item>"It is important for us to know what our users want to see next in our app. With every piece of feedback we can get to work implementing your ideas as well as squash those nasty bugs!"</item>
+    </string-array>
+    <string-array name="feedbackinfo2">
+        <item>"Why do we want your name and email?"</item>
+        <item>"It makes it easier for us to track our feedback and allows us to notify you if and when we implement your feedback. It also allows us to make adjustments to how we deliver our services to better suit our users."</item>
+    </string-array>
+    <string-array name="feedbackinfo3">
+        <item>"Can I reach out another way?"</item>
+        <item>"Of course! You can &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us directly!"</item>
+    </string-array>
+    <string-array name="feedbackfaq">
+        <item>"Can I give you feedback?"</item>
+        <item>"Of course! You can &lt;a href='https://mailto:william.zt.lei@gmail.com'>email&lt;/a> us directly or submit your feedback by clicking the button."</item>
+    </string-array>
+
+
     <!-- General -->
     <string name="and">and</string>
     <string name="open_in_browser">Open in browser</string>
@@ -272,5 +299,6 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_about">About</string>
     <string name="menu_information">Information</string>
+    <string name="menu_feedback">Feedback</string>
 
 </resources>
