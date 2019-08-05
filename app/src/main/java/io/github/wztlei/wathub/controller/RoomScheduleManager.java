@@ -48,11 +48,6 @@ public class RoomScheduleManager {
     private static Thread sApiRetrievalThread;
     private static String[] sSubjects;
     private static String[] sBuildings;
-    private static int sCurrentMonth;
-    private static int sCurrentDate;
-    private static int sCurrentDayOfWeek;
-    private static int sCurrentHour;
-    private static int sCurrentMin;
     private static int sNumNetworkFailures;
 
     private static final String PREFS_SOURCE = "PREFS_SOURCE";
@@ -339,35 +334,35 @@ public class RoomScheduleManager {
      * Returns a list of rooms and the time intervals for which they are open for a given building
      * and the hours at which to start and end the search.
      *
-     * @param building          the building in which to find open rooms
-     * @param searchHour        the hour in which to search for an open classroom
-     * @return                  a list of rooms and the time intervals at which they are open
+     * @param building      the building in which to find open rooms
+     * @param searchDate    a Calendar object storing the date and time to search
+     * @return              a list of rooms and the time intervals at which they are open
      */
-    public RoomTimeIntervalList findOpenRooms(String building, int searchHour) {
+    public RoomTimeIntervalList findOpenRooms(String building, Calendar searchDate) {
         try {
             // Get all of the rooms in that building and their room numbers
             JSONObject buildingRooms = sRoomSchedule.getJSONObject(building);
             JSONArray roomNums = buildingRooms.names();
             RoomTimeIntervalList buildingOpenSchedule = new RoomTimeIntervalList();
-
-            // Update the variables storing the current time
-            updateCurrentTime();
+            int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            int currentMin = Calendar.getInstance().get(Calendar.MINUTE);
 
             // Iterate through each room in the building and add the time intervals
             // when that room is available to buildingOpenSchedule
             for (int i = 0; i < roomNums.length(); i++) {
                 String roomNum = roomNums.getString(i);
                 JSONArray classTimes = buildingRooms.getJSONArray(roomNum);
-                addOpenTimeIntervals(buildingOpenSchedule, building, roomNum, classTimes);
+                addOpenTimeIntervals(buildingOpenSchedule, classTimes, searchDate,
+                        building, roomNum);
             }
 
             // Sort the schedule chronologically and then by room number as a tie-breaker
             buildingOpenSchedule.sort();
 
-            if (searchHour == sCurrentHour) {
-                buildingOpenSchedule.filterByHourAndMin(sCurrentHour, sCurrentMin);
+            if (searchDate.get(Calendar.HOUR_OF_DAY) == currentHour) {
+                buildingOpenSchedule.filterByHourAndMin(currentHour, currentMin);
             } else {
-                buildingOpenSchedule.filterByHourAndMin(searchHour, 0);
+                buildingOpenSchedule.filterByHourAndMin(currentHour, 0);
             }
 
             return buildingOpenSchedule;
@@ -382,15 +377,16 @@ public class RoomScheduleManager {
      * schedule of open classrooms.
      *
      * @param   buildingOpenSchedule    a schedule of when classroom are open for a building
-     * @param   building                the building of the query
-     * @param   roomNum                 the room number for which to find open time intervals
      * @param   classTimes              a list of the starting and ending date and time
      *                                  for all the classes that use that room
+     * @param   searchDate              the date for which to add open time intervals
+     * @param   building                the building of the query
+     * @param   roomNum                 the room number for which to find open time intervals
      * @throws  JSONException           if the classTimes JSONArray is not formatted properly
      */
     private static void addOpenTimeIntervals(
-            RoomTimeIntervalList buildingOpenSchedule,
-            String building, String roomNum, JSONArray classTimes) throws JSONException {
+            RoomTimeIntervalList buildingOpenSchedule, JSONArray classTimes, Calendar searchDate,
+            String building, String roomNum) throws JSONException {
 
         // Use the fact that all classes start at either XX:00 or XX:30 and end at
         // either XX:20 or XX:50 to cleanly divide the day into half-hour blocks.
@@ -403,7 +399,7 @@ public class RoomScheduleManager {
             JSONArray classTime = classTimes.getJSONArray(i);
 
             // Only record the times that the classroom is used if the class occurs today
-            if (classOccursToday(classTime)) {
+            if (isClassOnDate(classTime, searchDate)) {
                 // Get the starting and ending hour and minute at pre-determined indices
                 int startHour = classTime.getInt(START_HOUR_INDEX);
                 int startMin = classTime.getInt(START_MIN_INDEX);
@@ -485,16 +481,18 @@ public class RoomScheduleManager {
     }
 
     /**
-     * Returns true if the class occurs today and false otherwise. A class occurs today if
-     * it occurs on the current day of the week and the current date is within the starting
-     * and ending dates for that class.
+     * Returns true if the class occurs on the given date and false otherwise. 
+     * A class occurs on the given date if it occurs on the current day of the week and the current 
+     * date is within the starting and ending dates for that class.
      *
      * @param   classTime       the starting and ending dates and times for a class
-     * @return                  true if the class occurs today, and false otherwise
+     * @param   date            the given date on which a class may potentially occur     
+     * @return                  true if the class occurs on the given date, and false otherwise
      * @throws  JSONException   if the classTime JSON array is not formatted properly
      */
-    private static boolean classOccursToday(JSONArray classTime) throws JSONException {
-        return onCurrentDayOfWeek(classTime) && sCurrentDateWithinInterval(classTime);
+    private static boolean isClassOnDate(JSONArray classTime, Calendar date)
+            throws JSONException {
+        return isClassOnDayOfWeek(classTime, date) && isClassWithinDateInterval(classTime, date);
     }
 
 
@@ -502,12 +500,32 @@ public class RoomScheduleManager {
      * Returns true if the class occurs on the current day of the week and false otherwise.
      *
      * @param   classTime       the starting and ending dates and times for a class
+     * @param   date            the given date on which a class may potentially occur
      * @return                  true if the class occurs on the current day of the week,
      *                          and false otherwise
      * @throws  JSONException   if the classTime JSON array is not formatted properly
      */
-    private static boolean onCurrentDayOfWeek(JSONArray classTime) throws JSONException {
-        return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(sCurrentDayOfWeek);
+    private static boolean isClassOnDayOfWeek(JSONArray classTime, Calendar date) 
+            throws JSONException {
+        // Update the current day of the week
+        switch (date.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.MONDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(0);
+            case Calendar.TUESDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(1);
+            case Calendar.WEDNESDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(2);
+            case Calendar.THURSDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(3);
+            case Calendar.FRIDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(4);
+            case Calendar.SATURDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(5);
+            case Calendar.SUNDAY:
+                return classTime.getJSONArray(DAY_OF_WEEK_INDEX).getBoolean(6);
+            default:
+                return false;
+        }
     }
 
     /**
@@ -515,67 +533,23 @@ public class RoomScheduleManager {
      * and false otherwise.
      *
      * @param   classTime       the starting and ending dates and times for a class
+     * @param   date            the given date on which a class may potentially occur
      * @return                  true if the current date is within the starting and
      *                          ending dates for that class and false otherwise
      * @throws  JSONException   if the classTime JSON array is not formatted properly
      */
-    private static boolean sCurrentDateWithinInterval(JSONArray classTime) throws JSONException {
+    private static boolean isClassWithinDateInterval(JSONArray classTime, Calendar date)
+            throws JSONException {
         int startMonth = classTime.getInt(START_MONTH_INDEX);
         int startDate = classTime.getInt(START_DATE_INDEX);
         int endMonth = classTime.getInt(END_MONTH_INDEX);
         int endDate = classTime.getInt(END_DATE_INDEX);
 
         int startDateCode = startMonth * 100 + startDate;
-        int sCurrentDateCode = sCurrentMonth * 100 + sCurrentDate;
+        int sCurrentDateCode = date.get(Calendar.MONTH) * 100 + date.get(Calendar.DAY_OF_MONTH);
         int endDateCode = endMonth * 100 + endDate;
 
         return withinClosedInterval(startDateCode, sCurrentDateCode, endDateCode);
-    }
-
-    /**
-     * Updates the instance variables that store the current time and date.
-     */
-    private static void updateCurrentTime() {
-//        // Get an instance of a Calendar object that stores all the date for the current time
-//        Calendar calendar = Calendar.getInstance();
-//
-//        // Update the current month, date of the month, and minute
-//        sCurrentMonth = calendar.get(Calendar.MONTH) + 1;
-//        sCurrentDate = calendar.get(Calendar.DATE);
-//        sCurrentHour = calendar.get(Calendar.HOUR_OF_DAY);
-//        sCurrentMin = calendar.get(Calendar.MINUTE);
-//
-//        // Update the current day of the week
-//        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-//            case Calendar.MONDAY:
-//                sCurrentDayOfWeek = 0;
-//                break;
-//            case Calendar.TUESDAY:
-//                sCurrentDayOfWeek = 1;
-//                break;
-//            case Calendar.WEDNESDAY:
-//                sCurrentDayOfWeek = 2;
-//                break;
-//            case Calendar.THURSDAY:
-//                sCurrentDayOfWeek = 3;
-//                break;
-//            case Calendar.FRIDAY:
-//                sCurrentDayOfWeek = 4;
-//                break;
-//            case Calendar.SATURDAY:
-//                sCurrentDayOfWeek = 5;
-//                break;
-//            case Calendar.SUNDAY:
-//                sCurrentDayOfWeek = 6;
-//                break;
-//        }
-
-        // TODO WL: IMPORTANT!!! Use the actual date and time
-        sCurrentMonth = 7;
-        sCurrentDate = 30;
-        sCurrentHour = 12;
-        sCurrentMin = 12;
-        sCurrentDayOfWeek = 1;
     }
 
     /**

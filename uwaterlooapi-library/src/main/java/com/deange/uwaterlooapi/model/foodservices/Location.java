@@ -235,7 +235,7 @@ public class Location
           curr.setTime(date);
           temp.set(end.get(Calendar.YEAR),
                    end.get(Calendar.MONTH),
-                   end.get(Calendar.DATE) + 1,
+                   end.get(Calendar.DAY_OF_MONTH) + 1,
                    0, 0, 0);
           curr.set(Calendar.MILLISECOND, 0);
           temp.set(Calendar.MILLISECOND, 0);
@@ -305,7 +305,7 @@ public class Location
           curr.setTime(date);
           temp.set(end.get(Calendar.YEAR),
                    end.get(Calendar.MONTH),
-                   end.get(Calendar.DATE) + 1,
+                   end.get(Calendar.DAY_OF_MONTH) + 1,
                    0, 0, 0);
           curr.set(Calendar.MILLISECOND, 0);
           temp.set(Calendar.MILLISECOND, 0);
@@ -403,7 +403,7 @@ public class Location
 
       final Calendar calendar = Calendar.getInstance();
       calendar.setTime(second);
-      calendar.add(Calendar.DATE, 1);
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
       endForContains = calendar.getTime();
     }
 

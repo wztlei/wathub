@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,7 +55,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     private Runnable mHoursDropdownUpdater;
     private Context mContext;
     private MenuItem mRefreshMenuItem;
-    private int mLastUpdateHour;
+    private Calendar mLastUpdateTime;
 
     @SuppressWarnings("unused")
     private static final String TAG = "OpenClassroomFragment";
@@ -94,7 +93,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         // Define a Runnable object that updates the hours spinner whenever the hour changes
         mHoursDropdownUpdater = () -> {
-            if (mLastUpdateHour != Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+            if (mLastUpdateTime.get(Calendar.HOUR_OF_DAY) != currentHour) {
                 updateHoursSpinner();
             }
 
@@ -171,8 +172,11 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      * the current hour.
      */
     private void updateHoursSpinner() {
+        // Record the hour when the spinner last updated
+        mLastUpdateTime = Calendar.getInstance();
+
         // Get the options for the hours dropdown
-        String[] hours = getHourDropdownOptionList();
+        String[] hours = getHourDropdownOptionList(mLastUpdateTime.get(Calendar.HOUR_OF_DAY));
         StringAdapter hoursAdapter = new StringAdapter(mContext, hours);
         int spinnerSelectionIndex = mHoursSpinner.getSelectedItemPosition();
         hoursAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
@@ -184,9 +188,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         if (spinnerSelectionIndex != AdapterView.INVALID_POSITION) {
             mHoursSpinner.setSelection(spinnerSelectionIndex);
         }
-
-        // Record the hour when the spinner last updated
-        mLastUpdateHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     }
 
     /**
@@ -233,8 +234,10 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         int hourIndex = mHoursSpinner.getSelectedItemPosition();
 
         // Retrieve a schedule of the open classrooms for the query from roomScheduleManager
+        Calendar searchCalendar = (Calendar) mLastUpdateTime.clone();
+        searchCalendar.add(Calendar.HOUR_OF_DAY, hourIndex);
         RoomTimeIntervalList buildingOpenSchedule =
-                mRoomScheduleManager.findOpenRooms(building, hourIndex);
+                mRoomScheduleManager.findOpenRooms(building, searchCalendar);
 
         // Check if any open classrooms has been found
         if (buildingOpenSchedule.size() > 0) {
@@ -267,17 +270,19 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      *
      * @return a list of strings which are the hour dropdown selection options
      */
-    private String[] getHourDropdownOptionList() {
+    private String[] getHourDropdownOptionList(int currentHour) {
         // Initialize a list to store the formatted times and determine the current hour of the day
         String[] timeStringOptions = new String[24];
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         // Add all the hours from 1h in the future to 11PM as possible options
         for (int h = currentHour; h <= currentHour + 23; h++) {
             if (h == currentHour) {
-                timeStringOptions[h] = "Now";
+                timeStringOptions[h - currentHour] = "Now";
+            } else if (h <= 23){
+                timeStringOptions[h - currentHour] = DateTimeUtils.format12hTime(h);
             } else {
-                timeStringOptions[h] = DateTimeUtils.format12hTime(h, 0);
+                timeStringOptions[h - currentHour] =
+                        DateTimeUtils.format12hTime(h % 24) + ", Jun 30";
             }
         }
 
