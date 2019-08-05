@@ -21,7 +21,7 @@ import com.deange.uwaterlooapi.model.news.NewsDetails;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.Joiner;
 import io.github.wztlei.wathub.utils.ViewUtils;
@@ -107,7 +107,7 @@ public class NewsFragment extends BaseApiModuleFragment<Responses.NewsEntity, Ne
         mDescriptionView.setText(text);
 
         final String publishedDate = getString(R.string.news_published,
-                DateUtils.formatDate(getContext(),
+                DateTimeUtils.formatDate(getContext(),
                         mNewsArticle.getPublishedDate()));
         mPublishedView.setText(publishedDate);
 

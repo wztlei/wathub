@@ -25,7 +25,7 @@ public abstract class BaseListApiModuleFragment<T extends SimpleListResponse<V>,
     protected View getContentView(final LayoutInflater inflater, final ViewGroup parent) {
         final View root = inflater.inflate(getLayoutId(), parent, false);
 
-        mListView = (ListView) root.findViewById(android.R.id.list);
+        mListView = root.findViewById(android.R.id.list);
         if (mListView == null) {
             throw new IllegalStateException("ListView must have id android.R.id.list");
         }

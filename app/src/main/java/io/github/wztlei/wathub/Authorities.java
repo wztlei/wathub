@@ -4,7 +4,7 @@ import io.github.wztlei.wathub.utils.Joiner;
 
 public final class Authorities {
 
-    private static final String BASE_AUTHORITY = Constants.APPLICATION_ID;
+    private static final String BASE_AUTHORITY = ApiKeys.APPLICATION_ID;
 
     private Authorities() {
         throw new AssertionError();

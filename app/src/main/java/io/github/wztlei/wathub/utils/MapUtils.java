@@ -14,8 +14,6 @@ import pl.tajchert.nammu.PermissionCallback;
 public class MapUtils {
 
     public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
-    public static final String MAP_TYPE_KEY = "MAP_TYPE_KEY";
-    public static final String POI_FLAGS_KEY = "POI_FLAGS_KEY";
     public static final String DEFAULT_MAP_TYPE = "Satellite";
     public static final int DEFAULT_POI_FLAGS = 0;
 
@@ -46,7 +44,7 @@ public class MapUtils {
     public static int googleMapType(Context context) {
         String mapType = context
                 .getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-                .getString(MAP_TYPE_KEY, DEFAULT_MAP_TYPE);
+                .getString(Constants.MAP_TYPE_KEY, DEFAULT_MAP_TYPE);
 
         switch (mapType) {
             case "Road Map":

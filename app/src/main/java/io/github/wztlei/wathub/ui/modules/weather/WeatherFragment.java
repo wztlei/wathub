@@ -47,7 +47,7 @@ import io.github.wztlei.wathub.ui.modules.base.BaseApiModuleFragment;
 import io.github.wztlei.wathub.ui.view.RangeView;
 import io.github.wztlei.wathub.ui.view.SliceView;
 import io.github.wztlei.wathub.ui.view.WaveView;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.MathUtils;
 
@@ -219,7 +219,7 @@ public class WeatherFragment extends BaseApiModuleFragment<Responses.Weather, We
         final TimeZone tz = TimeZone.getDefault();
         mLastUpdated.setText(
                 getString(R.string.weather_last_updated,
-                        DateUtils.formatTime(getActivity(), updated),
+                        DateTimeUtils.formatTime(getActivity(), updated),
                         tz.getDisplayName(tz.inDaylightTime(updated), TimeZone.SHORT))
         );
 
@@ -457,7 +457,7 @@ public class WeatherFragment extends BaseApiModuleFragment<Responses.Weather, We
         mPressureLayout.setScaleY(-1);
     }
 
-    // TODO use this when moving to the new UWaterloo WeatherApi
+    // TODO CD: Use this when moving to the new UWaterloo WeatherApi
     // private String formatBearing(final float bearing) {
     //     final float normalizedBearing = (bearing % 360f) + 360f;
     //     return DIRECTIONS.get((int) Math.floor(((normalizedBearing + 22.5f) % 360) / 45));

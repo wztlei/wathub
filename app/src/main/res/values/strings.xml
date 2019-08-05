@@ -80,7 +80,7 @@
     <string name="foodservices_location_open_now">Open Now</string>
     <string name="foodservices_location_closed_now">Closed Now</string>
     <string name="foodservices_location_closes_at">Closes at %s</string>
-    <string name="foodservices_location_tim_hortons">"☕️ Tim Hortons"</string>
+    <string name="foodservices_location_tim_hortons">"Tim Hortons   ☕️"</string>
     <string name="foodservices_location_special_hours">Special Hours</string>
     <string name="foodservices_location_directions">Directions</string>
     <string name="foodservices_notes_none">No Notes :(</string>
@@ -144,6 +144,12 @@
         <item>First Name</item>
         <item>Last Name</item>
     </string-array>
+
+    <string name="open_classroom_dialog_title">"Note"</string>
+    <string name="open_classroom_dialog_message">"The open classroom timetable is based on the normal lecture and tutorial schedule for today.\n\nIndividual rooms may be unavailable due to exams or other special events of which the app is not aware."</string>
+    <string name="open_classroom_no_results">"No open classrooms were found for this building at this time today."</string>
+    <string name="open_classroom_calendar_button">"Calendar Button"</string>
+
 
     <string name="building_no_location_data">No location data for this building</string>
 
@@ -292,6 +298,7 @@
     <string name="error_no_network_detailed">No network connection! Please reconnect to the internet and try again.</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_about">About</string>
+    <string name="menu_information">Information</string>
     <string name="menu_feedback">Feedback</string>
 
 </resources>

@@ -103,7 +103,7 @@ public class PointsOfInterestFragment
         super.onActivityCreated(savedInstanceState);
         mSharedPreferences = getContext().getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-        mFlags = mSharedPreferences.getInt(MapUtils.POI_FLAGS_KEY, MapUtils.DEFAULT_POI_FLAGS);
+        mFlags = mSharedPreferences.getInt(Constants.POI_FLAGS_KEY, MapUtils.DEFAULT_POI_FLAGS);
 
         LayersDialog.showDialog(getContext(), mFlags, this);
         mMapView.getMapAsync(this);
@@ -129,7 +129,7 @@ public class PointsOfInterestFragment
     public void onLayersSelected(final int flags) {
         // Store the flags in shared preferences
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putInt(MapUtils.POI_FLAGS_KEY, flags);
+        editor.putInt(Constants.POI_FLAGS_KEY, flags);
         editor.apply();
 
         mFlags = flags;

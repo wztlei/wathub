@@ -138,7 +138,7 @@ class LayersDialog {
         @OnItemSelected(R.id.map_type_spinner)
         void onMapTypeSelected() {
             SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putString(MapUtils.MAP_TYPE_KEY, mMapTypeSpinner.getSelectedItem().toString());
+            editor.putString(Constants.MAP_TYPE_KEY, mMapTypeSpinner.getSelectedItem().toString());
             editor.apply();
         }
 
@@ -152,7 +152,7 @@ class LayersDialog {
 
             // Select the previously selected map type for the spinner dropdown
             String mapType = mSharedPreferences.getString(
-                    MapUtils.MAP_TYPE_KEY, MapUtils.DEFAULT_MAP_TYPE);
+                    Constants.MAP_TYPE_KEY, MapUtils.DEFAULT_MAP_TYPE);
             String[] mapTypeOptions = mContext.getResources().getStringArray(R.array.map_types);
 
             if (mMapTypeSpinner != null) {
