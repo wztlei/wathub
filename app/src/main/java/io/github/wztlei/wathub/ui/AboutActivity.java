@@ -1,65 +1,51 @@
 package io.github.wztlei.wathub.ui;
 
-import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.view.View;
 
 import butterknife.BindString;
 import butterknife.BindView;
+import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.ui.view.ElevationOffsetListener;
-import io.github.wztlei.wathub.utils.FontUtils;
+import io.github.wztlei.wathub.utils.IntentUtils;
 import io.github.wztlei.wathub.utils.Px;
 
 public class AboutActivity extends BaseActivity {
 
-    @BindView(R.id.appbar)
-    AppBarLayout mAppBarLayout;
-    @BindView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout mCollapsingLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     @BindString(R.string.menu_about)
     String mAboutString;
+
+    @SuppressWarnings("unused")
+    private static final String TAG = "WL/AboutActivity";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set up the layout of the About activity
         setContentView(R.layout.activity_about);
-
-        mAppBarLayout.addOnOffsetChangedListener(new ElevationOffsetListener(Px.fromDpF(8)));
-
-        final Typeface typeface = FontUtils.getFont(FontUtils.BOOK);
-        mCollapsingLayout.setCollapsedTitleTypeface(typeface);
-        mCollapsingLayout.setExpandedTitleTypeface(typeface);
-        mCollapsingLayout.setTitle(mAboutString);
-
         setSupportActionBar(mToolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
 
+        // Set up the action bar
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(mAboutString);
             actionBar.setElevation(Px.fromDpF(8));
         }
 
-        final Button button = (Button) findViewById(R.id.goto_feedback_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), FeedbackActivity.class));
-                overridePendingTransition(R.anim.bottom_in, R.anim.stay);
-            }
+        // Set up a listener on the submit feedback button to open the Google form in a browser
+        Button button = (Button) findViewById(R.id.submit_feedback_button);
+        button.setOnClickListener(view -> {
+            IntentUtils.openBrowser(AboutActivity.this, Constants.FEEDBACK_GOOGLE_FORM_URL);
+//            startActivity(new Intent(getApplicationContext(), FeedbackActivity.class));
+//            overridePendingTransition(R.anim.bottom_in, R.anim.stay);
         });
     }
 
