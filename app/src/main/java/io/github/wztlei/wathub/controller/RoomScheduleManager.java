@@ -256,7 +256,7 @@ public class RoomScheduleManager {
             editor.putInt(Constants.SCHEDULE_PROGRESS_INDEX_KEY, 0);
             editor.putString(Constants.INCOMPLETE_SCHEDULE_JSON_KEY, "");
             editor.apply();
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
         // Get the current term and the progress within the subjects
@@ -284,7 +284,7 @@ public class RoomScheduleManager {
                     try {
                         incompleteRoomSchedule.update(classInfo);
                     } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
+                        e.printStackTrace();
                     }
                 }
             }

@@ -183,6 +183,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     }
 
     public void showModule(final Class<? extends BaseApiModuleFragment> fragment, final Bundle arguments) {
+        // TODO BUG #1: Potential cause of Android 7/Nougat TransactionTooLargeException
         getActivity().startActivity(
                 ModuleHostActivity.getStartIntent(getActivity(), fragment.getCanonicalName(), arguments));
     }
@@ -247,7 +248,6 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
         if (show) {
             mLoadingLayout.setVisibility(View.VISIBLE);
-            Log.d(TAG, "mLastUpdate=" + mLastUpdate);
             if (mLastUpdate == 0) {
                 return;
             }

@@ -46,6 +46,7 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
 
         intent.putExtra(ARG_FRAGMENT_CLASS, fragmentCanonicalName);
         if (args != null) {
+            // TODO BUG #1: Potential cause of Android 7/Nougat TransactionTooLargeException
             intent.putExtras(args);
         }
 

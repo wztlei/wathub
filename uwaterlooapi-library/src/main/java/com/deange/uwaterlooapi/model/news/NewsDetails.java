@@ -9,11 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class NewsDetails
-    extends BaseModel
-    implements
-    Parcelable,
-    Comparable<NewsDetails> {
+public class NewsDetails extends BaseModel implements Parcelable, Comparable<NewsDetails> {
 
   @SerializedName("id")
   int mId;
