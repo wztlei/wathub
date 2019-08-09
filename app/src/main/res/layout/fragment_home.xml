@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/home_cards_parent"
@@ -19,19 +20,23 @@
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
-            <fragment
-                android:id="@+id/home_nearby_locations_fragment"
-                class="io.github.wztlei.wathub.ui.modules.home.NearbyLocationsFragment"
+            <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:layout="@layout/fragment_nearby_locations" />
+                android:layout_height="wrap_content">
+                <fragment
+                    android:id="@+id/home_nearby_locations_fragment"
+                    class="io.github.wztlei.wathub.ui.modules.home.NearbyLocationsFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout="@layout/fragment_nearby_locations" />
+            </io.github.wztlei.wathub.ui.view.CardView>
 
             <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:id="@+id/home_weather_selectable"
@@ -45,7 +50,13 @@
 
             </io.github.wztlei.wathub.ui.view.CardView>
 
+            <!-- ******************************************************************************* -->
+            <!-- ******************************************************************************* -->
+            <!-- ******************************************************************************* -->
+            <!-- ******************************************************************************* -->
+
             <io.github.wztlei.wathub.ui.view.CardView
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp">
@@ -98,7 +109,7 @@
                             android:minWidth="100dp"
                             android:textAllCaps="true"
                             android:textColor="@android:color/black"
-                            tools:ignore="LabelFor,RtlHardcoded,TextFields" />
+                            tools:ignore="Autofill,LabelFor,RtlHardcoded,TextFields" />
 
                         <TextView
                             style="@style/TextAppearance.UWaterloo.Caption"
