@@ -40,6 +40,7 @@
     <string name="title_parking">Parking</string>
     <string name="title_poi">Points Of Interest</string>
     <string name="title_open_classrooms">Open Classrooms</string>
+    <string name="title_important_dates">Important Dates</string>
 
     <string name="description_foodservices_announcements">Additional announcements regarding food being served at various places on campus.</string>
     <string name="description_foodservices_locations">Places serving food and beverages on campus, including operating hours and detailed outlet information.</string>
