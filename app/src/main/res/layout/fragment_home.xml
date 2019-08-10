@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -19,36 +20,149 @@
             android:animateLayoutChanges="true"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:orientation="vertical">
 
             <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp">
+
                 <fragment
                     android:id="@+id/home_nearby_locations_fragment"
                     class="io.github.wztlei.wathub.ui.modules.home.NearbyLocationsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/fragment_nearby_locations" />
+
             </io.github.wztlei.wathub.ui.view.CardView>
 
-            <io.github.wztlei.wathub.ui.view.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:background="@color/background"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:clipToPadding="false"
+                android:baselineAligned="false">
 
-                <TextView
-                    android:id="@+id/home_weather_selectable"
-                    style="@style/TextAppearance.UWaterloo.Title"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="32dp"
-                    android:text="@string/home_quick_weather" />
+                    android:layout_weight="2"
+                    android:paddingTop="4dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="4dp"
+                    android:background="@color/background"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
 
-            </io.github.wztlei.wathub.ui.view.CardView>
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@color/background"
+                        android:elevation="@dimen/cardview_default_elevation">
+
+                        <io.github.wztlei.wathub.ui.view.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                style="@style/TextAppearance.UWaterloo.Body1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?selectableItemBackground"
+                                android:gravity="center"
+                                android:text="@string/title_weather" />
+
+                        </io.github.wztlei.wathub.ui.view.CardView>
+
+                    </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="4dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="4dp"
+                    android:background="@color/background"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/background"
+                        android:elevation="@dimen/cardview_default_elevation">
+
+                        <io.github.wztlei.wathub.ui.view.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                style="@style/TextAppearance.UWaterloo.Body1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?selectableItemBackground"
+                                android:gravity="center"
+                                android:text="@string/title_weather" />
+
+                        </io.github.wztlei.wathub.ui.view.CardView>
+
+                    </android.support.constraint.ConstraintLayout>
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/background"
+                        android:elevation="@dimen/cardview_default_elevation">
+
+                        <io.github.wztlei.wathub.ui.view.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/home_weather_selectable"
+                                style="@style/TextAppearance.UWaterloo.Body1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?selectableItemBackground"
+                                android:gravity="center"
+                                android:text="@string/title_weather" />
+
+                        </io.github.wztlei.wathub.ui.view.CardView>
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <!-- ******************************************************************************* -->
             <!-- ******************************************************************************* -->
@@ -56,10 +170,12 @@
             <!-- ******************************************************************************* -->
 
             <io.github.wztlei.wathub.ui.view.CardView
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp">
 
                 <LinearLayout
                     android:id="@+id/home_course_selectable"
@@ -74,34 +190,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_margin="16dp"
+                        android:layout_marginTop="12dp"
                         android:text="@string/home_quick_course_lookup" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:gravity="center">
 
                         <io.github.wztlei.wathub.ui.view.ShowAllAutoCompleteTextView
                             android:id="@+id/home_course_subject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:imeOptions="actionNext"
                             android:inputType="textNoSuggestions"
                             android:maxLines="1"
                             android:minWidth="100dp"
                             android:textAllCaps="true"
+                            android:textSize="16sp"
                             android:textColor="@android:color/black"
-                            tools:ignore="RtlHardcoded" />
+                            android:hint="@string/home_quick_course_hint_subject"/>
 
                         <EditText
                             android:id="@+id/home_course_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/home_course_subject"
+                            android:layout_toEndOf="@id/home_course_subject"
                             android:gravity="start"
                             android:imeOptions="actionSearch"
                             android:inputType="textNoSuggestions"
@@ -109,9 +227,12 @@
                             android:minWidth="100dp"
                             android:textAllCaps="true"
                             android:textColor="@android:color/black"
-                            tools:ignore="Autofill,LabelFor,RtlHardcoded,TextFields" />
+                            android:textSize="16sp"
+                            android:hint="@string/home_quick_course_hint_number"
+                            tools:ignore="Autofill,TextFields" />
 
                         <TextView
+                            android:visibility="gone"
                             style="@style/TextAppearance.UWaterloo.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -119,10 +240,11 @@
                             android:layout_below="@id/home_course_subject"
                             android:paddingLeft="4dp"
                             android:paddingRight="4dp"
-                            android:text="@string/home_quick_course_hint_subject"
+                            android:text="@string/home_quick_course_hint_subject_example"
                             tools:ignore="RtlHardcoded" />
 
                         <TextView
+                            android:visibility="gone"
                             style="@style/TextAppearance.UWaterloo.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -140,13 +262,13 @@
                         android:layout_height="1dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/divider" />
 
                     <Button
                         android:id="@+id/home_course_search"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:background="?selectableItemBackground"
                         android:enabled="false"
                         android:text="@android:string/search_go" />
