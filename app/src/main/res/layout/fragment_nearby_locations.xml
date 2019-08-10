@@ -29,10 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
+            android:layout_margin="0dp"
+
+            android:padding="0dp"
             android:backgroundTint="@color/black"
             android:foregroundTint="?colorPrimaryDark"
             android:text="@string/nearby_locations_see_all"
             android:textColor="@color/uw_yellow" />
+
     </LinearLayout>
 
 

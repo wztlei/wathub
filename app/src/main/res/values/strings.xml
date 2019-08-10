@@ -60,7 +60,8 @@
     <string name="description_open_classrooms">Free, unused classrooms on campus for studying or hosting events.</string>
 
     <string name="home_quick_course_lookup">Course Lookup</string>
-    <string name="home_quick_course_hint_subject">Ex. MATH</string>
+    <string name="home_quick_course_hint_subject_example">Ex. MATH</string>
+    <string name="home_quick_course_hint_subject">MATH</string>
     <string name="home_quick_course_hint_number">135</string>
     <string name="home_quick_course_search_subject">Search all %s courses…</string>
     <string name="home_quick_course_search_course">Look up %s…</string>
