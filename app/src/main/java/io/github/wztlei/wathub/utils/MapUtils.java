@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import io.github.wztlei.wathub.Constants;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 

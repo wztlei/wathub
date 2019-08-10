@@ -27,6 +27,7 @@ import com.deange.uwaterlooapi.model.poi.Helpline;
 import com.deange.uwaterlooapi.model.poi.Library;
 import com.deange.uwaterlooapi.model.poi.Photosphere;
 
+import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.model.CombinedPointsOfInterestInfo;
 import io.github.wztlei.wathub.model.responses.CombinedPointsOfInterestInfoResponse;
