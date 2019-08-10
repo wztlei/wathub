@@ -13,7 +13,6 @@ import com.google.android.gms.maps.GoogleMap;
 
 import java.util.Objects;
 
-import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.utils.MapUtils;
 import io.github.wztlei.wathub.utils.Px;
