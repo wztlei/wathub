@@ -2,7 +2,7 @@ package io.github.wztlei.wathub.ui;
 
 import android.util.Log;
 
-import io.github.wztlei.wathub.Constants;
+import io.github.wztlei.wathub.ApiKeys;
 import io.github.wztlei.wathub.model.Photo;
 import io.github.wztlei.wathub.net.Contract;
 import io.github.wztlei.wathub.net.FlickrApi;
@@ -18,7 +18,7 @@ public final class CoverPhotoPresenter {
 
     private static final String TAG = "WL/CoverPhotoPresenter";
 
-    private static final FlickrApi API = new FlickrApi(Constants.FLICKR_API_KEY);
+    private static final FlickrApi API = new FlickrApi(ApiKeys.FLICKR_API_KEY);
     private static final Random sRandom = new Random();
 
     private static final String[] PHOTO_IDS = new String[]{

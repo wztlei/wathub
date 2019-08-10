@@ -64,7 +64,7 @@ public class ListBuildingsFragment extends BaseListApiModuleFragment<Responses.B
             indices.add(String.valueOf(building.getBuildingName().charAt(0)));
         }
 
-        mIndices = indices.toArray(new String[indices.size()]);
+        mIndices = indices.toArray(new String[0]);
 
         getListView().setFastScrollEnabled(true);
         getListView().setFastScrollAlwaysVisible(true);
@@ -88,10 +88,9 @@ public class ListBuildingsFragment extends BaseListApiModuleFragment<Responses.B
         showModule(BuildingFragment.class, BuildingFragment.newBundle(building));
     }
 
-    private final class BuildingsAdapter
-            extends ModuleIndexedAdapter<String> {
+    private final class BuildingsAdapter extends ModuleIndexedAdapter<String> {
 
-        public BuildingsAdapter(final Context context) {
+        BuildingsAdapter(final Context context) {
             super(context);
         }
 
@@ -106,8 +105,8 @@ public class ListBuildingsFragment extends BaseListApiModuleFragment<Responses.B
             view.setTag(position);
             view.setOnClickListener(ListBuildingsFragment.this);
 
-            final TextView header = (TextView) view.findViewById(R.id.building_abbreviation);
-            final TextView buildingName = (TextView) view.findViewById(R.id.building_name);
+            final TextView header = view.findViewById(R.id.building_abbreviation);
+            final TextView buildingName = view.findViewById(R.id.building_name);
 
             final String firstLetter = getFirstCharOf(position);
             if (position == 0 || !firstLetter.equals(getFirstCharOf(position - 1))) {
@@ -121,6 +120,7 @@ public class ListBuildingsFragment extends BaseListApiModuleFragment<Responses.B
 
         @Override
         public int getCount() {
+            //noinspection ConstantConditions
             return mResponse == null ? 0 : mResponse.size();
         }
 

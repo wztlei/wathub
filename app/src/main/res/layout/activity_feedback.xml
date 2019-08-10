@@ -1,27 +1,14 @@
 <!-- <?xml version="1.0" encoding="utf-8"?> -->
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_fb_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarfeedback"
-        android:layout_width="match_parent"
-        android:layout_height="55dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.Toolbar
-                style="@style/ToolbarStyle"
-                app:titleTextColor="@color/uw_yellow"
-                app:subtitleTextColor="@color/uw_yellow" />
-
-        </LinearLayout>
-
-    </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.Toolbar
+        style="@style/ToolbarStyle"
+        app:titleTextColor="@color/uw_yellow"
+        app:subtitleTextColor="@color/uw_yellow" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -46,13 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/feedbackinfo2" />
-
-            <!--
-                <io.github.wztlei.wathub.ui.view.FaqSection
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/feedbackinfo3" />
-                -->
 
             <LinearLayout
                 android:id="@+id/feedback_browser_root"

@@ -111,6 +111,7 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
         final int position = (int) v.getTag();
         final Location location = getItem(position);
 
+        // TODO BUG #1: Potential cause of Android 7/Nougat TransactionTooLargeException
         getContext().startActivity(ModuleHostActivity.getStartIntent(
                 getContext(),
                 LocationFragment.class.getCanonicalName(),

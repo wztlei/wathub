@@ -92,13 +92,13 @@ public class MapTypeDialog {
 
         switch (mMapTypeRadioGroup.getCheckedRadioButtonId()) {
             case R.id.satellite_radio_button:
-                editor.putString(MapUtils.MAP_TYPE_KEY,"Satellite");
+                editor.putString(Constants.MAP_TYPE_KEY,"Satellite");
                 break;
             case (R.id.hybrid_radio_button):
-                editor.putString(MapUtils.MAP_TYPE_KEY, "Hybrid");
+                editor.putString(Constants.MAP_TYPE_KEY, "Hybrid");
                 break;
             case (R.id.road_map_radio_button):
-                editor.putString(MapUtils.MAP_TYPE_KEY, "Road Map");
+                editor.putString(Constants.MAP_TYPE_KEY, "Road Map");
                 break;
         }
 

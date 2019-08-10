@@ -18,7 +18,7 @@ import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
-import io.github.wztlei.wathub.utils.DateUtils;
+import io.github.wztlei.wathub.utils.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -94,7 +94,7 @@ public class NewsListFragment extends BaseListApiModuleFragment<Responses.News, 
             final NewsDetails news = getItem(position);
 
             final String title = Html.fromHtml(news.getTitle()).toString();
-            final String published = DateUtils.formatDate(getContext(), news.getPublishedDate());
+            final String published = DateTimeUtils.formatDate(getContext(), news.getPublishedDate());
 
             ((TextView) view.findViewById(android.R.id.text1)).setText(title);
             ((TextView) view.findViewById(android.R.id.text2)).setText(published);

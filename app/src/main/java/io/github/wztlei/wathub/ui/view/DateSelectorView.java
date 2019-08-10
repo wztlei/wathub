@@ -17,7 +17,8 @@ import io.github.wztlei.wathub.utils.Px;
 
 import org.joda.time.LocalDate;
 
-public class DateSelectorView extends FrameLayout implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class DateSelectorView extends FrameLayout
+        implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = DateSelectorView.class.getSimpleName();
 

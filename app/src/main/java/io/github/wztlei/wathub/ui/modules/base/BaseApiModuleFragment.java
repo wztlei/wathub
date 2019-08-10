@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
@@ -30,22 +28,17 @@ import com.deange.uwaterlooapi.model.BaseResponse;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.SimpleListResponse;
 
-import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.net.Calls;
-import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.utils.NetworkController;
-
 import java.util.List;
 
+import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.controller.NetworkController;
+import io.github.wztlei.wathub.net.Calls;
+import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import retrofit2.Call;
 
 public abstract class BaseApiModuleFragment<T extends Parcelable, V extends AbstractModel>
         extends BaseModuleFragment
         implements View.OnTouchListener, SwipeRefreshLayout.OnRefreshListener {
-
-    protected static final long MINIMUM_UPDATE_DURATION = 1000;
-    protected static final long ANIMATION_DURATION = 300;
-    protected static final Interpolator ANIMATION_INTERPOLATOR = new FastOutSlowInInterpolator();
 
     private static final String KEY_MODEL = "model";
     private static final String KEY_RESPONSE = "response";
@@ -190,15 +183,9 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     }
 
     public void showModule(final Class<? extends BaseApiModuleFragment> fragment, final Bundle arguments) {
+        // TODO BUG #1: Potential cause of Android 7/Nougat TransactionTooLargeException
         getActivity().startActivity(
                 ModuleHostActivity.getStartIntent(getActivity(), fragment.getCanonicalName(), arguments));
-    }
-
-    public void showModule(
-            final BaseApiModuleFragment fragment,
-            final boolean addToBackStack,
-            final Bundle arguments) {
-        ((ModuleHostActivity) getActivity()).showFragment(fragment, addToBackStack, arguments);
     }
 
     public <M> M getModel() {
@@ -281,6 +268,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         if (mLoadingAnimator != null) {
             mLoadingAnimator.cancel();
         }
+
         mLoadingAnimator = getVisibilityAnimator(mLoadingLayout, show);
 
         if (mLoadingAnimator != null) {
@@ -382,6 +370,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected void deliverResponse(final T data) {
         resolveNetworkLayoutVisibility();
 

@@ -11,7 +11,7 @@ import io.github.wztlei.wathub.R;
 public abstract class ModuleAdapter extends BaseAdapter implements View.OnClickListener {
 
     protected final Context mContext;
-    protected final ModuleListItemListener mListener;
+    private final ModuleListItemListener mListener;
 
     public ModuleAdapter(final Context context) {
         this(context, null);
