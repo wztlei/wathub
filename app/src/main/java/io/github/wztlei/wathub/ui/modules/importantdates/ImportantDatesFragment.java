@@ -36,6 +36,8 @@ public class ImportantDatesFragment extends BaseModuleFragment {
     // button
     @BindView(R.id.important_dates_layout)
     ViewGroup mImportantDatesLayout;
+    @BindView(R.id.loading_layout)
+    ViewGroup mLoadingLayout;
 
     private ImportantDatesManager mImportantDatesManager;
     private Context mContext;
@@ -63,54 +65,87 @@ public class ImportantDatesFragment extends BaseModuleFragment {
 
         // Initialize instances
 
-
-
         // Term selection information
-        updateTermInformation();
-
-
+        updateTermSpinner();
 
         return root;
-    };
+    }
 
+    @Override
+    public String getToolbarTitle() {
+        return getString(R.string.title_important_dates);
+    }
 
-    /**
-     * Methods to control the important dates that can be seen
-     */
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        // inflate the menu
+        inflater.inflate(R.menu.menu_info_and_refresh, menu);
+        mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
 
-    // Allow the user to select the term (current, next term, term after that)
-    private void updateTermInformation() {
-        // terms from
-        String[] terms;
+        setSpinnerSelectionListener();
 
-
-        // default/term or last term selected
-        String lastTermSelected;
-
-        // set spinner to the selection before update
-
-
-
-
-        /*
-        // Get the options for the buildings dropdown
-        String[] buildings = mRoomScheduleManager.getBuildings();
-        StringAdapter buildingsAdapter = new StringAdapter(mContext, buildings);
-        buildingsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
-        mBuildingsSpinner.setAdapter(buildingsAdapter);
-
-        // Remember the last building selected
-        String lastBuildingQueried = mSharedPreferences.getString(Constants.BUILDING_KEY, "");
-        int indexLastBuildingQueried = Arrays.asList(buildings).indexOf(lastBuildingQueried);
-
-        // Set the spinner to the selection before the update
-        if (indexLastBuildingQueried != -1) {
-            mBuildingsSpinner.setSelection(indexLastBuildingQueried);
-        }
-        */
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.menu_refresh) {
+            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
+            // method to handle a refresh
+            return true;
+        }
+        else if (menuItem.getItemId() == R.id.menu_info) {
+            // Creates an alert dialog displaying important info about the important dates data
+            new AlertDialog.Builder(mContext)
+                    .setTitle(getString(R.string.important_dates_dialog_title))
+                    .setMessage(getString(R.string.important_dates_dialog_message))
+                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
+                    })
+                    .create()
+                    .show();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(menuItem);
+        }
+    }
 
 
+    /**
+     * Updates the terms available to view (current, next, next)
+     */
+    private void updateTermSpinner() {
+        // get the terms that can be viewed
+        String[] terms = mImportantDatesManager.getTerms();
+        StringAdapter termsAdapter = new StringAdapter(mContext, terms);
+        termsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
+        mTermSpinner.setAdapter(termsAdapter);
+
+        // maybe add a default/last term selected?
+    }
+
+
+    /**
+     *
+     */
+    private void setSpinnerSelectionListener() {
+        mTermSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // display the results
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+
+    /**
+     *  Display the important dates queried
+     */
+    private void displayImportantDates(boolean displayDefault) {
+
+
+    }
 }

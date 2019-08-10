@@ -39,4 +39,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ImportantDatesManager {
+
+    private static String[] sTerms;
+
+
+    /**
+     *
+     * @return a list of terms that can be viewed
+     */
+    public String[] getTerms() {
+        return sTerms == null ? new String[0] : sTerms;
+    }
 }
