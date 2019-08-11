@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/home_classroom_room"

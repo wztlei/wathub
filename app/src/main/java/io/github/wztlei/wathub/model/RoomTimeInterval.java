@@ -59,6 +59,9 @@ public class RoomTimeInterval {
     }
 
 
+    public String formatRoom() {
+        return String.format("%s %s", building, roomNum);
+    }
 
     public String formatTimeInterval() {
         // Get the starting and ending times for when the room is open
@@ -101,6 +104,11 @@ public class RoomTimeInterval {
                 && (calendar.get(Calendar.DAY_OF_MONTH) == date);
     }
 
+    /**
+     * Returns the three-letter abbreviation of the month of the time interval.
+     *
+     * @return the three-letter abbreviation of the month of the time interval.
+     */
     private String formatMonth() {
         switch (month) {
             case 1: return "Jan";

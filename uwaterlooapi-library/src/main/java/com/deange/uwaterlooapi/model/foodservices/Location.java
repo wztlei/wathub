@@ -16,50 +16,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Location
-    extends BaseModel
-    implements
-    Parcelable {
+public class Location extends BaseModel implements Parcelable {
 
   @SerializedName("outlet_id")
-  int mId;
+  private int mId;
 
   @SerializedName("outlet_name")
-  String mName;
+  private String mName;
 
   @SerializedName("building")
-  String mBuilding;
+  private String mBuilding;
 
   @SerializedName("logo")
-  String mLogoUrl;
+  private String mLogoUrl;
 
   @SerializedName("latitude")
-  float mLatitude;
+  private float mLatitude;
 
   @SerializedName("longitude")
-  float mLongitude;
+  private float mLongitude;
 
   @SerializedName("description")
-  String mDescription;
+  private String mDescription;
 
   @SerializedName("notice")
-  String mAnnouncements;
+  private String mAnnouncements;
 
   @SerializedName("is_open_now")
-  boolean mIsOpenNow;
+  private boolean mIsOpenNow;
 
   @SerializedName("opening_hours")
-  Map<String, OperatingHours> mHours;
+  private Map<String, OperatingHours> mHours;
 
   @SerializedName("special_hours")
-  List<SpecialOperatingHours> mSpecialOperatingHours;
+  private List<SpecialOperatingHours> mSpecialOperatingHours;
 
   @SerializedName("dates_closed")
-  List<String> mDatesClosedRaw;
+  private List<String> mDatesClosedRaw;
 
-  List<Range> mDatesClosed;
+  private List<Range> mDatesClosed;
 
-  List<SpecialRange> mDatesSpecial;
+  private List<SpecialRange> mDatesSpecial;
 
   protected Location(final Parcel in) {
     super(in);
@@ -72,7 +69,7 @@ public class Location
     mDescription = in.readString();
     mAnnouncements = in.readString();
     mIsOpenNow = in.readByte() != 0;
-    mHours = MapUtils.readMap(in, new HashMap<String, OperatingHours>());
+    mHours = MapUtils.readMap(in, new HashMap<>());
     mSpecialOperatingHours = in.createTypedArrayList(SpecialOperatingHours.CREATOR);
     mDatesClosedRaw = in.createStringArrayList();
     mDatesClosed = in.createTypedArrayList(Range.CREATOR);
@@ -295,7 +292,7 @@ public class Location
       for (final String dateStr : mDatesClosedRaw) {
         final Date date = DateUtils.parseDate(dateStr, DateUtils.YMD);
 
-        if (first) {
+        if (first && date != null) {
           first = false;
           start.setTimeInMillis(date.getTime());
           end.setTimeInMillis(date.getTime());
@@ -387,9 +384,7 @@ public class Location
     return hour + ":" + parts[1];
   }
 
-  public static class Range
-      implements
-      Parcelable {
+  public static class Range implements Parcelable {
 
     private static final String DATE_FORMAT = "MMM d";
 
@@ -407,7 +402,7 @@ public class Location
       endForContains = calendar.getTime();
     }
 
-    protected Range(final Parcel in) {
+    Range(final Parcel in) {
       first = (Date) in.readSerializable();
       second = (Date) in.readSerializable();
       endForContains = (Date) in.readSerializable();
@@ -473,7 +468,7 @@ public class Location
       this.close = close;
     }
 
-    protected SpecialRange(final Parcel in) {
+    SpecialRange(final Parcel in) {
       super(in);
       open = in.readString();
       close = in.readString();
@@ -506,7 +501,7 @@ public class Location
       return close;
     }
 
-    public String formatTime() {
+    String formatTime() {
       return convert24To12(open) + " – " + convert24To12(close);
     }
 

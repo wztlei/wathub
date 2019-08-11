@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -19,12 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnEditorAction;
 
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
@@ -36,18 +41,11 @@ import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import io.github.wztlei.wathub.ui.modules.courses.CourseFragment;
 import io.github.wztlei.wathub.ui.modules.courses.CoursesFragment;
 import io.github.wztlei.wathub.ui.modules.courses.SubjectAdapter;
-import io.github.wztlei.wathub.ui.modules.events.EventFragment;
 import io.github.wztlei.wathub.ui.modules.events.EventsFragment;
 import io.github.wztlei.wathub.ui.modules.openclassroom.OpenClassroomFragment;
 import io.github.wztlei.wathub.ui.modules.poi.PointsOfInterestFragment;
-import io.github.wztlei.wathub.ui.modules.weather.WeatherFragment;
 import io.github.wztlei.wathub.utils.Px;
 import io.github.wztlei.wathub.utils.SimpleTextWatcher;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnEditorAction;
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -57,7 +55,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private Context mContext;
 
     @BindView(R.id.home_open_classroom_list)
-    RecyclerView mHomeOpenClassroomList;
+    ListView mHomeOpenClassroomList;
     @BindView(R.id.home_course_subject)
     AutoCompleteTextView mSubjectPicker;
     @BindView(R.id.home_course_number)
@@ -105,8 +103,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         RoomTimeIntervalList buildingOpenSchedule =
                 RoomScheduleManager.getInstance().findOpenRooms(lastBuildingQueried, searchDate);
 
-        mHomeOpenClassroomList.setLayoutManager(new LinearLayoutManager(mContext));
-        mHomeOpenClassroomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
+        mHomeOpenClassroomList.setAdapter(new HomeClassroomAdapter(buildingOpenSchedule));
 
         TextWatcher courseTextWatcher = new SimpleTextWatcher() {
             @Override
@@ -230,56 +227,37 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     /**
      * A custom RecyclerView Adapter for the list of open classrooms.
      */
-    class OpenClassroomAdapter extends RecyclerView.Adapter<HomeFragment.ClassroomViewHolder> {
-        private RoomTimeIntervalList mRoomTimeIntervalList;
+    class HomeClassroomAdapter extends ArrayAdapter<RoomTimeInterval> {
 
-        OpenClassroomAdapter(RoomTimeIntervalList roomTimeIntervalList) {
-            mRoomTimeIntervalList = roomTimeIntervalList.clone().truncate(4);
+        HomeClassroomAdapter(RoomTimeIntervalList roomTimeIntervalList) {
+            super(mContext, 0, roomTimeIntervalList.clone().truncate(3));
         }
 
         @NonNull
         @Override
-        public HomeFragment.ClassroomViewHolder onCreateViewHolder(@NonNull ViewGroup vg, int i) {
-            // Use layout_schedule_item.xml as the layout for each individual recycler view item
-            View view = LayoutInflater.from(vg.getContext())
-                    .inflate(R.layout.list_item_home_classroom, vg, false);
-            return new HomeFragment.ClassroomViewHolder(view);
-        }
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            final View view;
+            if (convertView != null) {
+                view = convertView;
+            } else {
+                view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_home_classroom,
+                        parent, false);
+            }
 
-        @Override
-        public void onBindViewHolder(@NonNull HomeFragment.ClassroomViewHolder viewHolder, int i) {
-            // Display the RoomTimeInterval at index i in the recycler view
-            RoomTimeInterval roomTimeInterval = mRoomTimeIntervalList.get(i);
+            RoomTimeInterval roomTimeInterval = getItem(position);
 
-            // Get the building and room number of the room that is open
-            String building = roomTimeInterval.getBuilding();
-            String roomNum = roomTimeInterval.getRoomNum();
-            String room = building + " " + roomNum;
+            if (roomTimeInterval != null) {
 
-            // Update the text of the item in the recycler view
-            viewHolder.mRoomTextView.setText(room);
-            viewHolder.mTimeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
-        }
+                ((TextView) view.findViewById(R.id.home_classroom_room))
+                        .setText(roomTimeInterval.formatRoom());
+                ((TextView) view.findViewById(R.id.home_classroom_time))
+                        .setText(roomTimeInterval.formatTimeInterval());
 
-        @Override
-        public int getItemCount() {
-            return mRoomTimeIntervalList.size();
-        }
-    }
+                //view.setOnClickListener(this);
+                view.setTag(position);
+            }
 
-    /**
-     * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
-     */
-    class ClassroomViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.home_classroom_room)
-        TextView mRoomTextView;
-
-        @BindView(R.id.home_classroom_time)
-        TextView mTimeIntervalTextView;
-
-        ClassroomViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            return view;
         }
     }
 }
