@@ -22,7 +22,6 @@ public class CourseInfoAdapter extends PagerAdapter {
     CourseInfoAdapter(final Context context, final CombinedCourseInfo info) {
         mContext = context;
         mInfo = info;
-
         mTitles = mContext.getResources().getStringArray(R.array.course_info_titles);
     }
 

@@ -27,8 +27,8 @@
             <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="6dp">
 
@@ -46,37 +46,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
+                android:baselineAligned="false"
                 android:clipToPadding="false"
-                android:baselineAligned="false">
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp">
 
                 <!-- The large card occupying the 2/3 of the width and the full height -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:paddingTop="6dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:paddingBottom="6dp"
                     android:background="@color/background"
                     android:clipToPadding="false"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="6dp">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
                         android:background="@color/background"
-                        android:elevation="@dimen/cardview_default_elevation">
+                        android:elevation="@dimen/cardview_default_elevation"
+                        android:orientation="horizontal">
 
                         <io.github.wztlei.wathub.ui.view.CardView
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:padding="8dp"
-                            app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -86,25 +86,39 @@
                                 android:layout_height="match_parent">
 
                                 <TextView
+                                    android:id="@+id/home_open_classroom_title"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="16dp"
                                     android:text="@string/title_open_classrooms"
-                                    app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
                                     style="@style/TextAppearance.UWaterloo.Title" />
 
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/home_open_classroom_list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:scrollbars="none"
+                                    app:layout_constraintBottom_toTopOf="@+id/home_open_classroom_divider"
+                                    app:layout_constraintTop_toBottomOf="@+id/home_open_classroom_title" />
+
                                 <View
+                                    android:id="@+id/home_open_classroom_divider"
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
-                                    android:layout_marginEnd="12dp"
                                     android:layout_marginStart="12dp"
                                     android:layout_marginTop="6dp"
+                                    android:layout_marginEnd="12dp"
                                     android:background="@color/divider"
-                                    app:layout_constraintBottom_toTopOf="@id/home_open_classroom_see_more"/>
+                                    app:layout_constraintBottom_toTopOf="@id/home_open_classroom_see_more_buttom" />
 
                                 <Button
-                                    android:id="@+id/home_open_classroom_see_more"
+                                    android:id="@+id/home_open_classroom_see_more_buttom"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp"
                                     android:background="?selectableItemBackground"
@@ -114,10 +128,6 @@
                                     app:layout_constraintRight_toRightOf="parent" />
 
                             </android.support.constraint.ConstraintLayout>
-
-
-
-
                         </io.github.wztlei.wathub.ui.view.CardView>
                     </android.support.constraint.ConstraintLayout>
                 </LinearLayout>
@@ -127,30 +137,30 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="6dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:paddingBottom="6dp"
                     android:background="@color/background"
                     android:clipToPadding="false"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="6dp">
 
                     <!-- The top of the smaller cards for events -->
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginBottom="6dp"
                         android:background="@color/background"
-                        android:elevation="@dimen/cardview_default_elevation">
+                        android:elevation="@dimen/cardview_default_elevation"
+                        android:orientation="horizontal">
 
                         <io.github.wztlei.wathub.ui.view.CardView
+                            android:id="@+id/home_events_card"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:padding="0dp"
-                            android:id="@+id/home_events_card"
-                            app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -158,17 +168,17 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:gravity="center"
                                 android:background="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="vertical"
                                 tools:ignore="UseCompoundDrawables">
 
                                 <ImageView
                                     android:id="@android:id/icon"
                                     android:layout_width="44dp"
                                     android:layout_height="44dp"
-                                    android:importantForAccessibility="no"
-                                    android:background="@drawable/ic_events" />
+                                    android:background="@drawable/ic_events"
+                                    android:importantForAccessibility="no" />
 
                                 <TextView
                                     style="@style/TextAppearance.UWaterloo.Body1"
@@ -188,17 +198,17 @@
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginTop="6dp"
                         android:background="@color/background"
-                        android:elevation="@dimen/cardview_default_elevation">
+                        android:elevation="@dimen/cardview_default_elevation"
+                        android:orientation="horizontal">
 
                         <io.github.wztlei.wathub.ui.view.CardView
+                            android:id="@+id/home_poi_card"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:id="@+id/home_poi_card"
-                            app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -206,17 +216,17 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="?attr/selectableItemBackground"
                                 android:gravity="center"
+                                android:orientation="vertical"
                                 tools:ignore="UseCompoundDrawables">
 
                                 <ImageView
                                     android:id="@android:id/icon"
                                     android:layout_width="44dp"
                                     android:layout_height="44dp"
-                                    android:importantForAccessibility="no"
-                                    android:background="@drawable/ic_my_location" />
+                                    android:background="@drawable/ic_my_location"
+                                    android:importantForAccessibility="no" />
 
                                 <TextView
                                     style="@style/TextAppearance.UWaterloo.Body1"
@@ -236,8 +246,8 @@
             <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginBottom="12dp">
 
@@ -270,14 +280,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="end"
+                            android:hint="@string/home_quick_course_hint_subject"
                             android:imeOptions="actionNext"
                             android:inputType="textNoSuggestions"
                             android:maxLines="1"
                             android:minWidth="100dp"
                             android:textAllCaps="true"
-                            android:textSize="14sp"
                             android:textColor="@android:color/black"
-                            android:hint="@string/home_quick_course_hint_subject"/>
+                            android:textSize="14sp" />
 
                         <EditText
                             android:id="@+id/home_course_number"
@@ -285,6 +295,7 @@
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/home_course_subject"
                             android:gravity="start"
+                            android:hint="@string/home_quick_course_hint_number"
                             android:imeOptions="actionSearch"
                             android:inputType="textNoSuggestions"
                             android:maxLines="1"
@@ -292,31 +303,30 @@
                             android:textAllCaps="true"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:hint="@string/home_quick_course_hint_number"
                             tools:ignore="Autofill,TextFields" />
 
                         <TextView
-                            android:visibility="gone"
                             style="@style/TextAppearance.UWaterloo.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignRight="@id/home_course_subject"
                             android:layout_below="@id/home_course_subject"
+                            android:layout_alignRight="@id/home_course_subject"
                             android:paddingLeft="6dp"
                             android:paddingRight="6dp"
                             android:text="@string/home_quick_course_hint_subject_example"
+                            android:visibility="gone"
                             tools:ignore="RtlHardcoded" />
 
                         <TextView
-                            android:visibility="gone"
                             style="@style/TextAppearance.UWaterloo.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@id/home_course_number"
                             android:layout_below="@id/home_course_number"
+                            android:layout_alignLeft="@id/home_course_number"
                             android:paddingLeft="6dp"
                             android:paddingRight="6dp"
                             android:text="@string/home_quick_course_hint_number"
+                            android:visibility="gone"
                             tools:ignore="RtlHardcoded" />
 
                     </RelativeLayout>
@@ -324,9 +334,9 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginEnd="12dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="6dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@color/divider" />
 
                     <Button

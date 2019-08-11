@@ -7,6 +7,12 @@ import java.util.Iterator;
 import io.github.wztlei.wathub.utils.DateTimeUtils;
 
 public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
+
+    @Override
+    public RoomTimeIntervalList clone() {
+        return (RoomTimeIntervalList) super.clone();
+    }
+
     /**
      * Sorts a RoomTimeIntervalList by building and room numbers and then chronologically.
      */
@@ -54,5 +60,15 @@ public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
                 iterator.remove();
             }
         }
+    }
+
+    public RoomTimeIntervalList truncate(int maxSize) {
+        RoomTimeIntervalList truncatedList = new RoomTimeIntervalList();
+
+        for (int i = 0; i < Math.min(maxSize, this.size()); i++) {
+            truncatedList.add(this.get(i));
+        }
+
+        return truncatedList;
     }
 }
