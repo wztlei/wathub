@@ -66,6 +66,7 @@
     <string name="home_quick_course_search_subject">Search all %s courses …</string>
     <string name="home_quick_course_search_course">Look up %s…</string>
     <string name="home_quick_weather">Check the weather</string>
+    <string name="home_quick_see_more">See more …</string>
 
     <string name="nearby_locations_title">Nearby Food Locations</string>
     <string name="nearby_locations_see_all">See All</string>
