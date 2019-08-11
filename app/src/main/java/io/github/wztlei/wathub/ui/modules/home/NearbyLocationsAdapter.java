@@ -55,29 +55,27 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
     void updateLocations(final List<Location> locations) {
         clear();
         addAll(locations);
-
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public View getView(
-            final int position,
-            final View convertView,
-            @NonNull final ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final View view;
         if (convertView != null) {
             view = convertView;
         } else {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_nearby_location, parent,
-                    false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_nearby_location,
+                    parent, false);
         }
 
         final Location location = getItem(position);
 
         if (location != null) {
-            ((TextView) view.findViewById(R.id.nearby_location_title)).setText(location.getName());
-            ((TextView) view.findViewById(R.id.nearby_location_distance)).setText(formatDistance(location));
+            ((TextView) view.findViewById(R.id.nearby_location_title))
+                    .setText(location.getName());
+            ((TextView) view.findViewById(R.id.nearby_location_distance))
+                    .setText(formatDistance(location));
 
             view.setOnClickListener(this);
             view.setTag(position);
@@ -93,8 +91,8 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
         }
 
         final float[] coordinates = location.getLocation();
-        android.location.Location.distanceBetween(
-                mCurrentLocation[0], mCurrentLocation[1], coordinates[0], coordinates[1], mDistanceHolder);
+        android.location.Location.distanceBetween(mCurrentLocation[0], mCurrentLocation[1],
+                coordinates[0], coordinates[1], mDistanceHolder);
         float distance = mDistanceHolder[0];
 
         String suffix = "m";
@@ -103,7 +101,8 @@ public class NearbyLocationsAdapter extends ArrayAdapter<Location> implements Vi
             distance /= 1000f;
         }
 
-        return MathUtils.formatFloat(String.format((Locale) null, "%.1f", distance)) + " " + suffix;
+        return MathUtils.formatFloat(String.format((Locale) null, "%.1f", distance))
+                + " " + suffix;
     }
 
     @Override
