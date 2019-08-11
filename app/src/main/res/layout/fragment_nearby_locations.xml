@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_margin="0dp"
-
             android:padding="0dp"
             android:backgroundTint="@color/black"
             android:foregroundTint="?colorPrimaryDark"

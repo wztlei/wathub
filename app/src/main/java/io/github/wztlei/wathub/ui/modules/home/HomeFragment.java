@@ -26,6 +26,9 @@ import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
 import io.github.wztlei.wathub.ui.modules.courses.CourseFragment;
 import io.github.wztlei.wathub.ui.modules.courses.CoursesFragment;
 import io.github.wztlei.wathub.ui.modules.courses.SubjectAdapter;
+import io.github.wztlei.wathub.ui.modules.events.EventFragment;
+import io.github.wztlei.wathub.ui.modules.events.EventsFragment;
+import io.github.wztlei.wathub.ui.modules.poi.PointsOfInterestFragment;
 import io.github.wztlei.wathub.ui.modules.weather.WeatherFragment;
 import io.github.wztlei.wathub.utils.Px;
 import io.github.wztlei.wathub.utils.SimpleTextWatcher;
@@ -36,34 +39,6 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
-
-    private final TextWatcher mCourseTextWatcher = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(final Editable s) {
-            if (mSubjectPicker == null || mNumberPicker == null) {
-                return;
-            }
-
-            final String subject = mSubjectPicker.getText().toString().trim();
-            final String number = mNumberPicker.getText().toString().trim();
-            final boolean validSubject = mAdapter.getSubjects().contains(subject);
-
-            mSearchButton.setEnabled(validSubject);
-            if (!validSubject) {
-                return;
-            }
-
-            final String buttonText;
-            if (TextUtils.isEmpty(number)) {
-                buttonText = getString(R.string.home_quick_course_search_subject, subject);
-
-            } else {
-                buttonText = getString(R.string.home_quick_course_search_course, subject + " " + number);
-            }
-
-            mSearchButton.setText(buttonText);
-        }
-    };
 
     private float mElevation;
     private Toolbar mToolbar;
@@ -101,13 +76,42 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         mElevation = mToolbar.getElevation();
         mToolbar.setElevation(Px.fromDpF(8));
 
+        TextWatcher courseTextWatcher = new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(final Editable s) {
+                if (mSubjectPicker == null || mNumberPicker == null) {
+                    return;
+                }
+
+                final String subject = mSubjectPicker.getText().toString().trim();
+                final String number = mNumberPicker.getText().toString().trim();
+                final boolean validSubject = mAdapter.getSubjects().contains(subject);
+
+                mSearchButton.setEnabled(validSubject);
+                if (!validSubject) {
+                    return;
+                }
+
+                final String buttonText;
+                if (TextUtils.isEmpty(number)) {
+                    buttonText = getString(R.string.home_quick_course_search_subject, subject);
+
+                } else {
+                    buttonText = getString(R.string.home_quick_course_search_course,
+                            subject + " " + number);
+                }
+
+                mSearchButton.setText(buttonText);
+            }
+        };
+
         mAdapter = new SubjectAdapter(getActivity());
         mSubjectPicker.setAdapter(mAdapter);
         mSubjectPicker.setOnItemClickListener(this);
-        mSubjectPicker.addTextChangedListener(mCourseTextWatcher);
+        mSubjectPicker.addTextChangedListener(courseTextWatcher);
         mSubjectPicker.addTextChangedListener(new UpperCaseTextWatcher(mSubjectPicker));
 
-        mNumberPicker.addTextChangedListener(mCourseTextWatcher);
+        mNumberPicker.addTextChangedListener(courseTextWatcher);
         mNumberPicker.addTextChangedListener(new UpperCaseTextWatcher(mNumberPicker));
         return view;
     }
@@ -124,11 +128,23 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         super.onDestroyView();
     }
 
-    @OnClick(R.id.home_weather_selectable)
-    public void onWeatherClicked() {
+    @OnClick(R.id.home_events_card)
+    public void onEventsClicked() {
         startActivity(ModuleHostActivity.getStartIntent(
-                getContext(), WeatherFragment.class.getCanonicalName()));
+                getContext(), EventsFragment.class.getCanonicalName()));
     }
+
+    @OnClick(R.id.home_poi_card)
+    public void onPointsOfInterestClicked() {
+        startActivity(ModuleHostActivity.getStartIntent(
+                getContext(), PointsOfInterestFragment.class.getCanonicalName()));
+    }
+//
+//    @OnClick(R.id.home_weather_card)
+//    public void onWeatherClicked() {
+//        startActivity(ModuleHostActivity.getStartIntent(
+//                getContext(), WeatherFragment.class.getCanonicalName()));
+//    }
 
     @OnClick(R.id.home_course_search)
     public void onCourseSearchClicked() {
