@@ -53,7 +53,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"PointlessBooleanExpression", "ConstantConditions"})
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class GooseView extends FrameLayout {
-    public static final String TAG = GooseView.class.getSimpleName();
+    private static final String TAG = "WL/GooseView";
     public static final boolean DEBUG = false;
     public static final boolean DEBUG_DRAW = false;
     public static final boolean DEBUG_IDDQD = false;
@@ -648,7 +648,7 @@ public class GooseView extends FrameLayout {
         void step(long t_ms, long dt_ms, float t, float dt);
     }
 
-    private class Player extends ImageView implements GameView {
+    private class Player extends android.support.v7.widget.AppCompatImageView implements GameView {
         public float dv;
         private boolean mBoosting;
         private final float sSize = 606;

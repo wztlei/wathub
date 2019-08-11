@@ -33,8 +33,6 @@ import butterknife.ButterKnife;
 public class BuildingFragment extends BaseApiMapFragment<Responses.BuildingEntity, Building>
         implements MapTypeDialog.OnMapTypeSelectedListener {
 
-    public static final String TAG = BuildingFragment.class.getSimpleName();
-
     @BindView(R.id.building_empty_view)
     View mEmptyView;
     @BindView(R.id.building_name)

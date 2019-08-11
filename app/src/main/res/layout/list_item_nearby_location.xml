@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     android:background="?selectableItemBackground"
     android:orientation="horizontal"
-    android:padding="6dp">
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp">
 
     <TextView
         android:id="@+id/nearby_location_title"

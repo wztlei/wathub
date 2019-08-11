@@ -18,9 +18,9 @@ import java.util.Locale;
 public class DateTimeUtils {
 
     private static final DateFormat sDateFormat =
-            new SimpleDateFormat("MMM dd, yyyy", Locale.CANADA);
+            new SimpleDateFormat("MMM d, yyyy", Locale.CANADA);
     private static final DateFormat sDateTimeFormat =
-            new SimpleDateFormat("hh:mm aa, MMM dd", Locale.CANADA);
+            new SimpleDateFormat("hh:mm aa, MMM d", Locale.CANADA);
 
     private DateTimeUtils() {
         throw new UnsupportedOperationException();

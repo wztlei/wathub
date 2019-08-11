@@ -48,8 +48,6 @@ import retrofit2.Call;
 public class GooseWatchFragment extends BaseApiMapFragment<Responses.GooseWatch, GooseNest>
         implements GoogleMap.OnMarkerClickListener, MapTypeDialog.OnMapTypeSelectedListener {
 
-    public static final String TAG = GooseWatchFragment.class.getSimpleName();
-
     @BindView(R.id.goosewatch_empty_view)
     View mEmptyView;
     @BindView(R.id.goosewatch_nest_info)

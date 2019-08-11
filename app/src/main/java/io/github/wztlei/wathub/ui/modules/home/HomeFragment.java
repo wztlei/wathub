@@ -30,7 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
-
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.common.UpperCaseTextWatcher;
@@ -84,13 +83,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        System.out.println("HomeFragment onCreateView");
         mToolbar = getActivity().findViewById(R.id.toolbar);
 
         ButterKnife.bind(this, view);
 
         mCardsParent.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
         mElevation = mToolbar.getElevation();
         mToolbar.setElevation(Px.fromDpF(8));
 
@@ -102,9 +100,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
         RoomTimeIntervalList buildingOpenSchedule =
                 RoomScheduleManager.getInstance().findOpenRooms(lastBuildingQueried, searchDate);
-
         mHomeOpenClassroomList.setAdapter(new HomeClassroomAdapter(buildingOpenSchedule));
 
+        // Create a text watcher to update the search button
         TextWatcher courseTextWatcher = new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(final Editable editable) {
@@ -112,35 +110,37 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                     return;
                 }
 
+                // Get the subject and the number from the input fields
                 final String subject = mSubjectPicker.getText().toString().trim();
                 final String number = mNumberPicker.getText().toString().trim();
                 final boolean validSubject = mAdapter.getSubjects().contains(subject);
 
                 mSearchButton.setEnabled(validSubject);
 
-                if (!validSubject) {
-                    return;
-                }
-
-                if (TextUtils.isEmpty(number)) {
-                    mSearchButton.setText(getString(R.string.home_quick_course_search_subject,
-                            subject));
-
-                } else {
-                    mSearchButton.setText(getString(R.string.home_quick_course_search_course,
-                            subject + " " + number));
+                // Update the search button only if the subject is valid
+                if (validSubject) {
+                    if (TextUtils.isEmpty(number)) {
+                        mSearchButton.setText(getString(R.string.home_quick_course_search_subject,
+                                subject));
+                    } else {
+                        mSearchButton.setText(getString(R.string.home_quick_course_search_course,
+                                subject + " " + number));
+                    }
                 }
             }
         };
 
+        // Set up the auto-complete input for picking the course subject
         mAdapter = new SubjectAdapter(getActivity());
         mSubjectPicker.setAdapter(mAdapter);
         mSubjectPicker.setOnItemClickListener(this);
         mSubjectPicker.addTextChangedListener(courseTextWatcher);
         mSubjectPicker.addTextChangedListener(new UpperCaseTextWatcher(mSubjectPicker));
 
+        // Set up the input for picking the course code
         mNumberPicker.addTextChangedListener(courseTextWatcher);
         mNumberPicker.addTextChangedListener(new UpperCaseTextWatcher(mNumberPicker));
+
         return view;
     }
 
@@ -227,7 +227,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     /**
      * A custom RecyclerView Adapter for the list of open classrooms.
      */
-    class HomeClassroomAdapter extends ArrayAdapter<RoomTimeInterval> {
+    class HomeClassroomAdapter extends ArrayAdapter<RoomTimeInterval>
+            implements View.OnClickListener {
 
         HomeClassroomAdapter(RoomTimeIntervalList roomTimeIntervalList) {
             super(mContext, 0, roomTimeIntervalList.clone().truncate(3));
@@ -247,17 +248,25 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             RoomTimeInterval roomTimeInterval = getItem(position);
 
             if (roomTimeInterval != null) {
-
                 ((TextView) view.findViewById(R.id.home_classroom_room))
                         .setText(roomTimeInterval.formatRoom());
                 ((TextView) view.findViewById(R.id.home_classroom_time))
                         .setText(roomTimeInterval.formatTimeInterval());
 
-                //view.setOnClickListener(this);
+                view.setOnClickListener(this);
                 view.setTag(position);
             }
 
             return view;
+        }
+
+        @Override
+        public void onClick(View view) {
+            System.out.println("onclick open");
+            RoomTimeInterval roomTimeInterval = getItem((int) view.getTag());
+            startActivity(ModuleHostActivity.getStartIntent(
+                    mContext, OpenClassroomFragment.class.getCanonicalName()));
+
         }
     }
 }

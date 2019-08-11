@@ -99,7 +99,7 @@
                                     android:id="@+id/home_open_classroom_list"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="9dp"
                                     android:paddingLeft="6dp"
                                     android:paddingRight="6dp"
                                     android:scrollbars="none"
@@ -120,7 +120,7 @@
                                 <Button
                                     android:id="@+id/home_open_classroom_see_more_buttom"
                                     android:layout_width="match_parent"
-                                    android:layout_height="40dp"
+                                    android:layout_height="42dp"
                                     android:background="?selectableItemBackground"
                                     android:text="@string/home_quick_see_more"
                                     app:layout_constraintBottom_toBottomOf="parent"
