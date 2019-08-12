@@ -235,6 +235,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         // Retrieve a schedule of the open classrooms for the query from roomScheduleManager
         Calendar searchDate = (Calendar) mLastUpdateTime.clone();
         searchDate.add(Calendar.HOUR_OF_DAY, hourIndex);
+
         RoomTimeIntervalList buildingOpenSchedule =
                 mRoomScheduleManager.findOpenRooms(building, searchDate);
 

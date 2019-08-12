@@ -185,8 +185,12 @@ public class RoomScheduleManager {
                         String jsonString = response.body().string();
                         String source = sSharedPreferences.getString(
                                 Constants.ROOM_SCHEDULE_SOURCE_KEY, UNKNOWN_SOURCE);
+                        // Use the UWaterloo API to get room schedules if needed
+                        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 
-                        if (!source.equals(API_SOURCE)) {
+
+                        // Use the GitHub source in an exam month
+                        if (!source.equals(API_SOURCE) || month % 4 == 0) {
                             updateRoomSchedule(jsonString, GITHUB_SOURCE);
                         }
                         Log.d(TAG, "Updated room schedules from GitHub");
@@ -194,7 +198,10 @@ public class RoomScheduleManager {
                         e.printStackTrace();
                     } finally {
                         // Use the UWaterloo API to get room schedules if needed
-                        if (useApi) {
+                        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+
+                        // Don't retrieve schedules in an exam month
+                        if (useApi && month % 4 != 0) {
                             retrieveSchedulesWithApi();
                         }
                     }
