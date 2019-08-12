@@ -314,13 +314,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             // Display the RoomTimeInterval at index i in the recycler view
             RoomTimeInterval roomTimeInterval = mRoomTimeIntervalList.get(i);
 
-            // Get the building and room number of the room that is open
-            String building = roomTimeInterval.getBuilding();
-            String roomNum = roomTimeInterval.getRoomNum();
-            String room = building + " " + roomNum;
-
             // Update the text of the item in the recycler view
-            viewHolder.mRoomTextView.setText(room);
+            viewHolder.mRoomTextView.setText(roomTimeInterval.formatRoom());
             viewHolder.mTimeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
             viewHolder.mDateTextView.setText(roomTimeInterval.formatMonthAndDate());
         }

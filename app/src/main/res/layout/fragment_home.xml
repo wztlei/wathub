@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/home_cards_parent"
@@ -18,37 +21,235 @@
             android:animateLayoutChanges="true"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/home_nearby_locations_fragment"
-                class="io.github.wztlei.wathub.ui.modules.home.NearbyLocationsFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:layout="@layout/fragment_nearby_locations" />
-
+            <!-- Nearby food locations card -->
             <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="6dp">
 
-                <TextView
-                    android:id="@+id/home_weather_selectable"
-                    style="@style/TextAppearance.UWaterloo.Title"
+                <fragment
+                    android:id="@+id/home_nearby_locations_fragment"
+                    class="io.github.wztlei.wathub.ui.modules.home.NearbyLocationsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="32dp"
-                    android:text="@string/home_quick_weather" />
+                    tools:layout="@layout/fragment_nearby_locations" />
 
             </io.github.wztlei.wathub.ui.view.CardView>
 
+            <!-- Group of 3 buttons - 1 large and 2 small -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:baselineAligned="false"
+                android:clipToPadding="false"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp">
+
+                <!-- The large card occupying the 2/3 of the width and the full height -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@color/background"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="6dp">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/background"
+                        android:elevation="@dimen/cardview_default_elevation"
+                        android:orientation="horizontal">
+
+                        <io.github.wztlei.wathub.ui.view.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:padding="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/home_open_classroom_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="16dp"
+                                    android:text="@string/title_open_classrooms"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    style="@style/TextAppearance.UWaterloo.Title" />
+
+                                <io.github.wztlei.wathub.ui.view.WrapContentListView
+                                    android:id="@+id/home_open_classroom_list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="9dp"
+                                    android:paddingLeft="6dp"
+                                    android:paddingRight="6dp"
+                                    android:scrollbars="none"
+                                    android:headerDividersEnabled="false"
+                                    android:footerDividersEnabled="false"
+                                    android:gravity="top"
+                                    app:layout_constraintTop_toBottomOf="@+id/home_open_classroom_title" />
+
+                                <View
+                                    android:id="@+id/home_open_classroom_divider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginStart="12dp"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@color/divider"
+                                    app:layout_constraintBottom_toTopOf="@id/home_open_classroom_see_more_buttom" />
+
+                                <Button
+                                    android:id="@+id/home_open_classroom_see_more_buttom"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="42dp"
+                                    android:background="?selectableItemBackground"
+                                    android:text="@string/home_quick_see_more"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent" />
+
+                            </android.support.constraint.ConstraintLayout>
+                        </io.github.wztlei.wathub.ui.view.CardView>
+                    </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
+                <!-- The two smaller cards occupying the 1/3 of the width and the full height -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/background"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="6dp">
+
+                    <!-- The top of the smaller cards for events -->
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:background="@color/background"
+                        android:elevation="@dimen/cardview_default_elevation"
+                        android:orientation="horizontal">
+
+                        <io.github.wztlei.wathub.ui.view.CardView
+                            android:id="@+id/home_events_card"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:padding="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:id="@android:id/icon"
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/ic_events"
+                                    android:importantForAccessibility="no" />
+
+                                <TextView
+                                    style="@style/TextAppearance.UWaterloo.Body1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:gravity="center"
+                                    android:text="@string/title_events" />
+
+                            </LinearLayout>
+
+                        </io.github.wztlei.wathub.ui.view.CardView>
+
+                    </android.support.constraint.ConstraintLayout>
+
+                    <!-- The bottom of the smaller cards for points of interest -->
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/background"
+                        android:elevation="@dimen/cardview_default_elevation"
+                        android:orientation="horizontal">
+
+                        <io.github.wztlei.wathub.ui.view.CardView
+                            android:id="@+id/home_poi_card"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:id="@android:id/icon"
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/ic_my_location"
+                                    android:importantForAccessibility="no" />
+
+                                <TextView
+                                    style="@style/TextAppearance.UWaterloo.Body1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:gravity="center"
+                                    android:text="@string/title_poi" />
+
+                            </LinearLayout>
+                        </io.github.wztlei.wathub.ui.view.CardView>
+                    </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- The card for searching for a course -->
             <io.github.wztlei.wathub.ui.view.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="12dp">
 
                 <LinearLayout
                     android:id="@+id/home_course_selectable"
@@ -63,63 +264,69 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_margin="16dp"
+                        android:layout_marginTop="12dp"
                         android:text="@string/home_quick_course_lookup" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="16dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
                         android:gravity="center">
 
                         <io.github.wztlei.wathub.ui.view.ShowAllAutoCompleteTextView
                             android:id="@+id/home_course_subject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
+                            android:hint="@string/home_quick_course_hint_subject"
                             android:imeOptions="actionNext"
                             android:inputType="textNoSuggestions"
                             android:maxLines="1"
                             android:minWidth="100dp"
                             android:textAllCaps="true"
                             android:textColor="@android:color/black"
-                            tools:ignore="RtlHardcoded" />
+                            android:textSize="14sp" />
 
                         <EditText
                             android:id="@+id/home_course_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/home_course_subject"
+                            android:layout_toEndOf="@id/home_course_subject"
                             android:gravity="start"
+                            android:hint="@string/home_quick_course_hint_number"
                             android:imeOptions="actionSearch"
                             android:inputType="textNoSuggestions"
                             android:maxLines="1"
                             android:minWidth="100dp"
                             android:textAllCaps="true"
                             android:textColor="@android:color/black"
-                            tools:ignore="LabelFor,RtlHardcoded,TextFields" />
+                            android:textSize="14sp"
+                            tools:ignore="Autofill,TextFields" />
 
                         <TextView
                             style="@style/TextAppearance.UWaterloo.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignRight="@id/home_course_subject"
                             android:layout_below="@id/home_course_subject"
-                            android:paddingLeft="4dp"
-                            android:paddingRight="4dp"
-                            android:text="@string/home_quick_course_hint_subject"
+                            android:layout_alignRight="@id/home_course_subject"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:text="@string/home_quick_course_hint_subject_example"
+                            android:visibility="gone"
                             tools:ignore="RtlHardcoded" />
 
                         <TextView
                             style="@style/TextAppearance.UWaterloo.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@id/home_course_number"
                             android:layout_below="@id/home_course_number"
-                            android:paddingLeft="4dp"
-                            android:paddingRight="4dp"
+                            android:layout_alignLeft="@id/home_course_number"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
                             android:text="@string/home_quick_course_hint_number"
+                            android:visibility="gone"
                             tools:ignore="RtlHardcoded" />
 
                     </RelativeLayout>
@@ -127,25 +334,21 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@color/divider" />
 
                     <Button
                         android:id="@+id/home_course_search"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:background="?selectableItemBackground"
                         android:enabled="false"
                         android:text="@android:string/search_go" />
 
                 </LinearLayout>
-
             </io.github.wztlei.wathub.ui.view.CardView>
-
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>

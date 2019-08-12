@@ -53,7 +53,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"PointlessBooleanExpression", "ConstantConditions"})
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class GooseView extends FrameLayout {
-    public static final String TAG = GooseView.class.getSimpleName();
+    private static final String TAG = "WL/GooseView";
     public static final boolean DEBUG = false;
     public static final boolean DEBUG_DRAW = false;
     public static final boolean DEBUG_IDDQD = false;
@@ -69,23 +69,23 @@ public class GooseView extends FrameLayout {
     public static final boolean HAVE_STARS = true;
 
     private static class Params {
-        public float TRANSLATION_PER_SEC;
-        public int OBSTACLE_SPACING, OBSTACLE_PERIOD;
-        public int BOOST_DV;
-        public int PLAYER_HIT_SIZE;
-        public int PLAYER_SIZE;
-        public int OBSTACLE_RADIUS, OBSTACLE_STEM_WIDTH;
-        public int OBSTACLE_GAP;
-        public int OBSTACLE_MIN;
-        public int BUILDING_WIDTH_MIN, BUILDING_WIDTH_MAX;
-        public int BUILDING_HEIGHT_MIN;
-        public int CLOUD_SIZE_MIN, CLOUD_SIZE_MAX;
-        public int STAR_SIZE_MIN, STAR_SIZE_MAX;
-        public int G;
-        public int MAX_V;
-        public float SCENERY_Z, OBSTACLE_Z, PLAYER_Z, PLAYER_Z_BOOST, HUD_Z;
+        float TRANSLATION_PER_SEC;
+        int OBSTACLE_SPACING, OBSTACLE_PERIOD;
+        int BOOST_DV;
+        int PLAYER_HIT_SIZE;
+        int PLAYER_SIZE;
+        int OBSTACLE_RADIUS, OBSTACLE_STEM_WIDTH;
+        int OBSTACLE_GAP;
+        int OBSTACLE_MIN;
+        int BUILDING_WIDTH_MIN, BUILDING_WIDTH_MAX;
+        int BUILDING_HEIGHT_MIN;
+        int CLOUD_SIZE_MIN, CLOUD_SIZE_MAX;
+        int STAR_SIZE_MIN, STAR_SIZE_MAX;
+        int G;
+        int MAX_V;
+        float SCENERY_Z, OBSTACLE_Z, PLAYER_Z, PLAYER_Z_BOOST, HUD_Z;
 
-        public Params(Resources res) {
+        Params(Resources res) {
             TRANSLATION_PER_SEC = res.getDimension(R.dimen.translation_per_sec);
             OBSTACLE_SPACING = res.getDimensionPixelSize(R.dimen.obstacle_spacing);
             OBSTACLE_PERIOD = (int) (OBSTACLE_SPACING / TRANSLATION_PER_SEC);
@@ -181,7 +181,7 @@ public class GooseView extends FrameLayout {
         }
     }
 
-    final float hsv[] = {0, 0, 0};
+    final float[] hsv = {0, 0, 0};
 
     private void reset() {
         L("reset");
@@ -648,7 +648,7 @@ public class GooseView extends FrameLayout {
         void step(long t_ms, long dt_ms, float t, float dt);
     }
 
-    private class Player extends ImageView implements GameView {
+    private class Player extends android.support.v7.widget.AppCompatImageView implements GameView {
         public float dv;
         private boolean mBoosting;
         private final float sSize = 606;

@@ -103,4 +103,5 @@ dependencies {
     implementation 'net.danlew:android.joda:2.9.3'
     implementation 'com.github.tajchert:nammu:1.1.1'
     implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
