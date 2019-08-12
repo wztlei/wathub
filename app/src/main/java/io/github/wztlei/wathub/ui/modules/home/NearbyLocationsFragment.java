@@ -209,12 +209,8 @@ public class NearbyLocationsFragment extends Fragment implements
 
         final List<Location> locations = new ArrayList<>();
         for (final Location location : mAllLocations) {
-            // TODO WL: Use the old code that included only open locations
-//            if ((location.getLocation()[0] != 0 || location.getLocation()[1] != 0)
-//                    && location.isOpenNow()) {
-//                locations.add(location);
-//            }
-            if ((location.getLocation()[0] != 0 || location.getLocation()[1] != 0)) {
+            if ((location.getLocation()[0] != 0 || location.getLocation()[1] != 0)
+                    && location.isOpenNow()) {
                 locations.add(location);
             }
         }

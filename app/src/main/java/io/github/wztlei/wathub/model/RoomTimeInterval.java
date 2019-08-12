@@ -14,6 +14,9 @@ public class RoomTimeInterval {
     private int endHour;
     private int endMin;
 
+    /**
+     * Constructor for a RoomTimeInterval.
+     */
     public RoomTimeInterval(String building, String roomNum, int month, int date,
                             int startHour, int startMin, int endHour, int endMin) {
         this.building = building;
@@ -26,43 +29,20 @@ public class RoomTimeInterval {
         this.endMin = endMin;
     }
 
-    public String getBuilding() {
-        return building;
-    }
-
-    public String getRoomNum() {
-        return roomNum;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getDate() {
-        return date;
-    }
-
-    int getStartHour() {
-        return startHour;
-    }
-
-    int getStartMin() {
-        return startMin;
-    }
-
-    int getEndHour() {
-        return endHour;
-    }
-
-    int getEndMin() {
-        return endMin;
-    }
-
-
+    /**
+     * Returns a formatted string representing the room, including the building and room number.
+     *
+     * @return a formatted string representing the room, including the building and room number
+     */
     public String formatRoom() {
         return String.format("%s %s", building, roomNum);
     }
 
+    /**
+     * Returns a formatted string representing the time interval.
+     *
+     * @return a formatted string representing the time interval
+     */
     public String formatTimeInterval() {
         // Get the starting and ending times for when the room is open
         if (currentTimeWithinInterval()) {
@@ -74,6 +54,12 @@ public class RoomTimeInterval {
         }
     }
 
+    /**
+     * Returns a formatting string representing the date of the time interval
+     * including the month and the day of the month.
+     *
+     * @return  the month and date formatted string
+     */
     public String formatMonthAndDate() {
         Calendar today = Calendar.getInstance();
         Calendar tomorrow = (Calendar) today.clone();
@@ -88,6 +74,13 @@ public class RoomTimeInterval {
         }
     }
 
+    /**
+     * Returns true if the current time is within the time interval of the object,
+     * and false otherwise.
+     *
+     * @return true if the current time is within the time interval of the object,
+     *         and false otherwise.
+     */
     private boolean currentTimeWithinInterval() {
         Calendar calendar = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -96,9 +89,18 @@ public class RoomTimeInterval {
         int currentMinOfDay = DateTimeUtils.minOfDay(currentHour, currentMin);
         int endMinOfDay = DateTimeUtils.minOfDay(endHour, endMin);
 
-        return startMinOfDay <= currentMinOfDay && currentMinOfDay <= endMinOfDay;
+        return startMinOfDay <= currentMinOfDay && currentMinOfDay <= endMinOfDay
+                && onCalendarDate(calendar);
     }
 
+    /**
+     * Returns true if the time interval is on the date represented by the calendar,
+     * and false otherwise.
+     *
+     * @param   calendar    the date that is being checked
+     * @return              true if the time interval is on the date represented by the calendar,
+     *                      and false otherwise.
+     */
     private boolean onCalendarDate(Calendar calendar) {
         return (calendar.get(Calendar.MONTH) + 1 == month)
                 && (calendar.get(Calendar.DAY_OF_MONTH) == date);
@@ -125,5 +127,25 @@ public class RoomTimeInterval {
             case 12: return "Dec";
             default: return null;
         }
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    int getStartHour() {
+        return startHour;
+    }
+
+    int getStartMin() {
+        return startMin;
+    }
+
+    int getEndHour() {
+        return endHour;
+    }
+
+    int getEndMin() {
+        return endMin;
     }
 }

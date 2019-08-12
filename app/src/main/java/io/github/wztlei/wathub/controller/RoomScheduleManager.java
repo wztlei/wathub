@@ -532,27 +532,29 @@ public class RoomScheduleManager {
     }
 
     /**
-     * Returns true if the current date is within the starting and ending dates for that class
+     * Returns true if the search date is within the starting and ending dates for that class
      * and false otherwise.
      *
      * @param   classTime       the starting and ending dates and times for a class
      * @param   date            the given date on which a class may potentially occur
-     * @return                  true if the current date is within the starting and
-     *                          ending dates for that class and false otherwise
+     * @return                  true if the search date is within the starting and
+     *                          ending dates for that class, and false otherwise
      * @throws  JSONException   if the classTime JSON array is not formatted properly
      */
     private static boolean isClassWithinDateInterval(JSONArray classTime, Calendar date)
             throws JSONException {
         int startMonth = classTime.getInt(START_MONTH_INDEX);
         int startDate = classTime.getInt(START_DATE_INDEX);
+        int searchMonth = date.get(Calendar.MONTH) + 1;
+        int searchDate = date.get(Calendar.DAY_OF_MONTH);
         int endMonth = classTime.getInt(END_MONTH_INDEX);
         int endDate = classTime.getInt(END_DATE_INDEX);
 
         int startDateCode = startMonth * 100 + startDate;
-        int sCurrentDateCode = date.get(Calendar.MONTH) * 100 + date.get(Calendar.DAY_OF_MONTH);
+        int searchDateCode = searchMonth * 100 + searchDate;
         int endDateCode = endMonth * 100 + endDate;
 
-        return withinClosedInterval(startDateCode, sCurrentDateCode, endDateCode);
+        return withinClosedInterval(startDateCode, searchDateCode, endDateCode);
     }
 
     /**
@@ -566,7 +568,6 @@ public class RoomScheduleManager {
     private static boolean withinClosedInterval(int min, int num, int max) {
         return min <= num && num <= max;
     }
-
 
     /**
      * A JSONObject representation of the room schedule with an additional method for updating

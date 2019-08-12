@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.ui.modules.home;
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -48,11 +51,6 @@ import io.github.wztlei.wathub.utils.SimpleTextWatcher;
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private float mElevation;
-    private Toolbar mToolbar;
-    private SubjectAdapter mAdapter;
-    private Context mContext;
-
     @BindView(R.id.home_open_classroom_list)
     ListView mHomeOpenClassroomList;
     @BindView(R.id.home_course_subject)
@@ -64,6 +62,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @BindView(R.id.home_cards_parent)
     ViewGroup mCardsParent;
 
+    private SubjectAdapter mAdapter;
+    private Toolbar mToolbar;
+    private Context mContext;
+    private SharedPreferences mSharedPreferences;
+    private float mElevation;
+
+    private static final int MAX_NUM_CLASSROOMS = 3;
+
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +80,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onAttach(Context context){
         super.onAttach(context);
         mContext = context;
+        mSharedPreferences = mContext.getSharedPreferences(
+                Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mHomeOpenClassroomList.setAdapter(new HomeClassroomAdapter(getOpenClassroomList()));
     }
 
     @Nullable
@@ -83,24 +97,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        System.out.println("HomeFragment onCreateView");
-        mToolbar = getActivity().findViewById(R.id.toolbar);
-
         ButterKnife.bind(this, view);
 
+        // Set up the home screen above the course selection card
+        mToolbar = getActivity().findViewById(R.id.toolbar);
         mCardsParent.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         mElevation = mToolbar.getElevation();
         mToolbar.setElevation(Px.fromDpF(8));
-
-        // Remember the last building selected
-        String lastBuildingQueried = mContext
-                .getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-                .getString(Constants.BUILDING_KEY, "");
-        Calendar searchDate = Calendar.getInstance();
-
-        RoomTimeIntervalList buildingOpenSchedule =
-                RoomScheduleManager.getInstance().findOpenRooms(lastBuildingQueried, searchDate);
-        mHomeOpenClassroomList.setAdapter(new HomeClassroomAdapter(buildingOpenSchedule));
+        mHomeOpenClassroomList.setAdapter(new HomeClassroomAdapter(getOpenClassroomList()));
 
         // Create a text watcher to update the search button
         TextWatcher courseTextWatcher = new SimpleTextWatcher() {
@@ -152,7 +156,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onDestroyView() {
         mToolbar.setElevation(mElevation);
-
         super.onDestroyView();
     }
 
@@ -224,14 +227,59 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         mNumberPicker.requestFocus();
     }
 
+
     /**
-     * A custom RecyclerView Adapter for the list of open classrooms.
+     * Returns the list of open classrooms that should be displayed within the card.
+     *
+     * @return the list of open classrooms that should be displayed within the card
+     */
+    private RoomTimeIntervalList getOpenClassroomList() {
+        // Determine the last building that was queried
+        String lastBuildingQueried = mSharedPreferences.getString(Constants.BUILDING_KEY, null);
+        RoomScheduleManager roomScheduleManager = RoomScheduleManager.getInstance();
+
+        // Get a list of all the buildings in alphabetical order
+        ArrayList<String> alphabeticalBuildings = new ArrayList<>(
+                Arrays.asList(roomScheduleManager.getBuildings()));
+        int startIndex = alphabeticalBuildings.indexOf(lastBuildingQueried);
+
+        // Create a list of new buildings starting from the last building queried
+        ArrayList<String> reorderedBuildings = new ArrayList<>(alphabeticalBuildings
+                .subList(startIndex, alphabeticalBuildings.size()));
+
+        // Add all of the buildings before the last building queried in reverse order
+        for (int i = startIndex - 1; i >= 0; i--) {
+            reorderedBuildings.add(alphabeticalBuildings.get(i));
+        }
+
+        // Create a new list of open classroom
+        RoomTimeIntervalList openClassroomList = new RoomTimeIntervalList();
+        Calendar searchDate = Calendar.getInstance();
+
+        // Search for open classrooms in a specific order starting from the building last queried
+        for (int i = 0; i < reorderedBuildings.size(); i++) {
+            openClassroomList.addAll(roomScheduleManager.findOpenRooms(
+                    reorderedBuildings.get(i), searchDate));
+
+            if (openClassroomList.size() >= MAX_NUM_CLASSROOMS) {
+                break;
+            }
+        }
+
+        // Return the sorted and truncated list
+        openClassroomList.sort();
+        openClassroomList.truncate(MAX_NUM_CLASSROOMS);
+        return openClassroomList;
+    }
+
+    /**
+     * A custom ArrayAdapter for the list of open classrooms.
      */
     class HomeClassroomAdapter extends ArrayAdapter<RoomTimeInterval>
             implements View.OnClickListener {
 
         HomeClassroomAdapter(RoomTimeIntervalList roomTimeIntervalList) {
-            super(mContext, 0, roomTimeIntervalList.clone().truncate(3));
+            super(mContext, 0, roomTimeIntervalList.clone().truncate(MAX_NUM_CLASSROOMS));
         }
 
         @NonNull
@@ -262,11 +310,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
         @Override
         public void onClick(View view) {
-            System.out.println("onclick open");
             RoomTimeInterval roomTimeInterval = getItem((int) view.getTag());
-            startActivity(ModuleHostActivity.getStartIntent(
-                    mContext, OpenClassroomFragment.class.getCanonicalName()));
 
+            if (roomTimeInterval != null) {
+                // Put the building of the clicked RoomTimeInterval in shared preferences
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putString(Constants.BUILDING_KEY, roomTimeInterval.getBuilding());
+                editor.apply();
+
+                // Start a module activity with the open classroom fragment
+                startActivity(ModuleHostActivity.getStartIntent(
+                        mContext, OpenClassroomFragment.class.getCanonicalName()));
+            }
         }
     }
 }

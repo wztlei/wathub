@@ -6,16 +6,16 @@ from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-TERM_NUMBER = '1195'
+TERM_NUMBER = '1199'
 UNDERGRADUATE_QUERY_URL = 'http://www.adm.uwaterloo.ca/infocour/CIR/SA/under.html'
 GRADUATE_QUERY_URL = 'http://www.adm.uwaterloo.ca/infocour/CIR/SA/grad.html'
 UNDERGRADUATE_FILE_PATH = "./undergraduate_class_schedules/{}_schedule.html"
 GRADUATE_FILE_PATH = "./graduate_class_schedules/{}_schedule.html"
 
-TERM_START_MONTH = 5
-TERM_START_DATE = 6
-TERM_END_MONTH = 7
-TERM_END_DATE = 30
+TERM_START_MONTH = 9
+TERM_START_DATE = 4
+TERM_END_MONTH = 12
+TERM_END_DATE = 3
 
 
 def retrieve_html_pages(url: str, file_path: str):
@@ -258,11 +258,10 @@ def main(refresh_html_files=False):
         retrieve_html_pages(UNDERGRADUATE_QUERY_URL, UNDERGRADUATE_FILE_PATH)
         retrieve_html_pages(GRADUATE_QUERY_URL, GRADUATE_FILE_PATH)
 
-    # 1. Replace '], \['    with    '],\n\t\t['
-    # 2. Replace ']], '     with    ']],\n\t'
-    # 3. Replace ']]}, "'   with
-
-    result = retrieve_room_schedules()
+    result = str(retrieve_room_schedules())
+    result = result.replace('], [', '],\n\t\t[')
+    result = result.replace(']], ', ']],\n\t')
+    result = result.replace(']]}, ', ']]},\n')
     print(result)
 
 

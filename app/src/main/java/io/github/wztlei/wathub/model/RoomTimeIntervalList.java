@@ -25,8 +25,8 @@ public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
             // 4. Starting minute
             // 5. Ending hour
             // 6. Ending minute
-            String room1 = rti1.getBuilding() + rti1.getRoomNum();
-            String room2 = rti2.getBuilding() + rti2.getRoomNum();
+            String room1 = rti1.formatRoom();
+            String room2 = rti2.formatRoom();
 
             if (!room1.equals(room2)) {
                 return room1.compareTo(room2);
@@ -62,6 +62,12 @@ public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
         }
     }
 
+    /**
+     * Truncates the RoomTimeInterval list to a maximum length of maxSize.
+     *
+     * @param   maxSize the maximum length of the truncated list
+     * @return          the truncated list
+     */
     public RoomTimeIntervalList truncate(int maxSize) {
         RoomTimeIntervalList truncatedList = new RoomTimeIntervalList();
 
