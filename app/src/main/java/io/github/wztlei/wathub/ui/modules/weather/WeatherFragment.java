@@ -608,11 +608,7 @@ public class WeatherFragment extends BaseApiModuleFragment<Responses.Weather, We
         private final WeakReference<WeatherFragment> mFragmentRef;
 
         static void fetchRandom(final WeatherFragment fragment) {
-            fetch(fragment, null);
-        }
-
-        static void fetch(final WeatherFragment fragment, final String photoId) {
-            new PhotoFetcher(fragment).execute(photoId);
+            new PhotoFetcher(fragment).execute((String) null);
         }
 
         private PhotoFetcher(final WeatherFragment fragment) {

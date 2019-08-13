@@ -20,15 +20,6 @@ import android.widget.TextView;
 import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.foodservices.Location;
-
-import io.github.wztlei.wathub.ApiKeys;
-import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.net.Calls;
-import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
-import io.github.wztlei.wathub.ui.modules.foodservices.LocationsFragment;
-import io.github.wztlei.wathub.utils.MapUtils;
-import io.github.wztlei.wathub.controller.NetworkController;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -45,6 +36,13 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.wztlei.wathub.ApiKeys;
+import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.controller.NetworkController;
+import io.github.wztlei.wathub.net.Calls;
+import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;
+import io.github.wztlei.wathub.ui.modules.foodservices.LocationsFragment;
+import io.github.wztlei.wathub.utils.MapUtils;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 
@@ -82,7 +80,8 @@ public class NearbyLocationsFragment extends Fragment implements
     private final Runnable mLocationsRunnable = new Runnable() {
         @Override
         public void run() {
-            new LocationTask(mApiClient).execute();
+            new LocationTask(NearbyLocationsFragment.this,
+                    mApiClient, getActivity() == null).execute();
 
             // Repeat again after a small delay
             mHandler.postDelayed(this, TimeUnit.SECONDS.toMillis(10));
@@ -358,14 +357,21 @@ public class NearbyLocationsFragment extends Fragment implements
     }
 
     @SuppressWarnings("MissingPermission")
-    private final class LocationTask extends AsyncTask<Void, Void, Boolean> {
+    private static final class LocationTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final GoogleApiClient mApiClient;
+        private NearbyLocationsFragment mNearbyLocationsFragment;
+        private GoogleApiClient mApiClient;
         private Responses.Locations mResponse;
         private android.location.Location mLocation;
+        private boolean mIsActivityNull;
 
-        private LocationTask(final GoogleApiClient apiClient) {
+        private LocationTask(
+                NearbyLocationsFragment nearbyLocationsFragment,
+                GoogleApiClient apiClient,
+                boolean isActivityNull) {
+            mNearbyLocationsFragment = nearbyLocationsFragment;
             mApiClient = apiClient;
+            mIsActivityNull = isActivityNull;
         }
 
         @Override
@@ -384,16 +390,16 @@ public class NearbyLocationsFragment extends Fragment implements
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (getActivity() != null && mResponse != null) {
+            if (!mIsActivityNull && mResponse != null) {
                 if (success) {
-                    onLocationsLoaded(mResponse.getData());
-                    onLocationChanged(mLocation);
+                    mNearbyLocationsFragment.onLocationsLoaded(mResponse.getData());
+                    mNearbyLocationsFragment.onLocationChanged(mLocation);
                 }
 
-                showError(R.string.nearby_locations_error_availability, mLocation == null);
-                showError(R.string.error_no_network, !success);
+                mNearbyLocationsFragment.showError(
+                        R.string.nearby_locations_error_availability, mLocation == null);
+                mNearbyLocationsFragment.showError(R.string.error_no_network, !success);
             }
         }
     }
-
 }

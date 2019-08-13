@@ -52,7 +52,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private T mLastResponse;
     private Animator mLoadingAnimator;
-    private LoadModuleDataTask mTask;
+    private LoadModuleDataTask<T, V> mTask;
     private SwipeRefreshLayout mSwipeLayout;
 
     public static <V extends AbstractModel> Bundle newBundle(final V model) {
@@ -216,7 +216,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
             changeLoadingVisibilityInternal(true);
             mLastUpdate = System.currentTimeMillis();
 
-            mTask = new LoadModuleDataTask();
+            mTask = new LoadModuleDataTask<>(this, getActivity() == null);
             mTask.execute(getApi());
         }
     }
@@ -299,10 +299,6 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     public boolean onTouch(final View view, final MotionEvent motionEvent) {
         // Loading/Network layouts intercept all touch events
         return true;
-    }
-
-    public long getLastUpdate() {
-        return mLastUpdate;
     }
 
     private boolean noTaskRunning() {
@@ -440,15 +436,28 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
     public abstract String getContentType();
 
-    private final class LoadModuleDataTask extends AsyncTask<UWaterlooApi, Void, T> {
+    private void setLastResponse(T lastResponse) {
+        mLastResponse = lastResponse;
+    }
+
+    private static final class LoadModuleDataTask<T extends Parcelable, V extends AbstractModel>
+            extends AsyncTask<UWaterlooApi, Void, T> {
+
+        private BaseApiModuleFragment<T, V> mBaseApiModuleFragment;
+        private boolean mIsActivityNull;
+
+        private LoadModuleDataTask(BaseApiModuleFragment<T, V> baseApiModuleFragment,
+                                   boolean isActivityNull) {
+            mBaseApiModuleFragment = baseApiModuleFragment;
+            mIsActivityNull = isActivityNull;
+        }
 
         @Override
         protected T doInBackground(final UWaterlooApi... apis) {
             // Performed on a background thread, so network calls are performed here
-
             try {
                 if (NetworkController.getInstance().isConnected()) {
-                    final Call<T> call = onLoadData(apis[0]);
+                    final Call<T> call = mBaseApiModuleFragment.onLoadData(apis[0]);
                     if (call != null) {
                         return Calls.unwrap(call);
                     }
@@ -464,15 +473,12 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
         @Override
         protected void onPostExecute(final T data) {
-            if (getActivity() == null) {
-                return;
+            if (!mIsActivityNull) {
+                // Performed on the main thread, so view manipulation is performed here
+                mBaseApiModuleFragment.setLastResponse(data) ;
+                mBaseApiModuleFragment.onLoadFinished();
+                mBaseApiModuleFragment.deliverResponse(data);
             }
-
-            // Performed on the main thread, so view manipulation is performed here
-            mLastResponse = data;
-            onLoadFinished();
-
-            deliverResponse(data);
         }
     }
 }
