@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,7 +63,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     private static final int HOURS_UPDATE_PERIOD_MS = 10000;
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
     }
@@ -108,7 +109,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         return root;
     }
-    
+
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_open_classrooms);
@@ -137,7 +138,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             new AlertDialog.Builder(mContext)
                     .setTitle(getString(R.string.open_classroom_dialog_title))
                     .setMessage(getString(R.string.open_classroom_dialog_message))
-                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {})
+                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
+                    })
                     .create()
                     .show();
             return true;
@@ -201,7 +203,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         mHoursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -211,12 +214,13 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     /**
-     * Updates the UI to display the open classroom schedule based on the building and hour 
+     * Updates the UI to display the open classroom schedule based on the building and hour
      * that the user selected from the dropdowns.
      */
     private void displayQueryResults(boolean initialDisplay) {
@@ -235,33 +239,34 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         // Retrieve a schedule of the open classrooms for the query from roomScheduleManager
         Calendar searchDate = (Calendar) mLastUpdateTime.clone();
         searchDate.add(Calendar.HOUR_OF_DAY, hourIndex);
-
         RoomTimeIntervalList buildingOpenSchedule =
                 mRoomScheduleManager.findOpenRooms(building, searchDate);
-
-        // Check if any open classrooms has been found
-        if (buildingOpenSchedule.size() > 0) {
-            // Update the visibility of the views
-            mOpenRoomList.setVisibility(View.VISIBLE);
-            mFullBuildingName.setVisibility(View.VISIBLE);
-            mNoResultsText.setVisibility(View.GONE);
-
-            // Update the recycler view displaying the open classroom schedule
-            mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
-
-            // Update the text view displaying the building's full name
-            mFullBuildingName.setText(BuildingManager.getInstance().getBuildingFullName(building));
-        } else {
-            // Update the visibility of the views
-            mOpenRoomList.setVisibility(View.GONE);
-            mFullBuildingName.setVisibility(View.GONE);
-            mNoResultsText.setVisibility(View.VISIBLE);
-        }
 
         // Store the latest building of the latest query in shared preferences for later recall
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.BUILDING_KEY, building);
         editor.apply();
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            // Check if any open classrooms has been found
+            if (buildingOpenSchedule.size() > 0) {
+                // Update the visibility of the views
+                mOpenRoomList.setVisibility(View.VISIBLE);
+                mFullBuildingName.setVisibility(View.VISIBLE);
+                mNoResultsText.setVisibility(View.GONE);
+
+                // Update the recycler view displaying the open classroom schedule
+                mOpenRoomList.setAdapter(new OpenClassroomAdapter(buildingOpenSchedule));
+
+                // Update the text view displaying the building's full name
+                mFullBuildingName.setText(BuildingManager.getInstance().getBuildingFullName(building));
+            } else {
+                // Update the visibility of the views
+                mOpenRoomList.setVisibility(View.GONE);
+                mFullBuildingName.setVisibility(View.GONE);
+                mNoResultsText.setVisibility(View.VISIBLE);
+            }
+        }, DEFAULT_REFRESH_DURATION / 2);
     }
 
     /**
@@ -278,7 +283,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         for (int h = currentHour; h <= currentHour + 23; h++) {
             if (h == currentHour) {
                 timeStringOptions[h - currentHour] = "Now";
-            } else if (h <= 23){
+            } else if (h <= 23) {
                 timeStringOptions[h - currentHour] =
                         String.format("%s, Today", DateTimeUtils.format12hTime(h));
             } else {
@@ -336,7 +341,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         @BindView(R.id.time_interval_text_view)
         TextView mTimeIntervalTextView;
-        
+
         @BindView(R.id.date_text_view)
         TextView mDateTextView;
 
