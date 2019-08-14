@@ -12,36 +12,36 @@ Here are some features that are currently offered:
 - <b>Weather</b>: Current weather details from the University of Waterloo Weather Station.
 - <b>Courses</b>: Information about courses offered, including general info, prerequisites, course schedules, enrollment info, and exam schedules.
 
-More features are coming soon! I am currently working on adding:
+More features are coming soon! We are currently working on adding:
+- <b>Gym Schedule</b>: Up-to-date timetables for facility hours and open recreation programs at the PAC and CIF.
+- <b>Important Dates</b>: Information about crucial dates regarding course enrollment, examination periods, and fee deadlines.
 - <b>Employer Info Sessions</b>: On-campus recruitment events at the University of Waterloo to connect companies and students.
 - <b>Class Enrollment</b>: Live data about class enrollment numbers and notifications when space in a course is available.
-- <b>Exam Schedule</b>: Customizable exam schedules with notifications as the exam time approaches.
 
 This was built by forking the Citrus app made by Christian De Angelis which is no longer being maintained. I obtained his source code under the MIT License, so I am now continuously adding new features to WatHub!
         
 <table> 
   <tr> 
     <td> 
-      <img src=
-      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_1.png">
+      <img src="https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_1.png">
     </td>
     <td>
-      <img src=
-      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_2.png">           </td>
+      <img src="https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_2.png">          
+    </td>
     <td>
-      <img src=
-      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_3.png">           </td>
+      <img src="https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_3.png">           
+    </td>
   </tr>
   <tr> 
     <td>
-      <img src=
-      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_4.png">            </td>
+      <img src="https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_4.png">            
+    </td>
     <td>
-      <img src=
-      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_5.png">            </td>
+      <img src="https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_5.png">            
+    </td>
     <td>
-      <img src=
-      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_6.png">            </td>
+      <img src="https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_6.png">            
+    </td>
   </tr>
 </table>
 
