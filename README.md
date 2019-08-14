@@ -4,7 +4,7 @@ Discover useful information about the University of Waterloo with WatHub! Having
 
 Here are some features that are currently offered:
 - <b>Food Service Locations</b>: Places serving food and beverages on campus, including operating hours and detailed outlet information.
-- <b>Open Classrooms</b>: A schedule for when classrooms are unused and available for students to study and host events.
+- <b>Open Classrooms</b>: Schedule for when classrooms are unused and available for students to study and host events.
 - <b>Points of Interest</b>: ATMs, libraries, and other interesting places and things to see across campus.
 - <b>Events</b>: Information regarding events taking place around campus.
 - <b>News</b>: News curated by various sources affiliated with the University of Waterloo.
