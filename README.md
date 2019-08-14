@@ -20,16 +20,29 @@ More features are coming soon! I am currently working on adding:
 This was built by forking the Citrus app made by Christian De Angelis which is no longer being maintained. I obtained his source code under the MIT License, so I am now continuously adding new features to WatHub!
         
 <table> 
-	<tr> 
-		<td> <img src="docs/screenshot_1.PNG"> </td>
-        <td> <img src="docs/screenshot_2.PNG"> </td>
-        <td> <img src="docs/screenshot_3.PNG"> </td>
-	</tr>
-	<tr> 
-		<td> <img src="docs/screenshot_4.PNG"> </td>
-        <td> <img src="docs/screenshot_5.PNG"> </td>
-        <td> <img src="docs/screenshot_6.PNG"> </td>
-	</tr>
+  <tr> 
+    <td> 
+      <img src=
+      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_1.png">
+    </td>
+    <td>
+      <img src=
+      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_2.png">           </td>
+    <td>
+      <img src=
+      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_3.png">           </td>
+  </tr>
+  <tr> 
+    <td>
+      <img src=
+      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_4.png">            </td>
+    <td>
+      <img src=
+      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_5.png">            </td>
+    <td>
+      <img src=
+      "https://raw.githubusercontent.com/wztlei/wathub/master/docs/screenshot_6.png">            </td>
+  </tr>
 </table>
 
 
