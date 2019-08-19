@@ -81,7 +81,7 @@ public class RedditFragment extends BaseModuleFragment {
     }
 
     /**
-     * Sets OnItemSelectedListeners on the two spinners to display the new building and hour query
+     * Sets OnItemSelectedListeners on the two spinners to display the new query
      * results whenever a new dropdown option is selected.
      */
     private void setSpinnerSelectionListeners() {
