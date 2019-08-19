@@ -119,9 +119,12 @@ public class ImportantDatesFragment extends BaseModuleFragment {
         String[] terms = mImportantDatesManager.getTerms();
         StringAdapter termsAdapter = new StringAdapter(mContext, terms);
         termsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
-        mTermSpinner.setAdapter(termsAdapter);
+        //mTermSpinner.setAdapter(termsAdapter);
 
         // maybe add a default/last term selected?
+        // check how the term number is calculated
+
+        // set the spinner to the current term
     }
 
 
@@ -132,7 +135,7 @@ public class ImportantDatesFragment extends BaseModuleFragment {
         mTermSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // display the results
+                displayImportantDates(true);
             }
 
             @Override
@@ -145,6 +148,22 @@ public class ImportantDatesFragment extends BaseModuleFragment {
      *  Display the important dates queried
      */
     private void displayImportantDates(boolean displayDefault) {
+        // Display the loading screen to provide feedback to the user
+        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, displayDefault);
+
+        // Determine if a term is selected
+        if (mTermSpinner.getSelectedItem() == null) {
+            return;
+        }
+
+        // Get the selected term
+        String tempTerm = mTermSpinner.getSelectedItem().toString();
+        int currTerm = Integer.parseInt(tempTerm);
+
+        // Retrieve a list of important dates from ImportantDatesManager
+
+
+
 
 
     }

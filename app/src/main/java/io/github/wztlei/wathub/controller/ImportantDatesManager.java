@@ -28,8 +28,8 @@ import java.util.List;
 import io.github.wztlei.wathub.ApiKeys;
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
-import io.github.wztlei.wathub.model.RoomTimeInterval;
-import io.github.wztlei.wathub.model.RoomTimeIntervalList;
+import io.github.wztlei.wathub.model.ImportantDatesDisplay;
+import io.github.wztlei.wathub.model.ImportantDatesList;
 import io.github.wztlei.wathub.net.Calls;
 
 import okhttp3.Call;
@@ -39,6 +39,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ImportantDatesManager {
+
+    private static final int DEFAULT_MAX_NETWORK_FAILURES = 3;
 
     private static String[] sTerms;
 
@@ -50,4 +52,41 @@ public class ImportantDatesManager {
     public String[] getTerms() {
         return sTerms == null ? new String[0] : sTerms;
     }
+
+    /**
+     *
+     */
+    public void manualRefresh(Activity activity) {
+        refreshDatesAsync(null, DEFAULT_MAX_NETWORK_FAILURES,
+                false, true);
+    }
+
+    /**
+     * Retrieves the important dates
+     */
+
+    private void refreshDatesAsync(Activity activity, int maxFailures,
+                                   boolean showFailureToast, boolean useApi) {
+        try{
+            // Create a request using the OkHttpClient library
+            OkHttpClient okHttpClient = new OkHttpClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Returns a list of the important dates
+     */
+    public ImportantDatesList findImportantDates(int term_id, boolean fromToday) {
+
+
+        ImportantDatesList returnedDates = new ImportantDatesList();
+
+        return returnedDates;
+    }
+
+
+
+
 }
