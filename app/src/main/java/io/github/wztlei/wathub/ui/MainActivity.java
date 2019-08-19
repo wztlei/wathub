@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    @SuppressWarnings("unused")
     private int mClicks;
     private int mNavItemId;
     private ModuleCategories mMenuStructure;
@@ -137,7 +138,6 @@ public class MainActivity extends BaseActivity
 
         if (itemId == R.id.menu_item_home) {
             fragment = new HomeFragment();
-
         } else {
             final String[] endpoints = mMenuStructure.getApiMethods(item.getItemId(), getResources());
 

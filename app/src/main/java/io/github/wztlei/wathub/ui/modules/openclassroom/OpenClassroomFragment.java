@@ -111,11 +111,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     }
 
     @Override
-    public String getToolbarTitle() {
-        return getString(R.string.title_open_classrooms);
-    }
-
-    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         // Inflate the menu
         inflater.inflate(R.menu.menu_info_and_refresh, menu);
@@ -128,24 +123,30 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_refresh) {
-            // Refresh the screen and retrieve the latest schedules from GitHub
-            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
-            mRoomScheduleManager.handleManualRefresh(getActivity());
-            return true;
-        } else if (menuItem.getItemId() == R.id.menu_info) {
-            // Creates an alert dialog displaying important info about the open classroom data
-            new AlertDialog.Builder(mContext)
-                    .setTitle(getString(R.string.open_classroom_dialog_title))
-                    .setMessage(getString(R.string.open_classroom_dialog_message))
-                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
-                    })
-                    .create()
-                    .show();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(menuItem);
+        switch (menuItem.getItemId()) {
+            case R.id.menu_refresh:
+                // Refresh the screen and retrieve the latest schedules from GitHub
+                displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
+                mRoomScheduleManager.handleManualRefresh(getActivity());
+                return true;
+            case R.id.menu_info:
+                // Creates an alert dialog displaying important info about the open classroom data
+                new AlertDialog.Builder(mContext)
+                        .setTitle(getString(R.string.open_classroom_dialog_title))
+                        .setMessage(getString(R.string.open_classroom_dialog_message))
+                        .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
+                        })
+                        .create()
+                        .show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menuItem);
         }
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return getString(R.string.title_open_classrooms);
     }
 
     /**

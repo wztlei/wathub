@@ -3,6 +3,7 @@ package io.github.wztlei.wathub;
 public class Constants {
     public static final String FEEDBACK_GOOGLE_FORM_URL =
             "https://docs.google.com/forms/d/e/1FAIpQLSc3qx_rg_v6uZbzX6c0tw8uhOpsCRgAfH2-FiB1j0hLbIw_mA/viewform?usp=sf_link";
+    public static final String UWATERLOO_SUBREDDIT_URL = "https://www.reddit.com/r/uwaterloo/";
     public static final String SHARED_PREFERENCES_KEY = "shared_preferences";
     public static final String MAP_TYPE_KEY = "map_type";
     public static final String POI_FLAGS_KEY = "poi_flags";

@@ -148,6 +148,6 @@ public class LocationsFragment extends BaseListApiModuleFragment<Responses.Locat
             }
         };
 
-        LocationFilter[] FILTERS = new LocationFilter[]{NONE, OPEN, TIM_HORTONS};
+        LocationFilter[] FILTERS = new LocationFilter[]{OPEN, TIM_HORTONS, NONE};
     }
 }
