@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import butterknife.BindView;
@@ -49,6 +50,7 @@ public class RedditFragment extends BaseModuleFragment {
 
         // Initialize instance variables
         ButterKnife.bind(this, contentView);
+        setSpinnerSelectionListeners();
         return root;
     }
 
@@ -78,5 +80,31 @@ public class RedditFragment extends BaseModuleFragment {
         return getString(R.string.title_uwaterloo_subreddit);
     }
 
-    
+    /**
+     * Sets OnItemSelectedListeners on the two spinners to display the new building and hour query
+     * results whenever a new dropdown option is selected.
+     */
+    private void setSpinnerSelectionListeners() {
+        mRedditSortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        mRedditTopPostsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
 }
