@@ -85,6 +85,7 @@ public class ImportantDatesManager {
     /**
      * Returns a list of the important dates
      */
+    /*
     public ImportantDatesList findImportantDates(int term_id, boolean fromToday) {
         try {
             // set the JSONObjects
@@ -98,4 +99,5 @@ public class ImportantDatesManager {
                 return null;
             }
     }
+    */
 }
