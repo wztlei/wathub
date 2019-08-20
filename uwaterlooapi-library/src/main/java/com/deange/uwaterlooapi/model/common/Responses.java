@@ -114,6 +114,12 @@ public interface Responses {
   class InfoSessions extends SimpleListResponse<InfoSession> {
   }
 
+  /*
+  class ImportantDates extends SimpleListResponse<> {
+
+  }
+  */
+
   // RESOURCES
 
   class Sites extends SimpleListResponse<Site> {

@@ -34,12 +34,19 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="0dp">
 
+                <CheckBox
+                    android:id="@+id/checkbox_allDates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="allDates_checkbox"
+                    android:onClick="onCheckBoxClicked"/>
+
             </LinearLayout>
 
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/open_classroom_list"
+            android:id="@+id/important_dates_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -48,7 +55,7 @@
             android:visibility="gone"
             style="@style/CardListView"/>
 
-
+<!--
         <TextView
             android:elevation="8dp"
             android:padding="10dp"
@@ -59,17 +66,17 @@
             android:background="@color/uw_yellow"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:visibility="gone"/>
+            android:visibility="gone"/> -->
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/open_classroom_no_results"
+            android:id="@+id/important_dates_no_results"
             android:layout_margin="40dp"
             android:visibility="visible"
             android:gravity="center"
-            android:text="@string/open_classroom_no_results"
+            android:text="@string/important_dates_no_results"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

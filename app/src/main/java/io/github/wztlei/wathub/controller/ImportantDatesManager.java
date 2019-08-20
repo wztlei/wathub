@@ -40,9 +40,16 @@ import okhttp3.Response;
 
 public class ImportantDatesManager {
 
+    private static Thread sApiRetrievalThread;
     private static final int DEFAULT_MAX_NETWORK_FAILURES = 3;
 
     private static String[] sTerms;
+
+
+
+    private ImportantDatesManager(Context context) {
+        sApiRetrievalThread = null;
+    }
 
 
     /**
@@ -56,7 +63,7 @@ public class ImportantDatesManager {
     /**
      *
      */
-    public void manualRefresh(Activity activity) {
+    public void refreshDatesAsync() {
         refreshDatesAsync(null, DEFAULT_MAX_NETWORK_FAILURES,
                 false, true);
     }
@@ -79,14 +86,16 @@ public class ImportantDatesManager {
      * Returns a list of the important dates
      */
     public ImportantDatesList findImportantDates(int term_id, boolean fromToday) {
+        try {
+            // set the JSONObjects
+                ImportantDatesList returnedDates = new ImportantDatesList();
 
+                // iterate through each important date
 
-        ImportantDatesList returnedDates = new ImportantDatesList();
-
-        return returnedDates;
+                return returnedDates;
+            } catch(JSONException e){
+                e.printStackTrace();
+                return null;
+            }
     }
-
-
-
-
 }

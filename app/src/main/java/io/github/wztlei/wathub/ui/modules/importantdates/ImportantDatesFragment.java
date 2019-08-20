@@ -18,153 +18,100 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.deange.uwaterlooapi.UWaterlooApi;
+import com.deange.uwaterlooapi.model.common.Responses;
+import com.deange.uwaterlooapi.model.news.NewsDetails;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+
+import butterknife.ButterKnife;
 import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 
 import butterknife.BindView;
+import io.github.wztlei.wathub.ui.ModuleAdapter;
+import io.github.wztlei.wathub.ui.ModuleListItemListener;
+import io.github.wztlei.wathub.ui.modules.ModuleType;
+import io.github.wztlei.wathub.ui.modules.ModuleType;
+import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
 import io.github.wztlei.wathub.controller.ImportantDatesManager;
+import io.github.wztlei.wathub.model.ImportantDatesDisplay;
+import io.github.wztlei.wathub.model.ImportantDatesList;
 import io.github.wztlei.wathub.ui.StringAdapter;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
+import retrofit2.Call;
 
-public class ImportantDatesFragment extends BaseModuleFragment {
 
-    @BindView(R.id.term_important_dates_spinner)
-    Spinner mTermSpinner;
-    // @BindView(r.id.somebuttom clickable)
-    // button
-    @BindView(R.id.important_dates_layout)
-    ViewGroup mImportantDatesLayout;
-    @BindView(R.id.loading_layout)
-    ViewGroup mLoadingLayout;
+public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.News, NewsDetails>
+        implements ModuleListItemListener{
 
-    private ImportantDatesManager mImportantDatesManager;
-    private Context mContext;
-    private MenuItem mRefreshMenuItem;
-
+    private final List<NewsDetails> mResponse = new ArrayList<>();
 
     @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        mContext = context;
+    protected int getLayoutId() {
+        return R.layout.fragment_simple_listview;
     }
 
-    @Override
-    public final View onCreateView(final LayoutInflater inflater,
-                                   final ViewGroup container,
-                                   final Bundle savedInstanceState) {
-
-        // Set up the view
-        View root = inflater.inflate(R.layout.fragment_module, container, false);
-        ViewGroup parent = root.findViewById(R.id.container_content_view);
-        View contentView = inflater.inflate(R.layout.fragment_important_dates,
-                parent, false);
-        parent.addView(contentView);
-        setHasOptionsMenu(true);
-
-        // Initialize instances
-
-        // Term selection information
-        updateTermSpinner();
-
-        return root;
-    }
 
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_important_dates);
     }
 
+
     @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        // inflate the menu
-        inflater.inflate(R.menu.menu_info_and_refresh, menu);
-        mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
-
-        setSpinnerSelectionListener();
-
+    public ModuleAdapter getAdapter() {
+        return new ImportantDatesAdapter(getActivity(), this);
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_refresh) {
-            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
-            // method to handle a refresh
-            return true;
-        }
-        else if (menuItem.getItemId() == R.id.menu_info) {
-            // Creates an alert dialog displaying important info about the important dates data
-            new AlertDialog.Builder(mContext)
-                    .setTitle(getString(R.string.important_dates_dialog_title))
-                    .setMessage(getString(R.string.important_dates_dialog_message))
-                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
-                    })
-                    .create()
-                    .show();
-            return true;
-        }
-        else {
-            return super.onOptionsItemSelected(menuItem);
-        }
+    public Call<Responses.News> onLoadData(final UWaterlooApi api) {
+        return api.News.getNews();
     }
 
 
-    /**
-     * Updates the terms available to view (current, next, next)
-     */
-    private void updateTermSpinner() {
-        // get the terms that can be viewed
-        String[] terms = mImportantDatesManager.getTerms();
-        StringAdapter termsAdapter = new StringAdapter(mContext, terms);
-        termsAdapter.setViewLayoutId(android.R.layout.simple_spinner_item);
-        //mTermSpinner.setAdapter(termsAdapter);
-
-        // maybe add a default/last term selected?
-        // check how the term number is calculated
-
-        // set the spinner to the current term
+    @Override
+    public String getContentType() {
+        return ModuleType.IMPORTANT_DATES_LIST;
     }
 
 
-    /**
-     *
-     */
-    private void setSpinnerSelectionListener() {
-        mTermSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                displayImportantDates(true);
-            }
+    @Override
+    public void onItemClicked(final int position) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
     }
 
 
-    /**
-     *  Display the important dates queried
-     */
-    private void displayImportantDates(boolean displayDefault) {
-        // Display the loading screen to provide feedback to the user
-        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, displayDefault);
+    private class ImportantDatesAdapter extends ModuleAdapter {
 
-        // Determine if a term is selected
-        if (mTermSpinner.getSelectedItem() == null) {
-            return;
+        ImportantDatesAdapter(final Context context, final ModuleListItemListener listener) {
+            super(context, listener);
         }
 
-        // Get the selected term
-        String tempTerm = mTermSpinner.getSelectedItem().toString();
-        int currTerm = Integer.parseInt(tempTerm);
+        @Override
+        public View newView(final Context context, final int position, final ViewGroup parent) {
+            return LayoutInflater.from(context).inflate(R.layout.simple_three_line_card_item, parent,
+                    false);
+        }
 
-        // Retrieve a list of important dates from ImportantDatesManager
+        @Override
+        public void bindView(final Context context, final int position, final View view) {
 
+        }
 
+        @Override
+        public int getCount() {
+            return 1;
+        }
 
-
-
+        @Override
+        public NewsDetails getItem(final int position) {
+            return mResponse.get(position);
+        }
     }
+
 }
