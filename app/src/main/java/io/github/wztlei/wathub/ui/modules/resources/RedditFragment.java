@@ -2,6 +2,10 @@ package io.github.wztlei.wathub.ui.modules.resources;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +25,11 @@ import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.IntentUtils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class RedditFragment extends BaseModuleFragment {
 
@@ -28,6 +41,9 @@ public class RedditFragment extends BaseModuleFragment {
 
     private Context mContext;
     private MenuItem mRefreshMenuItem;
+
+    private static final String[] SORT_OPTION_SUFFIXES = {"hot.json", "top.json", "new.json"};
+    private static final String UWATERLOO_SUBREDDIT_URL = "https://www.reddit.com/r/uwaterloo/";
 
     @Override
     public void onAttach(Context context) {
@@ -68,7 +84,7 @@ public class RedditFragment extends BaseModuleFragment {
             case R.id.menu_refresh:
                 return true;
             case R.id.menu_browser:
-                IntentUtils.openBrowser(mContext, Constants.UWATERLOO_SUBREDDIT_URL);
+                IntentUtils.openBrowser(mContext, UWATERLOO_SUBREDDIT_URL);
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
@@ -78,6 +94,40 @@ public class RedditFragment extends BaseModuleFragment {
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_uwaterloo_subreddit);
+    }
+
+    private void refreshRedditList() {
+        try {
+            // Create a request using the OkHttpClient library
+            OkHttpClient okHttpClient = new OkHttpClient();
+
+            int sortOptionIndex = Math.max(0, mRedditSortSpinner.getSelectedItemPosition());
+            String url = UWATERLOO_SUBREDDIT_URL + SORT_OPTION_SUFFIXES[sortOptionIndex];
+            Request request = new Request.Builder().url(url).build();
+
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                    try {
+                        // Update the room schedules with a JSON string from the response body
+                        // noinspection ConstantConditions
+                        String jsonString = response.body().string();
+
+                        // Use the UWaterloo API to get room schedules if needed
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull final Call call, @NonNull IOException e) {
+                    Toast.makeText(mContext, mContext.getText(R.string.error_no_network),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
