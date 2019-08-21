@@ -227,7 +227,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         mNumberPicker.requestFocus();
     }
 
-
     /**
      * Returns the list of open classrooms that should be displayed within the card.
      *
@@ -241,7 +240,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         // Get a list of all the buildings in alphabetical order
         ArrayList<String> alphabeticalBuildings = new ArrayList<>(
                 Arrays.asList(roomScheduleManager.getBuildings()));
-        int startIndex = alphabeticalBuildings.indexOf(lastBuildingQueried);
+        int startIndex = Math.max(alphabeticalBuildings.indexOf(lastBuildingQueried), 0);
 
         // Create a list of new buildings starting from the last building queried
         ArrayList<String> reorderedBuildings = new ArrayList<>(alphabeticalBuildings
