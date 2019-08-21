@@ -22,11 +22,13 @@ import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.important_dates.ImportantDatesDetails;
-import com.deange.uwaterlooapi.model.news.NewsDetails;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,11 +50,21 @@ import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import retrofit2.Call;
 
 
-public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.News, NewsDetails>
+public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.ImportantDates, ImportantDatesDetails>
         implements ModuleListItemListener{
 
     // declarations
     private int term_id;
+
+    private int firstDigit = 1000;
+    private int fallTerm = 9;
+    private int winterTerm = 1;
+    private int springTerm = 5;
+   // private int termYear;
+
+    private int selectedTerm;
+    private int nextTerm;
+    private int termAfterNext;
 
     // create the list of important dates
     private final List<ImportantDatesDetails> mResponse = new ArrayList<>();
@@ -77,7 +89,8 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
 
     @Override
     public Call<Responses.ImportantDates> onLoadData(final UWaterlooApi api) {
-        return api.ImportantDates.getImportantDates(term_id);
+        selectedTerm = calculateTerm();
+        return api.ImportantDates.getImportantDates(selectedTerm);
     }
 
 
@@ -102,7 +115,6 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     public void onItemClicked(final int position) {
         //showModule();
     }
-
 
 
     private class ImportantDatesAdapter extends ModuleAdapter {
@@ -131,5 +143,39 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         public ImportantDatesDetails getItem(final int position) {
             return mResponse.get(position);
         }
+    }
+
+
+    /**
+     * Calculates the TERM ID (ex. 1199 -> '1' for after 2000, '19' for 2019, '9' for September)
+     * @return
+     */
+    private int calculateTerm() {
+        int tempYear = Calendar.getInstance().get(Calendar.YEAR) % 100;
+        int termYear = tempYear * 10;
+        int termMonth = getStartMonth();
+        int calculatedID = firstDigit + termYear + termMonth;
+        return calculatedID;
+    }
+
+
+    /**
+     *  Calculates the term starting month (1, 5, or 9)
+     * @return
+     */
+    private static int getStartMonth() {
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+        int returnedMonth = 0;
+
+        if ((month == 8 || month == 9 || month == 10 || month ==11)) {
+            returnedMonth = 9;
+        } else if ((month == 0 || month == 1 || month == 2 || month ==3)) {
+            returnedMonth = 1;
+        } else {
+            returnedMonth = 5;
+        }
+
+        return returnedMonth;
     }
 }
