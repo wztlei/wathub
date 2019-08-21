@@ -4,6 +4,7 @@ import com.deange.uwaterlooapi.api.BuildingsApi;
 import com.deange.uwaterlooapi.api.CoursesApi;
 import com.deange.uwaterlooapi.api.EventsApi;
 import com.deange.uwaterlooapi.api.FoodServicesApi;
+import com.deange.uwaterlooapi.api.ImportantDatesApi;
 import com.deange.uwaterlooapi.api.LegacyWeatherApi;
 import com.deange.uwaterlooapi.api.NewsApi;
 import com.deange.uwaterlooapi.api.ParkingApi;
@@ -73,4 +74,6 @@ public final class UWaterlooApi {
       this, LegacyWeatherApi.URL, LegacyWeatherApi.class);
 
   public final WatcardApi Watcard = ApiBuilder.buildCustom(this, WatcardApi.URL, WatcardApi.class);
+
+  public final ImportantDatesApi ImportantDates = ApiBuilder.buildCustom(this, BASE_URL, ImportantDatesApi.class);
 }

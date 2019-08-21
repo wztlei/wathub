@@ -19,12 +19,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
+import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.Responses;
+import com.deange.uwaterlooapi.model.important_dates.ImportantDatesDetails;
 import com.deange.uwaterlooapi.model.news.NewsDetails;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -48,7 +51,11 @@ import retrofit2.Call;
 public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.News, NewsDetails>
         implements ModuleListItemListener{
 
-    private final List<NewsDetails> mResponse = new ArrayList<>();
+    // declarations
+    private int term_id;
+
+    // create the list of important dates
+    private final List<ImportantDatesDetails> mResponse = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -69,10 +76,20 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
 
 
     @Override
-    public Call<Responses.News> onLoadData(final UWaterlooApi api) {
-        return api.News.getNews();
+    public Call<Responses.ImportantDates> onLoadData(final UWaterlooApi api) {
+        return api.ImportantDates.getImportantDates(term_id);
     }
 
+
+    @Override
+    public void onBindData(final Metadata metadata, final List<ImportantDatesDetails> data) {
+        mResponse.clear();
+        mResponse.addAll(data);
+
+       // Collections.sort(mResponse, Collections.reverseOrder());
+
+        notifyDataSetChanged();
+    }
 
     @Override
     public String getContentType() {
@@ -80,10 +97,12 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     }
 
 
+
     @Override
     public void onItemClicked(final int position) {
-
+        //showModule();
     }
+
 
 
     private class ImportantDatesAdapter extends ModuleAdapter {
@@ -105,13 +124,12 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
 
         @Override
         public int getCount() {
-            return 1;
+            return mResponse.size();
         }
 
         @Override
-        public NewsDetails getItem(final int position) {
+        public ImportantDatesDetails getItem(final int position) {
             return mResponse.get(position);
         }
     }
-
 }

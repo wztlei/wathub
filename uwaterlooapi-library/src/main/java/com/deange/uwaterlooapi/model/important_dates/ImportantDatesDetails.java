@@ -77,12 +77,33 @@ public class ImportantDatesDetails extends BaseModel implements Parcelable, Comp
         mTermId = in.readInt();
         mStartDate = in.readString();
         mEndDate = in.readString();
-// two more things
+       //  mDateTbd = in.readBoo
         mLink = in.readString();
         mSite = in.readString();
         mVid = in.readInt();
         mUpdated = in.readString();
 
+    }
+
+    @Override
+    public void writeToParcel(final Parcel dest, final int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(mId);
+        dest.writeString(mTitle);
+        dest.writeString(mBody);
+        dest.writeString(mBodyRaw);
+        dest.writeString(mSpecialNotes);
+        dest.writeString(mSpecialNotesRaw);
+       //dest.writeStringArray(mAudience);
+        dest.writeString(mTerm);
+        dest.writeInt(mTermId);
+        dest.writeString(mStartDate);
+        dest.writeString(mEndDate);
+        // two more things
+        dest.writeString(mLink);
+        dest.writeString(mSite);
+        dest.writeInt(mVid);
+        dest.writeString(mUpdated);
     }
 
     public static final Creator<ImportantDatesDetails> CREATOR = new Creator<ImportantDatesDetails>() {
@@ -98,9 +119,20 @@ public class ImportantDatesDetails extends BaseModel implements Parcelable, Comp
     };
 
 
-    // resolve
+    public int getId() { return mId; }
+
+    public String getTitle() { return mTitle; }
+
+    public String getBody() { return mBody; }
+
+    public String getStartDate() { return mStartDate; }
+
+    public String getEndDate() { return mEndDate; }
+
+
     public int compareTo(final ImportantDatesDetails another) {
-        return 1;
+        // change this
+        return getStartDate().compareTo(another.getStartDate());
     }
 
 }
