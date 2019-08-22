@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.ui.modules.base;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -333,11 +334,21 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     }
 
     protected void onNullResponseReceived() {
-        Toast.makeText(getActivity(), "Received no data", Toast.LENGTH_SHORT).show();
+        Activity activity = getActivity();
+
+        if (activity != null) {
+            Toast.makeText(activity, activity.getText(R.string.error_no_network),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onNoDataReturned() {
-        Toast.makeText(getActivity(), "Received no data", Toast.LENGTH_LONG).show();
+        Activity activity = getActivity();
+
+        if (activity != null) {
+            Toast.makeText(activity, activity.getText(R.string.error_no_network),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void resolveNetworkLayoutVisibility() {

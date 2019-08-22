@@ -322,9 +322,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             RoomTimeInterval roomTimeInterval = mRoomTimeIntervalList.get(i);
 
             // Update the text of the item in the recycler view
-            viewHolder.mRoomTextView.setText(roomTimeInterval.formatRoom());
-            viewHolder.mTimeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
-            viewHolder.mDateTextView.setText(roomTimeInterval.formatMonthAndDate());
+            viewHolder.roomTextView.setText(roomTimeInterval.formatRoom());
+            viewHolder.timeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
+            viewHolder.dateTextView.setText(roomTimeInterval.formatMonthAndDate());
         }
 
         @Override
@@ -338,13 +338,11 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      */
     class OpenClassroomViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.room_text_view)
-        TextView mRoomTextView;
-
+        TextView roomTextView;
         @BindView(R.id.time_interval_text_view)
-        TextView mTimeIntervalTextView;
-
+        TextView timeIntervalTextView;
         @BindView(R.id.date_text_view)
-        TextView mDateTextView;
+        TextView dateTextView;
 
         OpenClassroomViewHolder(@NonNull View itemView) {
             super(itemView);

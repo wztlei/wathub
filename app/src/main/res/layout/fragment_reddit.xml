@@ -19,7 +19,7 @@
             android:elevation="8dp">
 
             <Spinner
-                android:id="@+id/reddit_sort_spinner"
+                android:id="@+id/reddit_posts_sort_spinner"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="48dp"

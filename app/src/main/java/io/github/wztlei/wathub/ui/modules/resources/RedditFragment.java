@@ -1,11 +1,11 @@
 package io.github.wztlei.wathub.ui.modules.resources;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,16 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.wztlei.wathub.Constants;
 import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.model.RedditPost;
+import io.github.wztlei.wathub.model.RedditPostList;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.IntentUtils;
 import okhttp3.Call;
@@ -34,10 +39,12 @@ import okhttp3.Response;
 public class RedditFragment extends BaseModuleFragment {
 
 
-    @BindView(R.id.reddit_sort_spinner)
+    @BindView(R.id.reddit_posts_sort_spinner)
     Spinner mRedditSortSpinner;
     @BindView(R.id.reddit_top_posts_spinner)
     Spinner mRedditTopPostsSpinner;
+    @BindView(R.id.reddit_posts_list)
+    RecyclerView mRedditPostList;
 
     private Context mContext;
     private MenuItem mRefreshMenuItem;
@@ -66,7 +73,9 @@ public class RedditFragment extends BaseModuleFragment {
 
         // Initialize instance variables
         ButterKnife.bind(this, contentView);
+        mRedditPostList.setLayoutManager(new LinearLayoutManager(mContext));
         setSpinnerSelectionListeners();
+        refreshRedditList();
         return root;
     }
 
@@ -97,6 +106,8 @@ public class RedditFragment extends BaseModuleFragment {
     }
 
     private void refreshRedditList() {
+        System.err.println("refreshRedditList");
+
         try {
             // Create a request using the OkHttpClient library
             OkHttpClient okHttpClient = new OkHttpClient();
@@ -109,11 +120,20 @@ public class RedditFragment extends BaseModuleFragment {
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull final Response response) {
                     try {
-                        // Update the room schedules with a JSON string from the response body
-                        // noinspection ConstantConditions
-                        String jsonString = response.body().string();
+                        Activity activity = getActivity();
 
-                        // Use the UWaterloo API to get room schedules if needed
+                        // Display a toast for a no network error
+                        if (activity != null) {
+                            // noinspection ConstantConditions
+                            String responseString = response.body().string();
+                            JSONObject responseJson = new JSONObject(responseString);
+                            JSONArray dataChildren = responseJson.getJSONObject("data")
+                                    .getJSONArray("children");
+                            RedditPostList redditPosts = new RedditPostList(dataChildren);
+
+                            activity.runOnUiThread(() ->
+                                    displayQueryResults(redditPosts));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -121,8 +141,14 @@ public class RedditFragment extends BaseModuleFragment {
 
                 @Override
                 public void onFailure(@NonNull final Call call, @NonNull IOException e) {
-                    Toast.makeText(mContext, mContext.getText(R.string.error_no_network),
-                            Toast.LENGTH_SHORT).show();
+                    Activity activity = getActivity();
+
+                    // Display a toast for a no network error
+                    if (activity != null) {
+                        CharSequence errorText = activity.getText(R.string.error_no_network);
+                        activity.runOnUiThread(() -> Toast.makeText(
+                                activity, errorText, Toast.LENGTH_SHORT).show());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -138,7 +164,7 @@ public class RedditFragment extends BaseModuleFragment {
         mRedditSortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                refreshRedditList();
             }
 
             @Override
@@ -149,12 +175,81 @@ public class RedditFragment extends BaseModuleFragment {
         mRedditTopPostsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                refreshRedditList();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    private void displayQueryResults(RedditPostList redditPosts) {
+        mRedditPostList.setAdapter(new RedditPostAdapter(redditPosts));
+    }
+
+    /**
+     * A custom RecyclerView Adapter for the list of Reddit posts.
+     */
+    class RedditPostAdapter extends RecyclerView.Adapter<RedditPostViewHolder> {
+        private RedditPostList mRedditPosts;
+
+        RedditPostAdapter(RedditPostList redditPosts) {
+            mRedditPosts = redditPosts;
+        }
+
+        @NonNull
+        @Override
+        public RedditPostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            // Use layout_schedule_item.xml as the layout for each individual recycler view item
+            View view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.list_item_reddit_post, viewGroup, false);
+            return new RedditPostViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RedditPostViewHolder viewHolder, int i) {
+            // Display the RoomTimeInterval at index i in the recycler view
+            RedditPost redditPost = mRedditPosts.get(i);
+
+            // Update the text of the item in the recycler view
+            viewHolder.authorText.setText(redditPost.getAuthor());
+            viewHolder.domainText.setText(redditPost.getDomain());
+            viewHolder.titleText.setText(redditPost.getTitle());
+        }
+
+        @Override
+        public int getItemCount() {
+            return mRedditPosts.size();
+        }
+    }
+
+    /**
+     * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
+     */
+    class RedditPostViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.reddit_post_author)
+        TextView authorText;
+        @BindView(R.id.reddit_post_creation_time)
+        TextView creationTimeText;
+        @BindView(R.id.reddit_post_domain)
+        TextView domainText;
+        @BindView(R.id.reddit_post_title)
+        TextView titleText;
+        @BindView(R.id.reddit_post_selftext)
+        TextView selftextText;
+        @BindView(R.id.reddit_post_link_flair)
+        TextView linkFlairText;
+        @BindView(R.id.reddit_post_content_icon)
+        ImageView contentIconImage;
+        @BindView(R.id.reddit_post_score)
+        TextView scoreText;
+        @BindView(R.id.reddit_post_num_comments)
+        TextView numCommentsText;
+
+        RedditPostViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }

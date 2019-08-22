@@ -125,7 +125,6 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
     }
 
     public void refreshActionBar() {
-        System.err.print("refreshActionBar");
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar == null || mChildFragment == null || !mChildFragment.isAdded()) {

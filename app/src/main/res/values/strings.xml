@@ -156,9 +156,9 @@
     <string name="open_classroom_calendar_button">"Calendar Button"</string>
 
     <string-array name="reddit_sort_options">
-        <item>🔥&#160;&#160;Hot</item>
-        <item>📊&#160;&#160;Top</item>
-        <item>✨&#160;&#160;New</item>
+        <item>Hot</item>
+        <item>Top</item>
+        <item>New</item>
     </string-array>
 
     <string-array name="reddit_top_posts_options">
