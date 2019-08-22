@@ -35,12 +35,25 @@
                 tools:text="Second Element" />
 
             <TextView
+                android:id="@android:id/summary"
+                style="@style/TextAppearance.UWaterloo.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:drawableEnd="@drawable/ic_clock"
+                android:drawablePadding="8dp"
+                android:gravity="end"
+                tools:text="In 1 hour" />
+
+            <!--
+
+            <TextView
                 android:id="@android:id/text2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                tools:text="Third Element" />
+                tools:text="Third Element" /> -->
 
         </LinearLayout>
 

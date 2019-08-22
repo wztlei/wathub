@@ -22,6 +22,7 @@ import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.important_dates.ImportantDatesDetails;
+import android.text.Html;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -53,13 +54,11 @@ import retrofit2.Call;
 public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.ImportantDates, ImportantDatesDetails>
         implements ModuleListItemListener{
 
-    // declarations
     private int term_id;
-
     private int firstDigit = 1000;
-    private int fallTerm = 9;
-    private int winterTerm = 1;
-    private int springTerm = 5;
+    //private int fallTerm = 9;
+    //private int winterTerm = 1;
+    //private int springTerm = 5;
    // private int termYear;
 
     private int selectedTerm;
@@ -69,30 +68,28 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     // create the list of important dates
     private final List<ImportantDatesDetails> mResponse = new ArrayList<>();
 
+
+    // replace with onCreateView() -> to set up spinner and other content (dropdown)
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_simple_listview;
     }
-
 
     @Override
     public String getToolbarTitle() {
         return getString(R.string.title_important_dates);
     }
 
-
     @Override
     public ModuleAdapter getAdapter() {
         return new ImportantDatesAdapter(getActivity(), this);
     }
-
 
     @Override
     public Call<Responses.ImportantDates> onLoadData(final UWaterlooApi api) {
         selectedTerm = calculateTerm();
         return api.ImportantDates.getImportantDates(selectedTerm);
     }
-
 
     @Override
     public void onBindData(final Metadata metadata, final List<ImportantDatesDetails> data) {
@@ -109,13 +106,12 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         return ModuleType.IMPORTANT_DATES_LIST;
     }
 
-
-
     @Override
     public void onItemClicked(final int position) {
-        //showModule();
+        //two options:
+        // 1. directly link tho the url
+        // 2. create an ImportantDatesViewFragment that contains some content
     }
-
 
     private class ImportantDatesAdapter extends ModuleAdapter {
 
@@ -131,7 +127,18 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
 
         @Override
         public void bindView(final Context context, final int position, final View view) {
+            final ImportantDatesDetails importantdates = getItem(position);
 
+            final String title = Html.fromHtml(importantdates.getTitle()).toString();
+            final String desc = Html.fromHtml(importantdates.getBody()).toString();
+
+            final String startDay = Html.fromHtml(importantdates.getStartDate()).toString();
+            final String endDay = Html.fromHtml(importantdates.getEndDate()).toString();
+            final String startToEnd = startDay + " to " + endDay;
+
+            ((TextView) view.findViewById(android.R.id.text1)).setText(title);
+            ((TextView) view.findViewById(android.R.id.text2)).setText(desc);
+            ((TextView) view.findViewById(android.R.id.summary)).setText(startToEnd);
         }
 
         @Override
@@ -145,7 +152,6 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         }
     }
 
-
     /**
      * Calculates the TERM ID (ex. 1199 -> '1' for after 2000, '19' for 2019, '9' for September)
      * @return
@@ -158,7 +164,6 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         return calculatedID;
     }
 
-
     /**
      *  Calculates the term starting month (1, 5, or 9)
      * @return
@@ -166,7 +171,7 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     private static int getStartMonth() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
-        int returnedMonth = 0;
+        int returnedMonth;
 
         if ((month == 8 || month == 9 || month == 10 || month ==11)) {
             returnedMonth = 9;
@@ -175,7 +180,6 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         } else {
             returnedMonth = 5;
         }
-
         return returnedMonth;
     }
 }
