@@ -3,14 +3,16 @@ package io.github.wztlei.wathub.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.github.wztlei.wathub.utils.DateTimeUtils;
+
 public class RedditPost {
     private String author;
+    private String creationTime;
     private String domain;
     private String title;
     private String linkFlair;
     private String selftext;
     private String url;
-    private int createdUtc;
     private int score;
     private int numComments;
     private int numDiamonds;
@@ -19,7 +21,14 @@ public class RedditPost {
     private boolean isVideo;
     private boolean isImage;
 
-    public RedditPost(JSONObject data) {
+    public static final String DEFAULT_UWATERLOO_DOMAIN = "self.uwaterloo";
+    private static final String MINUTE_SUFFIX = "m";
+    private static final String HOUR_SUFFIX = "h";
+    private static final String DAY_SUFFIX = "d";
+    private static final String MONTH_SUFFIX = "mo";
+    private static final String YEAR_SUFFIX = "y";
+
+    RedditPost(JSONObject data) {
         try {
             this.author = data.getString("author");
             this.domain = data.getString("domain");
@@ -27,7 +36,7 @@ public class RedditPost {
             this.linkFlair = data.getString("link_flair_text");
             this.selftext = data.getString("selftext");
             this.url = data.getString("url");
-            this.createdUtc = (int) data.getDouble("created_utc");
+            this.creationTime = formatCreationTime((long) data.getDouble("created_utc"));
             this.score = data.getInt("score");
             this.numComments = data.getInt("num_comments");
 
@@ -35,6 +44,7 @@ public class RedditPost {
             this.numDiamonds = getGildingNum(gildings, "gid_3");
             this.numGolds = getGildingNum(gildings, "gid_2");
             this.numSilvers = getGildingNum(gildings, "gid_1");
+
             this.isVideo = data.getBoolean("is_video");
             this.isImage = this.domain.equals("i.redd.it") || this.domain.equals("imgur.com");
         } catch (JSONException e) {
@@ -42,9 +52,48 @@ public class RedditPost {
         }
     }
 
-    private int getGildingNum(JSONObject gildings, String key) throws JSONException {
-        if (gildings.has(key)) {
-            return gildings.getInt(key);
+    /**
+     * Returns a string displaying how much time has occurred since the creation of the post.
+     *
+     * @param   creationUtcSeconds  the creation time in seconds as measured from the Unit epoch
+     * @return                      the formatted string
+     */
+    private String formatCreationTime(long creationUtcSeconds) {
+        long nowUtcSeconds = System.currentTimeMillis() / DateTimeUtils.MS_PER_SECOND;
+        long numSecondsAgo = nowUtcSeconds - creationUtcSeconds;
+
+        // Determine what time unit to use
+        if (numSecondsAgo < 0) {
+            // Should not happen unless the creation is in the future
+            return 0 + MINUTE_SUFFIX;
+        } else if (numSecondsAgo < DateTimeUtils.SECONDS_PER_HOUR) {
+            // For posts created minute(s) ago
+            return (numSecondsAgo / DateTimeUtils.SECONDS_PER_MIN) + MINUTE_SUFFIX;
+        } else if (numSecondsAgo < DateTimeUtils.SECONDS_PER_DAY) {
+            // For posts created hour(s) ago
+            return (numSecondsAgo / DateTimeUtils.SECONDS_PER_HOUR) + HOUR_SUFFIX;
+        } else if (numSecondsAgo < DateTimeUtils.APPROX_SECONDS_PER_MONTH) {
+            // For posts created day(s) ago
+            return (numSecondsAgo / DateTimeUtils.SECONDS_PER_DAY) + DAY_SUFFIX;
+        } else if (numSecondsAgo < DateTimeUtils.APPROX_SECONDS_PER_YEAR) {
+            // For posts created month(s) ago
+            return (numSecondsAgo / DateTimeUtils.APPROX_SECONDS_PER_MONTH) + MONTH_SUFFIX;
+        } else {
+            // For posts created year(s) ago
+            return (numSecondsAgo / DateTimeUtils.APPROX_SECONDS_PER_YEAR) + YEAR_SUFFIX;
+        }
+    }
+
+    /**
+     * Returns the number of gildings stored in the JSON object if the type exists, or 0 otherwise.
+     *
+     * @param   gildings    a map with key-value pairs representing the type and number of gildings
+     * @param   gildingType the type of gilding to retrieve
+     * @return              the number of gildings if the gilding types exists, or 0 otherwise.
+     */
+    private int getGildingNum(JSONObject gildings, String gildingType) throws JSONException {
+        if (gildings.has(gildingType)) {
+            return gildings.getInt(gildingType);
         } else {
             return 0;
         }
@@ -52,6 +101,10 @@ public class RedditPost {
 
     public String getAuthor() {
         return author;
+    }
+
+    public String getCreationTime() {
+        return creationTime;
     }
 
     public String getDomain() {
@@ -72,10 +125,6 @@ public class RedditPost {
 
     public String getUrl() {
         return url;
-    }
-
-    public int getCreatedUtc() {
-        return createdUtc;
     }
 
     public int getScore() {

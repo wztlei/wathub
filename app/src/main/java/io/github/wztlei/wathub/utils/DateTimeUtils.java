@@ -17,6 +17,13 @@ import java.util.Locale;
 
 public class DateTimeUtils {
 
+    public static final int MS_PER_SECOND = 1000;
+    public static final int SECONDS_PER_MIN = 60;
+    public static final int SECONDS_PER_HOUR = SECONDS_PER_MIN * 60;
+    public static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
+    public static final int APPROX_SECONDS_PER_MONTH = SECONDS_PER_DAY * 30;
+    public static final int APPROX_SECONDS_PER_YEAR = SECONDS_PER_DAY * 365;
+
     private static final DateFormat sDateFormat =
             new SimpleDateFormat("MMM d, yyyy", Locale.CANADA);
     private static final DateFormat sDateTimeFormat =

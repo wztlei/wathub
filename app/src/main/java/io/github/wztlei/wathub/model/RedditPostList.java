@@ -16,6 +16,5 @@ public class RedditPostList extends ArrayList<RedditPost> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }

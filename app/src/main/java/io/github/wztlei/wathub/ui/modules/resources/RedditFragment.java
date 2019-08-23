@@ -51,6 +51,7 @@ public class RedditFragment extends BaseModuleFragment {
 
     private static final String[] SORT_OPTION_SUFFIXES = {"hot.json", "top.json", "new.json"};
     private static final String UWATERLOO_SUBREDDIT_URL = "https://www.reddit.com/r/uwaterloo/";
+    private static final int MAX_SELFTEXT_LENGTH = 160;
 
     @Override
     public void onAttach(Context context) {
@@ -211,11 +212,32 @@ public class RedditFragment extends BaseModuleFragment {
         public void onBindViewHolder(@NonNull RedditPostViewHolder viewHolder, int i) {
             // Display the RoomTimeInterval at index i in the recycler view
             RedditPost redditPost = mRedditPosts.get(i);
+            String author = redditPost.getAuthor();
+            String creationTime = redditPost.getCreationTime();
+            String domain = redditPost.getDomain();
+            String selftext = redditPost.getSelftext().replace("\n", "")
+                    .replace("\r", "");
+            String score = Integer.toString(redditPost.getScore());
+            String numComments = Integer.toString(redditPost.getNumComments());
+            String header;
+
+            if (selftext.length() > MAX_SELFTEXT_LENGTH) {
+                selftext = selftext.substring(0, MAX_SELFTEXT_LENGTH - 4) + " ...";
+            }
+
+            if (redditPost.getDomain().equals(RedditPost.DEFAULT_UWATERLOO_DOMAIN)) {
+                header = String.format("u/%s • %s", author, creationTime);
+            } else {
+                header = String.format("u/%s • %s • %s", author, creationTime, domain);
+            }
 
             // Update the text of the item in the recycler view
-            viewHolder.authorText.setText(redditPost.getAuthor());
-            viewHolder.domainText.setText(redditPost.getDomain());
+            viewHolder.headerText.setText(header);
             viewHolder.titleText.setText(redditPost.getTitle());
+            viewHolder.linkFlairText.setText(redditPost.getLinkFlair());
+            viewHolder.selftextText.setText(selftext);
+            viewHolder.scoreText.setText(score);
+            viewHolder.numCommentsText.setText(numComments);
         }
 
         @Override
@@ -228,18 +250,14 @@ public class RedditFragment extends BaseModuleFragment {
      * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
      */
     class RedditPostViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.reddit_post_author)
-        TextView authorText;
-        @BindView(R.id.reddit_post_creation_time)
-        TextView creationTimeText;
-        @BindView(R.id.reddit_post_domain)
-        TextView domainText;
+        @BindView(R.id.reddit_post_header)
+        TextView headerText;
         @BindView(R.id.reddit_post_title)
         TextView titleText;
-        @BindView(R.id.reddit_post_selftext)
-        TextView selftextText;
         @BindView(R.id.reddit_post_link_flair)
         TextView linkFlairText;
+        @BindView(R.id.reddit_post_selftext)
+        TextView selftextText;
         @BindView(R.id.reddit_post_content_icon)
         ImageView contentIconImage;
         @BindView(R.id.reddit_post_score)
