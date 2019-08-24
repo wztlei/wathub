@@ -1,5 +1,7 @@
 package io.github.wztlei.wathub.model;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +30,11 @@ public class RedditPost {
     private static final String MONTH_SUFFIX = "mo";
     private static final String YEAR_SUFFIX = "y";
 
+    /**
+     * Constructor method for a Reddit post.
+     *
+     * @param data the data for the Reddit post stored as a JSON object
+     */
     RedditPost(JSONObject data) {
         try {
             this.author = data.getString("author");
@@ -81,6 +88,23 @@ public class RedditPost {
         } else {
             // For posts created year(s) ago
             return (numSecondsAgo / DateTimeUtils.APPROX_SECONDS_PER_YEAR) + YEAR_SUFFIX;
+        }
+    }
+
+    /**
+     * Returns the string value stored at a specific key in a JSON object, or null if the key does
+     * not exist or the value is null. JSONObject.getString(key) will return "null" if the value is
+     * null, so this method is necessary.
+     *
+     * @param   jsonObject  the JSON object storing the key-value pair
+     * @param   key         the key at which to retrieve the value
+     * @return              the value mapped by the key or null
+     */
+    private String getStringByKey(JSONObject jsonObject, String key) throws JSONException {
+        if (jsonObject.has(key) && !jsonObject.isNull(key)) {
+            return jsonObject.getString(key);
+        } else {
+            return null;
         }
     }
 

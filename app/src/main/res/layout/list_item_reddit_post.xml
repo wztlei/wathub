@@ -27,29 +27,43 @@
 
             <TextView
                 android:id="@+id/reddit_post_header"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="u/thisuseris_taken • 4h • i.redd.it"/>
+                android:layout_marginBottom="4dp"
+                android:textSize="13sp"
+                tools:text="u/example_reddit_author • 4h • i.redd.it"/>
 
             <TextView
                 android:id="@+id/reddit_post_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                tools:text="Documentation what's that"/>
+                tools:text="Reddit post title"/>
 
             <TextView
                 android:id="@+id/reddit_post_link_flair"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Humour"/>
+                android:layout_marginBottom="4dp"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:background="@drawable/reddit_link_flair_background"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                tools:text="Link Flair"/>
 
             <TextView
                 android:id="@+id/reddit_post_selftext"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:textSize="13sp"
+                tools:text="This is some example selftext to visualize the design of the Reddit post list item. This text is only for development purposes and will be removed on compilation."/>
 
             <ImageView
                 android:id="@+id/reddit_post_content_icon"
@@ -59,28 +73,33 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
 
                 <TextView
                     android:id="@+id/reddit_post_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="48dp"
+                    android:layout_marginStart="32dp"
                     android:gravity="center"
                     android:drawableStart="@drawable/ic_upvote_arrow"
                     android:drawableEnd="@drawable/ic_downvote_arrow"
-                    tools:text="72"/>
+                    android:drawablePadding="6dp"
+                    tools:text="15.0k"
+                    tools:ignore="RelativeOverlap" />
 
                 <TextView
                     android:id="@+id/reddit_post_num_comments"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="48dp"
-                    android:gravity="center"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="start|center_vertical"
                     android:drawableStart="@drawable/ic_comment"
-                    tools:text="6"/>
+                    android:drawablePadding="6dp"
+                    tools:text="1"
+                    tools:ignore="RelativeOverlap" />
             </RelativeLayout>
 
 
