@@ -215,11 +215,14 @@ public class RedditFragment extends BaseModuleFragment {
             String author = redditPost.getAuthor();
             String creationTime = redditPost.getCreationTime();
             String domain = redditPost.getDomain();
-            String selftext = redditPost.getSelftext().replace("\n", "")
-                    .replace("\r", "");
+            String title = redditPost.getTitle();
+            String linkFlair = redditPost.getLinkFlair();
+            String selftext = redditPost.getSelftext().replace("\n"," ")
+                    .replace("\r", " ");
             String score = Integer.toString(redditPost.getScore());
             String numComments = Integer.toString(redditPost.getNumComments());
             String header;
+
 
             if (selftext.length() > MAX_SELFTEXT_LENGTH) {
                 selftext = selftext.substring(0, MAX_SELFTEXT_LENGTH - 4) + " ...";
@@ -232,17 +235,25 @@ public class RedditFragment extends BaseModuleFragment {
             }
 
             // Update the text of the item in the recycler view
-            viewHolder.headerText.setText(header);
-            viewHolder.titleText.setText(redditPost.getTitle());
-            viewHolder.linkFlairText.setText(redditPost.getLinkFlair());
-            viewHolder.selftextText.setText(selftext);
-            viewHolder.scoreText.setText(score);
-            viewHolder.numCommentsText.setText(numComments);
+            setTextOfTextView(viewHolder.headerText, header);
+            setTextOfTextView(viewHolder.titleText, title);
+            setTextOfTextView(viewHolder.linkFlairText, linkFlair);
+            setTextOfTextView(viewHolder.selftextText, selftext);
+            setTextOfTextView(viewHolder.scoreText, score);
+            setTextOfTextView(viewHolder.numCommentsText, numComments);
         }
 
         @Override
         public int getItemCount() {
             return mRedditPosts.size();
+        }
+    }
+
+    private void setTextOfTextView(TextView textView, String text) {
+        if (text == null || text.length() == 0) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setText(text);
         }
     }
 

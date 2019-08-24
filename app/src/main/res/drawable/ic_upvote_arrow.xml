@@ -1,0 +1,31 @@
+<!--The MIT License (MIT)-->
+
+<!--Copyright (c) 2016 Ryan Schwers-->
+
+<!--Permission is hereby granted, free of charge, to any person obtaining a copy-->
+<!--of this software and associated documentation files (the "Software"), to deal-->
+<!--in the Software without restriction, including without limitation the rights-->
+<!--to use, copy, modify, merge, publish, distribute, sublicense, and/or sell-->
+<!--copies of the Software, and to permit persons to whom the Software is-->
+<!--furnished to do so, subject to the following conditions:-->
+
+<!--The above copyright notice and this permission notice shall be included in all-->
+<!--copies or substantial portions of the Software.-->
+
+<!--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR-->
+<!--IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,-->
+<!--FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE-->
+<!--AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER-->
+<!--LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,-->
+<!--OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE-->
+<!--SOFTWARE.-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="640">
+  <path
+      android:pathData="M258.62 173.95C155.7 285.81 98.52 347.95 87.09 360.38C87.16 360.54 87.12 360.45 87.19 360.62C97.82 360.62 182.85 360.62 193.48 360.62C193.5 360.64 193.51 360.65 193.53 360.67C193.53 371.34 193.53 424.65 193.53 520.62L326.87 520.62C326.87 424.69 326.87 371.39 326.87 360.73C326.91 360.69 326.93 360.66 326.98 360.62C334.08 360.62 369.6 360.62 433.53 360.62L258.62 173.95L258.62 173.95Z"
+      android:fillColor="@color/black"/>
+</vector>
