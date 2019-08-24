@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,22 +37,29 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class RedditFragment extends BaseModuleFragment {
+public class RedditFragment extends BaseModuleFragment
+        implements SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.reddit_posts_sort_spinner)
     Spinner mRedditSortSpinner;
     @BindView(R.id.reddit_top_posts_spinner)
     Spinner mRedditTopPostsSpinner;
+    @BindView(R.id.reddit_swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.reddit_posts_list)
     RecyclerView mRedditPostList;
+    @BindView(R.id.reddit_no_results)
+    TextView mNoResultsText;
+    @BindView(R.id.reddit_loading_layout)
+    ViewGroup mLoadingLayout;
 
     private Context mContext;
     private MenuItem mRefreshMenuItem;
 
     private static final String[] SORT_OPTION_SUFFIXES = {"hot.json", "top.json", "new.json"};
     private static final String UWATERLOO_SUBREDDIT_URL = "https://www.reddit.com/r/uwaterloo/";
-    private static final int MAX_SELFTEXT_LENGTH = 160;
+    private static final int MAX_SELFTEXT_LENGTH = 150;
 
     @Override
     public void onAttach(Context context) {
@@ -75,6 +83,7 @@ public class RedditFragment extends BaseModuleFragment {
         // Initialize instance variables
         ButterKnife.bind(this, contentView);
         mRedditPostList.setLayoutManager(new LinearLayoutManager(mContext));
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         setSpinnerSelectionListeners();
         refreshRedditList();
         return root;
@@ -92,6 +101,7 @@ public class RedditFragment extends BaseModuleFragment {
         switch (menuItem.getItemId()) {
             // TODO WL: Refresh
             case R.id.menu_refresh:
+                onRefresh();
                 return true;
             case R.id.menu_browser:
                 IntentUtils.openBrowser(mContext, UWATERLOO_SUBREDDIT_URL);
@@ -102,13 +112,18 @@ public class RedditFragment extends BaseModuleFragment {
     }
 
     @Override
+    public void onRefresh() {
+        // Refresh the screen and retrieve the latest schedules from GitHub
+        displayLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                mRefreshMenuItem, false);
+    }
+
+    @Override
     public String getToolbarTitle() {
         return getString(R.string.title_uwaterloo_subreddit);
     }
 
     private void refreshRedditList() {
-        System.err.println("refreshRedditList");
-
         try {
             // Create a request using the OkHttpClient library
             OkHttpClient okHttpClient = new OkHttpClient();
@@ -222,7 +237,6 @@ public class RedditFragment extends BaseModuleFragment {
             String score = Integer.toString(redditPost.getScore());
             String numComments = Integer.toString(redditPost.getNumComments());
             String header;
-
 
             if (selftext.length() > MAX_SELFTEXT_LENGTH) {
                 selftext = selftext.substring(0, MAX_SELFTEXT_LENGTH - 4) + " ...";

@@ -36,7 +36,8 @@ public class BaseModuleFragment extends Fragment {
      */
     protected void displayLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
                                         MenuItem refreshMenuItem, boolean initialDisplay) {
-        changeLoadingVisibility(swipeRefreshLayout, loadingLayout, refreshMenuItem, initialDisplay, true);
+        changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
+                refreshMenuItem, initialDisplay, true);
     }
 
     /**

@@ -36,24 +36,21 @@ import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.DateTimeUtils;
 
 public class OpenClassroomFragment extends BaseModuleFragment
-        implements SwipeRefreshLayout.OnRefreshListener{
-
+        implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.building_open_classroom_spinner)
     Spinner mBuildingsSpinner;
     @BindView(R.id.hours_open_classroom_spinner)
     Spinner mHoursSpinner;
-    @BindView(R.id.open_classroom_list)
-    RecyclerView mOpenRoomList;
-    @BindView(R.id.open_classroom_full_building_name)
-    TextView mFullBuildingName;
-    @BindView(R.id.open_classroom_no_results)
-    TextView mNoResultsText;
-    @BindView(R.id.loading_layout)
-    ViewGroup mLoadingLayout;
-    @BindView(R.id.open_classroom_layout)
-    ViewGroup mOpenClassroomLayout;
     @BindView(R.id.open_classroom_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.open_classroom_list)
+    RecyclerView mOpenRoomList;
+    @BindView(R.id.open_classroom_no_results)
+    TextView mNoResultsText;
+    @BindView(R.id.open_classroom_full_building_name)
+    TextView mFullBuildingName;
+    @BindView(R.id.open_classroom_loading_layout)
+    ViewGroup mLoadingLayout;
 
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;

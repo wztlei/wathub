@@ -37,12 +37,12 @@ public class RedditPost {
      */
     RedditPost(JSONObject data) {
         try {
-            this.author = data.getString("author");
-            this.domain = data.getString("domain");
-            this.title = data.getString("title");
-            this.linkFlair = data.getString("link_flair_text");
-            this.selftext = data.getString("selftext");
-            this.url = data.getString("url");
+            this.author = getStringByKey(data,"author");
+            this.domain = getStringByKey(data,"domain");
+            this.title = getStringByKey(data,"title");
+            this.linkFlair = getStringByKey(data,"link_flair_text");
+            this.selftext = getStringByKey(data,"selftext");
+            this.url = getStringByKey(data,"url");
             this.creationTime = formatCreationTime((long) data.getDouble("created_utc"));
             this.score = data.getInt("score");
             this.numComments = data.getInt("num_comments");
