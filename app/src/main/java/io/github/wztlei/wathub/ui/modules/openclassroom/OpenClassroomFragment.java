@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,8 @@ import io.github.wztlei.wathub.ui.StringAdapter;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.DateTimeUtils;
 
-public class OpenClassroomFragment extends BaseModuleFragment {
+public class OpenClassroomFragment extends BaseModuleFragment
+        implements SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.building_open_classroom_spinner)
     Spinner mBuildingsSpinner;
@@ -50,6 +52,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     ViewGroup mLoadingLayout;
     @BindView(R.id.open_classroom_layout)
     ViewGroup mOpenClassroomLayout;
+    @BindView(R.id.open_classroom_swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;
@@ -86,6 +90,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         ButterKnife.bind(this, contentView);
         mRoomScheduleManager = RoomScheduleManager.getInstance();
         mOpenRoomList.setLayoutManager(new LinearLayoutManager(mContext));
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSharedPreferences = mContext.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
@@ -125,9 +130,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_refresh:
-                // Refresh the screen and retrieve the latest schedules from GitHub
-                displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
-                mRoomScheduleManager.handleManualRefresh(getActivity());
+                onRefresh();
                 return true;
             case R.id.menu_info:
                 // Creates an alert dialog displaying important info about the open classroom data
@@ -142,6 +145,14 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        // Refresh the screen and retrieve the latest schedules from GitHub
+        displayLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                mRefreshMenuItem, false);
+        mRoomScheduleManager.handleManualRefresh(getActivity());
     }
 
     @Override
@@ -226,7 +237,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      */
     private void displayQueryResults(boolean initialDisplay) {
         // Display the loading screen to provide feedback to the user
-        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, initialDisplay);
+        displayLoadingScreen(mSwipeRefreshLayout, mLoadingLayout, mRefreshMenuItem, initialDisplay);
 
         // Determine if a building is actually selected
         if (mBuildingsSpinner.getSelectedItem() == null) {
@@ -295,7 +306,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
         return timeStringOptions;
     }
-
 
     /**
      * A custom RecyclerView Adapter for the list of open classrooms.

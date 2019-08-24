@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,9 +34,9 @@ public class BaseModuleFragment extends Fragment {
      * @param refreshMenuItem   the menu item for the user to refresh the fragment
      * @param initialDisplay    true if the fragment has just been started, and false otherwise
      */
-    protected void displayLoadingScreen(View loadingLayout, MenuItem refreshMenuItem,
-                                        boolean initialDisplay) {
-        changeLoadingVisibility(loadingLayout, refreshMenuItem, initialDisplay, true);
+    protected void displayLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                        MenuItem refreshMenuItem, boolean initialDisplay) {
+        changeLoadingVisibility(swipeRefreshLayout, loadingLayout, refreshMenuItem, initialDisplay, true);
     }
 
     /**
@@ -46,8 +47,19 @@ public class BaseModuleFragment extends Fragment {
      * @param initialDisplay    true if the fragment has just been started, and false otherwise
      * @param show              true if the loading screen is to be revealed, and false otherwise
      */
-    private void changeLoadingVisibility(View loadingLayout, MenuItem refreshMenuItem,
+    private void changeLoadingVisibility(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                         MenuItem refreshMenuItem,
                                          boolean initialDisplay, boolean show) {
+        Runnable hideLoadingVisibility = () ->
+                changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
+                        refreshMenuItem, false, false);
+
+        // Update the appearance of the swipe refresh layout
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(show);
+            swipeRefreshLayout.setEnabled(!show);
+        }
+
         // Update the visibility of the refresh menu item
         if (refreshMenuItem != null) {
             refreshMenuItem.setVisible(!show);
@@ -57,10 +69,8 @@ public class BaseModuleFragment extends Fragment {
         // Just hide the loading screen if the fragment has just been created
         if (initialDisplay) {
             mIsRefreshing = true;
-            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                            changeLoadingVisibility(loadingLayout, refreshMenuItem,
-                                    false, false),
-                    MINIMUM_UPDATE_DURATION);
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    hideLoadingVisibility, MINIMUM_UPDATE_DURATION);
             return;
         } else if (mIsRefreshing && show) {
             return;
@@ -99,9 +109,8 @@ public class BaseModuleFragment extends Fragment {
         if (show) {
             mIsRefreshing = true;
             loadingLayout.setVisibility(View.VISIBLE);
-            new Handler(Looper.getMainLooper()).postDelayed(() -> changeLoadingVisibility(
-                    loadingLayout, refreshMenuItem, false, false),
-                    DEFAULT_REFRESH_DURATION);
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    hideLoadingVisibility, DEFAULT_REFRESH_DURATION);
         } else {
             mIsRefreshing = false;
         }
