@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -181,6 +182,7 @@ public class RedditFragment extends BaseModuleFragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 refreshRedditList();
+                onRefresh();
             }
 
             @Override
@@ -192,6 +194,7 @@ public class RedditFragment extends BaseModuleFragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 refreshRedditList();
+                onRefresh();
             }
 
             @Override
@@ -202,6 +205,44 @@ public class RedditFragment extends BaseModuleFragment
 
     private void displayQueryResults(RedditPostList redditPosts) {
         mRedditPostList.setAdapter(new RedditPostAdapter(redditPosts));
+    }
+
+    /**
+     * Sets the text of a TextView or hides it if the text is null or an empty string.
+     *
+     * @param textView  the TextView to modify
+     * @param text      the intended text of the TextView
+     */
+    private void setTextOfTextView(TextView textView, String text) {
+        if (text == null || text.length() == 0) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(text);
+        }
+    }
+
+    /**
+     * Returns the formatted string representing the score or number of comments.
+     *
+     * @param   num the number to format
+     * @return      the formatted string
+     */
+    private String formatRedditPostNumber(int num) {
+        if (num < 0) {
+            throw new IllegalArgumentException(num + " < 0");
+        } else if (num < 1000) {
+            return Integer.toString(num);
+        } else if (num < 100000) {
+            int hundreds = num / 100;
+            int thousands = hundreds / 10;
+            int thousandsDecimal = hundreds % 10;
+            return String.format(Locale.CANADA, "%d.%dk", thousands,  thousandsDecimal);
+        } else if (num < 1000000) {
+            return String.format(Locale.CANADA, "%dk", num / 1000);
+        } else {
+            throw new IllegalArgumentException(num + " >= 1000000");
+        }
     }
 
     /**
@@ -234,8 +275,8 @@ public class RedditFragment extends BaseModuleFragment
             String linkFlair = redditPost.getLinkFlair();
             String selftext = redditPost.getSelftext().replace("\n"," ")
                     .replace("\r", " ");
-            String score = Integer.toString(redditPost.getScore());
-            String numComments = Integer.toString(redditPost.getNumComments());
+            String score = formatRedditPostNumber(redditPost.getScore());
+            String numComments = formatRedditPostNumber(redditPost.getNumComments());
             String header;
 
             if (selftext.length() > MAX_SELFTEXT_LENGTH) {
@@ -263,13 +304,6 @@ public class RedditFragment extends BaseModuleFragment
         }
     }
 
-    private void setTextOfTextView(TextView textView, String text) {
-        if (text == null || text.length() == 0) {
-            textView.setVisibility(View.GONE);
-        } else {
-            textView.setText(text);
-        }
-    }
 
     /**
      * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
