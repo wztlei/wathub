@@ -1,7 +1,5 @@
 package io.github.wztlei.wathub.model;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,15 +13,17 @@ public class RedditPost {
     private String linkFlair;
     private String selftext;
     private String url;
+    private String permalink;
     private int score;
     private int numComments;
-    private int numDiamonds;
-    private int numGolds;
-    private int numSilvers;
+//    private int numDiamonds;
+//    private int numGolds;
+//    private int numSilvers;
     private boolean isVideo;
     private boolean isImage;
 
     public static final String DEFAULT_UWATERLOO_DOMAIN = "self.uwaterloo";
+    private static final String REDDIT_BASE_URL = "https://www.reddit.com";
     private static final String MINUTE_SUFFIX = "m";
     private static final String HOUR_SUFFIX = "h";
     private static final String DAY_SUFFIX = "d";
@@ -43,16 +43,18 @@ public class RedditPost {
             this.linkFlair = getStringByKey(data,"link_flair_text");
             this.selftext = getStringByKey(data,"selftext");
             this.url = getStringByKey(data,"url");
+            this.permalink = REDDIT_BASE_URL + getStringByKey(data, "permalink");
             this.creationTime = formatCreationTime((long) data.getDouble("created_utc"));
             this.score = data.getInt("score");
             this.numComments = data.getInt("num_comments");
 
-            JSONObject gildings = data.getJSONObject("gildings");
-            this.numDiamonds = getGildingNum(gildings, "gid_3");
-            this.numGolds = getGildingNum(gildings, "gid_2");
-            this.numSilvers = getGildingNum(gildings, "gid_1");
+//            JSONObject gildings = data.getJSONObject("gildings");
+//            this.numDiamonds = getGildingNum(gildings, "gid_3");
+//            this.numGolds = getGildingNum(gildings, "gid_2");
+//            this.numSilvers = getGildingNum(gildings, "gid_1");
 
-            this.isVideo = data.getBoolean("is_video");
+            this.isVideo = this.domain.equals("v.redd.it") || this.domain.equals("youtu.be") ||
+                    data.getBoolean("is_video");
             this.isImage = this.domain.equals("i.redd.it") || this.domain.equals("imgur.com");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -108,20 +110,20 @@ public class RedditPost {
         }
     }
 
-    /**
-     * Returns the number of gildings stored in the JSON object if the type exists, or 0 otherwise.
-     *
-     * @param   gildings    a map with key-value pairs representing the type and number of gildings
-     * @param   gildingType the type of gilding to retrieve
-     * @return              the number of gildings if the gilding types exists, or 0 otherwise.
-     */
-    private int getGildingNum(JSONObject gildings, String gildingType) throws JSONException {
-        if (gildings.has(gildingType)) {
-            return gildings.getInt(gildingType);
-        } else {
-            return 0;
-        }
-    }
+//    /**
+//     * Returns the number of gildings stored in the JSON object if the type exists, or 0 otherwise.
+//     *
+//     * @param   gildings    a map with key-value pairs representing the type and number of gildings
+//     * @param   gildingType the type of gilding to retrieve
+//     * @return              the number of gildings if the gilding types exists, or 0 otherwise.
+//     */
+//    private int getGildingNum(JSONObject gildings, String gildingType) throws JSONException {
+//        if (gildings.has(gildingType)) {
+//            return gildings.getInt(gildingType);
+//        } else {
+//            return 0;
+//        }
+//    }
 
     public String getAuthor() {
         return author;
@@ -151,6 +153,10 @@ public class RedditPost {
         return url;
     }
 
+    public String getPermalink() {
+        return permalink;
+    }
+
     public int getScore() {
         return score;
     }
@@ -159,17 +165,17 @@ public class RedditPost {
         return numComments;
     }
 
-    public int getNumDiamonds() {
-        return numDiamonds;
-    }
-
-    public int getNumGolds() {
-        return numGolds;
-    }
-
-    public int getNumSilvers() {
-        return numSilvers;
-    }
+//    public int getNumDiamonds() {
+//        return numDiamonds;
+//    }
+//
+//    public int getNumGolds() {
+//        return numGolds;
+//    }
+//
+//    public int getNumSilvers() {
+//        return numSilvers;
+//    }
 
     public boolean isVideo() {
         return isVideo;

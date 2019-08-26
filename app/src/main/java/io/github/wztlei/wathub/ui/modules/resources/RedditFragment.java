@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,9 +60,11 @@ public class RedditFragment extends BaseModuleFragment
 
     private Context mContext;
     private MenuItem mRefreshMenuItem;
+    private RedditPostList mRedditPosts;
 
     private static final String[] SORT_OPTION_SUFFIXES = {"hot.json", "top.json", "new.json"};
     private static final String UWATERLOO_SUBREDDIT_URL = "https://www.reddit.com/r/uwaterloo/";
+    private static final int MAX_TITLE_LENGTH = 150;
     private static final int MAX_SELFTEXT_LENGTH = 150;
 
     @Override
@@ -115,7 +120,7 @@ public class RedditFragment extends BaseModuleFragment
     @Override
     public void onRefresh() {
         // Refresh the screen and retrieve the latest schedules from GitHub
-        displayLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+        displayFixedLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
                 mRefreshMenuItem, false);
     }
 
@@ -146,10 +151,8 @@ public class RedditFragment extends BaseModuleFragment
                             JSONObject responseJson = new JSONObject(responseString);
                             JSONArray dataChildren = responseJson.getJSONObject("data")
                                     .getJSONArray("children");
-                            RedditPostList redditPosts = new RedditPostList(dataChildren);
-
                             activity.runOnUiThread(() ->
-                                    displayQueryResults(redditPosts));
+                                    displayQueryResults(new RedditPostList(dataChildren)));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -204,7 +207,8 @@ public class RedditFragment extends BaseModuleFragment
     }
 
     private void displayQueryResults(RedditPostList redditPosts) {
-        mRedditPostList.setAdapter(new RedditPostAdapter(redditPosts));
+        mRedditPosts = redditPosts;
+        mRedditPostList.setAdapter(new RedditPostAdapter());
     }
 
     /**
@@ -249,12 +253,6 @@ public class RedditFragment extends BaseModuleFragment
      * A custom RecyclerView Adapter for the list of Reddit posts.
      */
     class RedditPostAdapter extends RecyclerView.Adapter<RedditPostViewHolder> {
-        private RedditPostList mRedditPosts;
-
-        RedditPostAdapter(RedditPostList redditPosts) {
-            mRedditPosts = redditPosts;
-        }
-
         @NonNull
         @Override
         public RedditPostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -279,6 +277,10 @@ public class RedditFragment extends BaseModuleFragment
             String numComments = formatRedditPostNumber(redditPost.getNumComments());
             String header;
 
+            if (title.length() > MAX_TITLE_LENGTH) {
+                title = title.substring(0, MAX_TITLE_LENGTH - 4) + " ...";
+            }
+
             if (selftext.length() > MAX_SELFTEXT_LENGTH) {
                 selftext = selftext.substring(0, MAX_SELFTEXT_LENGTH - 4) + " ...";
             }
@@ -296,6 +298,17 @@ public class RedditFragment extends BaseModuleFragment
             setTextOfTextView(viewHolder.selftextText, selftext);
             setTextOfTextView(viewHolder.scoreText, score);
             setTextOfTextView(viewHolder.numCommentsText, numComments);
+
+            if (redditPost.isImage()) {
+                viewHolder.contentIcon.setVisibility(View.VISIBLE);
+                viewHolder.contentIcon.setImageResource(R.drawable.ic_image);
+            } else if (redditPost.isVideo()) {
+                viewHolder.contentIcon.setVisibility(View.VISIBLE);
+                viewHolder.contentIcon.setImageResource(R.drawable.ic_video);
+            } else {
+                viewHolder.contentIcon.setVisibility(View.GONE);
+            }
+
         }
 
         @Override
@@ -309,6 +322,8 @@ public class RedditFragment extends BaseModuleFragment
      * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
      */
     class RedditPostViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.reddit_post_card)
+        CardView redditPostCard;
         @BindView(R.id.reddit_post_header)
         TextView headerText;
         @BindView(R.id.reddit_post_title)
@@ -318,7 +333,7 @@ public class RedditFragment extends BaseModuleFragment
         @BindView(R.id.reddit_post_selftext)
         TextView selftextText;
         @BindView(R.id.reddit_post_content_icon)
-        ImageView contentIconImage;
+        ImageButton contentIcon;
         @BindView(R.id.reddit_post_score)
         TextView scoreText;
         @BindView(R.id.reddit_post_num_comments)
@@ -327,6 +342,22 @@ public class RedditFragment extends BaseModuleFragment
         RedditPostViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            redditPostCard.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+
+                if (position >= 0) {
+                    IntentUtils.openBrowser(mContext, mRedditPosts.get(position).getPermalink());
+                }
+            });
+
+            contentIcon.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+
+                if (position >= 0) {
+                    IntentUtils.openBrowser(mContext, mRedditPosts.get(position).getUrl());
+                }
+            });
         }
     }
 }

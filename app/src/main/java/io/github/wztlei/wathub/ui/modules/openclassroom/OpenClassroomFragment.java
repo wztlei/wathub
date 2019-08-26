@@ -147,7 +147,7 @@ public class OpenClassroomFragment extends BaseModuleFragment
     @Override
     public void onRefresh() {
         // Refresh the screen and retrieve the latest schedules from GitHub
-        displayLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+        displayFixedLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
                 mRefreshMenuItem, false);
         mRoomScheduleManager.handleManualRefresh(getActivity());
     }
@@ -234,7 +234,8 @@ public class OpenClassroomFragment extends BaseModuleFragment
      */
     private void displayQueryResults(boolean initialDisplay) {
         // Display the loading screen to provide feedback to the user
-        displayLoadingScreen(mSwipeRefreshLayout, mLoadingLayout, mRefreshMenuItem, initialDisplay);
+        displayFixedLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                mRefreshMenuItem, initialDisplay);
 
         // Determine if a building is actually selected
         if (mBuildingsSpinner.getSelectedItem() == null) {

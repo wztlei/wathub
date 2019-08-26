@@ -30,12 +30,14 @@ public class BaseModuleFragment extends Fragment {
     /**
      * Displays the loading screen when the fragment is refreshed.
      *
-     * @param loadingLayout     the layout which contains the loading screen
-     * @param refreshMenuItem   the menu item for the user to refresh the fragment
-     * @param initialDisplay    true if the fragment has just been started, and false otherwise
+     * @param swipeRefreshLayout    the layout that enables a user to refresh by swiping
+     * @param loadingLayout         the layout which contains the loading screen
+     * @param refreshMenuItem       the menu item for the user to refresh the fragment
+     * @param initialDisplay        true if the fragment has just been started, and false otherwise
      */
-    protected void displayLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
-                                        MenuItem refreshMenuItem, boolean initialDisplay) {
+    protected void displayFixedLoadingScreen(SwipeRefreshLayout swipeRefreshLayout,
+                                             View loadingLayout, MenuItem refreshMenuItem,
+                                             boolean initialDisplay) {
         changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
                 refreshMenuItem, initialDisplay, true);
     }
@@ -43,10 +45,11 @@ public class BaseModuleFragment extends Fragment {
     /**
      * Reveals and hides the visibility of the loading screen with a circular animation.
      *
-     * @param loadingLayout     the layout which contains the loading screen
-     * @param refreshMenuItem   the menu item for the user to refresh the fragment
-     * @param initialDisplay    true if the fragment has just been started, and false otherwise
-     * @param show              true if the loading screen is to be revealed, and false otherwise
+     * @param swipeRefreshLayout    the layout that enables a user to refresh by swiping
+     * @param loadingLayout         the layout which contains the loading screen
+     * @param refreshMenuItem       the menu item for the user to refresh the fragment
+     * @param initialDisplay        true if the fragment has just been started, and false otherwise
+     * @param show                  true if the loading screen is to be shown, and false otherwise
      */
     private void changeLoadingVisibility(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
                                          MenuItem refreshMenuItem,
