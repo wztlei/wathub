@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +41,6 @@ import okhttp3.Response;
 
 public class RedditFragment extends BaseModuleFragment
         implements SwipeRefreshLayout.OnRefreshListener {
-
 
     @BindView(R.id.reddit_posts_sort_spinner)
     Spinner mRedditSortSpinner;
@@ -317,9 +314,8 @@ public class RedditFragment extends BaseModuleFragment
         }
     }
 
-
     /**
-     * A custom RecyclerView ViewHolder for an item in the list of open classrooms.
+     * A custom RecyclerView ViewHolder for an item in the list of Reddit posts.
      */
     class RedditPostViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.reddit_post_card)
