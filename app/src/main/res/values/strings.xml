@@ -159,11 +159,13 @@
         <item>Hot</item>
         <item>Top</item>
         <item>New</item>
+        <item>Controversial</item>
+        <item>Rising</item>
     </string-array>
 
-    <string-array name="reddit_top_posts_options">
+    <string-array name="reddit_time_filter_options">
         <item>Past hour</item>
-        <item>Past 24 hours</item>
+        <item>Past day</item>
         <item>Past week</item>
         <item>Past month</item>
         <item>Past year</item>

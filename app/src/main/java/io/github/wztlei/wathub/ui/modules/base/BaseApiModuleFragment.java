@@ -317,10 +317,10 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
             delay = 0;
 
         } else {
-            // We want to keep the refresh UI up for *at least* MINIMUM_UPDATE_DURATION
+            // We want to keep the refresh UI up for *at least* MIN_UPDATE_DURATION
             // Otherwise it looks very choppy and overall not a pleasant look
             final long now = System.currentTimeMillis();
-            delay = MINIMUM_UPDATE_DURATION - (now - mLastUpdate);
+            delay = MIN_UPDATE_DURATION - (now - mLastUpdate);
         }
 
         mTask = null;
@@ -473,7 +473,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
                         return Calls.unwrap(call);
                     }
                 } else {
-                    Thread.sleep(MINIMUM_UPDATE_DURATION);
+                    Thread.sleep(MIN_UPDATE_DURATION);
                 }
             } catch (final Exception e) {
                 Log.w("LoadModuleDataTask", e.getMessage(), e);

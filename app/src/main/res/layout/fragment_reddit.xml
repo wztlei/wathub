@@ -14,25 +14,31 @@
             android:layout_height="wrap_content"
             android:background="?colorPrimary"
             android:orientation="horizontal"
-            android:elevation="8dp">
+            android:elevation="4dp">
 
             <Spinner
                 android:id="@+id/reddit_posts_sort_spinner"
-                android:layout_width="130dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="64dp"
                 android:layout_alignParentStart="true"
                 android:entries="@array/reddit_sort_options"
-                android:padding="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
                 android:spinnerMode="dropdown" />
 
             <Spinner
-                android:id="@+id/reddit_top_posts_spinner"
-                android:layout_width="165dp"
+                android:id="@+id/reddit_time_filter_spinner"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:entries="@array/reddit_top_posts_options"
-                android:padding="16dp"
+                android:entries="@array/reddit_time_filter_options"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
                 android:spinnerMode="dropdown" />
 
         </RelativeLayout>
@@ -76,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorPrimary"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <io.github.wztlei.wathub.ui.view.UwProgressBar
             style="?android:attr/progressBarStyleLarge"

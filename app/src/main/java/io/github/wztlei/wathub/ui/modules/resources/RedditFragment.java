@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.TooltipCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,8 +46,8 @@ public class RedditFragment extends BaseModuleFragment
 
     @BindView(R.id.reddit_posts_sort_spinner)
     Spinner mRedditSortSpinner;
-    @BindView(R.id.reddit_top_posts_spinner)
-    Spinner mRedditTopPostsSpinner;
+    @BindView(R.id.reddit_time_filter_spinner)
+    Spinner mRedditTimeFilterSpinner;
     @BindView(R.id.reddit_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.reddit_posts_list)
@@ -59,10 +61,15 @@ public class RedditFragment extends BaseModuleFragment
     private MenuItem mRefreshMenuItem;
     private RedditPostList mRedditPosts;
 
-    private static final String[] SORT_OPTION_SUFFIXES = {"hot.json", "top.json", "new.json"};
+    private static final String[] SORT_OPTION_SUFFIXES =
+            {"hot/.json", "top/.json", "new/.json", "controversial/.json", "rising/.json"};
+    private static final String[] TIME_FILTER_OPTION_SUFFIXES =
+            {"?t=hour", "?t=day", "?t=week", "?t=month", "?t=year", "?t=all"};
     private static final String UWATERLOO_SUBREDDIT_URL = "https://www.reddit.com/r/uwaterloo/";
     private static final int MAX_TITLE_LENGTH = 150;
     private static final int MAX_SELFTEXT_LENGTH = 150;
+    private static final int TOP_POSTS_OPTION_INDEX = 1;
+    private static final int CONTROVERSIAL_POSTS_OPTION_INDEX = 3;
 
     @Override
     public void onAttach(Context context) {
@@ -88,7 +95,9 @@ public class RedditFragment extends BaseModuleFragment
         mRedditPostList.setLayoutManager(new LinearLayoutManager(mContext));
         mSwipeRefreshLayout.setOnRefreshListener(this);
         setSpinnerSelectionListeners();
-        refreshRedditList();
+        refreshRedditList(UWATERLOO_SUBREDDIT_URL + SORT_OPTION_SUFFIXES[0]);
+        showLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                mRefreshMenuItem, true);
         return root;
     }
 
@@ -116,9 +125,14 @@ public class RedditFragment extends BaseModuleFragment
 
     @Override
     public void onRefresh() {
-        // Refresh the screen and retrieve the latest schedules from GitHub
-        displayFixedLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
-                mRefreshMenuItem, false);
+        String url = getQueryUrl();
+
+        if (url != null) {
+            // Refresh the screen and retrieve the latest schedules from GitHub
+            showLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                    mRefreshMenuItem, false);
+            refreshRedditList(url);
+        }
     }
 
     @Override
@@ -126,13 +140,10 @@ public class RedditFragment extends BaseModuleFragment
         return getString(R.string.title_uwaterloo_subreddit);
     }
 
-    private void refreshRedditList() {
+    private void refreshRedditList(String url) {
         try {
             // Create a request using the OkHttpClient library
             OkHttpClient okHttpClient = new OkHttpClient();
-
-            int sortOptionIndex = Math.max(0, mRedditSortSpinner.getSelectedItemPosition());
-            String url = UWATERLOO_SUBREDDIT_URL + SORT_OPTION_SUFFIXES[sortOptionIndex];
             Request request = new Request.Builder().url(url).build();
 
             okHttpClient.newCall(request).enqueue(new Callback() {
@@ -148,8 +159,11 @@ public class RedditFragment extends BaseModuleFragment
                             JSONObject responseJson = new JSONObject(responseString);
                             JSONArray dataChildren = responseJson.getJSONObject("data")
                                     .getJSONArray("children");
-                            activity.runOnUiThread(() ->
-                                    displayQueryResults(new RedditPostList(dataChildren)));
+                            activity.runOnUiThread(() -> {
+                                displayQueryResults(new RedditPostList(dataChildren));
+                                RedditFragment.this.hideLoadingScreen(
+                                        mSwipeRefreshLayout, mLoadingLayout, mRefreshMenuItem);
+                            });
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -163,8 +177,11 @@ public class RedditFragment extends BaseModuleFragment
                     // Display a toast for a no network error
                     if (activity != null) {
                         CharSequence errorText = activity.getText(R.string.error_no_network);
-                        activity.runOnUiThread(() -> Toast.makeText(
-                                activity, errorText, Toast.LENGTH_SHORT).show());
+                        activity.runOnUiThread(() -> {
+                            Toast.makeText(activity, errorText, Toast.LENGTH_SHORT).show();
+                            RedditFragment.this.hideLoadingScreen(
+                                    mSwipeRefreshLayout, mLoadingLayout, mRefreshMenuItem);
+                        });
                     }
                 }
             });
@@ -181,7 +198,6 @@ public class RedditFragment extends BaseModuleFragment
         mRedditSortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshRedditList();
                 onRefresh();
             }
 
@@ -190,10 +206,9 @@ public class RedditFragment extends BaseModuleFragment
             }
         });
 
-        mRedditTopPostsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mRedditTimeFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshRedditList();
                 onRefresh();
             }
 
@@ -201,6 +216,29 @@ public class RedditFragment extends BaseModuleFragment
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    String getQueryUrl() {
+        String url = null;
+        int sortOptionIndex = mRedditSortSpinner.getSelectedItemPosition();
+
+        if (sortOptionIndex >= 0) {
+             url = UWATERLOO_SUBREDDIT_URL + SORT_OPTION_SUFFIXES[sortOptionIndex];
+
+            if (sortOptionIndex == TOP_POSTS_OPTION_INDEX
+                    || sortOptionIndex == CONTROVERSIAL_POSTS_OPTION_INDEX) {
+                mRedditTimeFilterSpinner.setVisibility(View.VISIBLE);
+                int timeFilterIndex = mRedditTimeFilterSpinner.getSelectedItemPosition();
+
+                if (timeFilterIndex >= 0) {
+                    url += TIME_FILTER_OPTION_SUFFIXES[timeFilterIndex];
+                }
+            } else {
+                mRedditTimeFilterSpinner.setVisibility(View.GONE);
+            }
+        }
+
+        return url;
     }
 
     private void displayQueryResults(RedditPostList redditPosts) {
