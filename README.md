@@ -2,6 +2,8 @@
 
 Discover useful information about the University of Waterloo with WatHub! Having issues with UWaterloo Portal? If so, give this app a try! WatHub is made by UW students, for UW students.
 
+<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
+
 Here are some handy features that are currently offered:
 - <b>Food Service Locations</b>: Places serving food and beverages on campus, including operating hours and detailed outlet information.
 - <b>Open Classrooms</b>: Free, unused classrooms on campus for studying or hosting events.
