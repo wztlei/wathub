@@ -35,9 +35,8 @@ public class BaseModuleFragment extends Fragment {
      * @param refreshMenuItem       the menu item for the user to refresh the fragment
      * @param initialDisplay        true if the fragment has just been started, and false otherwise
      */
-    protected void showFixedLoadingScreen(SwipeRefreshLayout swipeRefreshLayout,
-                                             View loadingLayout, MenuItem refreshMenuItem,
-                                             boolean initialDisplay) {
+    protected void showFixedLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                          MenuItem refreshMenuItem, boolean initialDisplay) {
         changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
                 refreshMenuItem, initialDisplay, true, true);
     }
