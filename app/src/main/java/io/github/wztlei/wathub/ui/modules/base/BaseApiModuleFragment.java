@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.ui.modules.base;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -316,10 +317,10 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
             delay = 0;
 
         } else {
-            // We want to keep the refresh UI up for *at least* MINIMUM_UPDATE_DURATION
+            // We want to keep the refresh UI up for *at least* MIN_UPDATE_DURATION
             // Otherwise it looks very choppy and overall not a pleasant look
             final long now = System.currentTimeMillis();
-            delay = MINIMUM_UPDATE_DURATION - (now - mLastUpdate);
+            delay = MIN_UPDATE_DURATION - (now - mLastUpdate);
         }
 
         mTask = null;
@@ -333,11 +334,21 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     }
 
     protected void onNullResponseReceived() {
-        Toast.makeText(getActivity(), "Received no data", Toast.LENGTH_SHORT).show();
+        Activity activity = getActivity();
+
+        if (activity != null) {
+            Toast.makeText(activity, activity.getText(R.string.error_no_network),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onNoDataReturned() {
-        Toast.makeText(getActivity(), "Received no data", Toast.LENGTH_LONG).show();
+        Activity activity = getActivity();
+
+        if (activity != null) {
+            Toast.makeText(activity, activity.getText(R.string.error_no_network),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void resolveNetworkLayoutVisibility() {
@@ -462,7 +473,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
                         return Calls.unwrap(call);
                     }
                 } else {
-                    Thread.sleep(MINIMUM_UPDATE_DURATION);
+                    Thread.sleep(MIN_UPDATE_DURATION);
                 }
             } catch (final Exception e) {
                 Log.w("LoadModuleDataTask", e.getMessage(), e);

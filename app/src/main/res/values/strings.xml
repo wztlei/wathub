@@ -40,6 +40,8 @@
     <string name="title_parking">Parking</string>
     <string name="title_poi">Points Of Interest</string>
     <string name="title_open_classrooms">Open Classrooms</string>
+    <string name="title_reddit">Reddit</string>
+    <string name="title_uwaterloo_subreddit">r/uwaterloo</string>
 
     <string name="description_foodservices_announcements">Additional announcements regarding food being served at various places on campus.</string>
     <string name="description_foodservices_locations">Places serving food and beverages on campus, including operating hours and detailed outlet information.</string>
@@ -58,6 +60,7 @@
     <string name="description_parking">Real-time parking counts in select parking lots across campus.</string>
     <string name="description_poi">ATMs, libraries, and other interesting places and things to see across campus.</string>
     <string name="description_open_classrooms">Free, unused classrooms on campus for studying or hosting events.</string>
+    <string name="description_reddit">Student and alumni-run r/uwaterloo subreddit for the UW community.</string>
 
     <string name="home_quick_course_lookup">Course Lookup</string>
     <string name="home_quick_course_hint_subject_example">Ex. MATH</string>
@@ -92,9 +95,9 @@
     <string name="foodservices_menu_dinner">" Dinner "</string>
 
     <string-array name="foodservices_locations_array">
-        <item>@string/foodservices_location_all</item>
         <item>@string/foodservices_location_open_now</item>
         <item>@string/foodservices_location_tim_hortons</item>
+        <item>@string/foodservices_location_all</item>
     </string-array>
 
     <string name="week_monday">Monday</string>
@@ -152,6 +155,24 @@
     <string name="open_classroom_no_results">"No open classrooms were found for this building at this time today."</string>
     <string name="open_classroom_calendar_button">"Calendar Button"</string>
 
+    <string-array name="reddit_sort_options">
+        <item>Hot</item>
+        <item>Top</item>
+        <item>New</item>
+        <item>Controversial</item>
+        <item>Rising</item>
+    </string-array>
+
+    <string-array name="reddit_time_filter_options">
+        <item>Past hour</item>
+        <item>Past day</item>
+        <item>Past week</item>
+        <item>Past month</item>
+        <item>Past year</item>
+        <item>All time</item>
+    </string-array>
+
+    <string name="reddit_no_results">No posts were found.</string>
 
     <string name="building_no_location_data">No location data for this building</string>
 

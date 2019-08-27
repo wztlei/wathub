@@ -57,7 +57,7 @@ public class NearbyLocationsFragment extends Fragment implements
     private static final String KEY_MY_LOCATION = "my_location";
     private static final String TAG = "NearbyLocationsFragment";
 
-    private static final long ERROR_ANIMATION_DURATION = 500L;
+    private static final long ERROR_ANIMATION_DURATION = 200L;
     private static final int LOCATION_AMOUNT = 3;
     private static final LocationRequest LOCATION_REQUEST =
             LocationRequest.create().setInterval(TimeUnit.SECONDS.toMillis(10));

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,37 +18,89 @@ import io.github.wztlei.wathub.utils.Px;
 public class BaseModuleFragment extends Fragment {
 
     private Animator mLoadingAnimator;
+    private long mLastRefreshTime;
     private boolean mIsRefreshing;
 
     protected static final Interpolator ANIMATION_INTERPOLATOR = new FastOutSlowInInterpolator();
-    protected static final int MINIMUM_UPDATE_DURATION = 1000;
+    protected static final int MIN_UPDATE_DURATION = 1000;
+    protected static final int MIN_REFRESH_DURATION = 500;
     protected static final int ANIMATION_DURATION = 300;
-
-    protected static final int DEFAULT_REFRESH_DURATION = 500;
     private static final String TAG = "WL/BaseModuleFragment";
+
+    /**
+     * Displays a fixed duration loading screen when the fragment is refreshed.
+     *
+     * @param swipeRefreshLayout    the layout that enables a user to refresh by swiping
+     * @param loadingLayout         the layout which contains the loading screen
+     * @param refreshMenuItem       the menu item for the user to refresh the fragment
+     * @param initialDisplay        true if the fragment has just been started, and false otherwise
+     */
+    protected void showFixedLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                          MenuItem refreshMenuItem, boolean initialDisplay) {
+        changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
+                refreshMenuItem, initialDisplay, true, true);
+    }
 
     /**
      * Displays the loading screen when the fragment is refreshed.
      *
-     * @param loadingLayout     the layout which contains the loading screen
-     * @param refreshMenuItem   the menu item for the user to refresh the fragment
-     * @param initialDisplay    true if the fragment has just been started, and false otherwise
+     * @param swipeRefreshLayout    the layout that enables a user to refresh by swiping
+     * @param loadingLayout         the layout which contains the loading screen
+     * @param refreshMenuItem       the menu item for the user to refresh the fragment
+     * @param initialDisplay        true if the fragment has just been started, and false otherwise
      */
-    protected void displayLoadingScreen(View loadingLayout, MenuItem refreshMenuItem,
-                                        boolean initialDisplay) {
-        changeLoadingVisibility(loadingLayout, refreshMenuItem, initialDisplay, true);
+    protected void showLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                     MenuItem refreshMenuItem, boolean initialDisplay) {
+        changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
+                refreshMenuItem, initialDisplay, true, false);
+    }
+    /**
+     * Displays the loading screen when the fragment is refreshed.
+     *
+     * @param swipeRefreshLayout    the layout that enables a user to refresh by swiping
+     * @param loadingLayout         the layout which contains the loading screen
+     * @param refreshMenuItem       the menu item for the user to refresh the fragment
+     */
+    protected void hideLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                     MenuItem refreshMenuItem) {
+        if (mIsRefreshing) {
+            long timeDiff = System.currentTimeMillis() - mLastRefreshTime;
+
+            if (timeDiff < MIN_REFRESH_DURATION) {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> changeLoadingVisibility(
+                        swipeRefreshLayout, loadingLayout, refreshMenuItem,
+                        false, false, false),
+                        MIN_REFRESH_DURATION - timeDiff);
+            } else {
+                changeLoadingVisibility(swipeRefreshLayout, loadingLayout, refreshMenuItem,
+                        false, false, false);
+            }
+        }
     }
 
     /**
      * Reveals and hides the visibility of the loading screen with a circular animation.
      *
-     * @param loadingLayout     the layout which contains the loading screen
-     * @param refreshMenuItem   the menu item for the user to refresh the fragment
-     * @param initialDisplay    true if the fragment has just been started, and false otherwise
-     * @param show              true if the loading screen is to be revealed, and false otherwise
+     * @param swipeRefreshLayout    the layout that enables a user to refresh by swiping
+     * @param loadingLayout         the layout which contains the loading screen
+     * @param refreshMenuItem       the menu item for the user to refresh the fragment
+     * @param initialDisplay        true if the fragment has just been started
+     * @param show                  true if the loading screen is to be shown
+     * @param isMinDuration         true if the loading screen is to be shown for the min duration
      */
-    private void changeLoadingVisibility(View loadingLayout, MenuItem refreshMenuItem,
-                                         boolean initialDisplay, boolean show) {
+    private void changeLoadingVisibility(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
+                                         MenuItem refreshMenuItem, boolean initialDisplay,
+                                         boolean show, boolean isMinDuration) {
+        Runnable hideLoadingVisibility = () ->
+                changeLoadingVisibility(swipeRefreshLayout, loadingLayout,
+                        refreshMenuItem, false, false, isMinDuration);
+
+        // Update the appearance of the swipe refresh layout
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(show);
+            swipeRefreshLayout.setEnabled(!show);
+        }
+
         // Update the visibility of the refresh menu item
         if (refreshMenuItem != null) {
             refreshMenuItem.setVisible(!show);
@@ -55,12 +108,15 @@ public class BaseModuleFragment extends Fragment {
         }
 
         // Just hide the loading screen if the fragment has just been created
-        if (initialDisplay) {
+        if (initialDisplay && isMinDuration) {
             mIsRefreshing = true;
-            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                            changeLoadingVisibility(loadingLayout, refreshMenuItem,
-                                    false, false),
-                    MINIMUM_UPDATE_DURATION);
+            mLastRefreshTime = System.currentTimeMillis();
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    hideLoadingVisibility, MIN_REFRESH_DURATION);
+            return;
+        } else if (initialDisplay) {
+            mIsRefreshing = true;
+            mLastRefreshTime = System.currentTimeMillis();
             return;
         } else if (mIsRefreshing && show) {
             return;
@@ -96,12 +152,16 @@ public class BaseModuleFragment extends Fragment {
         }
 
         // If we are showing the loading screen, then hide it after a delay
-        if (show) {
+        if (show && isMinDuration) {
             mIsRefreshing = true;
+            mLastRefreshTime = System.currentTimeMillis();
             loadingLayout.setVisibility(View.VISIBLE);
-            new Handler(Looper.getMainLooper()).postDelayed(() -> changeLoadingVisibility(
-                    loadingLayout, refreshMenuItem, false, false),
-                    DEFAULT_REFRESH_DURATION);
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    hideLoadingVisibility, MIN_REFRESH_DURATION);
+        } else if (show) {
+            mIsRefreshing = true;
+            mLastRefreshTime = System.currentTimeMillis();
+            loadingLayout.setVisibility(View.VISIBLE);
         } else {
             mIsRefreshing = false;
         }

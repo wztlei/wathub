@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,22 +35,22 @@ import io.github.wztlei.wathub.ui.StringAdapter;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.DateTimeUtils;
 
-public class OpenClassroomFragment extends BaseModuleFragment {
-
+public class OpenClassroomFragment extends BaseModuleFragment
+        implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.building_open_classroom_spinner)
     Spinner mBuildingsSpinner;
     @BindView(R.id.hours_open_classroom_spinner)
     Spinner mHoursSpinner;
+    @BindView(R.id.open_classroom_swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.open_classroom_list)
     RecyclerView mOpenRoomList;
-    @BindView(R.id.open_classroom_full_building_name)
-    TextView mFullBuildingName;
     @BindView(R.id.open_classroom_no_results)
     TextView mNoResultsText;
-    @BindView(R.id.loading_layout)
+    @BindView(R.id.open_classroom_full_building_name)
+    TextView mFullBuildingName;
+    @BindView(R.id.open_classroom_loading_layout)
     ViewGroup mLoadingLayout;
-    @BindView(R.id.open_classroom_layout)
-    ViewGroup mOpenClassroomLayout;
 
     private RoomScheduleManager mRoomScheduleManager;
     private SharedPreferences mSharedPreferences;
@@ -86,6 +87,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         ButterKnife.bind(this, contentView);
         mRoomScheduleManager = RoomScheduleManager.getInstance();
         mOpenRoomList.setLayoutManager(new LinearLayoutManager(mContext));
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSharedPreferences = mContext.getSharedPreferences(
                 Constants.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
@@ -111,11 +113,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
     }
 
     @Override
-    public String getToolbarTitle() {
-        return getString(R.string.title_open_classrooms);
-    }
-
-    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         // Inflate the menu
         inflater.inflate(R.menu.menu_info_and_refresh, menu);
@@ -128,24 +125,36 @@ public class OpenClassroomFragment extends BaseModuleFragment {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.menu_refresh) {
-            // Refresh the screen and retrieve the latest schedules from GitHub
-            displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, false);
-            mRoomScheduleManager.handleManualRefresh(getActivity());
-            return true;
-        } else if (menuItem.getItemId() == R.id.menu_info) {
-            // Creates an alert dialog displaying important info about the open classroom data
-            new AlertDialog.Builder(mContext)
-                    .setTitle(getString(R.string.open_classroom_dialog_title))
-                    .setMessage(getString(R.string.open_classroom_dialog_message))
-                    .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
-                    })
-                    .create()
-                    .show();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(menuItem);
+        switch (menuItem.getItemId()) {
+            case R.id.menu_refresh:
+                onRefresh();
+                return true;
+            case R.id.menu_info:
+                // Creates an alert dialog displaying important info about the open classroom data
+                new AlertDialog.Builder(mContext)
+                        .setTitle(getString(R.string.open_classroom_dialog_title))
+                        .setMessage(getString(R.string.open_classroom_dialog_message))
+                        .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
+                        })
+                        .create()
+                        .show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menuItem);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        // Refresh the screen and retrieve the latest schedules from GitHub
+        showFixedLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                mRefreshMenuItem, false);
+        mRoomScheduleManager.handleManualRefresh(getActivity());
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return getString(R.string.title_open_classrooms);
     }
 
     /**
@@ -225,7 +234,8 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      */
     private void displayQueryResults(boolean initialDisplay) {
         // Display the loading screen to provide feedback to the user
-        displayLoadingScreen(mLoadingLayout, mRefreshMenuItem, initialDisplay);
+        showFixedLoadingScreen(mSwipeRefreshLayout, mLoadingLayout,
+                mRefreshMenuItem, initialDisplay);
 
         // Determine if a building is actually selected
         if (mBuildingsSpinner.getSelectedItem() == null) {
@@ -266,7 +276,7 @@ public class OpenClassroomFragment extends BaseModuleFragment {
                 mFullBuildingName.setVisibility(View.GONE);
                 mNoResultsText.setVisibility(View.VISIBLE);
             }
-        }, DEFAULT_REFRESH_DURATION / 2);
+        }, MIN_REFRESH_DURATION / 2);
     }
 
     /**
@@ -295,7 +305,6 @@ public class OpenClassroomFragment extends BaseModuleFragment {
         return timeStringOptions;
     }
 
-
     /**
      * A custom RecyclerView Adapter for the list of open classrooms.
      */
@@ -321,9 +330,9 @@ public class OpenClassroomFragment extends BaseModuleFragment {
             RoomTimeInterval roomTimeInterval = mRoomTimeIntervalList.get(i);
 
             // Update the text of the item in the recycler view
-            viewHolder.mRoomTextView.setText(roomTimeInterval.formatRoom());
-            viewHolder.mTimeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
-            viewHolder.mDateTextView.setText(roomTimeInterval.formatMonthAndDate());
+            viewHolder.roomTextView.setText(roomTimeInterval.formatRoom());
+            viewHolder.timeIntervalTextView.setText(roomTimeInterval.formatTimeInterval());
+            viewHolder.dateTextView.setText(roomTimeInterval.formatMonthAndDate());
         }
 
         @Override
@@ -337,13 +346,11 @@ public class OpenClassroomFragment extends BaseModuleFragment {
      */
     class OpenClassroomViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.room_text_view)
-        TextView mRoomTextView;
-
+        TextView roomTextView;
         @BindView(R.id.time_interval_text_view)
-        TextView mTimeIntervalTextView;
-
+        TextView timeIntervalTextView;
         @BindView(R.id.date_text_view)
-        TextView mDateTextView;
+        TextView dateTextView;
 
         OpenClassroomViewHolder(@NonNull View itemView) {
             super(itemView);

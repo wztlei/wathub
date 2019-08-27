@@ -1,4 +1,8 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- This vector image is licensed under the Font Awesome Free License and the Creative Commons Attribution 4.0 International Public License. -->
+<!-- Font Awesome Free License: https://fontawesome.com/license/free -->
+<!-- Creative Commons Attribution 4.0 International Public License: https://creativecommons.org/licenses/by/4.0/legalcode -->
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="640"
