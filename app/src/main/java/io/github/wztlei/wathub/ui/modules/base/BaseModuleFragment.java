@@ -18,7 +18,7 @@ import io.github.wztlei.wathub.utils.Px;
 public class BaseModuleFragment extends Fragment {
 
     private Animator mLoadingAnimator;
-    private long mLastRefreshTime;
+    private long mPrevRefreshTime;
     private boolean mIsRefreshing;
 
     protected static final Interpolator ANIMATION_INTERPOLATOR = new FastOutSlowInInterpolator();
@@ -64,7 +64,7 @@ public class BaseModuleFragment extends Fragment {
     protected void hideLoadingScreen(SwipeRefreshLayout swipeRefreshLayout, View loadingLayout,
                                      MenuItem refreshMenuItem) {
         if (mIsRefreshing) {
-            long timeDiff = System.currentTimeMillis() - mLastRefreshTime;
+            long timeDiff = System.currentTimeMillis() - mPrevRefreshTime;
 
             if (timeDiff < MIN_REFRESH_DURATION) {
                 new Handler(Looper.getMainLooper()).postDelayed(() -> changeLoadingVisibility(
@@ -110,13 +110,13 @@ public class BaseModuleFragment extends Fragment {
         // Just hide the loading screen if the fragment has just been created
         if (initialDisplay && isMinDuration) {
             mIsRefreshing = true;
-            mLastRefreshTime = System.currentTimeMillis();
+            mPrevRefreshTime = System.currentTimeMillis();
             new Handler(Looper.getMainLooper()).postDelayed(
                     hideLoadingVisibility, MIN_REFRESH_DURATION);
             return;
         } else if (initialDisplay) {
             mIsRefreshing = true;
-            mLastRefreshTime = System.currentTimeMillis();
+            mPrevRefreshTime = System.currentTimeMillis();
             return;
         } else if (mIsRefreshing && show) {
             return;
@@ -154,13 +154,13 @@ public class BaseModuleFragment extends Fragment {
         // If we are showing the loading screen, then hide it after a delay
         if (show && isMinDuration) {
             mIsRefreshing = true;
-            mLastRefreshTime = System.currentTimeMillis();
+            mPrevRefreshTime = System.currentTimeMillis();
             loadingLayout.setVisibility(View.VISIBLE);
             new Handler(Looper.getMainLooper()).postDelayed(
                     hideLoadingVisibility, MIN_REFRESH_DURATION);
         } else if (show) {
             mIsRefreshing = true;
-            mLastRefreshTime = System.currentTimeMillis();
+            mPrevRefreshTime = System.currentTimeMillis();
             loadingLayout.setVisibility(View.VISIBLE);
         } else {
             mIsRefreshing = false;
