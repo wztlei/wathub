@@ -17,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -335,13 +337,13 @@ public class RedditFragment extends BaseModuleFragment
             setTextOfTextView(viewHolder.numCommentsText, numComments);
 
             if (redditPost.isImage()) {
-                viewHolder.contentIcon.setVisibility(View.VISIBLE);
-                viewHolder.contentIcon.setImageResource(R.drawable.ic_image);
+                viewHolder.iconLayout.setVisibility(View.VISIBLE);
+                viewHolder.iconImage.setImageResource(R.drawable.ic_image);
             } else if (redditPost.isVideo()) {
-                viewHolder.contentIcon.setVisibility(View.VISIBLE);
-                viewHolder.contentIcon.setImageResource(R.drawable.ic_video);
+                viewHolder.iconLayout.setVisibility(View.VISIBLE);
+                viewHolder.iconImage.setImageResource(R.drawable.ic_video);
             } else {
-                viewHolder.contentIcon.setVisibility(View.GONE);
+                viewHolder.iconLayout.setVisibility(View.GONE);
             }
 
         }
@@ -366,8 +368,14 @@ public class RedditFragment extends BaseModuleFragment
         TextView linkFlairText;
         @BindView(R.id.reddit_post_selftext)
         TextView selftextText;
-        @BindView(R.id.reddit_post_content_icon)
-        ImageButton contentIcon;
+        @BindView(R.id.reddit_post_icon_layout)
+        FrameLayout iconLayout;
+        @BindView(R.id.reddit_post_icon_button)
+        ImageButton iconButton;
+        @BindView(R.id.reddit_post_icon_image)
+        ImageView iconImage;
+//        @BindView(R.id.reddit_post_icon_text)
+//        TextView iconText;
         @BindView(R.id.reddit_post_score)
         TextView scoreText;
         @BindView(R.id.reddit_post_num_comments)
@@ -385,7 +393,7 @@ public class RedditFragment extends BaseModuleFragment
                 }
             });
 
-            contentIcon.setOnClickListener(view -> {
+            iconButton.setOnClickListener(view -> {
                 int position = getAdapterPosition();
 
                 if (position >= 0) {

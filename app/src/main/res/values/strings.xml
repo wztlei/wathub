@@ -172,6 +172,8 @@
         <item>All time</item>
     </string-array>
 
+    <string name="reddit_view_content">View</string>
+
     <string name="reddit_no_results">No posts were found.</string>
 
     <string name="building_no_location_data">No location data for this building</string>

@@ -66,23 +66,49 @@
                         android:paddingBottom="4dp"
                         android:paddingLeft="6dp"
                         android:paddingRight="6dp"
-
                         tools:text="Link Flair"/>
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/reddit_post_content_icon"
+                <FrameLayout
+                    android:id="@+id/reddit_post_icon_layout"
                     android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:layout_gravity="top|end"
                     android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:padding="0dp"
-                    android:drawablePadding="0dp"
-                    android:src="@drawable/ic_image"
-                    android:backgroundTint="#BA9E40"/>
+                    android:layout_marginBottom="8dp">
+
+                    <ImageButton
+                        android:id="@+id/reddit_post_icon_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="#BA9E40"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/reddit_post_icon_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="13dp"
+                        android:background="@color/transparent"
+                        tools:src="@drawable/ic_image"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/reddit_post_icon_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="13dp"
+                        android:gravity="bottom|center_horizontal"
+                        android:background="@color/transparent"
+                        android:textColor="@color/black"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:text="@string/reddit_view_content"/>
+
+                </FrameLayout>
+
+
 
             </LinearLayout>
 
