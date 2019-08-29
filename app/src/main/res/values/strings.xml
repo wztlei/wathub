@@ -41,6 +41,8 @@
     <string name="title_parking">Parking</string>
     <string name="title_poi">Points Of Interest</string>
     <string name="title_open_classrooms">Open Classrooms</string>
+    <string name="title_reddit">Reddit</string>
+    <string name="title_uwaterloo_subreddit">r/uwaterloo</string>
     <string name="title_important_dates">Important Dates</string>
 
     <string name="description_foodservices_announcements">Additional announcements regarding food being served at various places on campus.</string>
@@ -151,6 +153,23 @@
     <string name="open_classroom_dialog_message">"The open classroom timetable is based on the normal lecture and tutorial schedule for today.\n\nIndividual rooms may be unavailable due to exams or other special events of which the app is not aware."</string>
     <string name="open_classroom_no_results">"No open classrooms were found for this building at this time today."</string>
     <string name="open_classroom_calendar_button">"Calendar Button"</string>
+
+    <string-array name="reddit_sort_options">
+        <item>Hot</item>
+        <item>Top</item>
+        <item>New</item>
+        <item>Controversial</item>
+        <item>Rising</item>
+    </string-array>
+
+    <string-array name="reddit_time_filter_options">
+        <item>Past hour</item>
+        <item>Past day</item>
+        <item>Past week</item>
+        <item>Past month</item>
+        <item>Past year</item>
+        <item>All time</item>
+    </string-array>
 
     <!-- Important Dates Info -->
     <string name="important_dates_dialog_title">"Note"</string>
