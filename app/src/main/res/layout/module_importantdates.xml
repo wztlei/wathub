@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:moduleDescription="@string/description_news"
+    app:moduleDescription="@string/description_important_dates"
     app:moduleIcon="@drawable/ic_assignment"
-    app:moduleTitle="@string/title_news" />
+    app:moduleTitle="@string/title_important_dates" />

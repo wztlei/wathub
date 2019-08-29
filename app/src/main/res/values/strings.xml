@@ -62,6 +62,7 @@
     <string name="description_parking">Real-time parking counts in select parking lots across campus.</string>
     <string name="description_poi">ATMs, libraries, and other interesting places and things to see across campus.</string>
     <string name="description_open_classrooms">Free, unused classrooms on campus for studying or hosting events.</string>
+    <string name="description_important_dates">Course Add/Drop, Tuition Deadlines, and other essential dates for your uWaterloo term.</string>
 
     <string name="home_quick_course_lookup">Course Lookup</string>
     <string name="home_quick_course_hint_subject">Ex. MATH</string>
