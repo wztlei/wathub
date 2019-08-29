@@ -12,6 +12,7 @@ import io.github.wztlei.wathub.ui.modules.foodservices.AnnouncementsFragment;
 import io.github.wztlei.wathub.ui.modules.foodservices.LocationsFragment;
 import io.github.wztlei.wathub.ui.modules.foodservices.MenusFragment;
 import io.github.wztlei.wathub.ui.modules.foodservices.NotesFragment;
+import io.github.wztlei.wathub.ui.modules.importantdates.ImportantDatesFragment;
 import io.github.wztlei.wathub.ui.modules.news.NewsFragment;
 import io.github.wztlei.wathub.ui.modules.news.NewsListFragment;
 import io.github.wztlei.wathub.ui.modules.openclassroom.OpenClassroomFragment;
@@ -63,6 +64,9 @@ final class ModuleMap {
 
         sEndpoints.put("/news",
                 new ModuleInfo(NewsListFragment.class, R.layout.module_news));
+
+        sEndpoints.put("/terms/*/importantdates",
+                new ModuleInfo(ImportantDatesFragment.class, R.layout.module_importantdates));
 
         sEndpoints.put("/parking/watpark",
                 new ModuleInfo(ParkingFragment.class, R.layout.module_parking));

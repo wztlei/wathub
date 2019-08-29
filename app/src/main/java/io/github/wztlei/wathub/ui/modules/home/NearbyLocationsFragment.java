@@ -21,6 +21,7 @@ import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.foodservices.Location;
 
+import io.github.wztlei.wathub.ApiKeys;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.net.Calls;
 import io.github.wztlei.wathub.ui.modules.ModuleHostActivity;

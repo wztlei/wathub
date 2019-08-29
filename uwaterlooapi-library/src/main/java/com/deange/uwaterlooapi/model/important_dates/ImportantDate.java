@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-public class ImportantDatesDetails extends BaseModel implements Parcelable, Comparable<ImportantDatesDetails> {
+public class ImportantDate extends BaseModel implements Parcelable, Comparable<ImportantDate> {
 
     @SerializedName("id")
     int mId;
@@ -64,7 +64,7 @@ public class ImportantDatesDetails extends BaseModel implements Parcelable, Comp
     String mUpdated;
 
 
-    protected ImportantDatesDetails(final Parcel in) {
+    protected ImportantDate(final Parcel in) {
         super(in);
         mId = in.readInt();
         mTitle = in.readString();
@@ -106,15 +106,15 @@ public class ImportantDatesDetails extends BaseModel implements Parcelable, Comp
         dest.writeString(mUpdated);
     }
 
-    public static final Creator<ImportantDatesDetails> CREATOR = new Creator<ImportantDatesDetails>() {
+    public static final Creator<ImportantDate> CREATOR = new Creator<ImportantDate>() {
         @Override
-        public ImportantDatesDetails createFromParcel(final Parcel in) {
-            return new ImportantDatesDetails(in);
+        public ImportantDate createFromParcel(final Parcel in) {
+            return new ImportantDate(in);
         }
 
         @Override
-        public ImportantDatesDetails[] newArray(final int size) {
-            return new ImportantDatesDetails[size];
+        public ImportantDate[] newArray(final int size) {
+            return new ImportantDate[size];
         }
     };
 
@@ -129,10 +129,10 @@ public class ImportantDatesDetails extends BaseModel implements Parcelable, Comp
 
     public String getEndDate() { return mEndDate; }
 
+    public String getLink() { return mLink; }
 
-    public int compareTo(final ImportantDatesDetails another) {
-        // change this
+
+    public int compareTo(final ImportantDate another) {
         return getStartDate().compareTo(another.getStartDate());
     }
-
 }

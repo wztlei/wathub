@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
 
+import io.github.wztlei.wathub.ApiKeys;
 import io.github.wztlei.wathub.R;
 import io.github.wztlei.wathub.controller.WatcardManager;
 import io.github.wztlei.wathub.ui.BaseActivity;

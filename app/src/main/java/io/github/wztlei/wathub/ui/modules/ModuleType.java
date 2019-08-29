@@ -24,5 +24,5 @@ public interface ModuleType {
     String WATCARD_BALANCE = "WatCard Balance";
     String WATCARD_VENDORS = "WatCard Vendor List";
     String WEATHER = "Weather";
-    String IMPORTANT_DATES_LIST = "Important Dates List";
+    String IMPORTANT_DATES = "Important Dates List";
 }

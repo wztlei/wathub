@@ -18,7 +18,7 @@ import com.deange.uwaterlooapi.model.foodservices.Note;
 import com.deange.uwaterlooapi.model.foodservices.Outlet;
 import com.deange.uwaterlooapi.model.foodservices.Product;
 import com.deange.uwaterlooapi.model.foodservices.WatcardVendor;
-import com.deange.uwaterlooapi.model.important_dates.ImportantDatesDetails;
+import com.deange.uwaterlooapi.model.important_dates.ImportantDate;
 import com.deange.uwaterlooapi.model.news.NewsArticle;
 import com.deange.uwaterlooapi.model.news.NewsDetails;
 import com.deange.uwaterlooapi.model.parking.ParkingLot;
@@ -99,7 +99,7 @@ public interface Responses {
   class NewsEntity extends SimpleResponse<NewsArticle> {
   }
 
-  class ImportantDates extends SimpleListResponse<ImportantDatesDetails> {
+  class ImportantDates extends SimpleListResponse<ImportantDate> {
   }
 
 

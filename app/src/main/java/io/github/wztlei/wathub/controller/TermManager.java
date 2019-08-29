@@ -111,7 +111,7 @@ public class TermManager {
      *
      * @return the current term number
      */
-    int currentTerm() {
+    public int currentTerm() {
         if (sCurrentTerm < 1195) {
             throw new IllegalStateException(sCurrentTerm + " is not a valid term number");
         } else {

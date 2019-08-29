@@ -31,9 +31,9 @@
             android:title="@string/api_campus" />
 
         <item
-            android:id="@+id/menu_item_news"
+            android:id="@+id/menu_item_events"
             android:icon="@drawable/ic_news"
-            android:title="@string/api_news" />
+            android:title="@string/api_events" />
 
         <item
             android:id="@+id/menu_item_weather"

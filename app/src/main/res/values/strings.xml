@@ -10,6 +10,7 @@
     <string name="api_ci">Campus Information</string>
     <string name="api_maps">Maps</string>
     <string name="api_campus">Campus</string>
+    <string name="api_events">Events</string>
     <string name="api_news">News</string>
     <string name="api_weather">Weather</string>
     <string name="api_resources">Resources</string>

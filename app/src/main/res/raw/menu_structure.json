@@ -10,9 +10,10 @@
   "courses": [
     "/courses/*"
   ],
-  "news": [
-    "/news",
-    "/events"
+  "events": [
+    "/terms/*/importantdates",
+    "/events",
+    "/news"
   ],
   "weather": [
     "/weather/current"
