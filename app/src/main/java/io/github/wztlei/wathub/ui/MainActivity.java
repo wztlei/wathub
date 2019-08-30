@@ -125,12 +125,12 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         // update the main content by replacing fragments
 
-        System.err.println("gt here");
+        //System.err.println("gt here");
 
         final int itemId = item.getItemId();
         final Fragment fragment;
 
-        System.err.println(itemId);
+        //System.err.println(itemId);
 
         if (itemId == R.id.menu_item_about) {
             startActivity(new Intent(this, AboutActivity.class));
@@ -145,18 +145,18 @@ public class MainActivity extends BaseActivity
         } else {
             final String[] endpoints = mMenuStructure.getApiMethods(item.getItemId(), getResources());
 
-            System.err.println(endpoints.length);
-            for (int i = 0; i < endpoints.length; i++) {
-                System.err.println(endpoints[i]);
-            }
-            if (endpoints.length < 1) {
-                throw new IllegalStateException("endpoints.length == 0");
-            } else if (endpoints.length == 1) {
+            //System.err.println(endpoints.length);
+            //for (int i = 0; i < endpoints.length; i++) {
+              //  System.err.println(endpoints[i]);
+           // }
+           // if (endpoints.length < 1) {
+               // throw new IllegalStateException("endpoints.length == 0");
+                if (endpoints.length == 1) {
                 ApiMethodsFragment.openModule(this, endpoints[0]);
                 return false;
             }
 
-            System.err.println("after endpoints");
+            //System.err.println("after endpoints");
 
             fragment = ApiMethodsFragment.newInstance(endpoints);
         }
@@ -189,7 +189,7 @@ public class MainActivity extends BaseActivity
 
         String[] getApiMethods(final @IdRes int menuItemId, final Resources res) {
             final String idName = res.getResourceEntryName(menuItemId);
-            System.err.println(idName);
+           // System.err.println(idName);
             final String category = idName.substring("menu_item_".length());
             final List<String> endpoints = containsKey(category) ? get(category) : new ArrayList<>();
 

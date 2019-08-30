@@ -17,13 +17,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.text.Html;
 
 import com.deange.uwaterlooapi.UWaterlooApi;
 import com.deange.uwaterlooapi.annotations.ModuleFragment;
 import com.deange.uwaterlooapi.model.Metadata;
 import com.deange.uwaterlooapi.model.common.Responses;
 import com.deange.uwaterlooapi.model.important_dates.ImportantDate;
-import android.text.Html;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -44,11 +44,7 @@ import io.github.wztlei.wathub.controller.TermManager;
 import io.github.wztlei.wathub.ui.ModuleAdapter;
 import io.github.wztlei.wathub.ui.ModuleListItemListener;
 import io.github.wztlei.wathub.ui.modules.ModuleType;
-import io.github.wztlei.wathub.ui.modules.ModuleType;
 import io.github.wztlei.wathub.ui.modules.base.BaseListApiModuleFragment;
-import io.github.wztlei.wathub.controller.ImportantDatesManager;
-import io.github.wztlei.wathub.model.ImportantDatesDisplay;
-import io.github.wztlei.wathub.model.ImportantDatesList;
 import io.github.wztlei.wathub.ui.StringAdapter;
 import io.github.wztlei.wathub.ui.modules.base.BaseModuleFragment;
 import io.github.wztlei.wathub.utils.IntentUtils;
@@ -59,7 +55,7 @@ import retrofit2.Call;
         layout = R.layout.module_importantdates // change the icon
 )
 public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.ImportantDates, ImportantDate>
-        implements ModuleListItemListener{
+        implements ModuleListItemListener {
 
 
     private int term_id;
@@ -69,9 +65,9 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     //private int springTerm = 5;
     //private int termYear;
 
-    private TermManager mTermManager;
+    //private TermManager mTermManager;
 
-    private int selectedTerm;
+    //private int selectedTerm;
     private int nextTerm;
     private int termAfterNext;
     private boolean showAll = false;
@@ -129,7 +125,7 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     public Call<Responses.ImportantDates> onLoadData(final UWaterlooApi api) {
         //int selectedTerm;
         //selectedTerm = calculateTerm();
-        selectedTerm = 1199;
+        int selectedTerm = 1199;
         return api.ImportantDates.getImportantDates(selectedTerm);
     }
 
@@ -138,7 +134,7 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         mResponse.clear();
         mResponse.addAll(data);
 
-       // Collections.sort(mResponse, Collections.reverseOrder());
+        Collections.sort(mResponse, Collections.reverseOrder());
 
         notifyDataSetChanged();
     }
@@ -155,9 +151,9 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
          1. directly link tho the url
          2. create an ImportantDatesViewFragment that contains some content --> current implementation
          */
-        final ImportantDate importantDates = mResponse.get(position);
-        final String urlLink = importantDates.getLink();
-        IntentUtils.openBrowser(getActivity(), urlLink);
+        //final ImportantDate importantDates = mResponse.get(position);
+        //final String urlLink = importantDates.getLink();
+        //IntentUtils.openBrowser(getActivity(), urlLink);
     }
 
     private class ImportantDatesAdapter extends ModuleAdapter {
@@ -208,8 +204,8 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
             }
             */
 
-            //@Override
-            //public void onNothingSelected(AdapterView<?> parent) {}
+        //@Override
+        //public void onNothingSelected(AdapterView<?> parent) {}
         //});
     }
 
@@ -233,6 +229,7 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
 
     /**
      * Calculates the TERM ID (ex. 1199 -> '1' for after 2000, '19' for 2019, '9' for September)
+     *
      * @return
      */
     private int calculateTerm() {
@@ -247,7 +244,8 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
     }
 
     /**
-     *  Calculates the term starting month (1, 5, or 9)
+     * Calculates the term starting month (1, 5, or 9)
+     *
      * @return
      */
     private static int getStartMonth() {
@@ -255,9 +253,9 @@ public class ImportantDatesFragment extends BaseListApiModuleFragment<Responses.
         int month = cal.get(Calendar.MONTH);
         int returnedMonth;
 
-        if ((month == 8 || month == 9 || month == 10 || month ==11)) {
+        if ((month == 8 || month == 9 || month == 10 || month == 11)) {
             returnedMonth = 9;
-        } else if ((month == 0 || month == 1 || month == 2 || month ==3)) {
+        } else if ((month == 0 || month == 1 || month == 2 || month == 3)) {
             returnedMonth = 1;
         } else {
             returnedMonth = 5;

@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 public interface ImportantDatesApi {
     /**
      * This method returns all important dates for the requested term.
-     * @return
+     * @return list of important dates for the term
      */
     @GET("terms/{term_id}/importantdates.json")
     Call<Responses.ImportantDates> getImportantDates(@Path("term_id") int term_id );

@@ -77,7 +77,8 @@ public class ImportantDate extends BaseModel implements Parcelable, Comparable<I
         mTermId = in.readInt();
         mStartDate = in.readString();
         mEndDate = in.readString();
-       //  mDateTbd = in.readBoo
+        mDateTbd = (in.readInt()!=0);
+        mDateNa = (in.readInt()!=0);
         mLink = in.readString();
         mSite = in.readString();
         mVid = in.readInt();
@@ -94,12 +95,13 @@ public class ImportantDate extends BaseModel implements Parcelable, Comparable<I
         dest.writeString(mBodyRaw);
         dest.writeString(mSpecialNotes);
         dest.writeString(mSpecialNotesRaw);
-       //dest.writeStringArray(mAudience);
+        dest.writeStringList(mAudience);
         dest.writeString(mTerm);
         dest.writeInt(mTermId);
         dest.writeString(mStartDate);
         dest.writeString(mEndDate);
-        // two more things
+        dest.writeInt(mDateTbd ? 1 : 0);
+        dest.writeInt(mDateNa ? 1 : 0);
         dest.writeString(mLink);
         dest.writeString(mSite);
         dest.writeInt(mVid);
@@ -125,13 +127,17 @@ public class ImportantDate extends BaseModel implements Parcelable, Comparable<I
 
     public String getBody() { return mBody; }
 
+    public String getBodyRaw() { return mBodyRaw; }
+
+    public int getTermId() { return mTermId; }
+
     public String getStartDate() { return mStartDate; }
 
     public String getEndDate() { return mEndDate; }
 
     public String getLink() { return mLink; }
 
-
+    @Override
     public int compareTo(final ImportantDate another) {
         return getStartDate().compareTo(another.getStartDate());
     }
