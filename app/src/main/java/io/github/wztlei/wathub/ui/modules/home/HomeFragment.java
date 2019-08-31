@@ -260,6 +260,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             openClassroomList.addAll(roomScheduleManager.findOpenRooms(
                     reorderedBuildings.get(i), searchDate));
 
+            // TODO WL: Use the card/layout's height to determine the # of classrooms to display
             if (openClassroomList.size() >= MAX_NUM_CLASSROOMS) {
                 break;
             }
