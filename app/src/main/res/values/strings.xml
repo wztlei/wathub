@@ -172,7 +172,9 @@
         <item>All time</item>
     </string-array>
 
+    <string name="reddit_watch_content">Watch</string>
     <string name="reddit_view_content">View</string>
+    <string name="reddit_open_content">Open</string>
 
     <string name="reddit_no_results">No posts were found.</string>
 
@@ -247,21 +249,23 @@
     <!-- About Page -->
     <string-array name="question1">
         <item>"What is this?"</item>
-        <item>"This is an app we created for students to access data from the University of Waterloo's Open Data API. This was built by forking the Citrus app made by Christian De Angelis which is no longer being maintained. We obtained his source code under the MIT License, so we're now continuously adding new features to WatHub!"</item>
+        <item>"We created WatHub to help students discover useful information about the University of Waterloo! The data is gathered from a variety of sources including the UWaterloo Open Data API and through web scraping. The Citrus app's source code, which we obtained under the MIT license, provides the underlying foundation of this app."</item>
     </string-array>
 
     <string-array name="question2">
         <item>"What does it do?"</item>
-        <item>"Look around! There's location hours, course information, events around campus, and even a map of all the terrifying goose nests you'll inevitably encounter on your way to class. See below for a full list of features:&lt;br /&gt;
-            &lt;br /&gt;
-            \t&#8226;\t\t Food Services: Menus, Notes, Locations &lt;br /&gt;
-            \t&#8226;\t\t Courses &lt;br /&gt;
-            \t&#8226;\t\t Maps: Points of Interest, Buildings, &lt;br /&gt;
-                \t\t\t&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Parking, Goose Watch &lt;br /&gt;
-            \t&#8226;\t\t News: News, Events &lt;br /&gt;
-            \t&#8226;\t\t Weather &lt;br /&gt;
-            \t&#8226;\t\t Resources: Sites, Sunshine List
-        </item>
+        <item>"Look around! There's food service location hours, open classrooms, events around campus, and even a map of all the terrifying goose nests you'll encounter on your way to class!"</item>
+
+        <!--<item>"Look around! There's location hours, course information, events around campus, and even a map of all the terrifying goose nests you'll inevitably encounter on your way to class. See below for a full list of features:&lt;br /&gt;-->
+            <!--&lt;br /&gt;-->
+            <!--\t&#8226;\t\t Food Services: Menus, Notes, Locations &lt;br /&gt;-->
+            <!--\t&#8226;\t\t Courses &lt;br /&gt;-->
+            <!--\t&#8226;\t\t Maps: Points of Interest, Buildings, &lt;br /&gt;-->
+                <!--\t\t\t&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Parking, Goose Watch &lt;br /&gt;-->
+            <!--\t&#8226;\t\t News: News, Events &lt;br /&gt;-->
+            <!--\t&#8226;\t\t Weather &lt;br /&gt;-->
+            <!--\t&#8226;\t\t Resources: Sites, Sunshine List-->
+        <!--</item>-->
     </string-array>
 
     <string-array name="question3">
@@ -286,7 +290,7 @@
 
     <string-array name="question7">
         <item>"App Version"</item>
-        <item>"1199.1.0"</item>
+        <item>"1199.1.1"</item>
     </string-array>
 
     <!-- Feedback -->
