@@ -75,5 +75,5 @@ public final class UWaterlooApi {
 
   public final WatcardApi Watcard = ApiBuilder.buildCustom(this, WatcardApi.URL, WatcardApi.class);
 
-  public final ImportantDatesApi ImportantDates = ApiBuilder.buildCustom(this, BASE_URL, ImportantDatesApi.class);
+  public final ImportantDatesApi ImportantDates = ApiBuilder.buildJson(this, BASE_URL, ImportantDatesApi.class);
 }

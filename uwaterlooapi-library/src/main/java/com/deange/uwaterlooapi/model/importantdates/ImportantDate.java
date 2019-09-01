@@ -1,13 +1,11 @@
-package com.deange.uwaterlooapi.model.important_dates;
+package com.deange.uwaterlooapi.model.importantdates;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.deange.uwaterlooapi.model.BaseModel;
-import com.deange.uwaterlooapi.utils.DateUtils;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
 import java.util.List;
 
 public class ImportantDate extends BaseModel implements Parcelable, Comparable<ImportantDate> {

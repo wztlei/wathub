@@ -18,7 +18,7 @@ import com.deange.uwaterlooapi.model.foodservices.Note;
 import com.deange.uwaterlooapi.model.foodservices.Outlet;
 import com.deange.uwaterlooapi.model.foodservices.Product;
 import com.deange.uwaterlooapi.model.foodservices.WatcardVendor;
-import com.deange.uwaterlooapi.model.important_dates.ImportantDate;
+import com.deange.uwaterlooapi.model.importantdates.ImportantDate;
 import com.deange.uwaterlooapi.model.news.NewsArticle;
 import com.deange.uwaterlooapi.model.news.NewsDetails;
 import com.deange.uwaterlooapi.model.parking.ParkingLot;
