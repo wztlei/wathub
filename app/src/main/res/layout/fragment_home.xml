@@ -173,7 +173,6 @@
                                 tools:ignore="UseCompoundDrawables">
 
                                 <ImageView
-                                    android:id="@android:id/icon"
                                     android:layout_width="44dp"
                                     android:layout_height="44dp"
                                     android:background="@drawable/ic_events"
@@ -183,7 +182,6 @@
                                     style="@style/TextAppearance.UWaterloo.Body1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
                                     android:gravity="center"
                                     android:padding="6dp"
                                     android:text="@string/title_events" />
@@ -222,7 +220,6 @@
                                 tools:ignore="UseCompoundDrawables">
 
                                 <ImageView
-                                    android:id="@android:id/icon"
                                     android:layout_width="44dp"
                                     android:layout_height="44dp"
                                     android:background="@drawable/ic_my_location"
@@ -232,7 +229,6 @@
                                     style="@style/TextAppearance.UWaterloo.Body1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
                                     android:gravity="center"
                                     android:padding="6dp"
                                     android:text="@string/title_poi" />
