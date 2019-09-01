@@ -27,8 +27,8 @@ public class FaqSection extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
         inflate(getContext(), R.layout.view_faq_section, this);
-        mQuestionView = (TextView) findViewById(android.R.id.text1);
-        mAnswerView = (TextView) findViewById(android.R.id.text2);
+        mQuestionView = findViewById(android.R.id.text1);
+        mAnswerView = findViewById(android.R.id.text2);
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FaqSection, defStyleAttr,
                 0);

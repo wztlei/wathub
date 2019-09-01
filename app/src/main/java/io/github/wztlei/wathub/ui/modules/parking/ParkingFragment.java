@@ -142,31 +142,35 @@ public class ParkingFragment extends BaseApiMapFragment<Responses.Parking, Parki
     }
 
     private void showLotInfo(final GoogleMap map) {
-        redrawPolygons(map);
+        try {
+            redrawPolygons(map);
 
-        final LatLngBounds.Builder builder = LatLngBounds.builder();
+            final LatLngBounds.Builder builder = LatLngBounds.builder();
 
-        for (final ParkingLot parkingLot : mResponse) {
-            final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
-            for (final LatLng point : points) {
-                builder.include(point);
+            for (final ParkingLot parkingLot : mResponse) {
+                final List<LatLng> points = ParkingLots.getPoints(parkingLot.getLotName());
+                for (final LatLng point : points) {
+                    builder.include(point);
+                }
             }
+
+            final LatLngBounds bounds = builder.build();
+            final int padding = Px.fromDp(16);
+
+            // Set the appearance of the map
+            map.setIndoorEnabled(false);
+            map.setBuildingsEnabled(true);
+            map.setMapType(MapUtils.googleMapType(getContext()));
+            map.setOnMapClickListener(this);
+            map.setOnMapLongClickListener(this);
+            map.getUiSettings().setAllGesturesEnabled(true);
+            map.getUiSettings().setZoomControlsEnabled(true);
+            map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+
+            MapUtils.setLocationEnabled(getActivity(), map);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-
-        final LatLngBounds bounds = builder.build();
-        final int padding = Px.fromDp(16);
-
-        // Set the appearance of the map
-        map.setIndoorEnabled(false);
-        map.setBuildingsEnabled(true);
-        map.setMapType(MapUtils.googleMapType(getContext()));
-        map.setOnMapClickListener(this);
-        map.setOnMapLongClickListener(this);
-        map.getUiSettings().setAllGesturesEnabled(true);
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
-
-        MapUtils.setLocationEnabled(getActivity(), map);
     }
 
     private void redrawPolygons(final GoogleMap map) {
