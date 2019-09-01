@@ -32,7 +32,7 @@
 
         <item
             android:id="@+id/menu_item_events"
-            android:icon="@drawable/ic_news"
+            android:icon="@drawable/ic_events"
             android:title="@string/api_events" />
 
         <item
