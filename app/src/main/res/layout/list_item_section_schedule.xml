@@ -12,14 +12,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
 
                 <TextView
                     android:id="@+id/schedule_section"
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/schedule_campus"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_people"
                     android:textAppearance="?android:textAppearanceSmall"
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/schedule_reserves"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     tools:text="Held with CS 658" />
 
             </RelativeLayout>
@@ -72,7 +72,7 @@
                 android:id="@+id/schedule_classes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:divider="@color/divider"
                 android:dividerHeight="1dp"
                 android:footerDividersEnabled="true"

@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.ui.modules.base;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -52,7 +53,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private T mLastResponse;
     private Animator mLoadingAnimator;
-    private LoadModuleDataTask mTask;
+    private LoadModuleDataTask<T, V> mTask;
     private SwipeRefreshLayout mSwipeLayout;
 
     public static <V extends AbstractModel> Bundle newBundle(final V model) {
@@ -184,8 +185,8 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
     public void showModule(final Class<? extends BaseApiModuleFragment> fragment, final Bundle arguments) {
         // TODO BUG #1: Potential cause of Android 7/Nougat TransactionTooLargeException
-        getActivity().startActivity(
-                ModuleHostActivity.getStartIntent(getActivity(), fragment.getCanonicalName(), arguments));
+        getActivity().startActivity(ModuleHostActivity.getStartIntent(
+                getActivity(), fragment.getCanonicalName(), arguments));
     }
 
     public <M> M getModel() {
@@ -216,7 +217,7 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
             changeLoadingVisibilityInternal(true);
             mLastUpdate = System.currentTimeMillis();
 
-            mTask = new LoadModuleDataTask();
+            mTask = new LoadModuleDataTask<>(this, getActivity() == null);
             mTask.execute(getApi());
         }
     }
@@ -301,10 +302,6 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
         return true;
     }
 
-    public long getLastUpdate() {
-        return mLastUpdate;
-    }
-
     private boolean noTaskRunning() {
         return mTask == null;
     }
@@ -320,10 +317,10 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
             delay = 0;
 
         } else {
-            // We want to keep the refresh UI up for *at least* MINIMUM_UPDATE_DURATION
+            // We want to keep the refresh UI up for *at least* MIN_UPDATE_DURATION
             // Otherwise it looks very choppy and overall not a pleasant look
             final long now = System.currentTimeMillis();
-            delay = MINIMUM_UPDATE_DURATION - (now - mLastUpdate);
+            delay = MIN_UPDATE_DURATION - (now - mLastUpdate);
         }
 
         mTask = null;
@@ -337,11 +334,21 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
     }
 
     protected void onNullResponseReceived() {
-        Toast.makeText(getActivity(), "Received no data", Toast.LENGTH_SHORT).show();
+        Activity activity = getActivity();
+
+        if (activity != null) {
+            Toast.makeText(activity, activity.getText(R.string.error_no_network),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onNoDataReturned() {
-        Toast.makeText(getActivity(), "Received no data", Toast.LENGTH_LONG).show();
+        Activity activity = getActivity();
+
+        if (activity != null) {
+            Toast.makeText(activity, activity.getText(R.string.error_no_network),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void resolveNetworkLayoutVisibility() {
@@ -440,20 +447,33 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
     public abstract String getContentType();
 
-    private final class LoadModuleDataTask extends AsyncTask<UWaterlooApi, Void, T> {
+    private void setLastResponse(T lastResponse) {
+        mLastResponse = lastResponse;
+    }
+
+    private static final class LoadModuleDataTask<T extends Parcelable, V extends AbstractModel>
+            extends AsyncTask<UWaterlooApi, Void, T> {
+
+        private BaseApiModuleFragment<T, V> mBaseApiModuleFragment;
+        private boolean mIsActivityNull;
+
+        private LoadModuleDataTask(BaseApiModuleFragment<T, V> baseApiModuleFragment,
+                                   boolean isActivityNull) {
+            mBaseApiModuleFragment = baseApiModuleFragment;
+            mIsActivityNull = isActivityNull;
+        }
 
         @Override
         protected T doInBackground(final UWaterlooApi... apis) {
             // Performed on a background thread, so network calls are performed here
-
             try {
                 if (NetworkController.getInstance().isConnected()) {
-                    final Call<T> call = onLoadData(apis[0]);
+                    final Call<T> call = mBaseApiModuleFragment.onLoadData(apis[0]);
                     if (call != null) {
                         return Calls.unwrap(call);
                     }
                 } else {
-                    Thread.sleep(MINIMUM_UPDATE_DURATION);
+                    Thread.sleep(MIN_UPDATE_DURATION);
                 }
             } catch (final Exception e) {
                 Log.w("LoadModuleDataTask", e.getMessage(), e);
@@ -464,15 +484,12 @@ public abstract class BaseApiModuleFragment<T extends Parcelable, V extends Abst
 
         @Override
         protected void onPostExecute(final T data) {
-            if (getActivity() == null) {
-                return;
+            if (!mIsActivityNull) {
+                // Performed on the main thread, so view manipulation is performed here
+                mBaseApiModuleFragment.setLastResponse(data) ;
+                mBaseApiModuleFragment.onLoadFinished();
+                mBaseApiModuleFragment.deliverResponse(data);
             }
-
-            // Performed on the main thread, so view manipulation is performed here
-            mLastResponse = data;
-            onLoadFinished();
-
-            deliverResponse(data);
         }
     }
 }

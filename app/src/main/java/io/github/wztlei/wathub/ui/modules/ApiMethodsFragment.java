@@ -14,6 +14,7 @@ import io.github.wztlei.wathub.utils.Px;
 public class ApiMethodsFragment extends ListFragment implements ModuleListItemListener {
 
     private static final String ARG_METHODS = "methods";
+    @SuppressWarnings("unused")
     private static final String TAG = "WL/ApiMethodsFragment";
 
     public static ApiMethodsFragment newInstance(final String[] endpoints) {
@@ -53,7 +54,9 @@ public class ApiMethodsFragment extends ListFragment implements ModuleListItemLi
                         getActivity(), methods, ApiMethodsFragment.this));
             }
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
     <color name="uw_yellow">#FFCF22</color>
     <color name="uw_yellow_pressed">#FFDE70</color>
@@ -9,6 +10,8 @@
 
     <color name="foodservices_location_open">#689F38</color>
     <color name="foodservices_location_closed">#B71C1C</color>
+
+    <color name="reddit_icon">#666666</color>
 
     <color name="divider">#AAAAAA</color>
     <color name="background">#EEEEEE</color>

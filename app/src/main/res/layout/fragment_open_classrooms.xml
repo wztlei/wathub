@@ -6,22 +6,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:id="@+id/open_classroom_layout">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorPrimary"
             android:orientation="horizontal"
-            android:elevation="8dp">
+            android:elevation="4dp">
 
             <Spinner
                 android:id="@+id/building_open_classroom_spinner"
                 android:layout_width="115dp"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 android:spinnerMode="dropdown"
                 android:layout_gravity="center_vertical"
                 android:layout_alignParentStart="true"/>
@@ -41,8 +42,8 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:spinnerMode="dropdown"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"/>
 
@@ -60,20 +61,42 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/open_classroom_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/open_classroom_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingTop="4dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            style="@style/CardListView"/>
+            android:layout_weight="1">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/open_classroom_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"
+                    style="@style/CardListView"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/open_classroom_no_results"
+                    android:layout_margin="40dp"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:text="@string/open_classroom_no_results"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </FrameLayout>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <TextView
-            android:elevation="8dp"
-            android:padding="10dp"
+            android:elevation="4dp"
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/open_classroom_full_building_name"
@@ -83,23 +106,10 @@
             android:textSize="16sp"
             android:visibility="gone"/>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/open_classroom_no_results"
-            android:layout_margin="40dp"
-            android:visibility="visible"
-            android:gravity="center"
-            android:text="@string/open_classroom_no_results"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
     </LinearLayout>
 
-
     <RelativeLayout
-        android:id="@+id/loading_layout"
+        android:id="@+id/open_classroom_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorPrimary"

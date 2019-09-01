@@ -82,6 +82,11 @@ fastlane/readme.md
 .gradle/
 .idea/
 build/
+
+# Scraped HTML files
+python-scripts/undergraduate_class_schedules
+python-scripts/graduate_class_schedules
+
 captures/
 
 # Proprietary fonts

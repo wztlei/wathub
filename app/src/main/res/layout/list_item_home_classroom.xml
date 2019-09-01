@@ -2,29 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp"
-    android:paddingTop="7dp"
-    android:paddingBottom="7dp">
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/nearby_location_title"
+        android:id="@+id/home_classroom_room"
         style="@style/TextAppearance.UWaterloo.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        tools:text="Tim Hortons" />
+        tools:text="STC 1012" />
 
     <TextView
-        android:id="@+id/nearby_location_distance"
+        android:id="@+id/home_classroom_time"
         style="@style/TextAppearance.UWaterloo.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_weight="0"
-        tools:text="250m" />
+        tools:text="Now - 1:30" />
 
 </LinearLayout>

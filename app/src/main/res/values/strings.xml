@@ -10,7 +10,6 @@
     <string name="api_ci">Campus Information</string>
     <string name="api_maps">Maps</string>
     <string name="api_campus">Campus</string>
-    <string name="api_events">Events</string>
     <string name="api_news">News</string>
     <string name="api_weather">Weather</string>
     <string name="api_resources">Resources</string>
@@ -43,7 +42,6 @@
     <string name="title_open_classrooms">Open Classrooms</string>
     <string name="title_reddit">Reddit</string>
     <string name="title_uwaterloo_subreddit">r/uwaterloo</string>
-    <string name="title_important_dates">Important Dates</string>
 
     <string name="description_foodservices_announcements">Additional announcements regarding food being served at various places on campus.</string>
     <string name="description_foodservices_locations">Places serving food and beverages on campus, including operating hours and detailed outlet information.</string>
@@ -62,14 +60,16 @@
     <string name="description_parking">Real-time parking counts in select parking lots across campus.</string>
     <string name="description_poi">ATMs, libraries, and other interesting places and things to see across campus.</string>
     <string name="description_open_classrooms">Free, unused classrooms on campus for studying or hosting events.</string>
-    <string name="description_important_dates">Course Add/Drop, Tuition Deadlines, and other essential dates for your uWaterloo term.</string>
+    <string name="description_reddit">Student and alumni-run r/uwaterloo subreddit for the UW community.</string>
 
     <string name="home_quick_course_lookup">Course Lookup</string>
-    <string name="home_quick_course_hint_subject">Ex. MATH</string>
+    <string name="home_quick_course_hint_subject_example">Ex. MATH</string>
+    <string name="home_quick_course_hint_subject">MATH</string>
     <string name="home_quick_course_hint_number">135</string>
-    <string name="home_quick_course_search_subject">Search all %s courses…</string>
+    <string name="home_quick_course_search_subject">Search all %s courses …</string>
     <string name="home_quick_course_search_course">Look up %s…</string>
     <string name="home_quick_weather">Check the weather</string>
+    <string name="home_quick_see_more">See more …</string>
 
     <string name="nearby_locations_title">Nearby Food Locations</string>
     <string name="nearby_locations_see_all">See All</string>
@@ -95,9 +95,9 @@
     <string name="foodservices_menu_dinner">" Dinner "</string>
 
     <string-array name="foodservices_locations_array">
-        <item>@string/foodservices_location_all</item>
         <item>@string/foodservices_location_open_now</item>
         <item>@string/foodservices_location_tim_hortons</item>
+        <item>@string/foodservices_location_all</item>
     </string-array>
 
     <string name="week_monday">Monday</string>
@@ -172,12 +172,9 @@
         <item>All time</item>
     </string-array>
 
-    <!-- Important Dates Info -->
-    <string name="important_dates_dialog_title">"Note"</string>
-    <string name ="important_dates_dialog_message">"The important dates information is based on the uWaterloo API data.\n\n Data may be incorrect or unavailable due to schedule changes.</string>
-    <string name="important_dates_no_results">"There are no important dates to display."</string>
-    <string name="allDates_checkbox">View all Dates</string>
+    <string name="reddit_view_content">View</string>
 
+    <string name="reddit_no_results">No posts were found.</string>
 
     <string name="building_no_location_data">No location data for this building</string>
 
@@ -289,7 +286,7 @@
 
     <string-array name="question7">
         <item>"App Version"</item>
-        <item>"1195.1.0"</item>
+        <item>"1199.1.0"</item>
     </string-array>
 
     <!-- Feedback -->

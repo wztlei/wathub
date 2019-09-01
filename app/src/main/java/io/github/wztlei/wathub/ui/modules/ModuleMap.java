@@ -18,6 +18,7 @@ import io.github.wztlei.wathub.ui.modules.news.NewsListFragment;
 import io.github.wztlei.wathub.ui.modules.openclassroom.OpenClassroomFragment;
 import io.github.wztlei.wathub.ui.modules.parking.ParkingFragment;
 import io.github.wztlei.wathub.ui.modules.poi.PointsOfInterestFragment;
+import io.github.wztlei.wathub.ui.modules.resources.RedditFragment;
 import io.github.wztlei.wathub.ui.modules.resources.GooseWatchFragment;
 import io.github.wztlei.wathub.ui.modules.resources.SitesFragment;
 import io.github.wztlei.wathub.ui.modules.resources.SunshineListFragment;
@@ -91,6 +92,9 @@ final class ModuleMap {
 
         sEndpoints.put("/wathub/openclassrooms",
                 new ModuleInfo(OpenClassroomFragment.class, R.layout.module_open_classrooms));
+
+        sEndpoints.put("/wathub/reddit",
+                new ModuleInfo(RedditFragment.class, R.layout.module_reddit));
     }
 
     @SuppressWarnings("RegExpRedundantEscape")

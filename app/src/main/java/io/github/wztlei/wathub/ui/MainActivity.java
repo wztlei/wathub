@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    @SuppressWarnings("unused")
     private int mClicks;
     private int mNavItemId;
     private ModuleCategories mMenuStructure;
@@ -141,7 +142,6 @@ public class MainActivity extends BaseActivity
 
         if (itemId == R.id.menu_item_home) {
             fragment = new HomeFragment();
-
         } else {
             final String[] endpoints = mMenuStructure.getApiMethods(item.getItemId(), getResources());
 
@@ -179,10 +179,10 @@ public class MainActivity extends BaseActivity
     public void onClick(final View v) {
         Log.d(FRAGMENT_TAG, "onClick");
         // Header view
-        if (++mClicks >= 30) {
-            mClicks = 0;
-            startActivity(new Intent(this, GooseActivity.class));
-        }
+//        if (++mClicks >= 30) {
+//            mClicks = 0;
+//            startActivity(new Intent(this, GooseActivity.class));
+//        }
     }
 
     private static final class ModuleCategories extends HashMap<String, List<String>> {

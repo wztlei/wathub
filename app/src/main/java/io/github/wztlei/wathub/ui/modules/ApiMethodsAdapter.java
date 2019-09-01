@@ -1,6 +1,7 @@
 package io.github.wztlei.wathub.ui.modules;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,14 @@ public class ApiMethodsAdapter extends ArrayAdapter<String> implements View.OnCl
     private final LayoutInflater mInflater;
     private final ModuleListItemListener mListener;
 
-    public ApiMethodsAdapter(
-            final Context context,
-            final String[] objects,
-            final ModuleListItemListener listener) {
+    ApiMethodsAdapter(Context context, String[] objects, ModuleListItemListener listener) {
         super(context, 0, objects);
         mInflater = LayoutInflater.from(context);
         mListener = listener;
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final String endpoint = getItem(position);
         final ModuleInfo info = ModuleMap.getFragmentInfo(endpoint);
 
@@ -77,5 +75,4 @@ public class ApiMethodsAdapter extends ArrayAdapter<String> implements View.OnCl
             mListener.onItemClicked(position);
         }
     }
-
 }

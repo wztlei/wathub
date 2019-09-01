@@ -26,7 +26,7 @@ import io.github.wztlei.wathub.utils.FontUtils;
 
 public class ModuleHostActivity extends BaseActivity implements FragmentManager.OnBackStackChangedListener {
 
-    private static final String TAG = "WL/module_fragment";
+    private static final String TAG = "WL/ModuleHostActivity";
     private static final String ARG_FRAGMENT_CLASS = "fragment_class";
 
     private UWaterlooApi mApi;
@@ -111,7 +111,8 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
     }
 
     public void showFragment(
-            final BaseModuleFragment fragment, final boolean addToBackStack,
+            final BaseModuleFragment fragment,
+            final boolean addToBackStack,
             final Bundle arguments) {
         mChildFragment = fragment;
         mChildFragment.setArguments(arguments);
@@ -124,7 +125,6 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
     }
 
     public void refreshActionBar() {
-        System.err.print("refreshActionBar");
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar == null || mChildFragment == null || !mChildFragment.isAdded()) {

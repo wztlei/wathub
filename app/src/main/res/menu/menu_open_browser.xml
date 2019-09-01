@@ -6,7 +6,7 @@
         android:id="@+id/menu_browser"
         android:icon="@drawable/ic_action_open_in_browser"
         android:title="@string/open_in_browser"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_refresh"

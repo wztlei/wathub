@@ -91,11 +91,21 @@ public class BuildingManager {
      */
     public String getBuildingFullName(String buildingCode) {
         try {
-            if (buildingCode.equals("SJ3")) {
-                // SJ3 and STJ both refer to St. Jerome's University
-                return "St. Jerome's University";
-            } else if (sBuildingCodesMap.has(buildingCode)) {
-                // Use sBuildingCodesMap to determine the building's full name
+            // Special cases where a custom full names is more useful than the official full name
+            switch (buildingCode) {
+                case "AHS": return "Applied Health Sciences Expansion";
+                case "E8":  return "Engineering 8";
+                case "E9":  return "Engineering 9";
+                case "E10": return "Engineering 10";
+                case "SJ1": return "St. Jerome's University - 1";
+                case "SJ2": return "St. Jerome's University - 2";
+                case "SJ3": return "St. Jerome's University - 3";
+                case "SJ4": return "St. Jerome's University - 4";
+                case "SJ5": return "St. Jerome's University - 5";
+            }
+
+            // Use sBuildingCodesMap to determine the building's full name if possible
+            if (sBuildingCodesMap.has(buildingCode)) {
                 return sBuildingCodesMap.getString(buildingCode);
             } else {
                 return buildingCode;

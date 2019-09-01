@@ -43,7 +43,7 @@ ext {
 
     javaVersion = JavaVersion.VERSION_1_8
 
-    supportLibrary = '25.2.0'
+    supportLibrary = '26.1.0'
     playServices = '9.8.0'
     butterknife = '8.5.1'
     retrofit = '2.2.0'

@@ -10,10 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-public class CourseSchedule
-    extends BaseModel
-    implements
-    Parcelable {
+public class CourseSchedule extends BaseModel implements Parcelable {
 
   @SerializedName("subject")
   String mSubject;

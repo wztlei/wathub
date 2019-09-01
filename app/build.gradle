@@ -47,8 +47,8 @@ android {
     defaultConfig {
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionName '1195.1.0'
-        versionCode 10100
+        versionName '1199.1.0'
+        versionCode 20100
 
         multiDexEnabled true
     }
@@ -64,6 +64,8 @@ android {
         }
 
         release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.pro'
             signingConfig signingConfigs.release
         }
@@ -103,4 +105,5 @@ dependencies {
     implementation 'net.danlew:android.joda:2.9.3'
     implementation 'com.github.tajchert:nammu:1.1.1'
     implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
