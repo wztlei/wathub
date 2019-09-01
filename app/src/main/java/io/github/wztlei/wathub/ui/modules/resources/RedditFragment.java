@@ -410,9 +410,15 @@ public class RedditFragment extends BaseModuleFragment
             if (redditPost.isImage()) {
                 viewHolder.iconLayout.setVisibility(View.VISIBLE);
                 viewHolder.iconImage.setImageResource(R.drawable.ic_image);
+                viewHolder.iconText.setText(R.string.reddit_view_content);
             } else if (redditPost.isVideo()) {
                 viewHolder.iconLayout.setVisibility(View.VISIBLE);
                 viewHolder.iconImage.setImageResource(R.drawable.ic_video);
+                viewHolder.iconText.setText(R.string.reddit_watch_content);
+            } else if (redditPost.isLink()) {
+                viewHolder.iconLayout.setVisibility(View.VISIBLE);
+                viewHolder.iconImage.setImageResource(R.drawable.ic_link);
+                viewHolder.iconText.setText(R.string.reddit_open_content);
             } else {
                 viewHolder.iconLayout.setVisibility(View.GONE);
             }
@@ -444,8 +450,8 @@ public class RedditFragment extends BaseModuleFragment
         ImageButton iconButton;
         @BindView(R.id.reddit_post_icon_image)
         ImageView iconImage;
-//        @BindView(R.id.reddit_post_icon_text)
-//        TextView iconText;
+        @BindView(R.id.reddit_post_icon_text)
+        TextView iconText;
         @BindView(R.id.reddit_post_score)
         TextView scoreText;
         @BindView(R.id.reddit_post_num_comments)

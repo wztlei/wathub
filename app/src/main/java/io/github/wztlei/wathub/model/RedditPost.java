@@ -21,6 +21,7 @@ public class RedditPost {
 //    private int numSilvers;
     private boolean isVideo;
     private boolean isImage;
+    private boolean isLink;
 
     public static final String DEFAULT_UWATERLOO_DOMAIN = "self.uwaterloo";
     private static final String REDDIT_BASE_URL = "https://www.reddit.com";
@@ -55,7 +56,9 @@ public class RedditPost {
 
             this.isVideo = this.domain.equals("v.redd.it") || this.domain.equals("youtu.be") ||
                     data.getBoolean("is_video");
-            this.isImage = this.domain.equals("i.redd.it") || this.domain.equals("imgur.com");
+            this.isImage = this.domain.equals("i.redd.it") || this.domain.equals("i.imgur.com");
+            this.isLink = !this.isVideo && !this.isImage
+                    && !this.domain.equals(DEFAULT_UWATERLOO_DOMAIN);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -183,5 +186,9 @@ public class RedditPost {
 
     public boolean isImage() {
         return isImage;
+    }
+
+    public boolean isLink() {
+        return isLink;
     }
 }
