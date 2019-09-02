@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?colorPrimary"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:elevation="4dp">-->
+
+            <!--<Spinner-->
+                <!--android:layout_width="145dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="64dp"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:paddingTop="16dp"-->
+                <!--android:paddingBottom="16dp"-->
+                <!--android:paddingStart="0dp"-->
+                <!--android:paddingEnd="0dp"-->
+                <!--android:spinnerMode="dropdown" />-->
+
+        <!--</RelativeLayout>-->
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/tp_apps_swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/tp_apps_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    style="@style/CardListView"/>
+
+            </FrameLayout>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/tp_apps_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorPrimary"
+        android:visibility="visible">
+
+        <io.github.wztlei.wathub.ui.view.UwProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -3,6 +3,7 @@ package io.github.wztlei.wathub.ui.modules;
 import com.deange.uwaterlooapi.annotations.ModuleInfo;
 
 import io.github.wztlei.wathub.R;
+import io.github.wztlei.wathub.model.ThirdPartyApp;
 import io.github.wztlei.wathub.ui.modules.buildings.BuildingFragment;
 import io.github.wztlei.wathub.ui.modules.buildings.ListBuildingsFragment;
 import io.github.wztlei.wathub.ui.modules.courses.CoursesFragment;
@@ -21,6 +22,7 @@ import io.github.wztlei.wathub.ui.modules.resources.RedditFragment;
 import io.github.wztlei.wathub.ui.modules.resources.GooseWatchFragment;
 import io.github.wztlei.wathub.ui.modules.resources.SitesFragment;
 import io.github.wztlei.wathub.ui.modules.resources.SunshineListFragment;
+import io.github.wztlei.wathub.ui.modules.resources.ThirdPartyAppFragment;
 import io.github.wztlei.wathub.ui.modules.watcard.WatcardBalanceFragment;
 import io.github.wztlei.wathub.ui.modules.weather.WeatherFragment;
 
@@ -91,6 +93,9 @@ final class ModuleMap {
 
         sEndpoints.put("/wathub/reddit",
                 new ModuleInfo(RedditFragment.class, R.layout.module_reddit));
+
+        sEndpoints.put("/wathub/thirdpartyapps",
+                new ModuleInfo(ThirdPartyAppFragment.class, R.layout.module_third_party_apps));
     }
 
     @SuppressWarnings("RegExpRedundantEscape")
