@@ -47,8 +47,8 @@ android {
     defaultConfig {
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionName '1199.1.10'
-        versionCode 20110
+        versionName '1199.2.0'
+        versionCode 20200
 
         multiDexEnabled true
     }

@@ -111,6 +111,9 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
         return getString(R.string.title_third_party_apps);
     }
 
+    /**
+     * Fills the variable mThirdPartyApps with the data of all the third-party apps.
+     */
     private void fillThirdPartyApps() {
         mThirdPartyApps = new ArrayList<>();
         mThirdPartyApps.add(ThirdPartyApp.buildApp(
@@ -178,11 +181,19 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
                 ));
     }
 
+    /**
+     * Opens the application in the browser if it is a website, the Android app itself if it is
+     * installed, or the Google Play Store listing if the app is not installed.
+     *
+     * @param thirdPartyApp the third-party application
+     */
     private void openThirdPartyApp(ThirdPartyApp thirdPartyApp) {
+        // Determine the type of the app
         if (thirdPartyApp.isApp()) {
             String packageName = thirdPartyApp.getPackageName();
             boolean isAppInstalled = true;
 
+            // Determine if the app is installed or not
             try {
                 PackageManager packageManager = mContext.getPackageManager();
                 packageManager.getPackageInfo(packageName, 0);
@@ -193,7 +204,9 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
                 isAppInstalled = false;
             }
 
+            // Open the app accordingly depending on if it is installed or not
             if (isAppInstalled) {
+                // Directly open the app itself
                 Intent launchIntent = mContext.getPackageManager()
                         .getLaunchIntentForPackage(packageName);
 
@@ -201,6 +214,7 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
                 if (launchIntent != null) {
                     startActivity(launchIntent);
                 } else if (packageName.equals("org.mtransit.android.ca_grand_river_transit_bus")) {
+                    // Special case for MonTransit since there is a hidden specific app for the GRT
                     launchIntent = mContext.getPackageManager()
                             .getLaunchIntentForPackage("org.mtransit.android");
 
@@ -209,6 +223,7 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
                     }
                 }
             } else {
+                // Open the Google Play Store listing for the app
                 try {
                     String uriStr = "market://details?id=" + packageName;
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uriStr)));
@@ -218,6 +233,7 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
                 }
             }
         } else if (thirdPartyApp.isWebsite()) {
+            // Open the website in the browser
             IntentUtils.openBrowser(mContext, thirdPartyApp.getUrl());
         }
     }
@@ -229,7 +245,7 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
         @NonNull
         @Override
         public ThirdPartyAppViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            // Use layout_schedule_item.xml as the layout for each individual recycler view item
+            // Specify the layout for each individual recycler view item
             View view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.list_item_third_party_app, viewGroup, false);
             return new ThirdPartyAppFragment.ThirdPartyAppViewHolder(view);
@@ -281,6 +297,4 @@ public class ThirdPartyAppFragment extends BaseModuleFragment
             });
         }
     }
-    
-    
 }
