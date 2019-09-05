@@ -80,7 +80,9 @@ public class NewsFragment extends BaseApiModuleFragment<Responses.NewsEntity, Ne
 
     @OnClick(R.id.news_open_in_browser)
     public void onOpenInBrowserClicked() {
-        IntentUtils.openBrowser(getActivity(), mNewsArticle.getLink());
+        if (mNewsArticle != null) {
+            IntentUtils.openBrowser(getActivity(), mNewsArticle.getLink());
+        }
     }
 
     @Override
@@ -92,6 +94,10 @@ public class NewsFragment extends BaseApiModuleFragment<Responses.NewsEntity, Ne
 
     @Override
     public void onBindData(final Metadata metadata, final NewsArticle data) {
+        if (data == null) {
+            return;
+        }
+
         mNewsArticle = data;
 
         mTitleView.setText(Html.fromHtml(mNewsArticle.getTitle()).toString());
