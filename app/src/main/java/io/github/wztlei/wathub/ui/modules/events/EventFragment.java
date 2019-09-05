@@ -91,7 +91,9 @@ public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails,
 
     @OnClick(R.id.event_open_in_browser)
     public void onOpenInBrowserClicked() {
-        IntentUtils.openBrowser(getActivity(), mEventInfo.getLink());
+        if (mEventInfo != null) {
+            IntentUtils.openBrowser(getActivity(), mEventInfo.getLink());
+        }
     }
 
     @Override
@@ -103,6 +105,10 @@ public class EventFragment extends BaseApiModuleFragment<Responses.EventDetails,
 
     @Override
     public void onBindData(final Metadata metadata, final EventInfo data) {
+        if (data == null) {
+            return;
+        }
+
         mEventInfo = data;
 
         final String title = mEventInfo.getTitle();
