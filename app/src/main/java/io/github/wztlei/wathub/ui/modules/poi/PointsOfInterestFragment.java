@@ -61,8 +61,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 @ModuleFragment(
-    path = "/poi",
-    layout = R.layout.module_poi
+        path = "/poi",
+        layout = R.layout.module_poi
 )
 public class PointsOfInterestFragment
         extends BaseApiMapFragment<CombinedPointsOfInterestInfoResponse, CombinedPointsOfInterestInfo>
@@ -145,36 +145,65 @@ public class PointsOfInterestFragment
 
         try {
             // ATMs
-            fetchPointOfInterestInfo(semaphore, () ->
-                    info.setATMs(Objects.requireNonNull(
-                            Calls.unwrap(api.PointsOfInterest.getATMs())).getData()));
+            fetchPointOfInterestInfo(semaphore, () -> {
+                try {
+                    info.setATMs(Objects.requireNonNull(Calls.unwrap(
+                            api.PointsOfInterest.getATMs())).getData());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
             // Greyhound stops
-            fetchPointOfInterestInfo(semaphore, () ->
-                    info.setGreyhounds(Objects.requireNonNull(
-                            Calls.unwrap(api.PointsOfInterest.getGreyhoundStops())).getData()));
+            fetchPointOfInterestInfo(semaphore, () -> {
+                try {
+                    info.setGreyhounds(Objects.requireNonNull(Calls.unwrap(
+                            api.PointsOfInterest.getGreyhoundStops())).getData());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
             // Photospheres
             fetchPointOfInterestInfo(semaphore, () -> {
-                // Disable Photospheres API due to bug
-                info.setPhotospheres(new ArrayList<>()
-                        /*Calls.unwrap(api.PointsOfInterest.getPhotospheres()).getData()*/);
+                try {
+                    // Disable Photospheres API due to bug
+                    info.setPhotospheres(new ArrayList<>()
+                            /*Calls.unwrap(api.PointsOfInterest.getPhotospheres()).getData()*/);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             });
 
             // Helplines
-            fetchPointOfInterestInfo(semaphore, () ->
-                    info.setHelplines(Objects.requireNonNull(
-                            Calls.unwrap(api.PointsOfInterest.getHelplines())).getData()));
+            fetchPointOfInterestInfo(semaphore, () -> {
+                try {
+                    info.setHelplines(Objects.requireNonNull(Calls.unwrap(
+                            api.PointsOfInterest.getHelplines())).getData());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
             // Libraries
-            fetchPointOfInterestInfo(semaphore, () ->
-                    info.setLibraries(Objects.requireNonNull(
-                            Calls.unwrap(api.PointsOfInterest.getLibraries())).getData()));
+            fetchPointOfInterestInfo(semaphore, () -> {
+                try {
+                    info.setLibraries(Objects.requireNonNull(Calls.unwrap(
+                            api.PointsOfInterest.getLibraries())).getData());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
             // Defibrillators
-            fetchPointOfInterestInfo(semaphore, () ->
-                    info.setDefibrillators(Objects.requireNonNull(
-                            Calls.unwrap(api.PointsOfInterest.getDefibrillators())).getData()));
+            fetchPointOfInterestInfo(semaphore, () -> {
+                try {
+                    info.setDefibrillators(Objects.requireNonNull(Calls.unwrap(
+                            api.PointsOfInterest.getDefibrillators())).getData());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (RuntimeException e) {
             Log.w(TAG, e.getMessage());
             return null;
