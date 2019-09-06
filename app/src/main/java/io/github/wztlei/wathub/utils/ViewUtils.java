@@ -32,14 +32,22 @@ public final class ViewUtils {
 
     @SuppressWarnings("unused")
     public static void showKeyboard(final View view) {
-        final InputMethodManager imm =
-                (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (view == null || view.getContext() == null) {
+            return;
+        }
+
+        final InputMethodManager imm = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         }
     }
 
     public static void hideKeyboard(final Activity activity) {
+        if (activity == null || activity.getWindow() == null) {
+            return;
+        }
+
         final InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
