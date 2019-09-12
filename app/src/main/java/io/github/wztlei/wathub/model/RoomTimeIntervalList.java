@@ -1,12 +1,25 @@
 package io.github.wztlei.wathub.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import io.github.wztlei.wathub.utils.DateTimeUtils;
 
 public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
+
+    private static HashMap<String, HashSet<String>> invalidClassrooms;
+
+    static {
+        invalidClassrooms = new HashMap<>();
+        invalidClassrooms.put("MC", new HashSet<>(Arrays.asList("2009", "5403", "5479", "6460")));
+    }
 
     @Override
     public RoomTimeIntervalList clone() {
@@ -40,6 +53,20 @@ public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
                 return rti1.getEndMin() - rti2.getEndMin();
             }
         });
+    }
+
+    /**
+     * Removes invalid classrooms from the list.
+     */
+    public void filterInvalidClassrooms() {
+        for (Iterator<RoomTimeInterval> iterator = this.iterator(); iterator.hasNext();) {
+            RoomTimeInterval rti = iterator.next();
+
+            if (invalidClassrooms.containsKey(rti.getBuilding())
+                    && invalidClassrooms.get(rti.getBuilding()).contains(rti.getRoomNum())) {
+                iterator.remove();
+            }
+        }
     }
 
     /**

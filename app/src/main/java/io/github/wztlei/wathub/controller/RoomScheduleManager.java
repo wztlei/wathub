@@ -72,6 +72,9 @@ public class RoomScheduleManager {
     private static final int END_DATE_INDEX = 8;
     private static final int HALF_HOURS_PER_DAY = 48;
 
+    // Run this command in python scripts to refresh the json file
+    // python main.py > ../app/src/main/res/raw/room_schedule.json
+
     /**
      * Initializes the static instance of a RoomScheduleManager.
      *
@@ -150,7 +153,7 @@ public class RoomScheduleManager {
     }
 
     /**
-     * Handles a user-requested refresh of the room schedules by 
+     * Handles a user-requested refresh of the room schedules by
      */
     public void handleManualRefresh(Activity activity) {
         refreshRoomScheduleAsync(activity, 0, true, false);
@@ -164,7 +167,7 @@ public class RoomScheduleManager {
         refreshRoomScheduleAsync(null, DEFAULT_MAX_NETWORK_FAILURES,
                 false, true);
     }
-    
+
     /**
      * Retrieves the room schedules from a JSON file hosted on GitHub and then by using the
      * UWaterloo Open Data API to get the schedule for each course.
@@ -250,10 +253,10 @@ public class RoomScheduleManager {
         // Initialize variables
         UWaterlooApi api = new UWaterlooApi(ApiKeys.UWATERLOO_API_KEY);
         String incompleteJson = sSharedPreferences.getString(
-                Constants.INCOMPLETE_SCHEDULE_JSON_KEY, "");
+                Constants.INCOMPLETE_SCHEDULE_JSON_KEY, "{}");
         SharedPreferences.Editor editor = sSharedPreferences.edit();
         RoomSchedule incompleteRoomSchedule;
-        
+
         // Initialize a room schedule with the incomplete JSON file
         try {
             incompleteRoomSchedule = new RoomSchedule(incompleteJson);
@@ -310,8 +313,8 @@ public class RoomScheduleManager {
     /**
      * Updates the state of the class upon receiving a JSON string storing the room schedule.
      *
-     * @param jsonString        a JSON string storing the room schedule data
-     * @param source            the source of the JSON string
+     * @param jsonString a JSON string storing the room schedule data
+     * @param source     the source of the JSON string
      */
     private void updateRoomSchedule(String jsonString, String source) {
         // Put the json string in shared preferences
@@ -333,7 +336,7 @@ public class RoomScheduleManager {
 
             Arrays.sort(sBuildings);
         } catch (JSONException e) {
-            Log.w(TAG, e.getMessage());   
+            Log.w(TAG, e.getMessage());
         }
     }
 
@@ -341,9 +344,9 @@ public class RoomScheduleManager {
      * Returns a list of rooms and the time intervals for which they are open for a given building
      * and the hours at which to start and end the search.
      *
-     * @param building      the building in which to find open rooms
-     * @param searchDate    a Calendar object storing the date and time to search
-     * @return              a list of rooms and the time intervals at which they are open
+     * @param building   the building in which to find open rooms
+     * @param searchDate a Calendar object storing the date and time to search
+     * @return a list of rooms and the time intervals at which they are open
      */
     public RoomTimeIntervalList findOpenRooms(String building, Calendar searchDate) {
         try {
@@ -365,6 +368,7 @@ public class RoomScheduleManager {
             }
 
             // Sort the schedule chronologically and then by room number as a tie-breaker
+            buildingOpenSchedule.filterInvalidClassrooms();
             buildingOpenSchedule.sort();
 
             if (searchHour == currentHour) {
@@ -384,13 +388,13 @@ public class RoomScheduleManager {
      * Adds the time intervals that a particular room is open to a pre-existing
      * schedule of open classrooms.
      *
-     * @param   buildingOpenSchedule    a schedule of when classroom are open for a building
-     * @param   classTimes              a list of the starting and ending date and time
-     *                                  for all the classes that use that room
-     * @param   searchDate              the date for which to add open time intervals
-     * @param   building                the building of the query
-     * @param   roomNum                 the room number for which to find open time intervals
-     * @throws  JSONException           if the classTimes JSONArray is not formatted properly
+     * @param buildingOpenSchedule a schedule of when classroom are open for a building
+     * @param classTimes           a list of the starting and ending date and time
+     *                             for all the classes that use that room
+     * @param searchDate           the date for which to add open time intervals
+     * @param building             the building of the query
+     * @param roomNum              the room number for which to find open time intervals
+     * @throws JSONException if the classTimes JSONArray is not formatted properly
      */
     private static void addOpenTimeIntervals(
             RoomTimeIntervalList buildingOpenSchedule, JSONArray classTimes, Calendar searchDate,
@@ -478,9 +482,9 @@ public class RoomScheduleManager {
     /**
      * Returns the index of the half-hour block for a given time.
      *
-     * @param hour  the hour of the time in 24h format
-     * @param min   the minute of the time
-     * @return      the index of the half-hour block
+     * @param hour the hour of the time in 24h format
+     * @param min  the minute of the time
+     * @return the index of the half-hour block
      */
     private static int calcHalfHourIndex(int hour, int min) {
         if (min < 30) {
@@ -491,14 +495,14 @@ public class RoomScheduleManager {
     }
 
     /**
-     * Returns true if the class occurs on the given date and false otherwise. 
-     * A class occurs on the given date if it occurs on the current day of the week and the current 
+     * Returns true if the class occurs on the given date and false otherwise.
+     * A class occurs on the given date if it occurs on the current day of the week and the current
      * date is within the starting and ending dates for that class.
      *
-     * @param   classTime       the starting and ending dates and times for a class
-     * @param   date            the given date on which a class may potentially occur     
-     * @return                  true if the class occurs on the given date, and false otherwise
-     * @throws  JSONException   if the classTime JSON array is not formatted properly
+     * @param classTime the starting and ending dates and times for a class
+     * @param date      the given date on which a class may potentially occur
+     * @return true if the class occurs on the given date, and false otherwise
+     * @throws JSONException if the classTime JSON array is not formatted properly
      */
     private static boolean isClassOnDate(JSONArray classTime, Calendar date)
             throws JSONException {
@@ -509,13 +513,13 @@ public class RoomScheduleManager {
     /**
      * Returns true if the class occurs on the current day of the week and false otherwise.
      *
-     * @param   classTime       the starting and ending dates and times for a class
-     * @param   date            the given date on which a class may potentially occur
-     * @return                  true if the class occurs on the current day of the week,
-     *                          and false otherwise
-     * @throws  JSONException   if the classTime JSON array is not formatted properly
+     * @param classTime the starting and ending dates and times for a class
+     * @param date      the given date on which a class may potentially occur
+     * @return true if the class occurs on the current day of the week,
+     * and false otherwise
+     * @throws JSONException if the classTime JSON array is not formatted properly
      */
-    private static boolean isClassOnDayOfWeek(JSONArray classTime, Calendar date) 
+    private static boolean isClassOnDayOfWeek(JSONArray classTime, Calendar date)
             throws JSONException {
         // Update the current day of the week
         switch (date.get(Calendar.DAY_OF_WEEK)) {
@@ -542,11 +546,11 @@ public class RoomScheduleManager {
      * Returns true if the search date is within the starting and ending dates for that class
      * and false otherwise.
      *
-     * @param   classTime       the starting and ending dates and times for a class
-     * @param   date            the given date on which a class may potentially occur
-     * @return                  true if the search date is within the starting and
-     *                          ending dates for that class, and false otherwise
-     * @throws  JSONException   if the classTime JSON array is not formatted properly
+     * @param classTime the starting and ending dates and times for a class
+     * @param date      the given date on which a class may potentially occur
+     * @return true if the search date is within the starting and
+     * ending dates for that class, and false otherwise
+     * @throws JSONException if the classTime JSON array is not formatted properly
      */
     private static boolean isClassWithinDateInterval(JSONArray classTime, Calendar date)
             throws JSONException {
@@ -567,10 +571,10 @@ public class RoomScheduleManager {
     /**
      * Returns true if num is within the closed interval [min, max] and false otherwise.
      *
-     * @param   min the left-hand boundary of the interval
-     * @param   num the number to check
-     * @param   max the right-hand boundary of the interval
-     * @return  true if num is within [min, max] and false otherwise
+     * @param min the left-hand boundary of the interval
+     * @param num the number to check
+     * @param max the right-hand boundary of the interval
+     * @return true if num is within [min, max] and false otherwise
      */
     private static boolean withinClosedInterval(int min, int num, int max) {
         return min <= num && num <= max;
@@ -585,7 +589,7 @@ public class RoomScheduleManager {
             super();
         }
 
-        RoomSchedule(String json) throws JSONException{
+        RoomSchedule(String json) throws JSONException {
             super(json);
         }
 
@@ -599,7 +603,7 @@ public class RoomScheduleManager {
 
             // Add a new building if necessary
             if (building == null) {
-               return;
+                return;
             } else if (!this.has(building)) {
                 this.put(building, new JSONObject());
             }
@@ -610,7 +614,7 @@ public class RoomScheduleManager {
 
             // Add a new room if necessary
             if (room == null) {
-              return;
+                return;
             } else if (!buildingRooms.has(room)) {
                 buildingRooms.put(room, new JSONArray());
             }
@@ -636,15 +640,15 @@ public class RoomScheduleManager {
             JSONArray newClassTime = new JSONArray();
 
             // Add the data by parsing the various strings
-            newClassTime.put( getChars0And1(startTime, 8) );
-            newClassTime.put( getChars3And4(startTime, 30) );
-            newClassTime.put( getChars0And1(endTime, 22) );
-            newClassTime.put( getChars3And4(endTime, 0) );
-            newClassTime.put( sDaysOfWeekMap.getJSONArray(weekdaysString) );
-            newClassTime.put( getChars0And1(startDateString, sTermManager.lecturePeriodStartMonth()) );
-            newClassTime.put( getChars3And4(startDateString, sTermManager.lecturePeriodStartDate()) );
-            newClassTime.put( getChars0And1(endDateString, sTermManager.lecturePeriodEndMonth()) );
-            newClassTime.put( getChars3And4(endDateString, sTermManager.lecturePeriodEndDate()) );
+            newClassTime.put(getChars0And1(startTime, 8));
+            newClassTime.put(getChars3And4(startTime, 30));
+            newClassTime.put(getChars0And1(endTime, 22));
+            newClassTime.put(getChars3And4(endTime, 0));
+            newClassTime.put(sDaysOfWeekMap.getJSONArray(weekdaysString));
+            newClassTime.put(getChars0And1(startDateString, sTermManager.lecturePeriodStartMonth()));
+            newClassTime.put(getChars3And4(startDateString, sTermManager.lecturePeriodStartDate()));
+            newClassTime.put(getChars0And1(endDateString, sTermManager.lecturePeriodEndMonth()));
+            newClassTime.put(getChars3And4(endDateString, sTermManager.lecturePeriodEndDate()));
 
             // Add the new class time to the list of existing class times
             classTimes.put(newClassTime);
@@ -654,9 +658,9 @@ public class RoomScheduleManager {
          * Returns the integer formed by the first and second chars in a string or
          * a default value if no integer is formed.
          *
-         * @param string        the string to be parsed
-         * @param defaultValue  the default value if the string is not formatted properly
-         * @return              the integer formed by the first and second chars
+         * @param string       the string to be parsed
+         * @param defaultValue the default value if the string is not formatted properly
+         * @return the integer formed by the first and second chars
          */
         private int getChars0And1(String string, int defaultValue) {
             try {
@@ -670,9 +674,9 @@ public class RoomScheduleManager {
          * Returns the integer formed by the fourth and fifth chars in a string or
          * a default value if no integer is formed.
          *
-         * @param string        the string to be parsed
-         * @param defaultValue  the default value if the string is not formatted properly
-         * @return              the integer formed by the fourth and fifth chars
+         * @param string       the string to be parsed
+         * @param defaultValue the default value if the string is not formatted properly
+         * @return the integer formed by the fourth and fifth chars
          */
         private int getChars3And4(String string, int defaultValue) {
             try {

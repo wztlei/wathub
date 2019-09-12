@@ -133,6 +133,10 @@ public class RoomTimeInterval {
         return building;
     }
 
+    public String getRoomNum() {
+        return roomNum;
+    }
+
     int getStartHour() {
         return startHour;
     }
