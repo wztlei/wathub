@@ -70,30 +70,34 @@ public class ModuleHostActivity extends BaseActivity implements FragmentManager.
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_module_host_simple);
+        try {
+            setContentView(R.layout.activity_module_host_simple);
 
-        mApi = new UWaterlooApi(ApiKeys.UWATERLOO_API_KEY);
-        mApi.setWatcardCredentials(WatcardManager.getInstance().getCredentials());
+            mApi = new UWaterlooApi(ApiKeys.UWATERLOO_API_KEY);
+            mApi.setWatcardCredentials(WatcardManager.getInstance().getCredentials());
 
-        Toolbar toolbar = getToolbar();
-        setSupportActionBar(toolbar);
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
+            Toolbar toolbar = getToolbar();
+            setSupportActionBar(toolbar);
+            getSupportFragmentManager().addOnBackStackChangedListener(this);
 
-        mChildFragment = findContentFragment();
-        if (mChildFragment == null) {
-            final String fragmentName = getIntent().getStringExtra(ARG_FRAGMENT_CLASS);
-            Fragment fragment = Fragment.instantiate(this, fragmentName);
+            mChildFragment = findContentFragment();
+            if (mChildFragment == null) {
+                final String fragmentName = getIntent().getStringExtra(ARG_FRAGMENT_CLASS);
+                Fragment fragment = Fragment.instantiate(this, fragmentName);
 
-            if (fragment instanceof BaseApiModuleFragment) {
-                showFragment((BaseApiModuleFragment) fragment, false,
-                        getIntent().getExtras());
-            } else if (fragment instanceof BaseModuleFragment){
-                mChildFragment = (BaseModuleFragment) fragment;
-                final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content, mChildFragment, TAG).commit();
+                if (fragment instanceof BaseApiModuleFragment) {
+                    showFragment((BaseApiModuleFragment) fragment, false,
+                            getIntent().getExtras());
+                } else if (fragment instanceof BaseModuleFragment){
+                    mChildFragment = (BaseModuleFragment) fragment;
+                    final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content, mChildFragment, TAG).commit();
+                }
             }
+            refreshActionBar();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        refreshActionBar();
     }
 
     @Override
