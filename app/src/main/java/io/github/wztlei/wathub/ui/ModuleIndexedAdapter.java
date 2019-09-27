@@ -17,6 +17,10 @@ public abstract class ModuleIndexedAdapter<T> extends ModuleAdapter implements S
 
     @Override
     public int getPositionForSection(final int sectionIndex) {
+        if (sectionIndex < 0) {
+            return 0;
+        }
+        
         final T obj = getSections()[sectionIndex];
 
         int first = 0;
