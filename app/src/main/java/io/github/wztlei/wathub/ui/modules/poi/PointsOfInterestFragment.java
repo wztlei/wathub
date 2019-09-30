@@ -245,7 +245,7 @@ public class PointsOfInterestFragment
             final List<? extends BasicPointOfInterest> items,
             final int flag) {
 
-        if ((mFlags & flag) != 0) {
+        if ((mFlags & flag) != 0 && items != null) {
             for (final BasicPointOfInterest item : items) {
                 map.addMarker(new MarkerOptions()
                         .position(LocationUtils.getLatLng(item.getLocation()))
