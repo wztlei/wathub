@@ -18,7 +18,7 @@ public class RoomTimeIntervalList extends ArrayList<RoomTimeInterval>  {
 
     static {
         invalidClassrooms = new HashMap<>();
-        invalidClassrooms.put("MC", new HashSet<>(Arrays.asList("2009", "5403", "5479", "6460")));
+        invalidClassrooms.put("MC", new HashSet<>(Arrays.asList("2009", "5501", "5403", "5479", "6460")));
     }
 
     @Override

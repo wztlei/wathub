@@ -6,17 +6,19 @@ from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-TERM_NUMBER = '1199'
+TERM_NUMBER = '1201'
 UNDERGRADUATE_QUERY_URL = 'http://www.adm.uwaterloo.ca/infocour/CIR/SA/under.html'
 GRADUATE_QUERY_URL = 'http://www.adm.uwaterloo.ca/infocour/CIR/SA/grad.html'
 UNDERGRADUATE_FILE_PATH = "./undergraduate_class_schedules/{}_schedule.html"
 GRADUATE_FILE_PATH = "./graduate_class_schedules/{}_schedule.html"
 
-TERM_START_MONTH = 9
-TERM_START_DATE = 4
-TERM_END_MONTH = 12
+TERM_START_MONTH = 1
+TERM_START_DATE = 6
+TERM_END_MONTH = 4
 TERM_END_DATE = 3
 
+# Run this command in python scripts to refresh the json file
+# python main.py > ../app/src/main/res/raw/room_schedule.json
 
 def retrieve_html_pages(url: str, file_path: str):
     """Retrieves the HTML web pages of the class schedules for each subject."""
@@ -253,7 +255,7 @@ def custom_time_parser(time_str: str) -> List[int]:
 
 
 # There are undergraduate 2339 course sections using 223 rooms at UW
-def main(refresh_html_files=True):
+def main(refresh_html_files=False):
     if refresh_html_files:
         retrieve_html_pages(UNDERGRADUATE_QUERY_URL, UNDERGRADUATE_FILE_PATH)
         retrieve_html_pages(GRADUATE_QUERY_URL, GRADUATE_FILE_PATH)
